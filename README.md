@@ -1,6 +1,6 @@
-# Project template
+# ERMES Regional Rice Service (RSS) Web Application
 
-Basic project template that covers quite a bit of ground before starting to write custom code, as:
+RSS Web Application prototype that covers quite a bit of ground for the Valencia project meeting by the end of March:
 * organizing [folder structure](https://github.com/ermes-fp7space/project-template/tree/master/doc) to keep modules and files organized by purpose. See documentation folder
 * configuring dojo and defining required [modules and files](https://github.com/ermes-fp7space/project-template/tree/master/app)
 * using [wiki pages](https://github.com/ermes-fp7space/project-template/wiki) associated to the project for documentation, changelog, roadmap, etc. 
