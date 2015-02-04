@@ -1,0 +1,62 @@
+{
+
+  "appName": "project temmpalte",
+  "pageTitle": "ERMES Regional Rice Service Web Applications",
+  "mapOptions": {
+    "basemap": "gray",
+    "center": [9.403, 45.479],
+    "autoResize": true,
+    "sliderStyle": "small",
+    "fadeOnZoom": true,
+    "zoom": 8
+  }, 
+  "operationalLayers": [{
+    "type": "feature",
+    "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/italy_vector_mxd/MapServer/1",
+    "id" : "MunicipalitiesIT",
+    "title" : "Municipalities Boundaries IT",
+    "opacity" : 0.2,
+    "visible" : true,
+    "outFields": ["*"]
+    }],
+  "widgets": [{
+    "name": "esri-locate",
+    "type": "LocateButton",
+    "path": "esri/dijit/LocateButton",
+    "node": "locateButton",
+    "target": "mapToolsDiv",
+    "options": {
+      "highlightLocation": true
+      }
+    }, {
+    "name": "esri-scalebar",
+    "type": "Scalebar",
+    "path": "esri/dijit/Scalebar",
+    "options": {
+      "attachTo": "bottom-left",
+      "scalebarStyle": "line",
+      "scalebarUnit": "dual"
+      }
+    }, {
+    "name": "esri-overviewmap",
+    "type": "overviewMap",
+    "path": "esri/dijit/OverviewMap",
+    "options": {
+      "attachTo": "bottom-right",
+      "visible": true,
+      "opacity": 0.2
+      }
+    }, {
+    "name": "esri-geocoder",
+    "type": "Geocoder",
+    "path": "esri/dijit/Geocoder",
+    "node": "searchButton",
+    "options": {
+      "arcgisGeocoder": {
+        "url": "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer",
+        "name": "Esri World Geocoder",
+        "placeholder": "Enter address"
+      }
+    }
+  }]
+}
