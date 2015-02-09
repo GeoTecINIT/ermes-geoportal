@@ -11,10 +11,11 @@
     "dojo/_base/lang", 
     "esri/request",                 // Loads resources from URL
     "esri/map",
-    "services/mapservices",         // Loads loading features from services  
+    "services/mapservices",         // Loads features from services  
+    "services/imageservices",       // Loads raster images from services  
     "controllers/widgetcontroller", // Loads list of widgets
     'dojo/domReady!'				        // Loads modules once page is loaded
-  ], function (lang, esriRequest, Map, mapServices, widgetController) {
+  ], function (lang, esriRequest, Map, mapServices, imageServices, widgetController) {
 
     function onConfigSuccess(response) {
         // Creates map object with default map options
@@ -27,8 +28,12 @@
             response);
                    
           // loads operational layers. 
-          var layers =  mapServices.loadDefaultLayers(options.operationalLayers);
-          map.addLayers(layers);
+          //var layers =  mapServices.loadDefaultLayers(options.operationalLayers);
+          //map.addLayers(layers);
+
+          // Loads raster layers
+          var rasterLayers = imageServices.loadServices();
+          map.addLayers(rasterLayers);
 
           var loader = new widgetController(options);
           loader.startup();
