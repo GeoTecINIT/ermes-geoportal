@@ -15,59 +15,58 @@
   	], function (require, declare, lang, arrayUtil, dom, domConstruct) {
 
 
-		// Helper method to return default target or document body  			
+	// Helper method to return default target or document body  			
   	function target(w) {
   		return w.target || document.body;
+ 	}
+
+ 	// Helper method to create DOM element using configuration node as ID
+ 	function domNode(w) {
+ 		return domConstruct.create("div", {
+ 			id: w.node
+ 		});
+ 	}
+
+ 	// Helper method that returns default target element or searches for it by ID
+ 	function targetElem(domTarget) {
+ 		if (domTarget === document.body) {
+ 			return domTarget;
+ 		} else {
+ 			return dom.byId(domTarget);
  		}
+ 	}
 
- 		// Helper method to create DOM element using configuration node as ID
- 		function domNode(w) {
- 			return domConstruct.create("div", {
- 				id: w.node
- 			});
- 		}
+	return declare(null, {
+		constructor: function(options) {
+			this.options = options;
+		},
 
- 		// Helper method that returns default target element or searches for it by ID
- 		function targetElem(domTarget) {
- 			if (domTarget === document.body) {
- 				return domTarget;
- 			} else {
- 				return dom.byId(domTarget);
- 			}
- 		}
+		startup: function() {
+			arrayUtil.forEach(
+				this.options.widgets,
+				this._widgetLoader,
+				this);
+		},
 
-		return declare(null, {
-			constructor: function(options) {
-				this.options = options;
-			},
+		_widgetLoader: function(widget) {
+			lang.mixin(widget.options, this.options);
+			this._requireWidget(widget);
+		},
 
-			startup: function() {
-				arrayUtil.forEach(
-					this.options.widgets,
-					this._widgetLoader,
-					this);
-
-			},
-
-			_widgetLoader: function(widget) {
-				lang.mixin(widget.options, this.options);
-				this._requireWidget(widget);
-			},
-
-			_requireWidget: function(widget) {
-				require([widget.path], function(Widget) {
-					var node, w;
-					if (widget.node) {
-						node = domNode(widget);
-						domConstruct.place(node, targetElem(target(widget)));
-					}
-					w = new Widget(widget.options, widget.node);
-          // Fix bug when a widget does not have a startup() method
-          console.debug(widget.name);
-          if (!widget.name === "esri-scalebar")
-            w.startup();
-				});
-			}	
-		});	// declare
+		_requireWidget: function(widget) {
+			require([widget.path], function(Widget) {
+				var node, w;
+				if (widget.node) {
+					node = domNode(widget);
+					domConstruct.place(node, targetElem(target(widget)));
+				}
+				w = new Widget(widget.options, widget.node);
+          		// Fix bug when a widget does not have a startup() method
+          		console.debug(widget.name);
+          		if (!widget.name === "esri-scalebar")
+            		w.startup();
+			});
+		}		
+	});	// declare
   }); // define
 })();
