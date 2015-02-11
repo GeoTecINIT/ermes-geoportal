@@ -57,6 +57,7 @@ Sublime Text:
 * https://scotch.io/bar-talk/the-complete-visual-guide-to-sublime-text-3-plugins-part-1
 * https://scotch.io/bar-talk/the-complete-visual-guide-to-sublime-text-3-plugins-part-2
 * Sublime Text Power User Book, https://sublimetextbook.com/
+* [Sublime Text 3: Setup, Package Control, and Settings](https://www.youtube.com/watch?v=zVLJfrIwEP8)
 
 Chrome Development Tools:
 * http://developer.chrome.com/devtools
