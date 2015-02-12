@@ -12,7 +12,7 @@
     "esri/request",                 // Loads resources from URL
     "esri/map",
     "services/mapservices",         // Loads features from services  
-    "services/imageservices",       // Loads raster images from services  
+    "services/imageservice",        // Loads mosaic raster from image services 
     "controllers/widgetcontroller", // Loads list of widgets
     'dojo/domReady!'				        // Loads modules once page is loaded
   ], function (lang, esriRequest, Map, mapServices, imageServices, widgetController) {
@@ -32,8 +32,13 @@
           //map.addLayers(layers);
 
           // Loads raster layers
-          var rasterLayers = imageServices.loadServices();
-          map.addLayers(rasterLayers);
+          var url = "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/Italy_NDVI_2014/ImageServer";
+          var ndviImageService = new ImageService(url, {
+             map: map});
+  
+          map.addLayers([ndviImageService.getLayer()]);
+
+          ndviImageService._getRasterNames();
 
           var loader = new widgetController(options);
           loader.startup();
