@@ -23,17 +23,21 @@
       location: locationPath + 'js/services'
     }, 
     {
-      name: 'utils',
-      location: locationPath + 'js/utils'
+      name: 'models',
+      location: locationPath + 'js/models'
     }, 
     {
       name: 'widgets',
       location: locationPath + 'js/widgets'
     }, 
     {
+      name: 'templates',
+      location: locationPath + 'js/templates'
+    }, 
+    {
       name: 'app',
       location: locationPath + 'js',
-      main: 'main'
+      main: 'mainLauncher'
     }]}, 
     ['app']);
 

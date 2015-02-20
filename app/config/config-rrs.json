@@ -8,7 +8,9 @@
     "autoResize": true,
     "sliderStyle": "small",
     "fadeOnZoom": true,
-    "zoom": 8
+    "zoom": 8,
+    "slider": false,
+    "logo": false
   }, 
   "operationalLayers": [{
     "type": "feature",
@@ -58,5 +60,45 @@
         "placeholder": "Enter address"
       }
     }
-  }]
+  }],
+  
+  "mosaics": [
+    {
+      "id": "RegionalRiceService",
+      "name": "Regional Rice Service",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/Italy_NDVI_2014/ImageServer",
+      "description": "At the moment this is just a test description while we test with the mosaic features",
+      "default": true
+    },
+    {
+      "id": "RawRegionalRiceService",
+      "name": "RAW Regional Rice Service",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Italy_NDVI_avg_2000_2013_RAW/ImageServer",
+      "description": "At the moment this is just a RAW test description while we test with the mosaic features",
+      "default": false
+    },
+    {
+      "id": "RiceMap",
+      "name": "Rice Map",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/Italy_Rice_Map/ImageServer",
+      "description": "Just the last rice map, as image service.",
+      "default": false
+    }
+  ],
+  "layers": [
+    {
+      "id": "MunicipalitiesBoundariesIT",
+      "name": "Regional Rice Service",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/italy_vector_mxd/MapServer/1",
+      "description": "Feature Layer containing boundaries of the municipalities.",
+      "default": false
+    },
+    {
+      "id": "Reference_Grid_Italy_LAEA",
+      "name": "Reference Grid from Italy",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/italy_vector_mxd/MapServer/0",
+      "description": "Feature Layer containing the Italy Reference grid.",
+      "default": false
+    }
+  ]
 }
