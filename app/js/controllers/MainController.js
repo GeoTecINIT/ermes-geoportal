@@ -28,22 +28,28 @@ define([
         //Request the Options from the JSON file, when received, set the map.
         var requestJSONSuccess = lang.hitch(this, '_requestSuccess')
         esriRequest(this._requestConfigFile()).then(requestJSONSuccess);
-        this.menusController = new MenusController({mosaics: this.mosaics}, 'basic-container-div');
-        this.menusController.on("update-raster", lang.hitch(this,"_changeRaster"));
-        this.menusController.startup();
+        
+
       }, 
 
       postCreate: function() {
         //this.own(on(dom.byId('b1'), 'click', lang.hitch(this, '_PRUEBAS')));
       },
 
+      _cleanMap: function(){
+        for(var i = 1; i<this.map.layerIds.length; i++){
+          var l = this.map.getLayer(this.map.layerIds[i]);
+          this.map.removeLayer(l);
+        }
+      },
       _changeRaster: function(){
+        this._cleanMap();
         var newMosaic =  this.menusController.getActiveMosaicAndRaster()[0];
         var newRaster =  this.menusController.getActiveMosaicAndRaster()[1];
 
         var newLayer = this.mosaics[newMosaic].getLayerByID(newRaster);
-        newLayer.setOpacity(0.4);
-        map.addLayer(newLayer);
+        newLayer.setOpacity(0.7);
+        this.map.addLayer(newLayer);
       },
 
       _PRUEBAS: function(){
@@ -78,21 +84,27 @@ define([
 
           //INITIATES MAP
           // Creates map object with default map options
-          map = new Map("map-index-div", response.mapOptions);
+          this.map = new Map("map-index-div", response.mapOptions);
 
           // When map loads, pass it to the options for widget loader
-          map.on("load", function() {
+          this.map.on("load", function() {
             var options = lang.mixin({
-              map: map}, 
+              map: this.map}, 
               response);
           });
+          //Now creates the MaenuController, pasing the Map.
+        this.menusController = new MenusController({mosaics: this.mosaics, map: this.map}, 'basic-container-div');
+        this.menusController.on("update-raster", lang.hitch(this,"_changeRaster"));
+        this.menusController.startup();
 
           //INITIATES MOSAICS 
           for (var i=0; i < response.mosaics.length; i++) {
             var mosaicoPrueba = new Mosaic(response.mosaics[i]);
             mosaicoPrueba.on("mosaic-loaded", lang.hitch(this,"_mosaicLoaded"));
             mosaicoPrueba.startup();
-            this.mosaics.push(mosaicoPrueba);            
+           // this.mosaics.push(mosaicoPrueba); 
+            this.mosaics[mosaicoPrueba.mosaicId] = mosaicoPrueba;
+            this.mosaics.length++;          
           }
 
           //INITIATES FEATURE LAYERS
@@ -107,6 +119,7 @@ define([
               description: ldescritpion
             });
             this.layers.push(tempLayer); 
+            //this.map.addLayer(tempLayer);
           }
 
       },

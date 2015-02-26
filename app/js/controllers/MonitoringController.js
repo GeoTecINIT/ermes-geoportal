@@ -10,15 +10,22 @@ define([
     'dijit/_WidgetBase',
 	'dijit/_TemplatedMixin',
     'controllers/MenusController',
-    'text!templates/monitoringMenu.tpl.html',
+    'text!templates/monitoringMenu.tpl.html',   
+    'esri/tasks/ImageServiceIdentifyTask',
+    'esri/layers/MosaicRule',
+    'esri/tasks/ImageServiceIdentifyParameters',
+    'widgets/MonitoringWidget',
     'dojo/domReady!'	
 	], function(declare, Evented, lang, when, on, dom, domConstruct, domAttr,
-		_WidgetBase, _TemplatedMixin, MenusController, template){
+		_WidgetBase, _TemplatedMixin, MenusController, template,
+        ImageServiceIdentifyTask, MosaicRule, ImageServiceIdentifyParameters, MonitoringWidget){
 		
 		return declare([Evented, _WidgetBase, _TemplatedMixin], {
 			templateString: template,
             activeMosaic: null,
             activeRaster: null,
+            handler: null,
+            monitoringWidget: null,
 
 		constructor: function(args){
 			console.log("Soy MonitoringController");
@@ -26,19 +33,50 @@ define([
 	    },
 
 	    postCreate: function(){
-
+            this.handler = on.pausable(this.map, 'click', lang.hitch(this, '_showClickedPoint'));
+            //Stops the "click" handler until a raster will be selected.
+            this.handler.pause();
+           
 	    },
 
-	    _PRUEBAS: function(){
+        _showClickedPoint: function(evt){
+            console.log('\nX: ' + evt.mapPoint.x + "\nY: " + evt.mapPoint.y);
+                       
+            var mosaicRule = new MosaicRule();
+            mosaicRule.ascending = true;
+            //mosaicRule.method = MosaicRule.METHOD_LOCKRASTER;
+            mosaicRule.method = MosaicRule.METHOD_ATTRIBUTE;
+            mosaicRule.sortField = "OBJECTID";
+            //mosaicRule.lockRasterIds = [this.activeRaster];
+
+            var parameters = new ImageServiceIdentifyParameters();
+            parameters.mosaicRule = mosaicRule;
+            parameters.geometry = evt.mapPoint;
+            //parameters.returnCatalogItems = false;
+
+            var identifyTask = new ImageServiceIdentifyTask(this.mosaics[this.activeMosaic].URL);
+
+            identifyTask.execute(parameters, lang.hitch(this, '_querySuccess'));
+        },
+
+        _querySuccess: function(response){
+            var constructDiv = function(){
+                var div = domConstruct.create("div");
+                domAttr.set(div, "id", "monitoring-widget-container");
+                var container = dom.byId("monitoring-div");
+                domConstruct.place(div, container, "last");
+            }
+            
+            if(this.monitoringWidget!=null){
+                this.monitoringWidget.destroy();
+            }
+            constructDiv();
+            console.log(response);
+            var actualValue = response.properties.Values[this.activeRaster-1];
+            var allValues = response.properties.Values;
+            this.monitoringWidget = new MonitoringWidget({actualValue: actualValue, rasterValues: allValues}, 'monitoring-widget-container');
         
-        //TESTING THE RASTERS INFORMATION
-	        for (var i = 0; i<this.mosaics.length; i++){
-	          console.debug("MOSAIC: " + this.mosaics[i].name);
-	          for (var k in this.mosaics[i].rasters){
-	              console.log("KEY: " + k + " NAME: " + this.mosaics[i].rasters[k][0] + " DATE: " + this.mosaics[i].rasters[k][1]);
-	          } 
-	        }
-    	},
+        },
 
         getActiveMosaicAndRaster: function(){
             return [this.activeMosaic, this.activeRaster];
@@ -49,11 +87,17 @@ define([
             rasterButton.innerHTML = rasterDate;
             this.activeMosaic = mosaicId;
             this.activeRaster = rasterId;
-            
+             
             this.emit("raster-selected",{});
+
+            //Now the click handler is active.
+            this.handler.resume();
         },
 
         _populateRasterList: function(rastersList, mosaicId, mosaicName){
+            //Stops the "click" handler until a raster will be selected.
+            this.handler.pause();
+
             var container = dom.byId("rasters-list-ul");
             var mosaicButton = dom.byId("mosaic-selector-button");
             mosaicButton.innerHTML = mosaicName;
@@ -69,7 +113,7 @@ define([
                 var a = domConstruct.create("a");
                 a.innerHTML = rasterDate;
                 domAttr.set(a,"href","#");
-                var clickHandler = lang.hitch(this, "_showRaster", mosaicId, rasterId, rasterDate);
+                var clickHandler = lang.hitch(this, "_showRaster", mosaicId, raster, rasterDate);
                 this.own(on(a, "click", clickHandler));
                 domConstruct.place(a, li, "only");
                 domConstruct.place(li, container, "last");
@@ -80,9 +124,9 @@ define([
         populateMosaicsList: function(){
         	var container = dom.byId('mosaics-list-ul');
 
-        	for(var i=0; i<this.mosaics.length; i++){
-        		var mosaicId = this.mosaics[i].mosaicId;
-        		var mosaicName = this.mosaics[i].name;
+        	for(var mosaic in this.mosaics){
+        		var mosaicId = this.mosaics[mosaic].mosaicId;
+        		var mosaicName = this.mosaics[mosaic].name;
         		var li = domConstruct.create("li");
         		domAttr.set(li, "mosaicId", mosaicId);
         		//domAttr.set(li, "class", mosaicId);
@@ -90,21 +134,12 @@ define([
         		var a = domConstruct.create("a");
         		a.innerHTML = mosaicName;
         		domAttr.set(a,"href","#");
-                var clickHandler = lang.hitch(this, "_populateRasterList", this.mosaics[i].rasters, mosaicId, mosaicName);
+                var clickHandler = lang.hitch(this, "_populateRasterList", this.mosaics[mosaic].rasters, mosaicId, mosaicName);
                 this.own(on(a, "click", clickHandler));
         		domConstruct.place(a,li,"only");
         		domConstruct.place(li, container, "last");
         	}
         }
-
-
-        //TESTING THE RASTERS LAYERS ON THE MAP
-        /*var newLayer = this.mosaics[1].getLayerByID(1);
-        newLayer.setOpacity(0.4);
-        map.addLayer(newLayer);
-
-        //TESTING THE FEATURE LAYERS ON THE MAP
-        //map.addLayer(this.layers[0]);*/
 
       
 	});

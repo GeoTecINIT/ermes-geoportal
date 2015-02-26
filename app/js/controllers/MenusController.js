@@ -29,7 +29,7 @@ define([
 			},
 
 			postCreate: function(){
-				this.monitoringController = new MonitoringController({mosaics: this.mosaics}, 'monitoring-div');
+				this.monitoringController = new MonitoringController({mosaics: this.mosaics, map: this.map}, 'monitoring-div');
 				this.comparingController = new ComparingController({}, 'comparing-div');
 				this.settingsController = new SettingsController({}, 'settings-div');
 				this.monitoringController.on("raster-selected", lang.hitch(this,"_changeRaster"));
