@@ -119,7 +119,7 @@ define([
               description: ldescritpion
             });
             this.layers.push(tempLayer); 
-            //this.map.addLayer(tempLayer);
+           // this.map.addLayer(tempLayer);
           }
 
       },

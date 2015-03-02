@@ -83,6 +83,13 @@
       "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/Italy_Rice_Map/ImageServer",
       "description": "Just the last rice map, as image service.",
       "default": false
+    },
+    {
+      "id": "Phenology",
+      "name": "Italy Phenology",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/Italy_Phenology/ImageServer",
+      "description": "The Phenology mosaic.",
+      "default": false
     }
   ],
   "layers": [

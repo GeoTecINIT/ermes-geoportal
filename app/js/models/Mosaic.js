@@ -2,14 +2,18 @@ define([
 	'dojo/_base/declare',
     'dojo/_base/lang',
     'dojo/when',
+    'dojo/topic',
     'dojo/Evented',
     'dijit/_WidgetBase',
     'esri/layers/ArcGISImageServiceLayer',
+    'esri/tasks/ImageServiceIdentifyTask',
+	'esri/tasks/ImageServiceIdentifyParameters',
     'esri/layers/MosaicRule',
     'esri/tasks/query',
     'esri/tasks/QueryTask'
-	], function(declare, lang, when, Evented, _WidgetBase,
-		 ArcGISImageServiceLayer, MosaicRule, Query, QueryTask){
+	], function(declare, lang, when, Topic, Evented, _WidgetBase,
+		 ArcGISImageServiceLayer, ImageServiceIdentifyTask, ImageServiceIdentifyParameters,
+		 MosaicRule, Query, QueryTask){
 		
 		return declare([Evented, _WidgetBase], {
 			mosaicId: null,
@@ -75,6 +79,34 @@ define([
 	        var querySuccess = lang.hitch(this, "_onQuerySuccess");
 
 	       	queryTask.execute(query).then(querySuccess);	       		       	
-	    }
+	    },
+
+	    getRasterValues: function(pointClicked){
+	    	var mosaicRule = new MosaicRule();
+            mosaicRule.ascending = true;
+            //mosaicRule.method = MosaicRule.METHOD_LOCKRASTER;
+            mosaicRule.method = MosaicRule.METHOD_ATTRIBUTE;
+            mosaicRule.sortField = "OBJECTID";
+            //mosaicRule.lockRasterIds = [this.activeRaster];
+
+            var parameters = new ImageServiceIdentifyParameters();
+            parameters.mosaicRule = mosaicRule;
+            parameters.geometry = pointClicked;
+            //parameters.returnCatalogItems = false;
+
+            var identifyTask = new ImageServiceIdentifyTask(this.URL);
+
+            identifyTask.execute(parameters, lang.hitch(this, '_rasterValuesObtained'));
+	    },
+
+	     _rasterValuesObtained: function(response){
+            //console.log(response.properties.Values);
+            var values = response.properties.Values.map(parseFloat);
+            //console.log(values);
+            Topic.publish('mosaic/raster-click', values);
+
+           
+        
+        }
 	});
 });

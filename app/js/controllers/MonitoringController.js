@@ -7,6 +7,7 @@ define([
     'dojo/dom',
     'dojo/dom-construct',
     'dojo/dom-attr',
+    'dojo/topic',
     'dijit/_WidgetBase',
 	'dijit/_TemplatedMixin',
     'controllers/MenusController',
@@ -16,7 +17,7 @@ define([
     'esri/tasks/ImageServiceIdentifyParameters',
     'widgets/MonitoringWidget',
     'dojo/domReady!'	
-	], function(declare, Evented, lang, when, on, dom, domConstruct, domAttr,
+	], function(declare, Evented, lang, when, on, dom, domConstruct, domAttr, Topic,
 		_WidgetBase, _TemplatedMixin, MenusController, template,
         ImageServiceIdentifyTask, MosaicRule, ImageServiceIdentifyParameters, MonitoringWidget){
 		
@@ -35,14 +36,17 @@ define([
 	    postCreate: function(){
             this.handler = on.pausable(this.map, 'click', lang.hitch(this, '_showClickedPoint'));
             //Stops the "click" handler until a raster will be selected.
+            Topic.subscribe("mosaic/raster-click", lang.hitch(this, '_rasterValuesCompleted'));
+
             this.handler.pause();
            
 	    },
 
         _showClickedPoint: function(evt){
-            console.log('\nX: ' + evt.mapPoint.x + "\nY: " + evt.mapPoint.y);
-                       
-            var mosaicRule = new MosaicRule();
+           // console.log('\nX: ' + evt.mapPoint.x + "\nY: " + evt.mapPoint.y);
+            this.mosaics[this.activeMosaic].getRasterValues(evt.mapPoint);
+
+            /*var mosaicRule = new MosaicRule();
             mosaicRule.ascending = true;
             //mosaicRule.method = MosaicRule.METHOD_LOCKRASTER;
             mosaicRule.method = MosaicRule.METHOD_ATTRIBUTE;
@@ -56,10 +60,10 @@ define([
 
             var identifyTask = new ImageServiceIdentifyTask(this.mosaics[this.activeMosaic].URL);
 
-            identifyTask.execute(parameters, lang.hitch(this, '_querySuccess'));
+            identifyTask.execute(parameters, lang.hitch(this, '_querySuccess'));*/
         },
 
-        _querySuccess: function(response){
+        _rasterValuesCompleted: function(){
             var constructDiv = function(){
                 var div = domConstruct.create("div");
                 domAttr.set(div, "id", "monitoring-widget-container");
@@ -71,9 +75,10 @@ define([
                 this.monitoringWidget.destroy();
             }
             constructDiv();
-            console.log(response);
-            var actualValue = response.properties.Values[this.activeRaster-1];
-            var allValues = response.properties.Values;
+            //console.log(arguments);
+            var allValues = arguments[0];
+            var actualValue = allValues[this.activeRaster-1];
+            
             this.monitoringWidget = new MonitoringWidget({actualValue: actualValue, rasterValues: allValues}, 'monitoring-widget-container');
         
         },

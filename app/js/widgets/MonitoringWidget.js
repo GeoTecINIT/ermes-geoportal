@@ -41,7 +41,6 @@ define([
         },
 
         _createChart: function(){
-            var seriesData = this.rasterValues.map(parseFloat);
             var chart = new Chart("raster-chart");
             chart.setTheme(theme);
             chart.addPlot("default", {
@@ -55,12 +54,12 @@ define([
                 labels: [
                     {value: 1, text: "Jan"},
                     {value: 2, text: "Jan"},
-                    {value: seriesData.length-1, text: "Dec"},
-                    {value: seriesData.length, text: "Dec"}
+                    {value: this.rasterValues.length-1, text: "Dec"},
+                    {value: this.rasterValues.length, text: "Dec"}
                 ]
             });
             chart.addAxis("y", {vertical: true, fixLower: 0, fixUpper: 9000});
-            chart.addSeries("ChartName", seriesData);
+            chart.addSeries("ChartName", this.rasterValues);
 
              var tip = new Tooltip(chart, "default");
 
