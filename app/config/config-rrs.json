@@ -94,14 +94,14 @@
   ],
   "layers": [
     {
-      "id": "MunicipalitiesBoundariesIT",
+      "id": "Municipalities Boundaries IT",
       "name": "Regional Rice Service",
       "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/italy_vector_mxd/MapServer/1",
       "description": "Feature Layer containing boundaries of the municipalities.",
       "default": false
     },
     {
-      "id": "Reference_Grid_Italy_LAEA",
+      "id": "Reference Grid Italy LAEA",
       "name": "Reference Grid from Italy",
       "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/italy_vector_mxd/MapServer/0",
       "description": "Feature Layer containing the Italy Reference grid.",

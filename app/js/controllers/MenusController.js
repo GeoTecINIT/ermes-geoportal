@@ -21,8 +21,6 @@ define([
 			comparingController: null,
 			settingsController: null,
 
-			
-
 			constructor: function(args){
 				console.log("Soy MenusController");
 				lang.mixin(this, args);
@@ -31,7 +29,7 @@ define([
 			postCreate: function(){
 				this.monitoringController = new MonitoringController({mosaics: this.mosaics, map: this.map}, 'monitoring-div');
 				this.comparingController = new ComparingController({}, 'comparing-div');
-				this.settingsController = new SettingsController({}, 'settings-div');
+				this.settingsController = new SettingsController({layers: this.layers, map: this.map}, 'settings-div');
 				this.monitoringController.on("raster-selected", lang.hitch(this,"_changeRaster"));
 				this.monitoringController.startup();
 			},
@@ -39,6 +37,11 @@ define([
 			loadMosaics: function(){
 				this.monitoringController.populateMosaicsList();
 			},
+
+			loadLayers: function(){
+				this.settingsController.populateLayersList();
+			},
+
 
 			_changeRaster: function(){
 				this.emit('update-raster', {});

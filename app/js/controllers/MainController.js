@@ -32,10 +32,6 @@ define([
 
       }, 
 
-      postCreate: function() {
-        //this.own(on(dom.byId('b1'), 'click', lang.hitch(this, '_PRUEBAS')));
-      },
-
       _cleanMap: function(){
         for(var i = 1; i<this.map.layerIds.length; i++){
           var l = this.map.getLayer(this.map.layerIds[i]);
@@ -50,28 +46,6 @@ define([
         var newLayer = this.mosaics[newMosaic].getLayerByID(newRaster);
         newLayer.setOpacity(0.7);
         this.map.addLayer(newLayer);
-      },
-
-      _PRUEBAS: function(){
-        
-        //TESTING THE RASTERS INFORMATION
-        for (var i = 0; i<this.mosaics.length; i++){
-          console.debug("MOSAIC: " + this.mosaics[i].name);
-          for (var k in this.mosaics[i].rasters){
-           
-              console.log("KEY: " + k + " NAME: " + this.mosaics[i].rasters[k][0] + " DATE: " + this.mosaics[i].rasters[k][1]);
-            
-          } 
-        }
-
-        //TESTING THE RASTERS LAYERS ON THE MAP
-        var newLayer = this.mosaics[1].getLayerByID(1);
-        newLayer.setOpacity(0.4);
-        map.addLayer(newLayer);
-
-        //TESTING THE FEATURE LAYERS ON THE MAP
-        //map.addLayer(this.layers[0]);
-
       },
 
       _mosaicLoaded: function(){
@@ -93,9 +67,9 @@ define([
               response);
           });
           //Now creates the MaenuController, pasing the Map.
-        this.menusController = new MenusController({mosaics: this.mosaics, map: this.map}, 'basic-container-div');
-        this.menusController.on("update-raster", lang.hitch(this,"_changeRaster"));
-        this.menusController.startup();
+          this.menusController = new MenusController({mosaics: this.mosaics, map: this.map, layers: this.layers}, 'basic-container-div');
+          this.menusController.on("update-raster", lang.hitch(this,"_changeRaster"));
+          this.menusController.startup();
 
           //INITIATES MOSAICS 
           for (var i=0; i < response.mosaics.length; i++) {
@@ -111,16 +85,17 @@ define([
           for (var i=0; i < response.layers.length; i++) {
             var lurl = response.layers[i].url;
             var lid = response.layers[i].id;
+            // Name and description are not stored in the FeatureLayer class.
             var lname = response.layers[i].name;
             var ldescritpion = response.layers[i].description;
             var tempLayer = new FeatureLayer(lurl, {
               id: lid,
-              name: lname,
-              description: ldescritpion
             });
-            this.layers.push(tempLayer); 
+            this.layers[lid] = tempLayer;
+            this.layers.length++;
            // this.map.addLayer(tempLayer);
           }
+          this.menusController.loadLayers();
 
       },
 

@@ -37,30 +37,12 @@ define([
             this.handler = on.pausable(this.map, 'click', lang.hitch(this, '_showClickedPoint'));
             //Stops the "click" handler until a raster will be selected.
             Topic.subscribe("mosaic/raster-click", lang.hitch(this, '_rasterValuesCompleted'));
-
             this.handler.pause();
            
 	    },
 
         _showClickedPoint: function(evt){
-           // console.log('\nX: ' + evt.mapPoint.x + "\nY: " + evt.mapPoint.y);
             this.mosaics[this.activeMosaic].getRasterValues(evt.mapPoint);
-
-            /*var mosaicRule = new MosaicRule();
-            mosaicRule.ascending = true;
-            //mosaicRule.method = MosaicRule.METHOD_LOCKRASTER;
-            mosaicRule.method = MosaicRule.METHOD_ATTRIBUTE;
-            mosaicRule.sortField = "OBJECTID";
-            //mosaicRule.lockRasterIds = [this.activeRaster];
-
-            var parameters = new ImageServiceIdentifyParameters();
-            parameters.mosaicRule = mosaicRule;
-            parameters.geometry = evt.mapPoint;
-            //parameters.returnCatalogItems = false;
-
-            var identifyTask = new ImageServiceIdentifyTask(this.mosaics[this.activeMosaic].URL);
-
-            identifyTask.execute(parameters, lang.hitch(this, '_querySuccess'));*/
         },
 
         _rasterValuesCompleted: function(){
