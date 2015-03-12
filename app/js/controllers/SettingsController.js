@@ -21,15 +21,12 @@ define([
 						'oceans','national-geographic','osm'],
 
 		constructor: function(args){
-			console.log("Soy MonitoringController");
 			lang.mixin(this, args);
 	    },
 
 	    postCreate: function(){
 	    	this.own(on(dom.byId('print-button'), 'click', lang.hitch(this, '_printMap')));
 	    	this._populateBaseMaps();
-	    	
-
 	    },
 
 	    _populateBaseMaps: function(){
@@ -47,7 +44,6 @@ define([
 	    		domConstruct.place(a,li,"only");
 	    		domConstruct.place(li,container,"last");
 	    	}
-
 	    },
 
 	    _changeBaseMap: function(baseMap){

@@ -4,7 +4,7 @@
     'dojo/domReady!'
   ], function (MainController) {
 
-    console.debug('DEBUG - Starting application');
+    console.debug('Starting application.');
     var start = new MainController();
 
   });

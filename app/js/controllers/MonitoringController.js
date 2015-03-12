@@ -29,7 +29,6 @@ define([
             monitoringWidget: null,
 
 		constructor: function(args){
-			console.log("Soy MonitoringController");
 			lang.mixin(this, args);
 	    },
 
@@ -43,9 +42,27 @@ define([
 
         _showClickedPoint: function(evt){
             this.mosaics[this.activeMosaic].getRasterValues(evt.mapPoint);
+             this.handler.pause();
+            if(this.monitoringWidget!=null){
+                this.monitoringWidget.destroy();
+            }        
+          
+            var div = domConstruct.create("div");
+            domAttr.set(div, "id", "loading-image");
+            var span = domConstruct.create("span");
+            domAttr.set(span, "class", "glyphicon glyphicon-refresh glyphicon-refresh-animate");
+           // span.innerHTML = "Loading Chart...";
+            var h1 = domConstruct.create("h1");
+            domConstruct.place(span, h1, "only");
+            domConstruct.place(h1, div, "only");
+
+            var container = dom.byId("monitoring-div");
+            domConstruct.place(div, container, "last");
         },
 
         _rasterValuesCompleted: function(){
+            domConstruct.destroy("loading-image");
+
             var constructDiv = function(){
                 var div = domConstruct.create("div");
                 domAttr.set(div, "id", "monitoring-widget-container");
@@ -55,14 +72,13 @@ define([
             
             if(this.monitoringWidget!=null){
                 this.monitoringWidget.destroy();
-            }
+            }        
             constructDiv();
-            //console.log(arguments);
             var allValues = arguments[0];
             var actualValue = allValues[this.activeRaster-1];
             
             this.monitoringWidget = new MonitoringWidget({actualValue: actualValue, rasterValues: allValues}, 'monitoring-widget-container');
-        
+            this.handler.resume();
         },
 
         getActiveMosaicAndRaster: function(){
@@ -70,7 +86,7 @@ define([
         },
 
         _showRaster: function(mosaicId, rasterId, rasterDate){
-            var rasterButton = dom.byId("raster-selector-button");
+            var rasterButton = dom.byId("monitoring-raster-selector-button");
             rasterButton.innerHTML = rasterDate;
             this.activeMosaic = mosaicId;
             this.activeRaster = rasterId;
@@ -85,10 +101,10 @@ define([
             //Stops the "click" handler until a raster will be selected.
             this.handler.pause();
 
-            var container = dom.byId("rasters-list-ul");
-            var mosaicButton = dom.byId("mosaic-selector-button");
+            var container = dom.byId("monitoring-rasters-list-ul");
+            var mosaicButton = dom.byId("monitoring-mosaic-selector-button");
             mosaicButton.innerHTML = mosaicName;
-            var rasterButton = dom.byId("raster-selector-button");
+            var rasterButton = dom.byId("monitoring-raster-selector-button");
             rasterButton.innerHTML = "Select Raster";
 
             container.innerHTML =""; 
@@ -109,7 +125,7 @@ define([
         },
 
         populateMosaicsList: function(){
-        	var container = dom.byId('mosaics-list-ul');
+        	var container = dom.byId('monitoring-mosaics-list-ul');
 
         	for(var mosaic in this.mosaics){
         		var mosaicId = this.mosaics[mosaic].mosaicId;
@@ -126,9 +142,15 @@ define([
         		domConstruct.place(a,li,"only");
         		domConstruct.place(li, container, "last");
         	}
-        }
+        },
 
-      
+        stopClickHandler: function(){
+            this.handler.pause();
+        },
+
+        startClickHandler: function(){
+            this.handler.resume(); 
+        }    
 	});
 
 });
