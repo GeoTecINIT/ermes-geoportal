@@ -1,20 +1,14 @@
-/* 
-  DOJO configuration to work in a mnodular fashion.
-  The run.js file sets up a regular expression that ensures modules are loaded correctly.
-*/
-
-/* global define, require, location*/  // Jshint option to indicate global objects
 (function () {
-  'use strict'; // // Jshint option to help catch coding problems
+  'use strict'; 
 
   var pathRX = new RegExp(/\/[^\/]+$/);
   var locationPath = location.pathname.replace(pathRX, '');
 
   require({
-    async: true,  // Loads modules as needed
+    async: true,  
     aliases: [
       ['text', 'dojo/text']],
-    packages: [{  // Defines packages using modified  pathname
+    packages: [{  
       name: 'controllers',
       location: locationPath + 'js/controllers'
     }, 

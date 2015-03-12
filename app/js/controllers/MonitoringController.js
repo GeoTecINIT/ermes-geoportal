@@ -34,10 +34,8 @@ define([
 
 	    postCreate: function(){
             this.handler = on.pausable(this.map, 'click', lang.hitch(this, '_showClickedPoint'));
-            //Stops the "click" handler until a raster will be selected.
             Topic.subscribe("mosaic/raster-click", lang.hitch(this, '_rasterValuesCompleted'));
             this.handler.pause();
-           
 	    },
 
         _showClickedPoint: function(evt){
@@ -51,11 +49,9 @@ define([
             domAttr.set(div, "id", "loading-image");
             var span = domConstruct.create("span");
             domAttr.set(span, "class", "glyphicon glyphicon-refresh glyphicon-refresh-animate");
-           // span.innerHTML = "Loading Chart...";
             var h1 = domConstruct.create("h1");
             domConstruct.place(span, h1, "only");
             domConstruct.place(h1, div, "only");
-
             var container = dom.byId("monitoring-div");
             domConstruct.place(div, container, "last");
         },
@@ -92,13 +88,10 @@ define([
             this.activeRaster = rasterId;
              
             this.emit("raster-selected",{});
-
-            //Now the click handler is active.
             this.handler.resume();
         },
 
         _populateRasterList: function(rastersList, mosaicId, mosaicName){
-            //Stops the "click" handler until a raster will be selected.
             this.handler.pause();
 
             var container = dom.byId("monitoring-rasters-list-ul");
@@ -132,8 +125,6 @@ define([
         		var mosaicName = this.mosaics[mosaic].name;
         		var li = domConstruct.create("li");
         		domAttr.set(li, "mosaicId", mosaicId);
-        		//domAttr.set(li, "class", mosaicId);
-
         		var a = domConstruct.create("a");
         		a.innerHTML = mosaicName;
         		domAttr.set(a,"href","#");

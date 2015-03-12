@@ -36,7 +36,6 @@ define([
             }
             constructSwipe();
             var layerSwipe = this.secondaryLayer;
-            //layerSwipe.setOpacity(1);
 
             this.swipe = new LayerSwipe({
                 type: "vertical",

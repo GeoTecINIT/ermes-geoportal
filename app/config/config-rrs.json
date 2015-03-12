@@ -90,6 +90,13 @@
       "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/Italy_Phenology/ImageServer",
       "description": "The Phenology mosaic.",
       "default": false
+    },
+    {
+      "id": "Italy NDVI 2014 RAW",
+      "name": "Italy NDVI 2014 RAW",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Italy_NDVI_2014_RAW/ImageServer",
+      "description": "Italy NDVI 2014 RAW",
+      "default": false
     }
   ],
   "layers": [

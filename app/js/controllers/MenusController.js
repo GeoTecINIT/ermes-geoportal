@@ -63,7 +63,6 @@ define([
 				this.settingsController.populateLayersList();
 			},
 
-
 			_changeRaster: function(){
 				this.emit('update-raster', {});
 			},

@@ -1,6 +1,5 @@
   require([
     'controllers/MainController',
-
     'dojo/domReady!'
   ], function (MainController) {
 

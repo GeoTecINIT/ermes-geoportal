@@ -63,7 +63,6 @@ define([
 	    },
 
 	    _createCompareButton: function(mosaicId, rasterId, rasterDate){
-            // First I remove the actual "secondaryLayer", to clean the map.
             this._resetSecondatyLayer();
             var rasterButton = dom.byId("comparing-raster-selector-button");
             rasterButton.innerHTML = rasterDate;

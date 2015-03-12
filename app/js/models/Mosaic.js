@@ -84,15 +84,12 @@ define([
 	    getRasterValues: function(pointClicked){
 	    	var mosaicRule = new MosaicRule();
             mosaicRule.ascending = true;
-            //mosaicRule.method = MosaicRule.METHOD_LOCKRASTER;
             mosaicRule.method = MosaicRule.METHOD_ATTRIBUTE;
             mosaicRule.sortField = "OBJECTID";
-            //mosaicRule.lockRasterIds = [this.activeRaster];
 
             var parameters = new ImageServiceIdentifyParameters();
             parameters.mosaicRule = mosaicRule;
             parameters.geometry = pointClicked;
-            //parameters.returnCatalogItems = false;
 
             var identifyTask = new ImageServiceIdentifyTask(this.URL);
 
@@ -100,13 +97,8 @@ define([
 	    },
 
 	     _rasterValuesObtained: function(response){
-            //console.log(response.properties.Values);
             var values = response.properties.Values.map(parseFloat);
-            //console.log(values);
             Topic.publish('mosaic/raster-click', values);
-
-           
-        
         }
 	});
 });

@@ -35,8 +35,6 @@ define([
         _populateRasterInfo: function(){
             var contenedor = dom.byId("raster-data");
             contenedor.innerHTML = "<span>Value: " + this.actualValue + "</span>"; 
-
-            
             this._createChart();
         },
 
