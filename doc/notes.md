@@ -37,17 +37,17 @@ We use version [3.12](http://js.arcgis.com/3.12) of the ArcGIS API for JavaScrip
  * It supports various [Project Pages](https://help.github.com/articles/user-organization-and-project-pages/#project-pages) for each individual project or reporsitory
  * It supports [wiki pages](https://github.com/ermes-fp7space/project-template/wiki) for further documentation, roadmap, changelog, etc.
  
-We created a new GitHub user account for the ERMES project: *ermes-fp7space*. [GitHub url](https://github.com/ermes-fp7space). It has the follwing public web sites:
+We created a GitHub user account for the ERMES project: *ermes-fp7space*. [GitHub url](https://github.com/ermes-fp7space). It has the following public web sites:
 * User Page: http://ermes-fp7space.github.io/ermes-fp7space
 * Project Pages: http://ermes-fp7space.github.io/project-template/app
 
-Buth are used for testing purpose. It is expected that the operational applications will be deployed on UJI premises
+Buth are used for testing nad experimentation purpose for rapid demonstration. It is expected that the operational application will be deployed on UJI premises.
 
-We are going to create repos for individual source projects as needed. For example:
+We could create more repos in the future for individual source projects as needed. For example:
 * `project-template`: basic project structure and folder organization. 
 * `ermes-prototype`: hosts the application prototype. Experimentation purpose. it will be active until the end March 2015.
 * `ermes-rss`: will host the web application for the Regional Rice Service (RSS) for production purpose based on lesson learned during prototyping plus stakehodlers/pàrtners feedback. It will be launch after once `ermes-prototype` repo closes. 
-* `timeseries-plots-js`: time series plot custom library (using D3) to create time series plots tied to pixel valeus of raster data. 
+* `timeseries-plots-js`: it might host a time series plot custom library (using D3) to create time series plots tied to pixel values of raster data. 
 * ...
 
 ## Useful articles, books, documentation, and links
