@@ -84,20 +84,27 @@
       "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/Italy_Phenology/ImageServer",
       "description": "The Phenology mosaic.",
       "default": false
+    },
+    {
+      "id": "LAI",
+      "name": "IT_EP_R3_LAI_VGT",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/IT_EP_R3_LAI_VGT/ImageServer",
+      "description": "LAI.",
+      "default": false
     }
   ],
   "layers": [
     {
-      "id": "Municipalities Boundaries IT",
-      "name": "Regional Rice Service",
-      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/italy_vector_mxd/MapServer/1",
+      "id": "IT Administrative Areas",
+      "name": "IT Administrative Areas",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/IT_Vectordata/MapServer/1",
       "description": "Feature Layer containing boundaries of the municipalities.",
       "default": false
     },
     {
-      "id": "Reference Grid Italy LAEA",
-      "name": "Reference Grid from Italy",
-      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/italy_vector_mxd/MapServer/0",
+      "id": "IT ERMES Regional Grid",
+      "name": "IT ERMES Regional Grid",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/IT_Vectordata/MapServer/0",
       "description": "Feature Layer containing the Italy Reference grid.",
       "default": false
     }
