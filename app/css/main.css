@@ -27,6 +27,12 @@ html, body, #map-index-div {
     -webkit-animation: spin2 .7s infinite linear;
 }
 
+.scrollable-menu {
+    height: auto;
+    max-height: 200px;
+    overflow-x: hidden;
+}
+
 @-webkit-keyframes spin2 {
     from { -webkit-transform: rotate(0deg);}
     to { -webkit-transform: rotate(360deg);}

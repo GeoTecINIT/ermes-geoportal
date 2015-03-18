@@ -61,7 +61,8 @@ define([
 	        		return dateFromDay(year, day);
 	        	}
 	        	try{
-	        		var date = nameToDate(name);
+	        		if(this.mosaicId == "RiceMap") var date = "2014";
+	        		else var date = nameToDate(name);
 	        		if(date == "NaN/NaN/NaN") date="Not Avaliable";
 	        	} catch (err){
 	        		var date = "Not Avaliable";

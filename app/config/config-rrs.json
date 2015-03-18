@@ -4,11 +4,12 @@
   "pageTitle": "ERMES Regional Rice Service Web Applications",
   "mapOptions": {
     "basemap": "gray",
-    "center": [9.403, 45.479],
+    "center": [9.6, 45.3],
     "autoResize": true,
     "sliderStyle": "small",
     "fadeOnZoom": true,
-    "zoom": 8,
+    "zoom": 10,
+    "minZoom": 9,
     "slider": false,
     "logo": false
   }, 
@@ -65,17 +66,10 @@
   "mosaics": [
     {
       "id": "RegionalRiceService",
-      "name": "Regional Rice Service",
+      "name": "NDVI 2014",
       "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/Italy_NDVI_2014/ImageServer",
       "description": "At the moment this is just a test description while we test with the mosaic features",
       "default": true
-    },
-    {
-      "id": "RawRegionalRiceService",
-      "name": "RAW Regional Rice Service",
-      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Italy_NDVI_avg_2000_2013_RAW/ImageServer",
-      "description": "At the moment this is just a RAW test description while we test with the mosaic features",
-      "default": false
     },
     {
       "id": "RiceMap",
@@ -86,16 +80,9 @@
     },
     {
       "id": "Phenology",
-      "name": "Italy Phenology",
+      "name": "Italy Phenology 2014",
       "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/Italy_Phenology/ImageServer",
       "description": "The Phenology mosaic.",
-      "default": false
-    },
-    {
-      "id": "Italy NDVI 2014 RAW",
-      "name": "Italy NDVI 2014 RAW",
-      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Italy_NDVI_2014_RAW/ImageServer",
-      "description": "Italy NDVI 2014 RAW",
       "default": false
     }
   ],

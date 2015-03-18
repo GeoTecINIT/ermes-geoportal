@@ -44,7 +44,6 @@ define([
             if(this.monitoringWidget!=null){
                 this.monitoringWidget.destroy();
             }        
-          
             var div = domConstruct.create("div");
             domAttr.set(div, "id", "loading-image");
             var span = domConstruct.create("span");
