@@ -11,7 +11,7 @@ Details about implementation cycles are being summarized in the [ERMES Wiki](htt
 The protoype application as it is now is only intended for regional users. It aims to serve as a basis for testing, experimentation and getting feedback from regional users at the upcoming Valencia project meeting (March 2015). 
 
 ## How do I use the application proptoype?
-The entry point to the application prototype is the web page `app/index.html`. A [demo of the geoportal prototype](http://ermes.dlsi.uji.es/prototype/geoportal) is avaiable online, and the [server's home page](http://ermes.dlsi.uji.es/) gives proxy to other on-going project developments. are  has been deployed here for demonstration purpose. 
+The entry point to the application prototype is the web page `app/index.html`. A [demo of the geoportal prototype](http://ermes.dlsi.uji.es:80/prototype/geoportal) is avaiable online, and the [server's home page](http://ermes.dlsi.uji.es/) gives proxy to other on-going project developments. are  has been deployed here for demonstration purpose. 
 
 Minimun system requeriments in a client machine are a correct installation of a browser application (e.g. Chrome, Firefox) and Internet access.
 
