@@ -29,6 +29,10 @@ define([
 	    	this._populateBaseMaps();
 	    },
 
+	    _capitalizeFirstLetter: function(string){
+		    return string.charAt(0).toUpperCase() + string.slice(1);
+	    },
+
 	    _populateBaseMaps: function(){
 	    	var container = dom.byId('basemap-list-ul');
 	    	
@@ -37,7 +41,10 @@ define([
 	    		var a = domConstruct.create('a');
 	    		domAttr.set(a, "href", "#");
 	    		domAttr.set(a, "id", base);
-	    		a.innerHTML = base;
+
+	    		var baseUpper = this._capitalizeFirstLetter(base);
+	    		a.innerHTML = baseUpper;
+
 	    		var clickHandler = lang.hitch(this, "_changeBaseMap", base);
 	    		this.own(on(a, "click", clickHandler));
 	    		var li = domConstruct.create('li');

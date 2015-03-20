@@ -66,14 +66,14 @@
   "mosaics": [
     {
       "id": "RegionalRiceService",
-      "name": "NDVI 2014",
+      "name": "Italy NDVI 2014",
       "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/Italy_NDVI_2014/ImageServer",
       "description": "At the moment this is just a test description while we test with the mosaic features",
       "default": true
     },
     {
       "id": "RiceMap",
-      "name": "Rice Map",
+      "name": "Italy Rice Map 2014",
       "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/Italy_Rice_Map/ImageServer",
       "description": "Just the last rice map, as image service.",
       "default": false
@@ -87,14 +87,14 @@
     },
     {
       "id": "LAI",
-      "name": "IT_EP_R3_LAI_VGT",
+      "name": "Italy LAI 2013/2014",
       "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/IT_EP_R3_LAI_VGT/ImageServer",
       "description": "LAI.",
       "default": false
     },
     {
       "id": "RiskBiotic",
-      "name": "IT_RI_R3_RiskBiotic_2014",
+      "name": "Italy Risk Biotic 2014",
       "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/IT_RI_R3_RiskBiotic_2014/ImageServer",
       "description": "LAI.",
       "default": false
