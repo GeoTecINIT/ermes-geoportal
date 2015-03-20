@@ -91,7 +91,15 @@
       "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/IT_EP_R3_LAI_VGT/ImageServer",
       "description": "LAI.",
       "default": false
+    },
+    {
+      "id": "RiskBiotic",
+      "name": "IT_RI_R3_RiskBiotic_2014",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/IT_RI_R3_RiskBiotic_2014/ImageServer",
+      "description": "LAI.",
+      "default": false
     }
+    
   ],
   "layers": [
     {
