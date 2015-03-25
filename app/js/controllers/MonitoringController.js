@@ -34,6 +34,8 @@ define([
 	    },
 
 	    postCreate: function(){
+            this.own(on(dom.byId('clean-raster-map'), 'click', lang.hitch(this, '_noneRaster')));
+
             this.handler = on.pausable(this.map, 'click', lang.hitch(this, '_showClickedPoint'));
             Topic.subscribe("mosaic/raster-click", lang.hitch(this, '_rasterValuesCompleted'));
             this.handler.pause();
@@ -123,16 +125,6 @@ define([
             rasterButton.innerHTML = "Select Raster";
 
             container.innerHTML =""; 
-
-
-            var li = domConstruct.create("li");
-            var a = domConstruct.create("a");
-            a.innerHTML = "None";
-            domAttr.set(a,"href","#");
-            var clickHandler = lang.hitch(this, "_noneRaster");
-            this.own(on(a, "click", clickHandler));
-            domConstruct.place(a, li, "only");
-            domConstruct.place(li, container, "last");
 
             var isFirst=true;
 

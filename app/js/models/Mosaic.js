@@ -78,8 +78,10 @@ define([
 	        var query = new Query();
 	        query.outFields = ['OBJECTID', 'Name'];
 	        var querySuccess = lang.hitch(this, "_onQuerySuccess");
-
-	       	queryTask.execute(query).then(querySuccess);	       		       	
+			var queryError = function(){
+				console.debug("Error in the Query");
+			} 
+	       	queryTask.execute(query).then(querySuccess, queryError);	       		       	
 	    },
 
 	    getRasterValues: function(pointClicked){

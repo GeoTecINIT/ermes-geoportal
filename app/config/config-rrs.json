@@ -60,10 +60,8 @@
         "placeholder": "Enter address"
       }
     }
-  }],
-  
-  "mosaics": [
-    {
+  }],  
+  "mosaics": [ {
       "id": "Italy Rice Map",
       "name": "Italy Rice Map",
       "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/Italy_Rice_Map/ImageServer",
