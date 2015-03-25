@@ -87,7 +87,7 @@ define([
             var rasterButton = dom.byId("monitoring-raster-selector-button");
 
             var labelRasterName = dom.byId("main-raster-name");
-            labelRasterName.innerHTML="Ermes Product: " + mosaicId + "<br>Date: " + rasterDate;
+            labelRasterName.innerHTML="ERMES Product: " + mosaicId + "<br>Date: " + rasterDate;
         
             domClass.replace(labelRasterName, "visible", "notvisible"); 
 

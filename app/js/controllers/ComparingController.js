@@ -68,7 +68,7 @@ define([
             }, "comparing-widget-container")
             
             var labelRasterName = dom.byId("compared-raster-name");
-            labelRasterName.innerHTML="Ermes Product: " + mosaicId + "<br>Date: " + rasterDate;
+            labelRasterName.innerHTML="ERMES Product: " + mosaicId + "<br>Date: " + rasterDate;
             domClass.replace(labelRasterName, "visible", "notvisible"); 
 	    },
 

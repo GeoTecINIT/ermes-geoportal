@@ -43,8 +43,11 @@ define([
         _createChart: function(){
             var chart = new Chart("raster-chart");
             chart.setTheme(theme);
+            chart.addSeries("Serie 1", 
+                            [{x: this.actualTimePosition, y: this.actualValue}]);
 
             chart.addPlot("default", {
+                min: 0,
                 type: StackedLines,
                 tension: "S",
                 markers: true,
@@ -53,6 +56,7 @@ define([
             });
 
             chart.addAxis("x", {
+                min: 1,
                 title: "Timeline",
                 titleOrientation: "away"
             });
@@ -63,13 +67,9 @@ define([
                 fixUpper: 9000,
                 title: this.mosaicName,
                 titleOrientation: "axis"});
-            chart.addSeries("ActualRaster", 
-                            [{x: this.actualTimePosition, y: this.actualValue, color: "red"}])
-                           
-            chart.addSeries("ChartName", this.rasterValues);
+            chart.addSeries("Serie 2", this.rasterValues);
 
-             var tip = new Tooltip(chart, "default");
-
+            var tip = new Tooltip(chart, "default");
             chart.render();
         },
 
