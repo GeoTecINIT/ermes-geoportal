@@ -103,6 +103,8 @@ define([
         _noneRaster: function(){
 
             this.emit("raster-selected-none",{});
+            var labelRasterName = dom.byId("main-raster-name");
+            domClass.replace(labelRasterName, "notvisible", "visible"); 
             this.stopClickHandler();
             this.destroyChart();
             this.activeRaster = null;
