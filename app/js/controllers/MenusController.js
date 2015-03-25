@@ -32,6 +32,7 @@ define([
 				this.comparingController = new ComparingController({mosaics: this.mosaics, map: this.map}, 'comparing-div');
 				this.settingsController = new SettingsController({layers: this.layers, map: this.map}, 'settings-div');
 				this.monitoringController.on("raster-selected", lang.hitch(this,"_changeRaster"));
+				this.monitoringController.on("raster-selected-none", lang.hitch(this,"_noneSelected"));
 				this.monitoringController.startup();
 				this.own(on(dom.byId('monitoring-tab-button'), 'click', lang.hitch(this, '_cancelComparing')));
 				this.own(on(dom.byId('monitoring-tab-button'), 'click', lang.hitch(this, '_continueCharting')));
@@ -44,6 +45,7 @@ define([
 
 			_cancelCharting: function(){
 				this.monitoringController.stopClickHandler();
+				this.monitoringController.destroyChart();
 			},
 
 			_continueCharting: function(){
@@ -65,6 +67,10 @@ define([
 
 			_changeRaster: function(){
 				this.emit('update-raster', {});
+			},
+
+			_noneSelected: function(){
+				this.emit('remove-raster', {});
 			},
 
 			getActiveMosaicAndRaster: function(){

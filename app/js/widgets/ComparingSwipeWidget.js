@@ -36,7 +36,7 @@ define([
             }
             constructSwipe();
             var layerSwipe = this.secondaryLayer;
-
+            layerSwipe.setOpacity(0.7);
             this.swipe = new LayerSwipe({
                 type: "vertical",
                 map: this.map,

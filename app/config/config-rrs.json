@@ -3,14 +3,13 @@
   "appName": "regional-prototype",
   "pageTitle": "ERMES Regional Rice Service Web Applications",
   "mapOptions": {
-    "basemap": "gray",
+    "basemap": "hybrid",
     "center": [9.6, 45.3],
     "autoResize": true,
     "sliderStyle": "small",
     "fadeOnZoom": true,
-    "zoom": 10,
+    "zoom": 9,
     "minZoom": 9,
-    "slider": false,
     "logo": false
   }, 
   "operationalLayers": [{
@@ -65,41 +64,33 @@
   
   "mosaics": [
     {
-      "id": "RegionalRiceService",
+      "id": "Italy NDVI 2014",
       "name": "Italy NDVI 2014",
       "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/Italy_NDVI_2014/ImageServer",
       "description": "At the moment this is just a test description while we test with the mosaic features",
       "default": true
     },
     {
-      "id": "RiceMap",
-      "name": "Italy Rice Map 2014",
+      "id": "Italy Rice Map",
+      "name": "Italy Rice Map",
       "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/Italy_Rice_Map/ImageServer",
       "description": "Just the last rice map, as image service.",
       "default": false
     },
     {
-      "id": "Phenology",
-      "name": "Italy Phenology 2014",
-      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/Italy_Phenology/ImageServer",
-      "description": "The Phenology mosaic.",
-      "default": false
-    },
-    {
-      "id": "LAI",
+      "id": "Italy LAI 2013/2014",
       "name": "Italy LAI 2013/2014",
       "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/IT_EP_R3_LAI_VGT/ImageServer",
       "description": "LAI.",
       "default": false
     },
     {
-      "id": "RiskBiotic",
+      "id": "Italy Risk Biotic 2014",
       "name": "Italy Risk Biotic 2014",
       "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/IT_RI_R3_RiskBiotic_2014/ImageServer",
       "description": "LAI.",
       "default": false
     }
-    
   ],
   "layers": [
     {

@@ -7,6 +7,58 @@
   min-width: 40%;
 }
 
+#main-raster-name{
+  position: absolute;
+  bottom: 5em;
+  right: 1em;
+  z-index: 100;
+  border:solid 6px #254ec7;
+  -moz-border-radius-topleft: 8px;
+  -moz-border-radius-topright:8px;
+  -moz-border-radius-bottomleft:8px;
+  -moz-border-radius-bottomright:8px;
+  -webkit-border-top-left-radius:8px;
+  -webkit-border-top-right-radius:8px;
+  -webkit-border-bottom-left-radius:8px;
+  -webkit-border-bottom-right-radius:8px;
+  border-top-left-radius:8px;
+  border-top-right-radius:8px;
+  border-bottom-left-radius:8px;
+  border-bottom-right-radius:8px;
+  background-color: #FFFFFF;
+  padding: 5px;
+}
+
+#compared-raster-name{
+  position: absolute;
+  bottom: 5em;
+  left: 1em;
+  z-index: 100;
+  border:solid 6px #254ec7;
+  -moz-border-radius-topleft: 8px;
+  -moz-border-radius-topright:8px;
+  -moz-border-radius-bottomleft:8px;
+  -moz-border-radius-bottomright:8px;
+  -webkit-border-top-left-radius:8px;
+  -webkit-border-top-right-radius:8px;
+  -webkit-border-bottom-left-radius:8px;
+  -webkit-border-bottom-right-radius:8px;
+  border-top-left-radius:8px;
+  border-top-right-radius:8px;
+  border-bottom-left-radius:8px;
+  border-bottom-right-radius:8px;
+  background-color: #FFFFFF;
+  padding: 5px;
+}
+
+.visible{
+  visibility: visible;
+}
+
+.notvisible{
+  visibility: hidden;
+}
+
 html, body, #map-index-div {
   height: 100%;
 }
@@ -40,6 +92,27 @@ html, body, #map-index-div {
 
 
 
+.esriScalebar {
+    padding: 6px 38px 4px 4px;
+    background-color: white;
+    border-radius: 4px;
+    opacity: 0.6;
+    width: auto;
+    height: auto;
+}
+.esriScalebar:hover {
+    opacity: 0.99;
+}
+        
+.esriScalebarLabel {
+    color: black;
+    font-family: Trebuchet MS, Verdana, Tahoma;
+    font-size: 9pt;  
+}
+       
+.esriScalebarLine {
+    border-color: black;
+}
 
 
 /*html, body { 

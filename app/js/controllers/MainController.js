@@ -6,13 +6,14 @@ define([
     'dojo/dom',
     "esri/request",                 
     "esri/map",
+    "esri/dijit/Scalebar",
     "models/Mosaic",
     'esri/layers/FeatureLayer',
     'dijit/_WidgetBase',
     'dijit/_TemplatedMixin',
     'controllers/MenusController',  
     'dojo/domReady!'				       
-  ], function (declare, Evented, lang, on, dom, esriRequest, Map, Mosaic, FeatureLayer,
+  ], function (declare, Evented, lang, on, dom, esriRequest, Map, Scalebar, Mosaic, FeatureLayer,
            _WidgetBase, _TemplatedMixin, MenusController) {
 
     var mosaicsLoaded = 0;
@@ -23,6 +24,7 @@ define([
       map: null,
       menusController: null,
       activeMosaic: null,
+      primaryRasterLayer: null,
 
       constructor: function(){
         var requestJSONSuccess = lang.hitch(this, '_requestSuccess')
@@ -30,19 +32,22 @@ define([
       }, 
 
       _cleanMap: function(){
-        for(var i = 1; i<this.map.layerIds.length; i++){
-          var l = this.map.getLayer(this.map.layerIds[i]);
-          this.map.removeLayer(l);
+        if(this.primaryRasterLayer!=null){
+          this.map.removeLayer(this.primaryRasterLayer);
         }
       },
 
       _changeRaster: function(){
-        this._cleanMap();
         var newMosaic =  this.menusController.getActiveMosaicAndRaster()[0];
         var newRaster =  this.menusController.getActiveMosaicAndRaster()[1];
 
         var newLayer = this.mosaics[newMosaic].getLayerByID(newRaster);
+        if(this.primaryRasterLayer!=null){
+          this.map.removeLayer(this.primaryRasterLayer);
+        }
         newLayer.setOpacity(0.7);
+        this.primaryRasterLayer = newLayer;
+      
         this.map.addLayer(newLayer);
       },
 
@@ -60,9 +65,17 @@ define([
             var options = lang.mixin({
               map: this.map}, 
               response);
+
+
           });
+          var scalebar = new Scalebar({
+              map: this.map,
+              scalebarUnit: "dual",
+              attachTo: "bottom-left"
+            });
           this.menusController = new MenusController({mosaics: this.mosaics, map: this.map, layers: this.layers}, 'basic-container-div');
           this.menusController.on("update-raster", lang.hitch(this,"_changeRaster"));
+          this.menusController.on("remove-raster", lang.hitch(this,"_cleanMap"));
           this.menusController.startup();
 
           //INITIATES MOSAICS 

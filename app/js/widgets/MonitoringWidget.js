@@ -11,12 +11,13 @@ define([
     'dojox/charting/Chart',
     'dojox/charting/themes/Claro',
     'dojox/charting/plot2d/Lines',
+    'dojox/charting/plot2d/StackedLines',
     'dojox/charting/axis2d/Default',
     'dojox/charting/action2d/Tooltip',
     'dojo/domReady!'	
 	], function(declare, lang, on, dom, domConstruct, domAttr,
 		_WidgetBase, _TemplatedMixin, template, 
-        Chart, theme, Lines, AxisDefault, Tooltip){
+        Chart, theme, Lines, StackedLines, AxisDefault, Tooltip){
 		
 		return declare([_WidgetBase, _TemplatedMixin], {
 			templateString: template,
@@ -30,6 +31,7 @@ define([
         postCreate: function(){
 
             this._populateRasterInfo();
+            this.own(on(dom.byId('close-chart-button'), 'click', lang.hitch(this, '_closeChart')));
         },
 
         _populateRasterInfo: function(){
@@ -41,27 +43,38 @@ define([
         _createChart: function(){
             var chart = new Chart("raster-chart");
             chart.setTheme(theme);
+
             chart.addPlot("default", {
-                type: Lines,
+                type: StackedLines,
+                tension: "S",
                 markers: true,
                 fontColor: "black",
                 labelOffset: -20
             });
 
             chart.addAxis("x", {
-                labels: [
-                    {value: 1, text: "Jan"},
-                    {value: 2, text: "Jan"},
-                    {value: this.rasterValues.length-1, text: "Dec"},
-                    {value: this.rasterValues.length, text: "Dec"}
-                ]
+                title: "Timeline",
+                titleOrientation: "away"
             });
-            chart.addAxis("y", {vertical: true, fixLower: 0, fixUpper: 9000});
+
+            chart.addAxis("y", {
+                vertical: true, 
+                fixLower: 0, 
+                fixUpper: 9000,
+                title: this.mosaicName,
+                titleOrientation: "axis"});
+            chart.addSeries("ActualRaster", 
+                            [{x: this.actualTimePosition, y: this.actualValue, color: "red"}])
+                           
             chart.addSeries("ChartName", this.rasterValues);
 
              var tip = new Tooltip(chart, "default");
 
             chart.render();
+        },
+
+        _closeChart: function(){
+            this.destroy();
         }
       
 	});

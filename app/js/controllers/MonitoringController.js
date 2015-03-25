@@ -7,6 +7,7 @@ define([
     'dojo/dom',
     'dojo/dom-construct',
     'dojo/dom-attr',
+    'dojo/dom-class',
     'dojo/topic',
     'dijit/_WidgetBase',
 	'dijit/_TemplatedMixin',
@@ -17,7 +18,7 @@ define([
     'esri/tasks/ImageServiceIdentifyParameters',
     'widgets/MonitoringWidget',
     'dojo/domReady!'	
-	], function(declare, Evented, lang, when, on, dom, domConstruct, domAttr, Topic,
+	], function(declare, Evented, lang, when, on, dom, domConstruct, domAttr, domClass, Topic,
 		_WidgetBase, _TemplatedMixin, MenusController, template,
         ImageServiceIdentifyTask, MosaicRule, ImageServiceIdentifyParameters, MonitoringWidget){
 		
@@ -40,10 +41,8 @@ define([
 
         _showClickedPoint: function(evt){
             this.mosaics[this.activeMosaic].getRasterValues(evt.mapPoint);
-             this.handler.pause();
-            if(this.monitoringWidget!=null){
-                this.monitoringWidget.destroy();
-            }        
+            this.handler.pause();
+            this.destroyChart();      
             var div = domConstruct.create("div");
             domAttr.set(div, "id", "loading-image");
             var span = domConstruct.create("span");
@@ -57,7 +56,6 @@ define([
 
         _rasterValuesCompleted: function(){
             domConstruct.destroy("loading-image");
-
             var constructDiv = function(){
                 var div = domConstruct.create("div");
                 domAttr.set(div, "id", "monitoring-widget-container");
@@ -65,15 +63,19 @@ define([
                 domConstruct.place(div, container, "last");
             }
             
-            if(this.monitoringWidget!=null){
-                this.monitoringWidget.destroy();
-            }        
+            this.destroyChart();       
             constructDiv();
             var allValues = arguments[0];
             var actualValue = allValues[this.activeRaster-1];
+            this.monitoringWidget = new MonitoringWidget({
+                                            actualValue: actualValue, 
+                                            rasterValues: allValues, 
+                                            mosaicName: this.activeMosaic, 
+                                            actualTimePosition: 
+                                            this.activeRaster}, 'monitoring-widget-container');
             
-            this.monitoringWidget = new MonitoringWidget({actualValue: actualValue, rasterValues: allValues}, 'monitoring-widget-container');
             this.handler.resume();
+
         },
 
         getActiveMosaicAndRaster: function(){
@@ -81,7 +83,15 @@ define([
         },
 
         _showRaster: function(mosaicId, rasterId, rasterDate){
+            this.destroyChart(); 
             var rasterButton = dom.byId("monitoring-raster-selector-button");
+
+            var labelRasterName = dom.byId("main-raster-name");
+            labelRasterName.innerHTML="Ermes Product: " + mosaicId + "<br>Date: " + rasterDate;
+        
+            domClass.replace(labelRasterName, "visible", "notvisible"); 
+
+
             rasterButton.innerHTML = rasterDate;
             this.activeMosaic = mosaicId;
             this.activeRaster = rasterId;
@@ -90,7 +100,18 @@ define([
             this.handler.resume();
         },
 
+        _noneRaster: function(){
+
+            this.emit("raster-selected-none",{});
+            this.stopClickHandler();
+            this.destroyChart();
+            this.activeRaster = null;
+        },
+
         _populateRasterList: function(rastersList, mosaicId, mosaicName){
+
+            this.destroyChart();
+
             this.handler.pause();
 
             var container = dom.byId("monitoring-rasters-list-ul");
@@ -100,6 +121,19 @@ define([
             rasterButton.innerHTML = "Select Raster";
 
             container.innerHTML =""; 
+
+
+            var li = domConstruct.create("li");
+            var a = domConstruct.create("a");
+            a.innerHTML = "None";
+            domAttr.set(a,"href","#");
+            var clickHandler = lang.hitch(this, "_noneRaster");
+            this.own(on(a, "click", clickHandler));
+            domConstruct.place(a, li, "only");
+            domConstruct.place(li, container, "last");
+
+            var isFirst=true;
+
             for(var raster in rastersList){
                 var rasterId = rastersList[raster][0];
                 var rasterDate = rastersList[raster][1];
@@ -112,7 +146,15 @@ define([
                 this.own(on(a, "click", clickHandler));
                 domConstruct.place(a, li, "only");
                 domConstruct.place(li, container, "last");
+                if(isFirst){
+                    var mId = mosaicId;
+                    var r = raster;
+                    var rD = rasterDate;
+                    isFirst=false;
+                }
             }
+            this._showRaster(mId, r, rD);
+
             
         },
 
@@ -136,6 +178,12 @@ define([
 
         stopClickHandler: function(){
             this.handler.pause();
+        },
+
+        destroyChart: function(){
+            if(this.monitoringWidget!=null){
+                this.monitoringWidget.destroy();
+            }  
         },
 
         startClickHandler: function(){

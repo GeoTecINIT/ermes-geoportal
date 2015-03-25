@@ -7,6 +7,7 @@ define([
     'dojo/dom',
     'dojo/dom-construct',
     'dojo/dom-attr',
+    'dojo/dom-class',
     'dojo/topic',
     'dijit/_WidgetBase',
 	'dijit/_TemplatedMixin',
@@ -14,7 +15,7 @@ define([
     'widgets/ComparingSwipeWidget',
     'text!templates/comparingMenu.tpl.html',
     'dojo/domReady!'	
-	], function(declare, lang, when, Topic, on, dom, domConstruct, domAttr, 
+	], function(declare, lang, when, Topic, on, dom, domConstruct, domAttr,  domClass,
 		Topic, _WidgetBase, _TemplatedMixin, MenusController, SwipeWidget, template){
 		
 		return declare([_WidgetBase, _TemplatedMixin], {
@@ -33,6 +34,9 @@ define([
         },
 
         _destroySwipeWidget: function(){
+            var labelRasterName = dom.byId("compared-raster-name");  
+            domClass.replace(labelRasterName, "notvisible", "visible"); 
+
             if(this.swipeWidget!=null){
                 this.swipeWidget.destroySwipe();
                 this.swipeWidget.destroy();
@@ -47,7 +51,9 @@ define([
             }
         },
 
-	    _createSwipeWidget: function(){
+	    _createSwipeWidget: function(mosaicId, rasterDate){
+
+
             this._destroySwipeWidget();
             
 
@@ -56,10 +62,14 @@ define([
             this.map.addLayer(layer);
 
 
-	    	this.swipeWidget = new SwipeWidget({
+            this.swipeWidget = new SwipeWidget({
                 map: this.map,
                 secondaryLayer: layer
             }, "comparing-widget-container")
+            
+            var labelRasterName = dom.byId("compared-raster-name");
+            labelRasterName.innerHTML="Ermes Product: " + mosaicId + "<br>Date: " + rasterDate;
+            domClass.replace(labelRasterName, "visible", "notvisible"); 
 	    },
 
 	    _createCompareButton: function(mosaicId, rasterId, rasterDate){
@@ -74,8 +84,10 @@ define([
             var button = domConstruct.create('button');
             domAttr.set(button, 'id', 'compare-button');
             domAttr.set(button, 'id', 'compare-button');
+            domAttr.set(button, 'class', 'btn btn-default');
+            
             button.innerHTML = "Compare";
-            var clickHandler = lang.hitch(this, "_createSwipeWidget");
+            var clickHandler = lang.hitch(this, "_createSwipeWidget", mosaicId, rasterDate);
             this.own(on(button, "click", clickHandler));
 
 
@@ -91,7 +103,7 @@ define([
             var mosaicButton = dom.byId("comparing-mosaic-selector-button");
             mosaicButton.innerHTML = mosaicName;
             var rasterButton = dom.byId("comparing-raster-selector-button");
-            rasterButton.innerHTML = "Select Raster";
+            rasterButton.innerHTML = "Date";
 
             container.innerHTML =""; 
             for(var raster in rastersList){

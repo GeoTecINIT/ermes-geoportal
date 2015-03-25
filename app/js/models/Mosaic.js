@@ -61,7 +61,7 @@ define([
 	        		return dateFromDay(year, day);
 	        	}
 	        	try{
-	        		if(this.mosaicId == "RiceMap") var date = "2014";
+	        		if(this.mosaicId == "Italy Rice Map") var date = "2014";
 	        		else var date = nameToDate(name);
 	        		if(date == "NaN/NaN/NaN") date="Not Avaliable";
 	        	} catch (err){
@@ -99,7 +99,7 @@ define([
 
 	     _rasterValuesObtained: function(response){
             var values = response.properties.Values.map(parseFloat);
-            Topic.publish('mosaic/raster-click', values);
+           	Topic.publish('mosaic/raster-click', values);
         }
 	});
 });
