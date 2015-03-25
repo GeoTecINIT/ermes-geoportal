@@ -9,10 +9,10 @@
 
 #main-raster-name{
   position: absolute;
-  bottom: 5em;
+  bottom: 2em;
   right: 1em;
   z-index: 100;
-  border:solid 6px #254ec7;
+  border:solid 3px #254ec7;
   -moz-border-radius-topleft: 8px;
   -moz-border-radius-topright:8px;
   -moz-border-radius-bottomleft:8px;
@@ -27,14 +27,19 @@
   border-bottom-right-radius:8px;
   background-color: #FFFFFF;
   padding: 5px;
+  opacity: 0.6;
+}
+
+#main-raster-name:hover {
+  opacity: 0.99;
 }
 
 #compared-raster-name{
   position: absolute;
-  bottom: 5em;
+  bottom: 2em;
   left: 1em;
   z-index: 100;
-  border:solid 6px #254ec7;
+  border:solid 3px #254ec7;
   -moz-border-radius-topleft: 8px;
   -moz-border-radius-topright:8px;
   -moz-border-radius-bottomleft:8px;
@@ -49,7 +54,13 @@
   border-bottom-right-radius:8px;
   background-color: #FFFFFF;
   padding: 5px;
+  opacity: 0.6;
 }
+
+#compared-raster-name:hover {
+  opacity: 0.99;
+}
+
 
 .visible{
   visibility: visible;
