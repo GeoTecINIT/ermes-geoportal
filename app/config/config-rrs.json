@@ -88,6 +88,13 @@
       "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/IT_RI_R3_RiskBiotic_2014/ImageServer",
       "description": "LAI.",
       "default": false
+    },
+    {
+      "id": "Italy Seasonal Pattern EVI 2014",
+      "name": "Italy Seasonal Pattern EVI 2014",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/IT_EP_L3_SeasonalPattern_EVI_2014_229/ImageServer",
+      "description": "LAI.",
+      "default": false
     }
   ],
   "layers": [
