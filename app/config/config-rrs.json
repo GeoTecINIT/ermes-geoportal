@@ -64,17 +64,17 @@
   
   "mosaics": [
     {
-      "id": "Italy NDVI 2014",
-      "name": "Italy NDVI 2014",
-      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/Italy_NDVI_2014/ImageServer",
-      "description": "At the moment this is just a test description while we test with the mosaic features",
-      "default": true
-    },
-    {
       "id": "Italy Rice Map",
       "name": "Italy Rice Map",
       "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/Italy_Rice_Map/ImageServer",
       "description": "Just the last rice map, as image service.",
+      "default": true
+    },
+    {
+      "id": "Italy NDVI 2014",
+      "name": "Italy NDVI 2014",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/Italy_NDVI_2014/ImageServer",
+      "description": "At the moment this is just a test description while we test with the mosaic features",
       "default": false
     },
     {
