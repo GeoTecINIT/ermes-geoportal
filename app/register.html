@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Ermes Movile APP</title>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6 col-md-4 col-md-offset-4">
+            <h1 class="text-center">Register</h1>
+            <div>
+                <form class="form-horizontal" id="loginForm">
+                    <div class="container-fluid">
+                        <section class="container">
+                            <div class="container-page">
+                                <div class="col-md-6">
+                                    <h3 class="dark-grey">Registration</h3>
+
+                                    <div class="form-group col-lg-12">
+                                        <input type="text" name="username" class="form-control" placeholder="Username" required>
+                                    </div>
+
+                                    <div class="form-group col-lg-6">
+                                        <input type="password" name="password" class="form-control" placeholder="Password" required>
+                                    </div>
+
+                                    <div class="form-group col-lg-6">
+                                        <input type="password" name="password2" class="form-control"  placeholder="Repeat Password" required>
+                                    </div>
+
+                                    <div class="form-group col-lg-6">
+                                        <input type="email" name="email" class="form-control" placeholder="Email" required>
+                                    </div>
+
+                                    <div class="form-group col-lg-6">
+                                        <input type="email" name="email2" class="form-control" placeholder="Repeat Email" required>
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                      <p> Select  Region:</p>
+                                    <select id="selectRegion" class="form-control" required>
+                                        <option value=""></option>
+                                        <option value="spain">Spain</option>
+                                        <option value="italy">Italy</option>
+                                        <option value="greece">Greece</option>
+                                    </select>
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <p> Select  Profile:</p>
+                                        <select id="selectProfile" class="form-control" required>
+                                            <option value=""></option>
+                                            <option value="local">Local</option>
+                                            <option value="regional">Regional</option>
+                                        </select>
+                                    </div>
+
+                                    <div>
+                                        <button type="submit" class="btn btn-default">Submit</button>
+                                        <a href="login.html">Login</a>
+                                    </div>
+                                    <div>
+                                        <p id="response"></p>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </section>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Handle the submit programatically.
+    $( "#loginForm" ).submit(function( event ) {
+
+        // Stop usuarl submit
+        event.preventDefault();
+
+        // Get values and variables:
+        var $form = $( this ),
+                username = $form.find( "input[name='username']" ).val(),
+                password = $form.find( "input[name='password']" ).val(),
+                email = $form.find( "input[name='email']" ).val(),
+                password2 = $form.find( "input[name='password2']" ).val(),
+                email2 = $form.find( "input[name='email2']" ).val(),
+                region = $("#selectRegion").val(),
+                profile = $("#selectProfile").val(),
+
+                url = "http://localhost:6585/signup";
+        if(email!=email2) {
+            $("#response").text("Mail doesn't match.")
+        }
+        else if(password!=password2) {
+            $("#response").text("Passwords doesn't match.");
+        }
+        else {
+            // Make the POST
+            var posting = $.post(url, {username: username, password: password, email: email, region: region, profile: profile });
+
+            // Show results asynchronously.
+            posting.done(function (data) {
+                if(data.user == username)
+                    window.location.replace("login.html");
+                else
+                    $("#response").text("This user already exists. If the problem persists contact the ERMES administrators.");
+            });
+        }
+    });
+
+</script>
+</body>
+</html>

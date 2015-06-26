@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Ermes Movile APP</title>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6 col-md-4 col-md-offset-4">
+            <h1 class="text-center">Register</h1>
+            <div>
+                <form class="form-horizontal" id="loginForm">
+                    <div class="container-fluid">
+                        <section class="container">
+                            <div class="container-page">
+                                <div class="col-md-6">
+                                    <h3 class="dark-grey">Registration</h3>
+
+                                    <div class="form-group col-lg-12">
+                                        <input type="text" name="username" class="form-control" placeholder="Username" required>
+                                    </div>
+
+                                    <div class="form-group col-lg-6">
+                                        <input type="password" name="password" class="form-control" placeholder="Password" required>
+                                    </div>
+
+                                    <div>
+                                    <button type="submit" class="btn btn-default">Submit</button>
+                                    <a href="register.html">Create account.</a>
+                                    </div>
+                                    <div>
+                                        <p id="response"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Handle the submit programatically.
+    $( "#loginForm" ).submit(function( event ) {
+
+        // Stop usuarl submit
+        event.preventDefault();
+
+        // Get values and variables:
+        var $form = $( this ),
+                username = $form.find( "input[name='username']" ).val(),
+                password = $form.find( "input[name='password']" ).val(),
+                url = "http://localhost:6585/login";
+            // Make the POST
+            var posting = $.post(url, {username: username, password: password});
+
+            // Show results asynchronously.
+            posting.done(function (data) {
+                console.log(data);
+                if(!data)
+                    $("#response").text("User or Password Wrong.");
+                else {
+                    document.cookie="username=" + data.user;
+                    document.cookie="region=" + data.region;
+                    document.cookie="profile=" + data.profile;
+                    window.location.replace("./index.html");
+                }
+            });
+    });
+
+</script>
+</body>
+</html>

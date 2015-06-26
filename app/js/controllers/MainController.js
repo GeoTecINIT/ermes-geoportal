@@ -108,10 +108,44 @@ define([
       },
 
       _requestConfigFile: function() {
-        return {
-          url: "config/config-rrs.json",
-          handleAs: "json"
-        };
+          var region = getCookie("region");
+          var profile = getCookie("profile");
+          var configFileURL;
+          if(region=="italy")
+            configFileURL = "config/config-italy-full.json";
+          else if(region=="spain")
+              configFileURL = "config/config-spain-full.json";
+          console.log(region);
+          console.log(profile);
+
+          return {
+            url: configFileURL,
+            handleAs: "json"
+          };
+
+
+          function getCookie(cname) {
+              var name = cname + "=";
+              var ca = document.cookie.split(';');
+              for(var i=0; i<ca.length; i++) {
+                  var c = ca[i];
+                  while (c.charAt(0)==' ') c = c.substring(1);
+                  if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+              }
+              return "";
+          }
       }
+
   });
 });
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1);
+        if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+    }
+    return "";
+}

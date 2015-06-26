@@ -1,0 +1,116 @@
+{
+
+  "appName": "regional-prototype",
+  "pageTitle": "ERMES Regional Rice Service Web Applications",
+  "mapOptions": {
+    "basemap": "hybrid",
+    "center": [-0.3, 39.3],
+    "autoResize": true,
+    "sliderStyle": "small",
+    "fadeOnZoom": true,
+    "zoom": 9,
+    "minZoom": 9,
+    "logo": false
+  }, 
+  "operationalLayers": [{
+    "type": "feature",
+    "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/italy_vector_mxd/MapServer/1",
+    "id" : "MunicipalitiesIT",
+    "title" : "Municipalities Boundaries IT",
+    "opacity" : 0.2,
+    "visible" : true,
+    "outFields": ["*"]
+    }],
+  "widgets": [{
+    "name": "esri-locate",
+    "type": "LocateButton",
+    "path": "esri/dijit/LocateButton",
+    "node": "locateButton",
+    "target": "mapToolsDiv",
+    "options": {
+      "highlightLocation": true
+      }
+    }, {
+    "name": "esri-scalebar",
+    "type": "Scalebar",
+    "path": "esri/dijit/Scalebar",
+    "options": {
+      "attachTo": "bottom-left",
+      "scalebarStyle": "line",
+      "scalebarUnit": "dual"
+      }
+    }, {
+    "name": "esri-overviewmap",
+    "type": "overviewMap",
+    "path": "esri/dijit/OverviewMap",
+    "options": {
+      "attachTo": "bottom-right",
+      "visible": true,
+      "opacity": 0.2
+      }
+    }, {
+    "name": "esri-geocoder",
+    "type": "Geocoder",
+    "path": "esri/dijit/Geocoder",
+    "node": "searchButton",
+    "options": {
+      "arcgisGeocoder": {
+        "url": "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer",
+        "name": "Esri World Geocoder",
+        "placeholder": "Enter address"
+      }
+    }
+  }],  
+  "mosaics": [ {
+      "id": "Italy Rice Map",
+      "name": "Italy Rice Map",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/Italy_Rice_Map/ImageServer",
+      "description": "Just the last rice map, as image service.",
+      "default": true
+    },
+    {
+      "id": "Italy NDVI 2014",
+      "name": "Italy NDVI 2014",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/Italy_NDVI_2014/ImageServer",
+      "description": "At the moment this is just a test description while we test with the mosaic features",
+      "default": false
+    },
+    {
+      "id": "Italy LAI 2013/2014",
+      "name": "Italy LAI 2013/2014",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/IT_EP_R3_LAI_VGT/ImageServer",
+      "description": "LAI.",
+      "default": false
+    },
+    {
+      "id": "Italy Risk Biotic 2014",
+      "name": "Italy Risk Biotic 2014",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/IT_RI_R3_RiskBiotic_2014/ImageServer",
+      "description": "LAI.",
+      "default": false
+    },
+    {
+      "id": "Italy Seasonal Pattern EVI 2014",
+      "name": "Italy Seasonal Pattern EVI 2014",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/IT_EP_L3_SeasonalPattern_EVI_2014_229/ImageServer",
+      "description": "LAI.",
+      "default": false
+    }
+  ],
+  "layers": [
+    {
+      "id": "IT Administrative Areas",
+      "name": "IT Administrative Areas",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/IT_Vectordata/MapServer/1",
+      "description": "Feature Layer containing boundaries of the municipalities.",
+      "default": false
+    },
+    {
+      "id": "IT ERMES Regional Grid",
+      "name": "IT ERMES Regional Grid",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/IT_Vectordata/MapServer/0",
+      "description": "Feature Layer containing the Italy Reference grid.",
+      "default": false
+    }
+  ]
+}

@@ -3,36 +3,38 @@
 
   var pathRX = new RegExp(/\/[^\/]+$/);
   var locationPath = location.pathname.replace(pathRX, '');
-
+  console.log(locationPath);
   require({
-    async: true,  
+    async: true,
     aliases: [
       ['text', 'dojo/text']],
-    packages: [{  
+    packages: [{
       name: 'controllers',
-      location: locationPath + 'js/controllers'
-    }, 
+      location: locationPath + '/js/controllers'
+    },
     {
       name: 'services',
-      location: locationPath + 'js/services'
-    }, 
+      location: locationPath + '/js/services'
+    },
     {
       name: 'models',
-      location: locationPath + 'js/models'
-    }, 
+      location: locationPath + '/js/models'
+    },
     {
       name: 'widgets',
-      location: locationPath + 'js/widgets'
-    }, 
+      location: locationPath + '/js/widgets'
+    },
     {
       name: 'templates',
-      location: locationPath + 'js/templates'
-    }, 
+      location: locationPath + '/js/templates'
+    },
     {
       name: 'app',
-      location: locationPath + 'js',
+      location: locationPath + '/js',
       main: 'mainLauncher'
-    }]}, 
+    }]},
     ['app']);
+
+
 
 })();
