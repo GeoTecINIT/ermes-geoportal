@@ -1,0 +1,33 @@
+{
+  "appName": "regional-prototype",
+  "pageTitle": "ERMES Regional Rice Service Web Applications",
+  "mapOptions": {
+    "basemap": "hybrid",
+    "center": [-0.3, 39.3],
+    "autoResize": true,
+    "sliderStyle": "small",
+    "fadeOnZoom": true,
+    "zoom": 15,
+    "maxZoom": 18,
+    "minZoom": 14,
+    "logo": false
+  },
+  "mosaics": [
+//    {
+//      "id": "Italy NDVI 2014",
+//      "name": "Italy NDVI 2014",
+//      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/Italy_NDVI_2014/ImageServer",
+//      "description": "At the moment this is just a test description while we test with the mosaic features",
+//      "default": false
+//    },
+     ],
+  "layers": [
+    {
+      "id": "Italian Parcels",
+      "name": "Italian Parcels Layer",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-IT/IT_parcels/MapServer/0",
+      "description": "Feature Layer containing the parcels Layer of Italy.",
+      "default": true
+    }
+  ]
+}

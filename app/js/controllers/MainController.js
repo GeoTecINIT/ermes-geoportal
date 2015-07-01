@@ -111,12 +111,25 @@ define([
           var region = getCookie("region");
           var profile = getCookie("profile");
           var configFileURL;
-          if(region=="italy")
-            configFileURL = "config/config-italy-full.json";
-          else if(region=="spain")
-              configFileURL = "config/config-spain-full.json";
-          console.log(region);
-          console.log(profile);
+          if(region=="italy" && profile=="local") {
+              configFileURL = "./config/config-italy-local.json";
+          }
+          else if(region=="italy" && profile=="regional") {
+              configFileURL = "./config/config-italy-full.json";
+          }
+          else if(region=="spain" && profile=="local") {
+              configFileURL = "./config/config-spain-local.json";
+          }
+          else if(region=="spain" && profile=="regional") {
+              configFileURL = "./config/config-spain-full.json";
+          }
+          //else if(region=="greece" && profile=="local") {
+          //    configFileURL = "./config/config-spain-local.json";
+          //}
+          //else if(region=="greece" && profile=="regional") {
+          //    configFileURL = "./config/config-spain-full.json";
+          //}
+
 
           return {
             url: configFileURL,

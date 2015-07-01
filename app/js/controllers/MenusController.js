@@ -5,6 +5,7 @@ define([
     'dojo/when',
     'dojo/on',
     'dojo/dom',
+	'dojo/dom-construct',
     'dijit/_WidgetBase',
 	'dijit/_TemplatedMixin',
 	'text!templates/mainMenu.tpl.html',
@@ -13,7 +14,7 @@ define([
     'controllers/ComparingController',
     'controllers/SettingsController',
     'dojo/domReady!'	
-	], function(declare, Evented, lang, when, on, dom, _WidgetBase, _TemplatedMixin,
+	], function(declare, Evented, lang, when, on, dom, domConstruct, _WidgetBase, _TemplatedMixin,
 		 template, MainController, MonitoringController, ComparingController, SettingsController){
 		
 		return declare([Evented, _WidgetBase, _TemplatedMixin], {
@@ -41,6 +42,18 @@ define([
 				
 				this.own(on(dom.byId('comparing-tab-button'), 'click', lang.hitch(this, '_cancelCharting')));
 				this.own(on(dom.byId('settings-tab-button'), 'click', lang.hitch(this, '_cancelCharting')));
+
+				this.own(on(dom.byId('logout-button'), 'click', lang.hitch(this, '_logout')));
+			},
+
+			_logout: function(){
+				var delete_cookie = function(name) {
+					document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+				};
+				delete_cookie("region");
+				delete_cookie("profile");
+				delete_cookie("username");
+				window.location.replace("login.html");
 			},
 
 			_cancelCharting: function(){

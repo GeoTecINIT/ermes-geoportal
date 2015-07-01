@@ -1,23 +1,25 @@
 <div>
-<div role="tabpanel" class="ermes-menu-tabs hidden-print">
+    <div role="tabpanel" class="ermes-menu-tabs hidden-print">
+        <div>
+            <ul class="nav nav-tabs" role="tablist">
+            <li id="monitoring-tab-button" role="presentation" class="active"><a href="#monitoring" aria-controls="home" role="tab" data-toggle="tab" class="ermes-tab-title">Crop Monitoring</a></li>
+            <li id="comparing-tab-button" role="presentation" ><a href="#comparing" aria-controls="profile" role="tab" data-toggle="tab" class="ermes-tab-title">Product Comparison</a></li>
+            <li id="settings-tab-button" role="presentation" ><a href="#settings" aria-controls="messages" role="tab" data-toggle="tab" class="ermes-tab-title">Map Settings</a></li>
+            <button id="logout-button" class="btn btn-default pull-right"><span id="span-logout" aria-hidden="true" class="glyphicon glyphicon-ban-circle"> Logout</span></button>
+        </ul>
+        </div>
 
-  <ul class="nav nav-tabs" role="tablist">
-    <li id="monitoring-tab-button" role="presentation" class="active"><a href="#monitoring" aria-controls="home" role="tab" data-toggle="tab">Crop Monitoring</a></li>
-    <li id="comparing-tab-button" role="presentation"><a href="#comparing" aria-controls="profile" role="tab" data-toggle="tab">Product Comparison</a></li>
-    <li id="settings-tab-button" role="presentation"><a href="#settings" aria-controls="messages" role="tab" data-toggle="tab">Map Settings</a></li>
-  </ul>
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade in active" id="monitoring">
+                <div id="monitoring-div"></div>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="comparing">
+                <div id="comparing-div"></div>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="settings">
+                <div id="settings-div"></div>
+            </div>
+        </div>
 
-	<div class="tab-content">
-	  <div role="tabpanel" class="tab-pane fade in active" id="monitoring">
-	 	 <div id="monitoring-div"></div>
-	  </div>
-	  <div role="tabpanel" class="tab-pane fade" id="comparing">
-	  	<div id="comparing-div"></div>
-	  </div>
-	  <div role="tabpanel" class="tab-pane fade" id="settings">
-	  	<div id="settings-div"></div>
-	  </div>
-	</div>
-
-</div>
+    </div>
 </div>

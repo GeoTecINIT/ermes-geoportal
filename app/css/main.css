@@ -75,14 +75,21 @@ html, body, #map-index-div {
 }
 
 .ermes-menu-tabs{
-  background-color: rgba(255,255,255,0.5);
+  background-color: rgba(255,255,255,0.8);
   border-style: solid;
-  border-color: #0000ff;
+  border-color: #4D8FD6;
   border-radius: 10px; 
   padding-left: 10px;
   padding-right: 10px;
   padding-bottom: 10px;
+}
 
+.ermes-tab-title{
+    color: #219124;
+    font-weight: bold;
+}
+.nav-tabs{
+    margin: 5px;
 }
 
 .glyphicon-refresh-animate {

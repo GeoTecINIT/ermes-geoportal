@@ -42,18 +42,20 @@ define([
 	    },
 
         _showClickedPoint: function(evt){
-            this.mosaics[this.activeMosaic].getRasterValues(evt.mapPoint);
-            this.handler.pause();
-            this.destroyChart();      
-            var div = domConstruct.create("div");
-            domAttr.set(div, "id", "loading-image");
-            var span = domConstruct.create("span");
-            domAttr.set(span, "class", "glyphicon glyphicon-refresh glyphicon-refresh-animate");
-            var h1 = domConstruct.create("h1");
-            domConstruct.place(span, h1, "only");
-            domConstruct.place(h1, div, "only");
-            var container = dom.byId("monitoring-div");
-            domConstruct.place(div, container, "last");
+            if( this.mosaics[this.activeMosaic]) {
+                this.mosaics[this.activeMosaic].getRasterValues(evt.mapPoint);
+                this.handler.pause();
+                this.destroyChart();
+                var div = domConstruct.create("div");
+                domAttr.set(div, "id", "loading-image");
+                var span = domConstruct.create("span");
+                domAttr.set(span, "class", "glyphicon glyphicon-refresh glyphicon-refresh-animate");
+                var h1 = domConstruct.create("h1");
+                domConstruct.place(span, h1, "only");
+                domConstruct.place(h1, div, "only");
+                var container = dom.byId("monitoring-div");
+                domConstruct.place(div, container, "last");
+            }
         },
 
         _rasterValuesCompleted: function(){
