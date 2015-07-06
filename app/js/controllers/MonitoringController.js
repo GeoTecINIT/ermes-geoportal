@@ -1,5 +1,5 @@
 define([
-	'dojo/_base/declare',
+    'dojo/_base/declare',
     'dojo/Evented',
     'dojo/_base/lang',
     'dojo/when',
@@ -9,37 +9,73 @@ define([
     'dojo/dom-attr',
     'dojo/dom-class',
     'dojo/topic',
+    'dojo/request/xhr',
+    'esri/tasks/query',
     'dijit/_WidgetBase',
-	'dijit/_TemplatedMixin',
+    'dijit/_TemplatedMixin',
     'controllers/MenusController',
-    'text!templates/monitoringMenu.tpl.html',   
+    'text!templates/monitoringMenu.tpl.html',
     'esri/tasks/ImageServiceIdentifyTask',
     'esri/layers/MosaicRule',
     'esri/tasks/ImageServiceIdentifyParameters',
     'widgets/MonitoringWidget',
-    'dojo/domReady!'	
-	], function(declare, Evented, lang, when, on, dom, domConstruct, domAttr, domClass, Topic,
-		_WidgetBase, _TemplatedMixin, MenusController, template,
-        ImageServiceIdentifyTask, MosaicRule, ImageServiceIdentifyParameters, MonitoringWidget){
-		
-		return declare([Evented, _WidgetBase, _TemplatedMixin], {
-			templateString: template,
-            activeMosaic: null,
-            activeRaster: null,
-            handler: null,
-            monitoringWidget: null,
+    'dojo/domReady!'
+], function(declare, Evented, lang, when, on, dom, domConstruct, domAttr, domClass, Topic,  xhr, Query,
+            _WidgetBase, _TemplatedMixin, MenusController, template,
+            ImageServiceIdentifyTask, MosaicRule, ImageServiceIdentifyParameters, MonitoringWidget){
 
-		constructor: function(args){
-			lang.mixin(this, args);
-	    },
+    return declare([Evented, _WidgetBase, _TemplatedMixin], {
+        templateString: template,
+        activeMosaic: null,
+        activeRaster: null,
+        handler: null,
+        monitoringWidget: null,
 
-	    postCreate: function(){
-            this.own(on(dom.byId('clean-raster-map'), 'click', lang.hitch(this, '_noneRaster')));
+        constructor: function(args){
+            lang.mixin(this, args);
+        },
 
-            this.handler = on.pausable(this.map, 'click', lang.hitch(this, '_showClickedPoint'));
-            Topic.subscribe("mosaic/raster-click", lang.hitch(this, '_rasterValuesCompleted'));
-            this.handler.pause();
-	    },
+        postCreate: function(){
+            if(this.userProfile=="regional") {
+                this.own(on(dom.byId('clean-raster-map'), 'click', lang.hitch(this, '_noneRaster')));
+                this.handler = on.pausable(this.map, 'click', lang.hitch(this, '_showClickedPoint'));
+                Topic.subscribe("mosaic/raster-click", lang.hitch(this, '_rasterValuesCompleted'));
+                this.handler.pause();
+            } else if (this.userProfile=="local"){
+                this.handler = on.pausable(this.map, 'click', lang.hitch(this, '_showParcelInfo'));
+            }
+        },
+
+        _showParcelInfo: function(evt){
+            //Consultar PARCEL ID clicado
+            var query = new Query();
+            query.geometry = evt.mapPoint;
+            this.map.infoWindow.show(evt.mapPoint, this.map.getInfoWindowAnchor(evt.screenPoint));
+            this.parcelsLayer.queryFeatures(query, lang.hitch(this, "_queryMongoServer"));
+            //Cuando acabe, consultar servicio con parcel ID y username (this.username)
+
+
+        },
+
+        _queryMongoServer: function(response){
+            var serviceURL = "http://ermes.dlsi.uji.es:6585/api/users/" + this.username + "/" +  response.features[0].attributes.PARCEL_ID;
+            xhr(serviceURL, {
+                handleAs: "json",
+                headers: {
+                    "X-Requested-With": null
+                }
+            }).then(lang.hitch(this, "_showInfoWindow"));
+
+        },
+
+        _showInfoWindow: function(data, evt){
+            console.log(data);
+            if(data.parcels)
+                this.map.infoWindow.setContent("PARCEL ID: " + data.parcels[0].parcelId);
+            else
+                this.map.infoWindow.setContent("This parcel doesn't belong to you.");
+
+        },
 
         _showClickedPoint: function(evt){
             if( this.mosaics[this.activeMosaic]) {
@@ -66,18 +102,18 @@ define([
                 var container = dom.byId("monitoring-div");
                 domConstruct.place(div, container, "last");
             }
-            
-            this.destroyChart();       
+
+            this.destroyChart();
             constructDiv();
             var allValues = arguments[0];
             var actualValue = allValues[this.activeRaster-1];
             this.monitoringWidget = new MonitoringWidget({
-                                            actualValue: actualValue, 
-                                            rasterValues: allValues, 
-                                            mosaicName: this.activeMosaic, 
-                                            actualTimePosition: 
-                                            this.activeRaster}, 'monitoring-widget-container');
-            
+                actualValue: actualValue,
+                rasterValues: allValues,
+                mosaicName: this.activeMosaic,
+                actualTimePosition:
+                    this.activeRaster}, 'monitoring-widget-container');
+
             this.handler.resume();
 
         },
@@ -87,19 +123,19 @@ define([
         },
 
         _showRaster: function(mosaicId, rasterId, rasterDate){
-            this.destroyChart(); 
+            this.destroyChart();
             var rasterButton = dom.byId("monitoring-raster-selector-button");
 
             var labelRasterName = dom.byId("main-raster-name");
             labelRasterName.innerHTML="ERMES Product: " + mosaicId + "<br>Date: " + rasterDate;
-        
-            domClass.replace(labelRasterName, "visible", "notvisible"); 
+
+            domClass.replace(labelRasterName, "visible", "notvisible");
 
 
             rasterButton.innerHTML = rasterDate;
             this.activeMosaic = mosaicId;
             this.activeRaster = rasterId;
-             
+
             this.emit("raster-selected",{});
             this.handler.resume();
         },
@@ -108,7 +144,7 @@ define([
 
             this.emit("raster-selected-none",{});
             var labelRasterName = dom.byId("main-raster-name");
-            domClass.replace(labelRasterName, "notvisible", "visible"); 
+            domClass.replace(labelRasterName, "notvisible", "visible");
             this.stopClickHandler();
             this.destroyChart();
             this.activeRaster = null;
@@ -126,7 +162,7 @@ define([
             var rasterButton = dom.byId("monitoring-raster-selector-button");
             rasterButton.innerHTML = "Select Raster";
 
-            container.innerHTML =""; 
+            container.innerHTML ="";
 
             var isFirst=true;
 
@@ -151,25 +187,25 @@ define([
             }
             this._showRaster(mId, r, rD);
 
-            
+
         },
 
         populateMosaicsList: function(){
-        	var container = dom.byId('monitoring-mosaics-list-ul');
+            var container = dom.byId('monitoring-mosaics-list-ul');
 
-        	for(var mosaic in this.mosaics){
-        		var mosaicId = this.mosaics[mosaic].mosaicId;
-        		var mosaicName = this.mosaics[mosaic].name;
-        		var li = domConstruct.create("li");
-        		domAttr.set(li, "mosaicId", mosaicId);
-        		var a = domConstruct.create("a");
-        		a.innerHTML = mosaicName;
-        		domAttr.set(a,"href","#");
+            for(var mosaic in this.mosaics){
+                var mosaicId = this.mosaics[mosaic].mosaicId;
+                var mosaicName = this.mosaics[mosaic].name;
+                var li = domConstruct.create("li");
+                domAttr.set(li, "mosaicId", mosaicId);
+                var a = domConstruct.create("a");
+                a.innerHTML = mosaicName;
+                domAttr.set(a,"href","#");
                 var clickHandler = lang.hitch(this, "_populateRasterList", this.mosaics[mosaic].rasters, mosaicId, mosaicName);
                 this.own(on(a, "click", clickHandler));
-        		domConstruct.place(a,li,"only");
-        		domConstruct.place(li, container, "last");
-        	}
+                domConstruct.place(a,li,"only");
+                domConstruct.place(li, container, "last");
+            }
         },
 
         stopClickHandler: function(){
@@ -179,12 +215,12 @@ define([
         destroyChart: function(){
             if(this.monitoringWidget!=null){
                 this.monitoringWidget.destroy();
-            }  
+            }
         },
 
         startClickHandler: function(){
-            this.handler.resume(); 
-        }    
-	});
+            this.handler.resume();
+        }
+    });
 
 });

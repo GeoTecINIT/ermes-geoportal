@@ -112,5 +112,9 @@
       "description": "Feature Layer containing the Italy Reference grid.",
       "default": false
     }
-  ]
+  ],
+
+  "parcelsLayer": {
+    "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-IT/IT_parcels/MapServer/0"
+  }
 }

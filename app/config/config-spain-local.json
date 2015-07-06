@@ -23,11 +23,22 @@
      ],
   "layers": [
     {
-      "id": "Spanish Parcels",
-      "name": "Spanish Parcels Layer",
-      "url": "http://ermes.dlsi.uji.es:6080/ArcGIS/rest/services/2015-ES/landsat_spain_scene/MapServer/3",
-      "description": "Feature Layer containing the parcels Layer of Spain.",
-      "default": true
+      "id": "IT Administrative Areas",
+      "name": "IT Administrative Areas",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/IT_Vectordata/MapServer/1",
+      "description": "Feature Layer containing boundaries of the municipalities.",
+      "default": false
+    },
+    {
+      "id": "IT ERMES Regional Grid",
+      "name": "IT ERMES Regional Grid",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/IT_Vectordata/MapServer/0",
+      "description": "Feature Layer containing the Italy Reference grid.",
+      "default": false
     }
-  ]
+  ],
+
+  "parcelsLayer": {
+    "url": "http://ermes.dlsi.uji.es:6080/ArcGIS/rest/services/2015-ES/landsat_spain_scene/MapServer/3"
+  }
 }

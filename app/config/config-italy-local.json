@@ -3,7 +3,7 @@
   "pageTitle": "ERMES Regional Rice Service Web Applications",
   "mapOptions": {
     "basemap": "hybrid",
-    "center": [-0.3, 39.3],
+    "center": [8.639106587462704, 45.217320979340585],
     "autoResize": true,
     "sliderStyle": "small",
     "fadeOnZoom": true,
@@ -23,11 +23,22 @@
      ],
   "layers": [
     {
-      "id": "Italian Parcels",
-      "name": "Italian Parcels Layer",
-      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-IT/IT_parcels/MapServer/0",
-      "description": "Feature Layer containing the parcels Layer of Italy.",
-      "default": true
+      "id": "IT Administrative Areas",
+      "name": "IT Administrative Areas",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/IT_Vectordata/MapServer/1",
+      "description": "Feature Layer containing boundaries of the municipalities.",
+      "default": false
+    },
+    {
+      "id": "IT ERMES Regional Grid",
+      "name": "IT ERMES Regional Grid",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/IT_Vectordata/MapServer/0",
+      "description": "Feature Layer containing the Italy Reference grid.",
+      "default": false
     }
-  ]
+  ],
+
+  "parcelsLayer": {
+    "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-IT/IT_parcels/MapServer/0"
+  }
 }

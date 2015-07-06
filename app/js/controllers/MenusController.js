@@ -29,9 +29,19 @@ define([
 			},
 
 			postCreate: function(){
-				this.monitoringController = new MonitoringController({mosaics: this.mosaics, map: this.map}, 'monitoring-div');
-				this.comparingController = new ComparingController({mosaics: this.mosaics, map: this.map}, 'comparing-div');
-				this.settingsController = new SettingsController({layers: this.layers, map: this.map}, 'settings-div');
+				this.monitoringController = new MonitoringController({
+					mosaics: this.mosaics,
+					map: this.map,
+					userProfile: this.userProfile,
+					userRegion: this.userRegion,
+					username: this.username,
+					parcelsLayer: this.parcelsLayer}, 'monitoring-div');
+				this.comparingController = new ComparingController({
+					mosaics: this.mosaics,
+					map: this.map}, 'comparing-div');
+				this.settingsController = new SettingsController({
+					layers: this.layers,
+					map: this.map}, 'settings-div');
 				this.monitoringController.on("raster-selected", lang.hitch(this,"_changeRaster"));
 				this.monitoringController.on("raster-selected-none", lang.hitch(this,"_noneSelected"));
 				this.monitoringController.startup();
@@ -42,7 +52,6 @@ define([
 				
 				this.own(on(dom.byId('comparing-tab-button'), 'click', lang.hitch(this, '_cancelCharting')));
 				this.own(on(dom.byId('settings-tab-button'), 'click', lang.hitch(this, '_cancelCharting')));
-
 				this.own(on(dom.byId('logout-button'), 'click', lang.hitch(this, '_logout')));
 			},
 
