@@ -68,21 +68,29 @@ define([
         _requestSuccess: function(response) {
 
             //INITIATES MAP
+            this.map = new Map("map-index-div", response.mapOptions);
+
+
             var infowindow = null;
             if(this.userProfile=="local") {
                 infoWindow = new InfoWindow({
                     domNode: domConstruct.create("div", null, dom.byId("map-index-div"))
                 });
                 infoWindow.startup();
-            }
-            this.map = new Map("map-index-div", response.mapOptions);
-            this.map.on("load", function() {
-                var options = lang.mixin({
+                this.map.on("load", function() {
+                    var options = lang.mixin({
                         map: this.map,
                         infoWindow: infoWindow}, response);
+                });
+            } else if (this.userProfile=="regional"){
+                this.map.on("load", function() {
+                    var options = lang.mixin({
+                        map: this.map
+                    }, response);
+                });
+            }
 
 
-            });
             var scalebar = new Scalebar({
                 map: this.map,
                 scalebarUnit: "dual",

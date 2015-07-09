@@ -62,39 +62,12 @@
     }
   }],  
   "mosaics": [ {
-      "id": "Italy Rice Map",
-      "name": "Italy Rice Map",
-      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/Italy_Rice_Map/ImageServer",
-      "description": "Just the last rice map, as image service.",
+      "id": "REGIONAL_MONITORING_NDVI",
+      "name": "REGIONAL_MONITORING_NDVI",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-ES/REGIONAL_MONITORING_NDVI/ImageServer",
+      "historicUrl": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-ES/REGIONAL_MONITORING_NVDI_LTA/ImageServer",
+      "description": "NVDI time-series dataset during 2015 fo the Italian case study.",
       "default": true
-    },
-    {
-      "id": "Italy NDVI 2014",
-      "name": "Italy NDVI 2014",
-      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/Italy_NDVI_2014/ImageServer",
-      "description": "At the moment this is just a test description while we test with the mosaic features",
-      "default": false
-    },
-    {
-      "id": "Italy LAI 2013/2014",
-      "name": "Italy LAI 2013/2014",
-      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/IT_EP_R3_LAI_VGT/ImageServer",
-      "description": "LAI.",
-      "default": false
-    },
-    {
-      "id": "Italy Risk Biotic 2014",
-      "name": "Italy Risk Biotic 2014",
-      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/IT_RI_R3_RiskBiotic_2014/ImageServer",
-      "description": "LAI.",
-      "default": false
-    },
-    {
-      "id": "Italy Seasonal Pattern EVI 2014",
-      "name": "Italy Seasonal Pattern EVI 2014",
-      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/IT_EP_L3_SeasonalPattern_EVI_2014_229/ImageServer",
-      "description": "LAI.",
-      "default": false
     }
   ],
   "layers": [

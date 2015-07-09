@@ -102,8 +102,10 @@ var url_key_stats = smservicesURL  + 'keywords_statsp';
 function baseChart(u){
 
 	
-	var fullheight = 700;
-    var fullwidth = 1200;
+	/*var fullheight = 700;
+    var fullwidth = 1200;*/
+	var fullheight = 600;
+    var fullwidth = 300;
 
     var margin = {top: 40, right: 100, bottom: 200, left: 100}
 	var margin2 = {top: 450, right: 100, bottom: 100, left: 100};
@@ -176,7 +178,10 @@ function baseChart(u){
 	loadData.height = function (h){
 		if (!arguments.length)
 			return fullheight;
-		else fullheight = h;
+		else {
+			fullheight = h;
+			return loadData;
+		}
 	}
 
 	loadData.width = function (w){
@@ -980,7 +985,7 @@ function barchart(url){
 	}
 
    
-   barchart(url_key_stats).dataproperty('keywords')
+/*   barchart(url_key_stats).dataproperty('keywords')
    .datasource(callsvc).load(function (obj){
 	   
        //ECONOMY
@@ -1017,7 +1022,7 @@ function barchart(url){
 	   .datasource(obj.data())
 	   .load();
 
-   });
+   });*/
 
    
  function bubblechart(div_id, url){
@@ -1108,7 +1113,7 @@ function barchart(url){
  .datasource(callsvc).load();
  
 
- function showKeywordsMaps(div_id){
+/* function showKeywordsMaps(div_id){
 		
 	    //loadData = baseChart();
 	 
@@ -1133,7 +1138,7 @@ function barchart(url){
 		}
 		
 		loadMaps();
- }
+ }*/
 
- showKeywordsMaps('map_div');
+ //showKeywordsMaps('map_div');
  

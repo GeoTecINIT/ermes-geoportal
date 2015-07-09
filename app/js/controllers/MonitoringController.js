@@ -58,9 +58,21 @@ define([
         },
 
         _queryMongoServer: function(response){
-            var serviceURL = "http://ermes.dlsi.uji.es:6585/api/users/" + this.username + "/" +  response.features[0].attributes.PARCEL_ID;
+            var serviceURL = "http://localhost:6585/api/parcelsinfo/";
+            //var serviceURL = "http://ermes.dlsi.uji.es:6585/parcelsinfo/";
+            var username = this.username;
+            var password = getCookie("password");
+            var parcelid = response.features[0].attributes.PARCEL_ID;
+
+
             xhr(serviceURL, {
                 handleAs: "json",
+                method: "POST",
+                data: {
+                    username:  this.username,
+                    password: getCookie("password"),
+                    parcelid: response.features[0].attributes.PARCEL_ID
+                },
                 headers: {
                     "X-Requested-With": null
                 }
@@ -111,8 +123,9 @@ define([
                 actualValue: actualValue,
                 rasterValues: allValues,
                 mosaicName: this.activeMosaic,
-                actualTimePosition:
-                    this.activeRaster}, 'monitoring-widget-container');
+                actualTimePosition: this.activeRaster,
+                mosaic: this.mosaics[this.activeMosaic]
+            }, 'monitoring-widget-container');
 
             this.handler.resume();
 
@@ -222,5 +235,15 @@ define([
             this.handler.resume();
         }
     });
-
 });
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1);
+        if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+    }
+    return "";
+}

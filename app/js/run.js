@@ -29,6 +29,10 @@
       location: locationPath + '/js/templates'
     },
     {
+      name: 'utils',
+      location: locationPath + '/js/utils'
+    },
+    {
       name: 'app',
       location: locationPath + '/js',
       main: 'mainLauncher'

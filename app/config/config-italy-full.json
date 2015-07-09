@@ -62,40 +62,42 @@
     }
   }],  
   "mosaics": [ {
-      "id": "Italy Rice Map",
-      "name": "Italy Rice Map",
-      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/Italy_Rice_Map/ImageServer",
-      "description": "Just the last rice map, as image service.",
+      "id": "Regional Monitoring NDVI",
+      "name": "Regional Monitoring NDVI",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-IT/REGIONAL_MONITORING_NDVI/ImageServer",
+      "historicUrl": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-IT/REGIONAL_MONITORING_NVDI_LTA/ImageServer",
+      "description": "Image service for NDVI .",
       "default": true
     },
     {
-      "id": "Italy NDVI 2014",
-      "name": "Italy NDVI 2014",
-      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/Italy_NDVI_2014/ImageServer",
-      "description": "At the moment this is just a test description while we test with the mosaic features",
+      "id": "Regional LAI MOD",
+      "name": "Regional LAI MOD",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-IT/REGIONAL_LAI_MOD/ImageServer",
+      "description": "LAI Italian Region 2015",
       "default": false
     },
     {
-      "id": "Italy LAI 2013/2014",
-      "name": "Italy LAI 2013/2014",
-      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/IT_EP_R3_LAI_VGT/ImageServer",
-      "description": "LAI.",
+      "id": "REGIONAL RISKBIOTIC INDICAMEDIUM",
+      "name": "REGIONAL RISKBIOTIC INDICAMEDIUM",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-IT/REGIONAL_RISKBIOTIC_INDICAMEDIUM/ImageServer",
+      "description": "Potential infection risk (biotic) for Italian use case, 2015 ",
       "default": false
     },
     {
-      "id": "Italy Risk Biotic 2014",
-      "name": "Italy Risk Biotic 2014",
-      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/IT_RI_R3_RiskBiotic_2014/ImageServer",
-      "description": "LAI.",
-      "default": false
-    },
-    {
-      "id": "Italy Seasonal Pattern EVI 2014",
-      "name": "Italy Seasonal Pattern EVI 2014",
-      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/IT_EP_L3_SeasonalPattern_EVI_2014_229/ImageServer",
-      "description": "LAI.",
+      "id": "REGIONAL_METEO_TMAX",
+      "name": "REGIONAL_METEO_TMAX",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-IT/REGIONAL_METEO_TMAX/ImageServer",
+      "description": "time-series meteo data, TMax, 2015, Italy ",
       "default": false
     }
+//  ,
+//    {
+//      "id": "Italy Seasonal Pattern EVI 2014",
+//      "name": "Italy Seasonal Pattern EVI 2014",
+//      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/IT_EP_L3_SeasonalPattern_EVI_2014_229/ImageServer",
+//      "description": "LAI.",
+//      "default": false
+//    }
   ],
   "layers": [
     {

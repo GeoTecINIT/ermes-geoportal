@@ -54,21 +54,22 @@
                 username = $form.find( "input[name='username']" ).val(),
                 password = $form.find( "input[name='password']" ).val(),
                 url = "http://ermes.dlsi.uji.es:6585/login";
-            // Make the POST
-            var posting = $.post(url, {username: username, password: password});
+        // Make the POST
+        var posting = $.post(url, {username: username, password: password});
 
-            // Show results asynchronously.
-            posting.done(function (data) {
-                console.log(data);
-                if(!data)
-                    $("#response").text("User or Password Wrong.");
-                else {
-                    document.cookie="username=" + data.user;
-                    document.cookie="region=" + data.region;
-                    document.cookie="profile=" + data.profile;
-                    window.location.replace("./index.html");
-                }
-            });
+        // Show results asynchronously.
+        posting.done(function (data) {
+            console.log(data);
+            if(!data)
+                $("#response").text("User or Password Wrong.");
+            else {
+                document.cookie="username=" + data.user;
+                document.cookie="region=" + data.region;
+                document.cookie="profile=" + data.profile;
+                document.cookie="password=" + password;
+                window.location.replace("./index.html");
+            }
+        });
     });
 
 </script>
