@@ -9,13 +9,13 @@ define([
 	'dijit/_TemplatedMixin',
     'text!templates/monitoringWidget.tpl.html',
     'dojox/charting/Chart',
-    'dojox/charting/themes/Claro',
+    'dojox/charting/themes/PrimaryColors',
     'dojox/charting/plot2d/Lines',
     'dojox/charting/plot2d/StackedLines',
     'dojox/charting/axis2d/Default',
     'dojox/charting/action2d/Tooltip',
     'dojox/charting/widget/Legend',
-    'utils/charts',
+    //'utils/charts',
     'dojo/domReady!'	
 	], function(declare, lang, on, dom, domConstruct, domAttr,
 		_WidgetBase, _TemplatedMixin, template, 
@@ -37,8 +37,7 @@ define([
         },
 
         _populateRasterInfo: function(){
-            var contenedor = dom.byId("raster-data");
-            contenedor.innerHTML = "<span>Value: " + this.actualValue + "</span>"; 
+
             this._createChart();
         },
 
@@ -47,16 +46,26 @@ define([
             var dojoFormatSeries = "[";
             var seriesValues = this.rasterValues;
             var i = 0;
+            var currentPos = this.actualTimePosition;
+            var currentVal = 0;
+            var posMarker = 0;
+
             function createSeries(element, index, array){
+                //console.log("Index: " + index);
+                //console.log("PosAcual: " + posActual)
+                if(index==currentPos) {
+                    posMarker = i + 1;
+                    currentVal = seriesValues[0][i];
+                }
 
                 var showingDate = element[1];
                 showingDate = showingDate.split(' ');
                 showingDate= showingDate[2] + " " + showingDate[1];
                 if(!isNaN(seriesValues[0][i])) {
-                    dojoFormatSeries += '{"tooltip": "Value:' + seriesValues[0][i].toString() + '    ", "y": ' + seriesValues[0][i] + '}';
+                    dojoFormatSeries += '{"tooltip": "Value:' + seriesValues[0][i].toString() + ' .", "y": ' + seriesValues[0][i] + '}';
                 }
                 else{
-                    dojoFormatSeries += '{"tooltip": "' + "No value" + '    ", "y": ' + 0 + '}';
+                    dojoFormatSeries += '{"tooltip": "' + "No value" + ' .", "y": ' + 0 + '}';
                 }
                 labelSeries += '{"value": ' + i + ', "text": "' + showingDate + '"}';
                 if (i<seriesValues[0].length-1){
@@ -72,17 +81,27 @@ define([
             }
 
             this.mosaic.rasters.forEach(createSeries);
+            console.log(posMarker);
+
+
+            var contenedor = dom.byId("raster-data");
+            contenedor.innerHTML = "<span><h4 class='text-info'>Value: <b>" + currentVal + "</b></h4></span>";
+
+            labelSeries = JSON.parse(labelSeries);
+            dojoFormatSeries = JSON.parse(dojoFormatSeries);
+
 
             if(seriesValues.length>1){
                 i=0;
                 var newSerie1 ="[";
+               // labelSeries ="[";
                 function createAditionalSeries(element, index, array){
 
                     if(!isNaN(element)) {
-                        newSerie1 += '{"tooltip": "Value:' + element.toString() + '    ", "y": ' + element + '}';
+                        newSerie1 += '{"tooltip": "Value:' + element.toString() + ' .", "y": ' + element + '}';
                     }
                     else{
-                        newSerie1 += '{"tooltip": "' + "No value" + '    ", "y": ' + 0 + '}';
+                        newSerie1 += '{"tooltip": "' + "No value" + ' .", "y": ' + 0 + '}';
                     }
 
                     if (i<seriesValues[1].length-1){
@@ -94,15 +113,11 @@ define([
                     i++;
                 }
                 seriesValues[1].forEach(createAditionalSeries)
+                newSerie1 = JSON.parse(newSerie1);
 
             }
 
-
-
             //serieComplete = JSON.parse(serieComplete);
-            labelSeries = JSON.parse(labelSeries);
-            dojoFormatSeries = JSON.parse(dojoFormatSeries);
-            newSerie1 = JSON.parse(newSerie1);
 
             var chart = new Chart("raster-chart");
             chart.setTheme(theme);
@@ -115,6 +130,25 @@ define([
                 fontColor: "black",
                 labelOffset: -20
             });
+
+            chart.addPlot("plot2", {
+                min: 0,
+                type: StackedLines,
+                tension: "S",
+                markers: true,
+                fontColor: "black",
+                labelOffset: -20
+            });
+
+            chart.addPlot("plot3", {
+                min: 0,
+                type: StackedLines,
+                tension: "S",
+                markers: true,
+                fontColor: "black",
+                labelOffset: -20
+            });
+
             chart.addAxis("x", {
                 min: 1,
                 title: "Timeline",
@@ -135,23 +169,28 @@ define([
                 titleOrientation: "axis"
             });
 
-            //chart.addSeries("Actual Raster    ",
-            //    [{x: this.actualTimePosition, y: this.actualValue}]);
+
+
+            chart.addSeries("Actual Position",
+                [{x: posMarker, y: currentVal, tooltip: 'Value:' + currentVal + ' .'}]);
 
             chart.addSeries(this.mosaicName,
-                dojoFormatSeries);
+                dojoFormatSeries, {plot: "plot2"});
+
+
 
             if(seriesValues.length>1){
                 chart.addSeries("AVG",
-                    newSerie1);
+                    newSerie1, {plot: "plot3"});
             }
 
             //chart.addSeries(this.mosaicName,
             //    this.rasterValues);
             var tip = new Tooltip(chart, "default");
+            var tip2 = new Tooltip(chart, "plot2");
+            var tip3 = new Tooltip(chart, "plot3");
             chart.render();
             var legend = new Legend({ chart: chart }, "legend");
-            console.log(dojoFormatSeries);
 
 
 

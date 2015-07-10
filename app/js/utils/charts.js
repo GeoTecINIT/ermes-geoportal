@@ -861,8 +861,6 @@ d3.select("#go").on("click", function (){
     .subtitle("A subtitle.")
     .load();
 
-					
-
 });
 
 

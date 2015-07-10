@@ -62,8 +62,8 @@
     }
   }],  
   "mosaics": [ {
-      "id": "REGIONAL_MONITORING_NDVI",
-      "name": "REGIONAL_MONITORING_NDVI",
+      "id": "Regional Monitoring NDVI",
+      "name": "Regional Monitoring NDVI",
       "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-ES/REGIONAL_MONITORING_NDVI/ImageServer",
       "historicUrl": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-ES/REGIONAL_MONITORING_NVDI_LTA/ImageServer",
       "description": "NVDI time-series dataset during 2015 fo the Italian case study.",

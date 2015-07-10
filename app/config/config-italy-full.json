@@ -77,15 +77,22 @@
       "default": false
     },
     {
-      "id": "REGIONAL RISKBIOTIC INDICAMEDIUM",
-      "name": "REGIONAL RISKBIOTIC INDICAMEDIUM",
+      "id": "Regional LAI VGT",
+      "name": "Regional LAI VGT",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-IT/REGIONAL_LAI_VGT/ImageServer",
+      "description": "LAI Italian Region 2015",
+      "default": false
+    },
+    {
+      "id": "Regional Riskbiotic Indicamedium",
+      "name": "Regional Riskbiotic Indicamedium",
       "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-IT/REGIONAL_RISKBIOTIC_INDICAMEDIUM/ImageServer",
       "description": "Potential infection risk (biotic) for Italian use case, 2015 ",
       "default": false
     },
     {
-      "id": "REGIONAL_METEO_TMAX",
-      "name": "REGIONAL_METEO_TMAX",
+      "id": "Regional Meteo TMAX",
+      "name": "Regional Meteo TMAX",
       "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-IT/REGIONAL_METEO_TMAX/ImageServer",
       "description": "time-series meteo data, TMax, 2015, Italy ",
       "default": false

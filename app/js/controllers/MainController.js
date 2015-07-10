@@ -97,12 +97,14 @@ define([
                 attachTo: "bottom-left"
             });
 
-            //INITIATE PARCELS LAYER
-            this.parcelsLayer = new FeatureLayer(response.parcelsLayer.url,
-                {
-                    outFields: ["*"]
-                });
-            this.map.addLayer(this.parcelsLayer);
+            //INITIATE PARCELS LAYER FOR LOAL USER
+            if(this.userProfile=="local") {
+                this.parcelsLayer = new FeatureLayer(response.parcelsLayer.url,
+                    {
+                        outFields: ["*"]
+                    });
+                this.map.addLayer(this.parcelsLayer);
+            }
 
             //CREATE MENUS CONTROLLER
             this.menusController = new MenusController({
