@@ -9,18 +9,20 @@
     "fadeOnZoom": true,
     "zoom": 15,
     "maxZoom": 18,
-    "minZoom": 14,
+    "minZoom": 8,
     "logo": false
   },
   "mosaics": [
 //    {
-//      "id": "Italy NDVI 2014",
-//      "name": "Italy NDVI 2014",
-//      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Prototype/Italy_NDVI_2014/ImageServer",
-//      "description": "At the moment this is just a test description while we test with the mosaic features",
-//      "default": false
-//    },
-     ],
+//      "id": "LOCAL LAI",
+//      "name": "LOCAL LAI",
+//      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-IT/LOCAL_LAI/ImageServer",
+//      "description": "LAI local product, 2015, IT ",
+//      "default": false,
+//      "plotType": 0
+//      //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
+//    }
+  ],
   "layers": [
     {
       "id": "IT Administrative Areas",
@@ -37,7 +39,16 @@
       "default": false
     }
   ],
-
+  "mosaics": [
+    {
+      "id": "Local LAI",
+      "name": "Local LAI",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-IT/LOCAL_LAI/ImageServer",
+      "description": "LAI local product, 2015, IT.",
+      "default": true,
+      "plotType": 1 //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
+    }
+  ],
   "parcelsLayer": {
     "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-IT/IT_parcels/MapServer/0"
   }

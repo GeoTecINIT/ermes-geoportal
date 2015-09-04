@@ -4,7 +4,7 @@
   "pageTitle": "ERMES Regional Rice Service Web Applications",
   "mapOptions": {
     "basemap": "hybrid",
-    "center": [-0.3, 39.3],
+    "center": [22.75674063485911,40.66785573348243],
     "autoResize": true,
     "sliderStyle": "small",
     "fadeOnZoom": true,
@@ -65,90 +65,92 @@
     {
       "id": "Regional Monitoring NDVI",
       "name": "Regional Monitoring NDVI",
-      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-ES/REGIONAL_MONITORING_NDVI/ImageServer",
-      "historicUrl": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-ES/REGIONAL_MONITORING_NVDI_LTA/ImageServer",
-      "description": "NVDI time-series dataset during 2015 fo the Italian case study.",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-GR/REGIONAL_MONITORING_NDVI/ImageServer",
+      "historicUrl": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-GR/REGIONAL_MONITORING_NVDI_LTA/ImageServer",
+      "description": "NDVI time-series datasets durng 2015 fo rhte Greek case study.",
       "plotType": 3, //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
       "default": true
     },
     {
       "id": "Regional LAI MOD",
       "name": "Regional LAI MOD",
-      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-ES/REGIONAL_LAI_MOD/ImageServer",
-      "description": "LAI measurement MOD sensor duting 2015 in the Spanish case study.",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-GR/REGIONAL_LAI_MOD/ImageServer",
+      "description": "LAI measurement MOD sensor during 2015 in the Greek case study.",
       "plotType": 1, //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
       "default": true
     },
     {
       "id": "Regional LAI VGT",
       "name": "Regional LAI VGT",
-      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-ES/REGIONAL_LAI_VGT/ImageServer",
-      "description": "LAI measurement VGT sensor during 2015 in the Spanish case study.",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-GR/REGIONAL_LAI_VGT/ImageServer",
+      //"historicUrl": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-ES/REGIONAL_MONITORING_NVDI_LTA/ImageServer",
+      "description": "LAI measurement VGT sensor during 2015 in the Greek case study.",
       "plotType": 1, //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
       "default": true
     },
     {
       "id": "Regional METEO PCUM ",
       "name": "Regional METEO PCUM",
-      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-ES/REGIONAL_METEO_PCUM/ImageServer",
-      "description": "Daily precipitations, PCUM, 2015, Spain.",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-GR/REGIONAL_METEO_PCUM/ImageServer",
+      "description": "Daily precipitations, PCUM, 2015, Greece.",
       "plotType": 1, //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
       "default": true
     },
     {
       "id": "Regional METEO RAD",
       "name": "Regional METEO RAD",
-      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-ES/REGIONAL_METEO_RAD/ImageServer",
-      "description": "Daily solar radiation, 2015, ES.",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-GR/REGIONAL_METEO_RAD/ImageServer",
+      //"historicUrl": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-ES/REGIONAL_MONITORING_NVDI_LTA/ImageServer",
+      "description": "Daily solar radiation, 2015, Greece.",
       "plotType": 1, //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
       "default": true
     },
     {
       "id": "Regional METEO RHMAX",
       "name": "Regional METEO RHMAX",
-      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-ES/REGIONAL_METEO_RHMAX/ImageServer",
-      "description": "Maximum relative humidity, RhMax, 2015, ES.",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-GR/REGIONAL_METEO_RHMAX/ImageServer",
+      "description": "Maximum relative humidity, RhMax, 2015, Greece.",
       "plotType": 1, //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
       "default": true
     },
     {
       "id": "Regional METEO RHMIN",
       "name": "Regional METEO RHMIN",
-      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-ES/REGIONAL_METEO_RHMIN/ImageServer",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-GR/REGIONAL_METEO_RHMIN/ImageServer",
       //"historicUrl": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-ES/REGIONAL_MONITORING_NVDI_LTA/ImageServer",
-      "description": "Minimum relative humidity, RhMIN, 2015, ES.",
+      "description": "Minimum relative humidity, RhMIN, 2015, Greece.",
       "plotType": 1, //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
       "default": true
     },
     {
       "id": "Regional METEO TMAX",
       "name": "Regional METEO TMAX",
-      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-ES/REGIONAL_METEO_TMAX/ImageServer",
-      "description": "Time-series meteo data, TMAX, 2015, ES.",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-GR/REGIONAL_METEO_TMAX/ImageServer",
+      "description": "Time-series meteo data, TMAX, 2015, Greece.",
       "plotType": 1, //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
       "default": true
     },
     {
       "id": "Regional METEO TMIN",
       "name": "Regional METEO TMIN",
-      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-ES/REGIONAL_METEO_TMIN/ImageServer",
-      "description": "Time-series meteo data, TMIN, 2015, ES.",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-GR/REGIONAL_METEO_TMIN/ImageServer",
+      "description": "Time-series meteo data, TMIN, 2015, Greece.",
       "plotType": 1, //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
       "default": true
     },
     {
       "id": "Regional METEO WS",
       "name": "Regional METEO WS",
-      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-ES/REGIONAL_METEO_WS/ImageServer",
-      "description": "Average wind speed, WS, 2015, ES.",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-GR/REGIONAL_METEO_WS/ImageServer",
+      "description": "Average wind speed, WS, 2015, Greece.",
       "plotType": 1, //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
       "default": true
     },
     {
       "id": "Regional RISKBIOTIC JAPONICAMEDIUM",
       "name": "Regional RISKBIOTIC JAPONICAMEDIUM",
-      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-ES/REGIONAL_RISKBIOTIC_JAPONICAMEDIUM/ImageServer",
-      "description": "Biotic risk map during 2015 in the Spanish case study.",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-GR/REGIONAL_RISKBIOTIC_JAPONICAMEDIUM/ImageServer",
+      "description": "Biotic risk map during 2015 in the Greek case study.",
       "plotType": 1, //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
       "default": true
     }
@@ -169,8 +171,7 @@
       "default": false
     }
   ],
-
   "parcelsLayer": {
-    "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-IT/IT_parcels/MapServer/0"
+    "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-GR/GR_parcels/MapServer/0"
   }
 }

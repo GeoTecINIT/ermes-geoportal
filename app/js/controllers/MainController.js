@@ -2,22 +2,35 @@ define([
     'dojo/_base/declare',
     'dojo/Evented',
     "dojo/_base/lang",
+    "dojo/_base/array",
     'dojo/on',
     'dojo/dom',
     "dojo/dom-construct",
+    'dojo/dom-attr',
     "esri/request",
     "esri/map",
     "esri/dijit/Scalebar",
     "esri/dijit/InfoWindow",
+    "esri/dijit/Legend",
     "models/Mosaic",
     'esri/layers/FeatureLayer',
+    "esri/layers/ArcGISDynamicMapServiceLayer",
     'dijit/_WidgetBase',
     'dijit/_TemplatedMixin',
     'controllers/MenusController',
+    "esri/renderers/SimpleRenderer",
+    "esri/symbols/SimpleLineSymbol",
+    "esri/symbols/SimpleFillSymbol",
+    "esri/Color",
+    "esri/graphic",
+    'dojo/request/xhr',
+    "esri/tasks/query",
     'dojo/domReady!'
-], function (declare, Evented, lang, on, dom, domConstruct, esriRequest, Map,
-             Scalebar, InfoWindow, Mosaic, FeatureLayer,
-             _WidgetBase, _TemplatedMixin, MenusController) {
+], function (declare, Evented, lang, arrayUtils, on, dom, domConstruct, domAttr, esriRequest, Map,
+             Scalebar, InfoWindow, Legend, Mosaic, FeatureLayer, ArcGISDynamicMapServiceLayer,
+             _WidgetBase, _TemplatedMixin, MenusController,
+             SimpleRenderer, SimpleLineSymbol, SimpleFillSymbol, Color, Graphic,
+            xhr, Query) {
 
     var mosaicsLoaded = 0;
 
@@ -32,6 +45,7 @@ define([
         userRegion: null,
         username: null,
         parcelsLayer: null,
+        legendDigit: null,
 
 
         constructor: function(){
@@ -56,7 +70,26 @@ define([
             newLayer.setOpacity(0.7);
             this.primaryRasterLayer = newLayer;
 
+            if(this.legendDijit!=null){
+                this.legendDijit.destroy();
+            }
+            var constructLegendDiv = function(){
+                var legendDiv = domConstruct.create("div");
+                domAttr.set(legendDiv, "id", "legend-tool");
+                var container = dom.byId("legend-div");
+                domConstruct.place(legendDiv, container, "first");
+            };
+            constructLegendDiv();
+
             this.map.addLayer(newLayer);
+
+            this.legendDijit = new Legend({
+                map: this.map
+                //,
+                //layerInfos: [{layer: newLayer, title: 'Titulako'}]
+            }, "legend-tool");
+           // this.legendDijit.startup();
+
         },
 
         _mosaicLoaded: function(){
@@ -97,15 +130,18 @@ define([
                 attachTo: "bottom-left"
             });
 
-            //INITIATE PARCELS LAYER FOR LOAL USER
+
+            //INITIATE PARCELS LAYER FOR LOCAL USER
             if(this.userProfile=="local") {
                 this.parcelsLayer = new FeatureLayer(response.parcelsLayer.url,
                     {
                         outFields: ["*"]
                     });
                 this.map.addLayer(this.parcelsLayer);
-            }
 
+               // this.parcelsLayer.on('update-end', this._getOwnedParcels());
+
+            }
             //CREATE MENUS CONTROLLER
             this.menusController = new MenusController({
                 mosaics: this.mosaics,
@@ -142,7 +178,61 @@ define([
             }
             this.menusController.loadLayers();
 
+
+
+
+            //DRAW OWNED PARCELS
+            //if(this.userProfile=="local") {
+            //    this._getOwnedParcels();
+            //}
+
         },
+
+        //_getOwnedParcels: function(){
+        //    var parcelsURL = "http://ermes.dlsi.uji.es:6585/api/users/short/" + this.username;
+        //    xhr(parcelsURL, {
+        //        handleAs: "json",
+        //        method: "GET",
+        //        headers: {
+        //            "X-Requested-With": null
+        //        }
+        //    }).then(lang.hitch(this, function (data) {
+        //        var parcels = data.parcels.split(',');
+        //        var query = new Query();
+        //        query.where = 'PARCEL_ID = ' + parcels[0];
+        //        query.outFields=["*"];
+        //        this.parcelsLayer.queryFeatures(query, function(featureSet){
+        //            console.log(featureSet);
+        //            });
+        //            //this.parcelsLayer.graphics.forEach(lang.hitch(this, "_drawIfOwned", parcels));
+        //        })
+        //    );
+        //},
+        //
+        //_drawIfOwned: function(myParcels, element, index, array){
+        //    function contains(array, value) {
+        //        for (var i = 0; i < array.length; i++) {
+        //            if (array[i] === value) {
+        //                return true;
+        //            }
+        //        }
+        //        return false;
+        //    }
+        //
+        //    var symbol = new SimpleFillSymbol(
+        //        SimpleFillSymbol.STYLE_SOLID,
+        //        new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([0, 255, 0]), 2),
+        //        new Color([255, 255, 0, 0.90])
+        //    );
+        //    if (contains(myParcels, element.attributes.PARCEL_ID)) {
+        //        var parcelNum = element.attributes.PARCEL_ID;
+        //        var geometry = element.geometry;
+        //        //myParcelsGraphics[parcelNum] = new Graphic(geometry, symbol, element.attributes);
+        //        var myGraphic = new Graphic(geometry, symbol);
+        //        this.parcelsLayer.add(myGraphic);
+        //        //console.log("Drawed parcel: " + parcelNum);
+        //    }
+        //},
 
         _requestError: function(error) {
             console.log('ERROR - Loading config file: ' + error);
@@ -165,12 +255,12 @@ define([
             else if(this.userRegion=="spain" && this.userProfile=="regional") {
                 configFileURL = "./config/config-spain-full.json";
             }
-            //else if(region=="greece" && profile=="local") {
-            //    configFileURL = "./config/config-spain-local.json";
-            //}
-            //else if(region=="greece" && profile=="regional") {
-            //    configFileURL = "./config/config-spain-full.json";
-            //}
+            else if(this.userRegion=="greece" && this.userProfile=="local") {
+                configFileURL = "./config/config-greece-local.json";
+            }
+            else if(this.userRegion=="greece" && this.userProfile=="regional") {
+                configFileURL = "./config/config-greece-full.json";
+            }
 
 
             return {
@@ -189,6 +279,8 @@ define([
                 }
                 return "";
             }
+
+
         }
 
     });

@@ -132,6 +132,13 @@ html, body, #map-index-div {
     border-color: black;
 }
 
+#ermes-logo {
+    position: absolute;
+    z-index: 5;
+    top: 1em;
+    left: 5em;
+}
+
 
 /*html, body { 
   overflow-x:hidden;

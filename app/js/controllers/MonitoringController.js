@@ -15,6 +15,8 @@ define([
     'dijit/_TemplatedMixin',
     'controllers/MenusController',
     'text!templates/monitoringMenu.tpl.html',
+    'text!templates/parcelInfo.tpl.html',
+    'text!templates/productHelp.tpl.html',
     'esri/tasks/ImageServiceIdentifyTask',
     'esri/layers/MosaicRule',
     'esri/tasks/ImageServiceIdentifyParameters',
@@ -23,12 +25,13 @@ define([
     "esri/graphic",
     'dojo/domReady!'
 ], function(declare, Evented, lang, when, on, dom, domConstruct, domAttr, domClass, Topic,  xhr, Query,
-            _WidgetBase, _TemplatedMixin, MenusController, template,
+            _WidgetBase, _TemplatedMixin, MenusController, template, parcelTemplate, productHelpTemplate,
             ImageServiceIdentifyTask, MosaicRule, ImageServiceIdentifyParameters, MonitoringWidget,
             PictureMarkerSymbol, Graphic){
 
     return declare([Evented, _WidgetBase, _TemplatedMixin], {
         templateString: template,
+        productHelpTemplate: productHelpTemplate,
         activeMosaic: null,
         activeRaster: null,
         handler: null,
@@ -56,41 +59,348 @@ define([
             var query = new Query();
             query.geometry = evt.mapPoint;
             this.map.infoWindow.show(evt.mapPoint, this.map.getInfoWindowAnchor(evt.screenPoint));
+            this.map.infoWindow.setTitle("Searching...");
+            var div = domConstruct.create("div");
+            domAttr.set(div, "id", "loading-image");
+            var span = domConstruct.create("span");
+            domAttr.set(span, "class", "glyphicon glyphicon-refresh glyphicon-refresh-animate");
+            var h1 = domConstruct.create("h1");
+            domConstruct.place(span, h1, "only");
+            domConstruct.place(h1, div, "only");
+            this.map.infoWindow.setContent(div);
+
             this.parcelsLayer.queryFeatures(query, lang.hitch(this, "_queryMongoServer"));
-            //Cuando acabe, consultar servicio con parcel ID y username (this.username)
-
-
         },
 
         _queryMongoServer: function(response){
-            var serviceURL = "http://localhost:6585/api/parcelsinfo/";
-            //var serviceURL = "http://ermes.dlsi.uji.es:6585/parcelsinfo/";
+            var serviceURL = "http://ermes.dlsi.uji.es:6585/api/parcelsinfo/";
+            //var serviceURL = "http://localhost:6585/api/parcelsinfo/";
             var username = this.username;
             var password = getCookie("password");
-            var parcelid = response.features[0].attributes.PARCEL_ID;
+            if (response.features.length>0) {
+                var parcelid = response.features[0].attributes.PARCEL_ID;
 
 
-            xhr(serviceURL, {
-                handleAs: "json",
-                method: "POST",
-                data: {
-                    username:  this.username,
-                    password: getCookie("password"),
-                    parcelid: response.features[0].attributes.PARCEL_ID
-                },
-                headers: {
-                    "X-Requested-With": null
-                }
-            }).then(lang.hitch(this, "_showInfoWindow"));
-
+                xhr(serviceURL, {
+                    handleAs: "json",
+                    method: "POST",
+                    data: {
+                        username: username,
+                        password: password,
+                        parcelid: parcelid
+                    },
+                    headers: {
+                        "X-Requested-With": null
+                    }
+                }).then(lang.hitch(this, "_showInfoWindow"));
+            }
+            else {
+                this.map.infoWindow.setTitle("ERROR!");
+                this.map.infoWindow.setContent("There is no parcel Here!");
+            }
         },
 
         _showInfoWindow: function(data, evt){
             console.log(data);
-            if(data.parcels)
-                this.map.infoWindow.setContent("PARCEL ID: " + data.parcels[0].parcelId);
-            else
-                this.map.infoWindow.setContent("This parcel doesn't belong to you.");
+            domConstruct.destroy("loading-image")
+            if(data.parcels){
+                var content = parcelTemplate;
+                this.map.infoWindow.setContent(content);
+                this.map.infoWindow.setTitle("Parcel ID: " + data.parcels[0].parcelId);
+                if(data.parcels[0].agrochemicals.length>0){
+                    var label = dom.byId("agrochemicals");
+                    label.innerHTML = "Agrochemicals (" + data.parcels[0].agrochemicals.length + "):";
+                    for(var i =0; i<data.parcels[0].agrochemicals.length; i++) {
+                        var product = dom.byId("agrochemicals-data");
+                        var ul = domConstruct.create("ul");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Date:</b> " + new Date(data.parcels[0].agrochemicals[i].date).toDateString();
+                        domConstruct.place(li, ul, "last");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Amount:</b> " + data.parcels[0].agrochemicals[i].amount;
+                        domConstruct.place(li, ul, "last");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Product:</b> " + data.parcels[0].agrochemicals[i].product;
+                        domConstruct.place(li, ul, "last");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Uploading Date: </b>" + new Date(data.parcels[0].agrochemicals[i].uploadingDate).toDateString();
+                        domConstruct.place(li, ul, "last");
+                        domConstruct.place(ul, product, "last");
+                    }
+                }
+                if(data.parcels[0].cropInfos.length>0){
+                    var label = dom.byId("cropInfos");
+                    label.innerHTML = "Crop Info (" + data.parcels[0].cropInfos.length + "):";
+                    for(var i =0; i<data.parcels[0].cropInfos.length; i++) {
+                        var product = dom.byId("cropInfos-data");
+                        var ul = domConstruct.create("ul");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Date:</b> " + new Date(data.parcels[0].cropInfos[i].date).toDateString();
+                        domConstruct.place(li, ul, "last");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Crop Type:</b> " + data.parcels[0].cropInfos[i].cropType;
+                        domConstruct.place(li, ul, "last");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Pudding:</b> " + data.parcels[0].cropInfos[i].pudding;
+                        domConstruct.place(li, ul, "last");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Rice Variety:</b> " + data.parcels[0].cropInfos[i].riceVariety;
+                        domConstruct.place(li, ul, "last");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Sowing Practice:</b> " + data.parcels[0].cropInfos[i].sowingPractice;
+                        domConstruct.place(li, ul, "last");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Uploading Date: </b>" + new Date(data.parcels[0].cropInfos[i].uploadingDate).toDateString();
+                        domConstruct.place(li, ul, "last");
+                        domConstruct.place(ul, product, "last");
+                    }
+                }
+                if(data.parcels[0].diseases.length>0){
+                    var label = dom.byId("diseases");
+                    label.innerHTML = "Diseases (" + data.parcels[0].diseases.length + "):";
+                    for(var i =0; i<data.parcels[0].diseases.length; i++) {
+                        var product = dom.byId("diseases-data");
+                        var ul = domConstruct.create("ul");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Date:</b> " + new Date(data.parcels[0].diseases[i].date).toDateString();
+                        domConstruct.place(li, ul, "last");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Comments:</b> " + data.parcels[0].diseases[i].comments;
+                        domConstruct.place(li, ul, "last");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Damage:</b> " + data.parcels[0].diseases[i].damage;
+                        domConstruct.place(li, ul, "last");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Name:</b> " + data.parcels[0].diseases[i].name;
+                        domConstruct.place(li, ul, "last");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Uploading Date: </b>" + new Date(data.parcels[0].diseases[i].uploadingDate).toDateString();
+                        domConstruct.place(li, ul, "last");
+                        domConstruct.place(ul, product, "last");
+                    }
+                }
+                if(data.parcels[0].fertilizers.length>0){
+                    var label = dom.byId("fertilizers");
+                    label.innerHTML = "Fertilizers (" + data.parcels[0].fertilizers.length + "):";
+                    for(var i =0; i<data.parcels[0].fertilizers.length; i++) {
+                        var product = dom.byId("fertilizers-data");
+                        var ul = domConstruct.create("ul");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Date:</b> " + new Date(data.parcels[0].fertilizers[i].date).toDateString();
+                        domConstruct.place(li, ul, "last");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Nitrogen Content:</b> " + data.parcels[0].fertilizers[i].nitrogenContent;
+                        domConstruct.place(li, ul, "last");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Phosphorus Content:</b> " + data.parcels[0].fertilizers[i].phosphorusContent;
+                        domConstruct.place(li, ul, "last");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Potassium Content:</b> " + data.parcels[0].fertilizers[i].potassiumContent;
+                        domConstruct.place(li, ul, "last");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Product:</b> " + data.parcels[0].fertilizers[i].product;
+                        domConstruct.place(li, ul, "last");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Quantity:</b> " + data.parcels[0].fertilizers[i].quantity;
+                        domConstruct.place(li, ul, "last");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Uploading Date: </b>" + new Date(data.parcels[0].fertilizers[i].uploadingDate).toDateString();
+                        domConstruct.place(li, ul, "last");
+                        domConstruct.place(ul, product, "last");
+                    }
+                }
+                if(data.parcels[0].irrigationInfos.length>0){
+                    var label = dom.byId("irrigationInfos");
+                    label.innerHTML = "Irrigiation Info (" + data.parcels[0].irrigationInfos.length + "):";
+                    for(var i =0; i<data.parcels[0].irrigationInfos.length; i++) {
+                        var product = dom.byId("irrigationInfos-data");
+                        var ul = domConstruct.create("ul");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Start Date:</b> " + new Date(data.parcels[0].irrigationInfos[i].startDate).toDateString();
+                        domConstruct.place(li, ul, "last");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>End Date:</b> " + new Date(data.parcels[0].irrigationInfos[i].endDate).toDateString();
+                        domConstruct.place(li, ul, "last");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Quantity of Water Measure:</b> " + data.parcels[0].irrigationInfos[i].quantityOfWaterMeasure;
+                        domConstruct.place(li, ul, "last");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Water Depth:</b> " + data.parcels[0].irrigationInfos[i].waterDepth;
+                        domConstruct.place(li, ul, "last");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Water Hours:</b> " + data.parcels[0].irrigationInfos[i].waterHours;
+                        domConstruct.place(li, ul, "last");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Water Quantity:</b> " + data.parcels[0].irrigationInfos[i].waterQuantity;
+                        domConstruct.place(li, ul, "last");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Uploading Date: </b>" + new Date(data.parcels[0].irrigationInfos[i].uploadingDate).toDateString();
+                        domConstruct.place(li, ul, "last");
+                        domConstruct.place(ul, product, "last");
+                    }
+                }
+                if(data.parcels[0].observations.length>0){
+                    var label = dom.byId("observations");
+                    label.innerHTML = "Observations (" + data.parcels[0].observations.length + "):";
+                    for(var i =0; i<data.parcels[0].observations.length; i++) {
+                        var product = dom.byId("observations-data");
+                        var ul = domConstruct.create("ul");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Comments:</b> " + data.parcels[0].observations[i].comments;
+                        domConstruct.place(li, ul, "last");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Uploading Date: </b>" + new Date(data.parcels[0].observations[i].uploadingDate).toDateString();
+                        domConstruct.place(li, ul, "last");
+                        domConstruct.place(ul, product, "last");
+                    }
+                }
+                if(data.parcels[0].parcelStatus.length>0){
+                    var label = dom.byId("parcelStatus");
+                    label.innerHTML = "Parcel Status (" + data.parcels[0].parcelStatus.length + "):";
+                    for(var i =0; i<data.parcels[0].irrigationInfos.length; i++) {
+                        var product = dom.byId("parcelStatus-data");
+                        var ul = domConstruct.create("ul");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Date:</b> " + new Date(data.parcels[0].parcelStatus[i].date).toDateString();
+                        domConstruct.place(li, ul, "last");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Status:</b> " + data.parcels[0].parcelStatus[i].parcelStatus;
+                        domConstruct.place(li, ul, "last");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Uploading Date: </b>" + new Date(data.parcels[0].parcelStatus[i].uploadingDate).toDateString();
+                        domConstruct.place(li, ul, "last");
+                        domConstruct.place(ul, product, "last");
+                    }
+                }
+                if(data.parcels[0].phatogens.length>0){
+                    var label = dom.byId("phatogens");
+                    label.innerHTML = "Pathogens (" + data.parcels[0].phatogens.length + "):";
+                    for(var i =0; i<data.parcels[0].phatogens.length; i++) {
+                        var product = dom.byId("phatogens-data");
+                        var ul = domConstruct.create("ul");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Date:</b> " + new Date(data.parcels[0].phatogens[i].date).toDateString();
+                        domConstruct.place(li, ul, "last");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Comments:</b> " + data.parcels[0].phatogens[i].comments;
+                        domConstruct.place(li, ul, "last");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Damage:</b> " + data.parcels[0].phatogens[i].damage;
+                        domConstruct.place(li, ul, "last");
+                        //var li = domConstruct.create("li");
+                        //li.innerHTML = "<b>File:</b> " + data.parcels[0].phatogens[i].file;
+                        //domConstruct.place(li, ul, "last");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Name:</b> " + data.parcels[0].phatogens[i].name;
+                        domConstruct.place(li, ul, "last");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Uploading Date: </b>" + new Date(data.parcels[0].phatogens[i].uploadingDate).toDateString();
+                        domConstruct.place(li, ul, "last");
+                        domConstruct.place(ul, product, "last");
+                    }
+                }
+                if(data.parcels[0].phenologies.length>0){
+                    var label = dom.byId("phenologies");
+                    label.innerHTML = "Phenologies (" + data.parcels[0].phenologies.length + "):";
+                    for(var i =0; i<data.parcels[0].phenologies.length; i++) {
+                        var product = dom.byId("phenologies-data");
+                        var ul = domConstruct.create("ul");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Date:</b> " + new Date(data.parcels[0].phenologies[i].date).toDateString();
+                        domConstruct.place(li, ul, "last");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Code:</b> " + data.parcels[0].phenologies[i].code;
+                        domConstruct.place(li, ul, "last");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Development Stage:</b> " + data.parcels[0].phenologies[i].developmentStage;
+                        domConstruct.place(li, ul, "last");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Growth Stage:</b> " + data.parcels[0].phenologies[i].growthStage;
+                        domConstruct.place(li, ul, "last");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Uploading Date: </b>" + new Date(data.parcels[0].phenologies[i].uploadingDate).toDateString();
+                        domConstruct.place(li, ul, "last");
+                        domConstruct.place(ul, product, "last");
+                    }
+                }
+                if(data.parcels[0].soils.length>0){
+                    var label = dom.byId("soils");
+                    label.innerHTML = "Soils (" + data.parcels[0].soils.length + "):";
+                    for(var i =0; i<data.parcels[0].soils.length; i++) {
+                        var product = dom.byId("soils-data");
+                        var ul = domConstruct.create("ul");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Date:</b> " + new Date(data.parcels[0].soils[i].date).toDateString();
+                        domConstruct.place(li, ul, "last");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Organic Matter:</b> " + data.parcels[0].soils[i].organicMatter;
+                        domConstruct.place(li, ul, "last");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>PH:</b> " + data.parcels[0].soils[i].ph;
+                        domConstruct.place(li, ul, "last");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Soil Texture: </b>" + data.parcels[0].soils[i].soilTexture;
+                        domConstruct.place(li, ul, "last");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Uploading Date: </b>" + new Date(data.parcels[0].soils[i].uploadingDate).toDateString();
+                        domConstruct.place(li, ul, "last");
+                        domConstruct.place(ul, product, "last");
+                    }
+                }
+                if(data.parcels[0].weeds.length>0){
+                    var label = dom.byId("weeds");
+                    label.innerHTML = "Weeds (" + data.parcels[0].weeds.length + "):";
+                    for(var i =0; i<data.parcels[0].weeds.length; i++) {
+                        var product = dom.byId("weeds-data");
+                        var ul = domConstruct.create("ul");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Date:</b> " + new Date(data.parcels[0].weeds[i].date).toDateString();
+                        domConstruct.place(li, ul, "last");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Comments:</b> " + data.parcels[0].weeds[i].comments;
+                        domConstruct.place(li, ul, "last");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Damage:</b> " + data.parcels[0].weeds[i].damage;
+                        domConstruct.place(li, ul, "last");
+                        //var li = domConstruct.create("li");
+                        //li.innerHTML = "<b>File:</b> " + data.parcels[0].weeds[i].file;
+                        //domConstruct.place(li, ul, "last");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Name: </b>" + data.parcels[0].weeds[i].name;
+                        domConstruct.place(li, ul, "last");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Uploading Date: </b>" + new Date(data.parcels[0].weeds[i].uploadingDate).toDateString();
+                        domConstruct.place(li, ul, "last");
+                        domConstruct.place(ul, product, "last");
+                    }
+                }
+                if(data.parcels[0].yields.length>0){
+                    var label = dom.byId("yields");
+                    label.innerHTML = "Yields (" + data.parcels[0].yields.length + "):";
+                    for(var i =0; i<data.parcels[0].yields.length; i++) {
+                        var product = dom.byId("yields-data");
+                        var ul = domConstruct.create("ul");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Date:</b> " + new Date(data.parcels[0].yields[i].date).toDateString();
+                        domConstruct.place(li, ul, "last");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Comments:</b> " + data.parcels[0].yields[i].comments;
+                        domConstruct.place(li, ul, "last");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Yield:</b> " + data.parcels[0].yields[i].yield;
+                        domConstruct.place(li, ul, "last");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Uploading Date: </b>" + new Date(data.parcels[0].yields[i].uploadingDate).toDateString();
+                        domConstruct.place(li, ul, "last");
+                        domConstruct.place(ul, product, "last");
+                    }
+                }
+
+            }
+            else {
+                this.map.infoWindow.setTitle("Invalid Parcel.");
+                this.map.infoWindow.setContent("<b>This parcel doesn't belong to you.</b>");
+            }
 
         },
 
@@ -101,7 +411,7 @@ define([
         },
 
         _showClickedPoint: function(evt){
-            if( this.mosaics[this.activeMosaic]) {
+            if( this.mosaics[this.activeMosaic] && this.mosaics[this.activeMosaic].plotType!=0) {
                 this.mosaics[this.activeMosaic].getRasterValues(evt.mapPoint);
                 this.handler.pause();
                 this.destroyChart();
@@ -140,8 +450,6 @@ define([
             }, 'monitoring-widget-container');
 
             this.handler.resume();
-
-
         },
 
         getActiveMosaicAndRaster: function(){
@@ -155,6 +463,25 @@ define([
             var labelRasterName = dom.byId("main-raster-name");
             labelRasterName.innerHTML="ERMES Product: " + mosaicId + "<br>Date: " + rasterDate;
 
+            //Create and fill help button.
+            var button = domConstruct.create("button");
+            domAttr.set(button, "id", "product-help-button");
+            domAttr.set(button, "class", "btn btn-default pull-right");
+            domAttr.set(button, "data-toggle", "modal");
+            domAttr.set(button, "data-target", "#product-help");
+            button.innerHTML = "Product Help.";
+            //<button id="general-help-button" class="btn btn-default pull-right" data-toggle="modal" data-target="#general-help">
+
+
+            domConstruct.place(button, labelRasterName, "last");
+            domConstruct.place(productHelpTemplate, labelRasterName, "last");
+            var title = dom.byId("product-help-title");
+            title.innerHTML = "Product Help: " + mosaicId;
+
+            var content = dom.byId("product-help-content");
+            content.innerHTML = this.mosaics[mosaicId].description;
+
+            //Finish create and fill help button.
             domClass.replace(labelRasterName, "visible", "notvisible");
 
 
