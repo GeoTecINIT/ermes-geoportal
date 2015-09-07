@@ -6,13 +6,15 @@ define([
     'dojo/Evented',
     'dijit/_WidgetBase',
     'esri/layers/ArcGISImageServiceLayer',
+    'esri/layers/ArcGISTiledMapServiceLayer',
     'esri/tasks/ImageServiceIdentifyTask',
 	'esri/tasks/ImageServiceIdentifyParameters',
     'esri/layers/MosaicRule',
     'esri/tasks/query',
     'esri/tasks/QueryTask'
 	], function(declare, lang, when, Topic, Evented, _WidgetBase,
-		 ArcGISImageServiceLayer, ImageServiceIdentifyTask, ImageServiceIdentifyParameters,
+		 ArcGISImageServiceLayer, ArcGISTiledMapServiceLayer,
+         ImageServiceIdentifyTask, ImageServiceIdentifyParameters,
 		 MosaicRule, Query, QueryTask){
 		
 		return declare([Evented, _WidgetBase], {
@@ -48,6 +50,7 @@ define([
 
 		getLayerByID: function(rasterId){
 			var layer = new ArcGISImageServiceLayer(this.URL);
+			//var layer = new ArcGISTiledMapServiceLayer(this.URL);
 			var rule = new MosaicRule();
 			rule.ascending = true;
 			rule.method = MosaicRule.METHOD_LOCKRASTER;

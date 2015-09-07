@@ -46,7 +46,23 @@
       "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-IT/LOCAL_LAI/ImageServer",
       "description": "LAI local product, 2015, IT.",
       "default": true,
-      "plotType": 1 //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
+      "plotType": 0 //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
+    },
+    {
+      "id": "Seasonal patterns - NDVI",
+      "name": "Seasonal patterns - NDVI",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-IT/LOCAL_SEASONALPATTERNS_NDVI/ImageServer",
+      "description": "Seasonal patterns - NDVI.",
+      "default": true,
+      "plotType": 0 //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
+    },
+    {
+      "id": "Seasonal Patterns - MCARI ",
+      "name": "Seasonal Patterns - MCARI ",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-IT/LOCAL_SEASONALPATTERNS_MCARI/ImageServer",
+      "description": "Seasonal Patterns - MCARI.",
+      "default": true,
+      "plotType": 0 //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
     }
   ],
   "parcelsLayer": {

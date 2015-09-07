@@ -60,9 +60,10 @@ define([
         },
 
         _changeRaster: function(){
+
             var newMosaic =  this.menusController.getActiveMosaicAndRaster()[0];
             var newRaster =  this.menusController.getActiveMosaicAndRaster()[1];
-
+            this.activeMosaic = newMosaic;
             var newLayer = this.mosaics[newMosaic].getLayerByID(newRaster);
             if(this.primaryRasterLayer!=null){
                 this.map.removeLayer(this.primaryRasterLayer);
@@ -70,6 +71,9 @@ define([
             newLayer.setOpacity(0.7);
             this.primaryRasterLayer = newLayer;
 
+            this.map.addLayer(newLayer);
+
+            //ADD LEGEND DIV
             if(this.legendDijit!=null){
                 this.legendDijit.destroy();
             }
@@ -81,14 +85,19 @@ define([
             };
             constructLegendDiv();
 
-            this.map.addLayer(newLayer);
+            //ADD LEGEND
 
-            this.legendDijit = new Legend({
-                map: this.map
-                //,
-                //layerInfos: [{layer: newLayer, title: 'Titulako'}]
-            }, "legend-tool");
-           // this.legendDijit.startup();
+
+
+            //var pruebaLayer = this.map.getLayersVisibleAtScale();
+            //
+            //this.legendDijit = new Legend({
+            //    map: this.map,
+            //    //,
+            //   layerInfos: [{layer: pruebaLayer, title: 'Titulako'}]
+            //   //layerInfos: [{layer: newLayer, title: 'Titulako'}]
+            //}, "legend-tool");
+            //this.legendDijit.startup();
 
         },
 
@@ -98,12 +107,21 @@ define([
                 this.menusController.loadMosaics();
         },
 
+        _drawLegend: function(evt){
+            var legendTitle = "LEGEND: " + this.activeMosaic;
+            this.legendDijit = new Legend({
+                map: this.map,
+                layerInfos: [{layer: evt.layer, title: legendTitle }]
+            }, "legend-tool");
+            this.legendDijit.startup();
+        },
+
         _requestSuccess: function(response) {
 
             //INITIATES MAP
             this.map = new Map("map-index-div", response.mapOptions);
 
-
+            //INFO WINDOW FOR LOCAL USERS
             var infowindow = null;
             if(this.userProfile=="local") {
                 infoWindow = new InfoWindow({
@@ -123,13 +141,12 @@ define([
                 });
             }
 
-
+            //SCALE BAR
             var scalebar = new Scalebar({
                 map: this.map,
                 scalebarUnit: "dual",
                 attachTo: "bottom-left"
             });
-
 
             //INITIATE PARCELS LAYER FOR LOCAL USER
             if(this.userProfile=="local") {
@@ -138,10 +155,14 @@ define([
                         outFields: ["*"]
                     });
                 this.map.addLayer(this.parcelsLayer);
-
-               // this.parcelsLayer.on('update-end', this._getOwnedParcels());
+                this.parcelsLayer.on('update-end', lang.hitch(this, "_getOwnedParcels"));
+                //this.map.on('update-end', this._getOwnedParcels());
 
             }
+
+            //START THE LISTENER FOR THE LEGEND
+            this.map.on('load', lang.hitch(this, "_startListener"));
+
             //CREATE MENUS CONTROLLER
             this.menusController = new MenusController({
                 mosaics: this.mosaics,
@@ -180,59 +201,47 @@ define([
 
 
 
-
-            //DRAW OWNED PARCELS
-            //if(this.userProfile=="local") {
-            //    this._getOwnedParcels();
-            //}
-
         },
 
-        //_getOwnedParcels: function(){
-        //    var parcelsURL = "http://ermes.dlsi.uji.es:6585/api/users/short/" + this.username;
-        //    xhr(parcelsURL, {
-        //        handleAs: "json",
-        //        method: "GET",
-        //        headers: {
-        //            "X-Requested-With": null
-        //        }
-        //    }).then(lang.hitch(this, function (data) {
-        //        var parcels = data.parcels.split(',');
-        //        var query = new Query();
-        //        query.where = 'PARCEL_ID = ' + parcels[0];
-        //        query.outFields=["*"];
-        //        this.parcelsLayer.queryFeatures(query, function(featureSet){
-        //            console.log(featureSet);
-        //            });
-        //            //this.parcelsLayer.graphics.forEach(lang.hitch(this, "_drawIfOwned", parcels));
-        //        })
-        //    );
-        //},
+        _startListener: function(){
+            this.map.on("layer-add", lang.hitch(this, "_drawLegend"));
+        },
+
+        _getOwnedParcels: function(){
+            function contains(array, value) {
+                for (var i = 0; i < array.length; i++) {
+                    if (array[i] === value) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+            var symbol = new SimpleFillSymbol(
+                SimpleFillSymbol.STYLE_SOLID,
+                new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([0, 255, 0]), 2),
+                new Color([255, 255, 0, 0.90])
+            );
+            var parcelsURL = "http://ermes.dlsi.uji.es:6585/api/users/short/" + this.username;
+            xhr(parcelsURL, {
+                handleAs: "json",
+                method: "GET",
+                headers: {
+                    "X-Requested-With": null
+                }
+            }).then(lang.hitch(this, function (data) {
+                    var myParcels = data.parcels.split(',');
+                    var layer =  this.parcelsLayer;
+                    function findOwnedParcels(element, index, array) {
+                        if(contains(myParcels, element.attributes.PARCEL_ID)){
+                            var geometry = element.geometry;
+                            layer.add(new Graphic(geometry, symbol, element.attributes));
+                        }
+                    }
+                    this.parcelsLayer.graphics.forEach(findOwnedParcels);
+                })
+            );
+        },
         //
-        //_drawIfOwned: function(myParcels, element, index, array){
-        //    function contains(array, value) {
-        //        for (var i = 0; i < array.length; i++) {
-        //            if (array[i] === value) {
-        //                return true;
-        //            }
-        //        }
-        //        return false;
-        //    }
-        //
-        //    var symbol = new SimpleFillSymbol(
-        //        SimpleFillSymbol.STYLE_SOLID,
-        //        new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([0, 255, 0]), 2),
-        //        new Color([255, 255, 0, 0.90])
-        //    );
-        //    if (contains(myParcels, element.attributes.PARCEL_ID)) {
-        //        var parcelNum = element.attributes.PARCEL_ID;
-        //        var geometry = element.geometry;
-        //        //myParcelsGraphics[parcelNum] = new Graphic(geometry, symbol, element.attributes);
-        //        var myGraphic = new Graphic(geometry, symbol);
-        //        this.parcelsLayer.add(myGraphic);
-        //        //console.log("Drawed parcel: " + parcelNum);
-        //    }
-        //},
 
         _requestError: function(error) {
             console.log('ERROR - Loading config file: ' + error);
@@ -262,12 +271,10 @@ define([
                 configFileURL = "./config/config-greece-full.json";
             }
 
-
             return {
                 url: configFileURL,
                 handleAs: "json"
             };
-
 
             function getCookie(cname) {
                 var name = cname + "=";
@@ -279,8 +286,6 @@ define([
                 }
                 return "";
             }
-
-
         }
 
     });
