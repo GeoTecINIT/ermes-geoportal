@@ -53,15 +53,18 @@ define([
 			//var layer = new ArcGISTiledMapServiceLayer(this.URL);
 			var rule = new MosaicRule();
 			rule.ascending = true;
-			rule.method = MosaicRule.METHOD_LOCKRASTER;
-			rule.lockRasterIds = [rasterId];
-			layer.setMosaicRule(rule);
+			//rule.method = MosaicRule.METHOD_LOCKRASTER;
+            rule.method = MosaicRule.METHOD_ATTRIBUTE
+			//rule.lockRasterIds = [rasterId];
+			rule.where = "SDATE='" + rasterId + "'";
+            layer.setMosaicRule(rule);
 			return layer;
 		},
 
 		_onQuerySuccess: function(featureSet){		
 	        for(var i=0; i<featureSet.features.length; i++){
-	        	var key = featureSet.features[i].attributes.OBJECTID;
+	        	var key = featureSet.features[i].attributes.SDATE;
+	        	//var key = featureSet.features[i].attributes.OBJECTID;
 	        	var name = featureSet.features[i].attributes.Name;
 				var date = new Date(featureSet.features[i].attributes.DATE).toDateString();
 
@@ -94,7 +97,8 @@ define([
 		_loadRasters: function(){
 			var queryTask = new QueryTask(this.URL);
 	        var query = new Query();
-	        query.outFields = ['OBJECTID', 'Name', 'DATE'];
+	        query.outFields = ['OBJECTID', 'Name', 'DATE', 'SDATE'];
+            query.orderByFields = ["SDATE ASC"];
 	        var querySuccess = lang.hitch(this, "_onQuerySuccess");
 			var queryError = function(){
 				console.debug("Error in the Query");
@@ -106,7 +110,8 @@ define([
 	    	var mosaicRule = new MosaicRule();
             mosaicRule.ascending = true;
             mosaicRule.method = MosaicRule.METHOD_ATTRIBUTE;
-            mosaicRule.sortField = "OBJECTID";
+            mosaicRule.sortField = "DATE";
+            //mosaicRule.sortField = "OBJECTID";
 
             var parameters = new ImageServiceIdentifyParameters();
             parameters.mosaicRule = mosaicRule;
@@ -127,7 +132,8 @@ define([
             var mosaicRule = new MosaicRule();
             mosaicRule.ascending = true;
             mosaicRule.method = MosaicRule.METHOD_ATTRIBUTE;
-            mosaicRule.sortField = "OBJECTID";
+            mosaicRule.sortField = "DATE";
+            //mosaicRule.sortField = "OBJECTID";
             mosaicRule.where = "PARAMNAME='AVG'";
 
             var parameters = new ImageServiceIdentifyParameters();
@@ -137,6 +143,8 @@ define([
             var identifyTask = new ImageServiceIdentifyTask(this.historicURL);
             if(this.plotType==3 || this.plotType==4)
                 identifyTask.execute(parameters, lang.hitch(this, '_getSTDValues', pointClicked));
+            else if(this.plotType==5)
+                identifyTask.execute(parameters, lang.hitch(this, '_getForecastValuesNOStdDv', pointClicked));
             else
                 identifyTask.execute(parameters, lang.hitch(this, '_rasterValuesObtained'));
         },
@@ -153,7 +161,8 @@ define([
             var mosaicRule = new MosaicRule();
             mosaicRule.ascending = true;
             mosaicRule.method = MosaicRule.METHOD_ATTRIBUTE;
-            mosaicRule.sortField = "OBJECTID";
+            mosaicRule.sortField = "DATE";
+            //mosaicRule.sortField = "OBJECTID";
             mosaicRule.where = "PARAMNAME='STD'"
 
             var parameters = new ImageServiceIdentifyParameters();
@@ -173,7 +182,31 @@ define([
             var mosaicRule = new MosaicRule();
             mosaicRule.ascending = true;
             mosaicRule.method = MosaicRule.METHOD_ATTRIBUTE;
-            mosaicRule.sortField = "OBJECTID";
+            mosaicRule.sortField = "DATE";
+            //mosaicRule.sortField = "OBJECTID";
+
+            var parameters = new ImageServiceIdentifyParameters();
+            parameters.mosaicRule = mosaicRule;
+            parameters.geometry = pointClicked;
+
+            var identifyTask = new ImageServiceIdentifyTask(this.forecastURL);
+            identifyTask.execute(parameters, lang.hitch(this, '_rasterValuesObtained'));
+        },
+
+        _getForecastValuesNOStdDv: function(pointClicked, response){
+            this.avgValues = response.properties.Values.map(parseFloat);
+            this.historicDates = [];
+            response.catalogItems.features.forEach(lang.hitch(this,function(feature){
+                var newYear = parseInt(feature.attributes.SDATE.split('/')[0])+1;
+                var newDate = newYear + '/' + feature.attributes.SDATE.split('/')[1]+ '/' + feature.attributes.SDATE.split('/')[2];
+                this.historicDates.push(newDate);
+            }));
+
+            var mosaicRule = new MosaicRule();
+            mosaicRule.ascending = true;
+            mosaicRule.method = MosaicRule.METHOD_ATTRIBUTE;
+            mosaicRule.sortField = "DATE";
+            //mosaicRule.sortField = "OBJECTID";
 
             var parameters = new ImageServiceIdentifyParameters();
             parameters.mosaicRule = mosaicRule;
@@ -186,7 +219,15 @@ define([
 	     _rasterValuesObtained: function(response){
              var parameter = [];
 
-             if(this.plotType==4) {
+             if(this.plotType==5) {
+                 this.forecastValues = response.properties.Values.map(parseFloat);
+                 parameter.push(this.currentValues);
+                 parameter.push(this.historicDates);
+                 parameter.push(this.avgValues);
+                 parameter.push(this.forecastValues);
+             }
+
+             else if(this.plotType==4) {
                  this.forecastValues = response.properties.Values.map(parseFloat);
                  parameter.push(this.currentValues);
                  parameter.push(this.historicDates);
@@ -210,7 +251,6 @@ define([
                      var newYear = parseInt(feature.attributes.SDATE.split('/')[0])+1;
                      var newDate = newYear + '/' + feature.attributes.SDATE.split('/')[1]+ '/' + feature.attributes.SDATE.split('/')[2];
                      this.historicDates.push(newDate);
-                     //this.historicDates.push(new Date(feature.attributes.DATE));
                  }));
                  parameter.push(this.currentValues);
                  parameter.push(this.historicDates);
@@ -219,7 +259,14 @@ define([
 
              else if(this.plotType==1){
                  this.currentValues = response.properties.Values.map(parseFloat);
+                 this.historicDates = [];
+                 response.catalogItems.features.forEach(lang.hitch(this,function(feature){
+                     var newYear = parseInt(feature.attributes.SDATE.split('/')[0])+1;
+                     var newDate = newYear + '/' + feature.attributes.SDATE.split('/')[1]+ '/' + feature.attributes.SDATE.split('/')[2];
+                     this.historicDates.push(newDate);
+                 }));
                  parameter.push(this.currentValues);
+                 parameter.push(this.historicDates);
              }
              Topic.publish('mosaic/raster-click', parameter);
         }

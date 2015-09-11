@@ -13,6 +13,7 @@ define([
     "esri/dijit/InfoWindow",
     "esri/dijit/Legend",
     "models/Mosaic",
+    "dojo/topic",
     'esri/layers/FeatureLayer',
     "esri/layers/ArcGISDynamicMapServiceLayer",
     'dijit/_WidgetBase',
@@ -27,7 +28,7 @@ define([
     "esri/tasks/query",
     'dojo/domReady!'
 ], function (declare, Evented, lang, arrayUtils, on, dom, domConstruct, domAttr, esriRequest, Map,
-             Scalebar, InfoWindow, Legend, Mosaic, FeatureLayer, ArcGISDynamicMapServiceLayer,
+             Scalebar, InfoWindow, Legend, Mosaic, Topic, FeatureLayer, ArcGISDynamicMapServiceLayer,
              _WidgetBase, _TemplatedMixin, MenusController,
              SimpleRenderer, SimpleLineSymbol, SimpleFillSymbol, Color, Graphic,
             xhr, Query) {
@@ -46,11 +47,28 @@ define([
         username: null,
         parcelsLayer: null,
         legendDigit: null,
+        legendListener: null,
 
 
         constructor: function(){
             var requestJSONSuccess = lang.hitch(this, '_requestSuccess')
             esriRequest(this._requestConfigFile()).then(requestJSONSuccess);
+            var handleCancelLegend = Topic.subscribe('cancel-legend', lang.hitch(this,"_cancelLegend"));
+            var handleEnableLegend = Topic.subscribe('enable-legend', lang.hitch(this,"_enableLegend"));
+        },
+
+        _cancelLegend: function(data){
+            if(this.legendListener!=null){
+                //this.legendDijit.destroy();
+                this.legendListener.remove();
+            }
+        },
+
+        _enableLegend: function(data){
+            if(this.legendListener!=null){
+                this.legendListener.remove();
+                this._startListener();
+            }
         },
 
         _cleanMap: function(){
@@ -84,21 +102,6 @@ define([
                 domConstruct.place(legendDiv, container, "first");
             };
             constructLegendDiv();
-
-            //ADD LEGEND
-
-
-
-            //var pruebaLayer = this.map.getLayersVisibleAtScale();
-            //
-            //this.legendDijit = new Legend({
-            //    map: this.map,
-            //    //,
-            //   layerInfos: [{layer: pruebaLayer, title: 'Titulako'}]
-            //   //layerInfos: [{layer: newLayer, title: 'Titulako'}]
-            //}, "legend-tool");
-            //this.legendDijit.startup();
-
         },
 
         _mosaicLoaded: function(){
@@ -204,7 +207,7 @@ define([
         },
 
         _startListener: function(){
-            this.map.on("layer-add", lang.hitch(this, "_drawLegend"));
+            this.legendListener = this.map.on("layer-add", lang.hitch(this, "_drawLegend"));
         },
 
         _getOwnedParcels: function(){
@@ -218,8 +221,8 @@ define([
             }
             var symbol = new SimpleFillSymbol(
                 SimpleFillSymbol.STYLE_SOLID,
-                new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([0, 255, 0]), 2),
-                new Color([255, 255, 0, 0.90])
+                new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([0, 255, 0]), 5),
+                new Color([255, 255, 0, 0])
             );
             var parcelsURL = "http://ermes.dlsi.uji.es:6585/api/users/short/" + this.username;
             xhr(parcelsURL, {

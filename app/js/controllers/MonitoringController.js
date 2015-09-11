@@ -38,6 +38,9 @@ define([
         monitoringWidget: null,
         customSymbol: new PictureMarkerSymbol({"angle":0,"xoffset":0,"yoffset":8.15625,"type":"esriPMS","url":"http://static.arcgis.com/images/Symbols/AtoZ/blueP.png","imageData":"iVBORw0KGgoAAAANSUhEUgAAABUAAAAdCAYAAABFRCf7AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsIAAA7CARUoSoAAAAAadEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjEwMPRyoQAABSJJREFUSEuFkwtMlXUYxr/KLGfTuF/lqmYHRehoCkiAeJlOHFq5yvLSWrWmlSKgAofL4SJeibzfzVurrTWbbZp5A5QD5+AFOHC4KqhNtFJbK8f06X2+8x04LJzv9tv/+7/v8zz/Px/fUZ5UMUU1kXFFlpyEYkv55OLqLuF+QlF1V9wac3lMgSV7gtESoUmfXvo884iYQvOP09ZZHr69vQELD7Th46Od+OToDXwk6wf72zB3qxVTZD7BWP0D9Zq1/9LnVE+NLTTdnLPNhgUHJeCbG3jvQCfe3deJdxzs78R86c+XftKWRkQZK2+OyTRN0SL6VkR2VXJMoeWvOTvbMU+Mc/d0IHl3B2bvvK6SpDFrh53ZuzowV+ZJ29swPs/8YHRW5Wwtyl66rIuj9Xmm+zNFkLTjGmYK07e1Y9qWdkzdal8dz4lftyFxM7HvZ1K3uRVjDZX3mKNFKkpYxoWfYtdbVWNCaTvivmpDvJgTxBwvzwmldvjMWawwqaQVMSXyLNATvbYeI1dWHFMDR66q0IcbTN1xpRS1ImpjC6I2tCB6Uwu+q7mH/qrrQTe2ld/FJNGMX9+CiaKnV5dR2R2SXq5XQleWl0QUXMEECaNAv64Z44TXRfit5U8tBnhrzzX1wIWHO/Gw+7HaM137W7RNiCxuhl68Y/IvIzitvEQJSS+rCM+vRcTaJowttqkreU04Yu4NTd7djvEb5MD1zThs/kPrAosOdSCswIbwNTaEGWsRlH6+QglMO39LV2CFrtCmElZkwxgRhBc34ZCTeZZ8FY4DjSdua11ggYSOKmgUbBiVb0VA6rlbSuCKc/dHGOUl5zfglYIGVaArbJTwRhys6g2dsaMVo6VHjjgdNnlLC0aId7gQmlsHf8lT/FPOdAXLJsRolYFVBFaMlJvzgP2m3zUr5PNpwajCBszb1y7v9JHa21p+B6HiC86zIii3HgE5tfBLOXNb8Us9WxWQfRlBefUIFkGIhA6XUOIc6lx1v/2DxUeuq1p66A2Q0GGGy/CVPMU35exe/8xqDMupk0EdAgX7AfXYa7qrxQDxm5vUngNqqKWHXuKXUQ1vyVN8Vpye7ptehmG5tT0ECIHCnso7WiQQW2pTe4Rz4uzxF3wkh3mKV9bV57yWnzb5ZtXAT94JhyrZtdh9sTc0psSm9lQ0DfUOfMTPHOapvyqPlNNTvNPOP/LNuQq/3F52Od00prSxz4xQT3wMV+CVeu4Rc9RAR3mmnEr3TCuDt+ESfHKu9MHXCUfPW/4pdi6BPvq1qL7lmfrrUs/UM/96Gyzwli/iqYiOeveUU0u0iH7rGdelx+Pdl51s9swwwUtu8SQ8VptAHfX02e19i02+4OeFF4e8WfSq+5c/V3isroSnoeZ/sM85ddRrPvp7wvnA5mDBTfATggf4hkW4LjnW4JFZBQ8GOZA9+5xTp+npo585ajBPYINDnqwXooU3BkUv+tRl2S/dbplmuGVZwJV79jnXdNTTRz9z1E9qgDBECBXGCXECP43pwoyhHx4oc11VIaFmcOWefW1OHfX00c8c5vW5qU6ggDegOHFQ1PtfuCw/+djNILeUlXv2tTl11NPX56aOd/qS4C5wGCLwT4oUJg797Pt619UXwJV7rc85ddTTR3/PO2XxgSewOUigwEXwEoKGLN61ySXtLLhyr/U5p456+ujvCXQuNp8VKOC7eUEYPDg5L/LllBPgyr3W55w66vsN668oVA8ZqEscOPTz4+DKvdOsn1KU/wDL8jMXyw1rAwAAAABJRU5ErkJggg==","contentType":"image/png","width":15.75,"height":21.75}),
         clickedGraph: new Graphic(null, null),
+        mongoData: null,
+        warmData: null,
+        localDataReceived: 0,
 
         constructor: function(args){
             lang.mixin(this, args);
@@ -92,16 +95,59 @@ define([
                     headers: {
                         "X-Requested-With": null
                     }
-                }).then(lang.hitch(this, "_showInfoWindow"));
+                }).then(lang.hitch(this, "_receivedData", "local"));
             }
             else {
                 this.map.infoWindow.setTitle("ERROR!");
                 this.map.infoWindow.setContent("There is no parcel Here!");
             }
+
+            //WARM EXAMPLE
+            var serviceURL = "http://ermes.dlsi.uji.es:6585/api/warm/development-stage";
+            if (response.features.length>0) {
+                var parcelid = response.features[0].attributes.PARCEL_ID;
+                var now = new Date();
+                var start = new Date(now.getFullYear(), 0, 0);
+                var diff = now - start;
+                var oneDay = 1000 * 60 * 60 * 24;
+
+                var doy = Math.floor(diff / oneDay);
+
+                xhr(serviceURL, {
+                    handleAs: "json",
+                    query: {
+                        username: username,
+                        //parcelId: parcelid,
+                        parcelId: "ES52346237A02500111G",
+                        doy: 200,
+                        //doy: doy,
+                        year: now.getFullYear()
+                    },
+                    headers: {
+                        "X-Requested-With": null
+                    }
+                }).then(lang.hitch(this, "_receivedData", "warm"));
+                //}).then(lang.hitch(this, "_showWarmInfo"));
+            }
         },
 
-        _showInfoWindow: function(data, evt){
-            console.log(data);
+        _receivedData: function(profile, data, evt){
+            if(profile=="local"){
+                this.mongoData = data;
+            }
+            else if(profile=="warm"){
+                this.warmData = data;
+            }
+            this.localDataReceived++;
+            if(this.localDataReceived==2){
+                this.localDataReceived=0;
+                this._showInfoWindow()
+            }
+        },
+
+        _showInfoWindow: function(){
+            //console.log(data);
+            var data= this.mongoData;
             domConstruct.destroy("loading-image")
             if(data.parcels){
                 var content = parcelTemplate;
@@ -396,13 +442,335 @@ define([
                     }
                 }
 
+                // UNCOMMENT FOR ENABLE CONNECTION WITH WARM DATABASE.
+                //if(!this.warmData.error){
+                //    var label = dom.byId("developmentStage");
+                //    label.innerHTML = "Development Stage (WARM) (" + this.warmData.res.products.length + "):";
+                //    for(var i =0; i<this.warmData.res.products.length; i++) {
+                //        var product = dom.byId("developmentStage-data");
+                //        var ul = domConstruct.create("ul");
+                //        var li = domConstruct.create("li");
+                //        var day = this.warmData.res.products[i].doy;
+                //        var dateShowed = new Date();
+                //        dateShowed.setDate(dateShowed.getDate() + i);
+                //        li.innerHTML = "<b>Date:</b> " + dateShowed.toDateString();
+                //        domConstruct.place(li, ul, "last");
+                //        var li = domConstruct.create("li");
+                //        li.innerHTML = "<b>StageCode:</b> " + this.warmData.res.products[i].stagecode;
+                //        domConstruct.place(li, ul, "last");
+                //        domConstruct.place(ul, product, "last");
+                //    }
+                //}
             }
             else {
                 this.map.infoWindow.setTitle("Invalid Parcel.");
                 this.map.infoWindow.setContent("<b>This parcel doesn't belong to you.</b>");
             }
-
         },
+
+        //_showInfoWindow: function(data, evt){
+        //    console.log(data);
+        //    domConstruct.destroy("loading-image")
+        //    if(data.parcels){
+        //        var content = parcelTemplate;
+        //        this.map.infoWindow.setContent(content);
+        //        this.map.infoWindow.setTitle("Parcel ID: " + data.parcels[0].parcelId);
+        //        if(data.parcels[0].agrochemicals.length>0){
+        //            var label = dom.byId("agrochemicals");
+        //            label.innerHTML = "Agrochemicals (" + data.parcels[0].agrochemicals.length + "):";
+        //            for(var i =0; i<data.parcels[0].agrochemicals.length; i++) {
+        //                var product = dom.byId("agrochemicals-data");
+        //                var ul = domConstruct.create("ul");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Date:</b> " + new Date(data.parcels[0].agrochemicals[i].date).toDateString();
+        //                domConstruct.place(li, ul, "last");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Amount:</b> " + data.parcels[0].agrochemicals[i].amount;
+        //                domConstruct.place(li, ul, "last");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Product:</b> " + data.parcels[0].agrochemicals[i].product;
+        //                domConstruct.place(li, ul, "last");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Uploading Date: </b>" + new Date(data.parcels[0].agrochemicals[i].uploadingDate).toDateString();
+        //                domConstruct.place(li, ul, "last");
+        //                domConstruct.place(ul, product, "last");
+        //            }
+        //        }
+        //        if(data.parcels[0].cropInfos.length>0){
+        //            var label = dom.byId("cropInfos");
+        //            label.innerHTML = "Crop Info (" + data.parcels[0].cropInfos.length + "):";
+        //            for(var i =0; i<data.parcels[0].cropInfos.length; i++) {
+        //                var product = dom.byId("cropInfos-data");
+        //                var ul = domConstruct.create("ul");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Date:</b> " + new Date(data.parcels[0].cropInfos[i].date).toDateString();
+        //                domConstruct.place(li, ul, "last");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Crop Type:</b> " + data.parcels[0].cropInfos[i].cropType;
+        //                domConstruct.place(li, ul, "last");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Pudding:</b> " + data.parcels[0].cropInfos[i].pudding;
+        //                domConstruct.place(li, ul, "last");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Rice Variety:</b> " + data.parcels[0].cropInfos[i].riceVariety;
+        //                domConstruct.place(li, ul, "last");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Sowing Practice:</b> " + data.parcels[0].cropInfos[i].sowingPractice;
+        //                domConstruct.place(li, ul, "last");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Uploading Date: </b>" + new Date(data.parcels[0].cropInfos[i].uploadingDate).toDateString();
+        //                domConstruct.place(li, ul, "last");
+        //                domConstruct.place(ul, product, "last");
+        //            }
+        //        }
+        //        if(data.parcels[0].diseases.length>0){
+        //            var label = dom.byId("diseases");
+        //            label.innerHTML = "Diseases (" + data.parcels[0].diseases.length + "):";
+        //            for(var i =0; i<data.parcels[0].diseases.length; i++) {
+        //                var product = dom.byId("diseases-data");
+        //                var ul = domConstruct.create("ul");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Date:</b> " + new Date(data.parcels[0].diseases[i].date).toDateString();
+        //                domConstruct.place(li, ul, "last");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Comments:</b> " + data.parcels[0].diseases[i].comments;
+        //                domConstruct.place(li, ul, "last");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Damage:</b> " + data.parcels[0].diseases[i].damage;
+        //                domConstruct.place(li, ul, "last");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Name:</b> " + data.parcels[0].diseases[i].name;
+        //                domConstruct.place(li, ul, "last");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Uploading Date: </b>" + new Date(data.parcels[0].diseases[i].uploadingDate).toDateString();
+        //                domConstruct.place(li, ul, "last");
+        //                domConstruct.place(ul, product, "last");
+        //            }
+        //        }
+        //        if(data.parcels[0].fertilizers.length>0){
+        //            var label = dom.byId("fertilizers");
+        //            label.innerHTML = "Fertilizers (" + data.parcels[0].fertilizers.length + "):";
+        //            for(var i =0; i<data.parcels[0].fertilizers.length; i++) {
+        //                var product = dom.byId("fertilizers-data");
+        //                var ul = domConstruct.create("ul");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Date:</b> " + new Date(data.parcels[0].fertilizers[i].date).toDateString();
+        //                domConstruct.place(li, ul, "last");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Nitrogen Content:</b> " + data.parcels[0].fertilizers[i].nitrogenContent;
+        //                domConstruct.place(li, ul, "last");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Phosphorus Content:</b> " + data.parcels[0].fertilizers[i].phosphorusContent;
+        //                domConstruct.place(li, ul, "last");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Potassium Content:</b> " + data.parcels[0].fertilizers[i].potassiumContent;
+        //                domConstruct.place(li, ul, "last");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Product:</b> " + data.parcels[0].fertilizers[i].product;
+        //                domConstruct.place(li, ul, "last");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Quantity:</b> " + data.parcels[0].fertilizers[i].quantity;
+        //                domConstruct.place(li, ul, "last");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Uploading Date: </b>" + new Date(data.parcels[0].fertilizers[i].uploadingDate).toDateString();
+        //                domConstruct.place(li, ul, "last");
+        //                domConstruct.place(ul, product, "last");
+        //            }
+        //        }
+        //        if(data.parcels[0].irrigationInfos.length>0){
+        //            var label = dom.byId("irrigationInfos");
+        //            label.innerHTML = "Irrigiation Info (" + data.parcels[0].irrigationInfos.length + "):";
+        //            for(var i =0; i<data.parcels[0].irrigationInfos.length; i++) {
+        //                var product = dom.byId("irrigationInfos-data");
+        //                var ul = domConstruct.create("ul");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Start Date:</b> " + new Date(data.parcels[0].irrigationInfos[i].startDate).toDateString();
+        //                domConstruct.place(li, ul, "last");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>End Date:</b> " + new Date(data.parcels[0].irrigationInfos[i].endDate).toDateString();
+        //                domConstruct.place(li, ul, "last");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Quantity of Water Measure:</b> " + data.parcels[0].irrigationInfos[i].quantityOfWaterMeasure;
+        //                domConstruct.place(li, ul, "last");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Water Depth:</b> " + data.parcels[0].irrigationInfos[i].waterDepth;
+        //                domConstruct.place(li, ul, "last");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Water Hours:</b> " + data.parcels[0].irrigationInfos[i].waterHours;
+        //                domConstruct.place(li, ul, "last");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Water Quantity:</b> " + data.parcels[0].irrigationInfos[i].waterQuantity;
+        //                domConstruct.place(li, ul, "last");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Uploading Date: </b>" + new Date(data.parcels[0].irrigationInfos[i].uploadingDate).toDateString();
+        //                domConstruct.place(li, ul, "last");
+        //                domConstruct.place(ul, product, "last");
+        //            }
+        //        }
+        //        if(data.parcels[0].observations.length>0){
+        //            var label = dom.byId("observations");
+        //            label.innerHTML = "Observations (" + data.parcels[0].observations.length + "):";
+        //            for(var i =0; i<data.parcels[0].observations.length; i++) {
+        //                var product = dom.byId("observations-data");
+        //                var ul = domConstruct.create("ul");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Comments:</b> " + data.parcels[0].observations[i].comments;
+        //                domConstruct.place(li, ul, "last");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Uploading Date: </b>" + new Date(data.parcels[0].observations[i].uploadingDate).toDateString();
+        //                domConstruct.place(li, ul, "last");
+        //                domConstruct.place(ul, product, "last");
+        //            }
+        //        }
+        //        if(data.parcels[0].parcelStatus.length>0){
+        //            var label = dom.byId("parcelStatus");
+        //            label.innerHTML = "Parcel Status (" + data.parcels[0].parcelStatus.length + "):";
+        //            for(var i =0; i<data.parcels[0].irrigationInfos.length; i++) {
+        //                var product = dom.byId("parcelStatus-data");
+        //                var ul = domConstruct.create("ul");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Date:</b> " + new Date(data.parcels[0].parcelStatus[i].date).toDateString();
+        //                domConstruct.place(li, ul, "last");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Status:</b> " + data.parcels[0].parcelStatus[i].parcelStatus;
+        //                domConstruct.place(li, ul, "last");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Uploading Date: </b>" + new Date(data.parcels[0].parcelStatus[i].uploadingDate).toDateString();
+        //                domConstruct.place(li, ul, "last");
+        //                domConstruct.place(ul, product, "last");
+        //            }
+        //        }
+        //        if(data.parcels[0].phatogens.length>0){
+        //            var label = dom.byId("phatogens");
+        //            label.innerHTML = "Pathogens (" + data.parcels[0].phatogens.length + "):";
+        //            for(var i =0; i<data.parcels[0].phatogens.length; i++) {
+        //                var product = dom.byId("phatogens-data");
+        //                var ul = domConstruct.create("ul");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Date:</b> " + new Date(data.parcels[0].phatogens[i].date).toDateString();
+        //                domConstruct.place(li, ul, "last");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Comments:</b> " + data.parcels[0].phatogens[i].comments;
+        //                domConstruct.place(li, ul, "last");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Damage:</b> " + data.parcels[0].phatogens[i].damage;
+        //                domConstruct.place(li, ul, "last");
+        //                //var li = domConstruct.create("li");
+        //                //li.innerHTML = "<b>File:</b> " + data.parcels[0].phatogens[i].file;
+        //                //domConstruct.place(li, ul, "last");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Name:</b> " + data.parcels[0].phatogens[i].name;
+        //                domConstruct.place(li, ul, "last");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Uploading Date: </b>" + new Date(data.parcels[0].phatogens[i].uploadingDate).toDateString();
+        //                domConstruct.place(li, ul, "last");
+        //                domConstruct.place(ul, product, "last");
+        //            }
+        //        }
+        //        if(data.parcels[0].phenologies.length>0){
+        //            var label = dom.byId("phenologies");
+        //            label.innerHTML = "Phenologies (" + data.parcels[0].phenologies.length + "):";
+        //            for(var i =0; i<data.parcels[0].phenologies.length; i++) {
+        //                var product = dom.byId("phenologies-data");
+        //                var ul = domConstruct.create("ul");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Date:</b> " + new Date(data.parcels[0].phenologies[i].date).toDateString();
+        //                domConstruct.place(li, ul, "last");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Code:</b> " + data.parcels[0].phenologies[i].code;
+        //                domConstruct.place(li, ul, "last");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Development Stage:</b> " + data.parcels[0].phenologies[i].developmentStage;
+        //                domConstruct.place(li, ul, "last");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Growth Stage:</b> " + data.parcels[0].phenologies[i].growthStage;
+        //                domConstruct.place(li, ul, "last");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Uploading Date: </b>" + new Date(data.parcels[0].phenologies[i].uploadingDate).toDateString();
+        //                domConstruct.place(li, ul, "last");
+        //                domConstruct.place(ul, product, "last");
+        //            }
+        //        }
+        //        if(data.parcels[0].soils.length>0){
+        //            var label = dom.byId("soils");
+        //            label.innerHTML = "Soils (" + data.parcels[0].soils.length + "):";
+        //            for(var i =0; i<data.parcels[0].soils.length; i++) {
+        //                var product = dom.byId("soils-data");
+        //                var ul = domConstruct.create("ul");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Date:</b> " + new Date(data.parcels[0].soils[i].date).toDateString();
+        //                domConstruct.place(li, ul, "last");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Organic Matter:</b> " + data.parcels[0].soils[i].organicMatter;
+        //                domConstruct.place(li, ul, "last");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>PH:</b> " + data.parcels[0].soils[i].ph;
+        //                domConstruct.place(li, ul, "last");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Soil Texture: </b>" + data.parcels[0].soils[i].soilTexture;
+        //                domConstruct.place(li, ul, "last");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Uploading Date: </b>" + new Date(data.parcels[0].soils[i].uploadingDate).toDateString();
+        //                domConstruct.place(li, ul, "last");
+        //                domConstruct.place(ul, product, "last");
+        //            }
+        //        }
+        //        if(data.parcels[0].weeds.length>0){
+        //            var label = dom.byId("weeds");
+        //            label.innerHTML = "Weeds (" + data.parcels[0].weeds.length + "):";
+        //            for(var i =0; i<data.parcels[0].weeds.length; i++) {
+        //                var product = dom.byId("weeds-data");
+        //                var ul = domConstruct.create("ul");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Date:</b> " + new Date(data.parcels[0].weeds[i].date).toDateString();
+        //                domConstruct.place(li, ul, "last");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Comments:</b> " + data.parcels[0].weeds[i].comments;
+        //                domConstruct.place(li, ul, "last");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Damage:</b> " + data.parcels[0].weeds[i].damage;
+        //                domConstruct.place(li, ul, "last");
+        //                //var li = domConstruct.create("li");
+        //                //li.innerHTML = "<b>File:</b> " + data.parcels[0].weeds[i].file;
+        //                //domConstruct.place(li, ul, "last");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Name: </b>" + data.parcels[0].weeds[i].name;
+        //                domConstruct.place(li, ul, "last");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Uploading Date: </b>" + new Date(data.parcels[0].weeds[i].uploadingDate).toDateString();
+        //                domConstruct.place(li, ul, "last");
+        //                domConstruct.place(ul, product, "last");
+        //            }
+        //        }
+        //        if(data.parcels[0].yields.length>0){
+        //            var label = dom.byId("yields");
+        //            label.innerHTML = "Yields (" + data.parcels[0].yields.length + "):";
+        //            for(var i =0; i<data.parcels[0].yields.length; i++) {
+        //                var product = dom.byId("yields-data");
+        //                var ul = domConstruct.create("ul");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Date:</b> " + new Date(data.parcels[0].yields[i].date).toDateString();
+        //                domConstruct.place(li, ul, "last");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Comments:</b> " + data.parcels[0].yields[i].comments;
+        //                domConstruct.place(li, ul, "last");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Yield:</b> " + data.parcels[0].yields[i].yield;
+        //                domConstruct.place(li, ul, "last");
+        //                var li = domConstruct.create("li");
+        //                li.innerHTML = "<b>Uploading Date: </b>" + new Date(data.parcels[0].yields[i].uploadingDate).toDateString();
+        //                domConstruct.place(li, ul, "last");
+        //                domConstruct.place(ul, product, "last");
+        //            }
+        //        }
+        //
+        //    }
+        //    else {
+        //        this.map.infoWindow.setTitle("Invalid Parcel.");
+        //        this.map.infoWindow.setContent("<b>This parcel doesn't belong to you.</b>");
+        //    }
+        //
+        //},
 
         _updateGraph: function(point){
             this.clickedGraph.setGeometry(point);

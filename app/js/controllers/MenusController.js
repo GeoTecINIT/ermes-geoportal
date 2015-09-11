@@ -6,6 +6,7 @@ define([
     'dojo/on',
     'dojo/dom',
 	'dojo/dom-construct',
+	"dojo/topic",
     'dijit/_WidgetBase',
 	'dijit/_TemplatedMixin',
 	'text!templates/mainMenu.tpl.html',
@@ -14,7 +15,7 @@ define([
     'controllers/ComparingController',
     'controllers/SettingsController',
     'dojo/domReady!'	
-	], function(declare, Evented, lang, when, on, dom, domConstruct, _WidgetBase, _TemplatedMixin,
+	], function(declare, Evented, lang, when, on, dom, domConstruct, Topic, _WidgetBase, _TemplatedMixin,
 		 template, MainController, MonitoringController, ComparingController, SettingsController){
 		
 		return declare([Evented, _WidgetBase, _TemplatedMixin], {
@@ -66,6 +67,8 @@ define([
 			},
 
 			_cancelCharting: function(){
+
+				Topic.publish('cancel-legend',{});
 				this.monitoringController.stopClickHandler();
 				this.monitoringController.destroyChart();
 			},
@@ -75,6 +78,7 @@ define([
 			},
 
 			_cancelComparing: function(){
+				Topic.publish('enable-legend',{});
 				this.comparingController.resetSwipeWidget();
 			},
 
