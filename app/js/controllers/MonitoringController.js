@@ -102,7 +102,6 @@ define([
                 this.map.infoWindow.setContent("There is no parcel Here!");
             }
 
-            //WARM EXAMPLE
             var serviceURL = "http://ermes.dlsi.uji.es:6585/api/warm/development-stage";
             if (response.features.length>0) {
                 var parcelid = response.features[0].attributes.PARCEL_ID;
@@ -117,17 +116,17 @@ define([
                     handleAs: "json",
                     query: {
                         username: username,
-                        //parcelId: parcelid,
-                        parcelId: "ES52346237A02500111G",
-                        doy: 200,
-                        //doy: doy,
+                        parcelId: parcelid,
+                        //Use this values to check if it is working.
+                        //parcelId: "ES52346237A02500111G",
+                        //doy: 200,
+                        doy: doy,
                         year: now.getFullYear()
                     },
                     headers: {
                         "X-Requested-With": null
                     }
                 }).then(lang.hitch(this, "_receivedData", "warm"));
-                //}).then(lang.hitch(this, "_showWarmInfo"));
             }
         },
 
@@ -442,335 +441,31 @@ define([
                     }
                 }
 
-                // UNCOMMENT FOR ENABLE CONNECTION WITH WARM DATABASE.
-                //if(!this.warmData.error){
-                //    var label = dom.byId("developmentStage");
-                //    label.innerHTML = "Development Stage (WARM) (" + this.warmData.res.products.length + "):";
-                //    for(var i =0; i<this.warmData.res.products.length; i++) {
-                //        var product = dom.byId("developmentStage-data");
-                //        var ul = domConstruct.create("ul");
-                //        var li = domConstruct.create("li");
-                //        var day = this.warmData.res.products[i].doy;
-                //        var dateShowed = new Date();
-                //        dateShowed.setDate(dateShowed.getDate() + i);
-                //        li.innerHTML = "<b>Date:</b> " + dateShowed.toDateString();
-                //        domConstruct.place(li, ul, "last");
-                //        var li = domConstruct.create("li");
-                //        li.innerHTML = "<b>StageCode:</b> " + this.warmData.res.products[i].stagecode;
-                //        domConstruct.place(li, ul, "last");
-                //        domConstruct.place(ul, product, "last");
-                //    }
-                //}
+                 //UNCOMMENT FOR ENABLE CONNECTION WITH WARM DATABASE.
+                if(!this.warmData.error){
+                    var label = dom.byId("developmentStage");
+                    label.innerHTML = "Development Stage (WARM) (" + this.warmData.res.products.length + "):";
+                    for(var i =0; i<this.warmData.res.products.length; i++) {
+                        var product = dom.byId("developmentStage-data");
+                        var ul = domConstruct.create("ul");
+                        var li = domConstruct.create("li");
+                        var day = this.warmData.res.products[i].doy;
+                        var dateShowed = new Date();
+                        dateShowed.setDate(dateShowed.getDate() + i);
+                        li.innerHTML = "<b>Date:</b> " + dateShowed.toDateString();
+                        domConstruct.place(li, ul, "last");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>StageCode:</b> " + this.warmData.res.products[i].stagecode;
+                        domConstruct.place(li, ul, "last");
+                        domConstruct.place(ul, product, "last");
+                    }
+                }
             }
             else {
                 this.map.infoWindow.setTitle("Invalid Parcel.");
                 this.map.infoWindow.setContent("<b>This parcel doesn't belong to you.</b>");
             }
         },
-
-        //_showInfoWindow: function(data, evt){
-        //    console.log(data);
-        //    domConstruct.destroy("loading-image")
-        //    if(data.parcels){
-        //        var content = parcelTemplate;
-        //        this.map.infoWindow.setContent(content);
-        //        this.map.infoWindow.setTitle("Parcel ID: " + data.parcels[0].parcelId);
-        //        if(data.parcels[0].agrochemicals.length>0){
-        //            var label = dom.byId("agrochemicals");
-        //            label.innerHTML = "Agrochemicals (" + data.parcels[0].agrochemicals.length + "):";
-        //            for(var i =0; i<data.parcels[0].agrochemicals.length; i++) {
-        //                var product = dom.byId("agrochemicals-data");
-        //                var ul = domConstruct.create("ul");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Date:</b> " + new Date(data.parcels[0].agrochemicals[i].date).toDateString();
-        //                domConstruct.place(li, ul, "last");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Amount:</b> " + data.parcels[0].agrochemicals[i].amount;
-        //                domConstruct.place(li, ul, "last");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Product:</b> " + data.parcels[0].agrochemicals[i].product;
-        //                domConstruct.place(li, ul, "last");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Uploading Date: </b>" + new Date(data.parcels[0].agrochemicals[i].uploadingDate).toDateString();
-        //                domConstruct.place(li, ul, "last");
-        //                domConstruct.place(ul, product, "last");
-        //            }
-        //        }
-        //        if(data.parcels[0].cropInfos.length>0){
-        //            var label = dom.byId("cropInfos");
-        //            label.innerHTML = "Crop Info (" + data.parcels[0].cropInfos.length + "):";
-        //            for(var i =0; i<data.parcels[0].cropInfos.length; i++) {
-        //                var product = dom.byId("cropInfos-data");
-        //                var ul = domConstruct.create("ul");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Date:</b> " + new Date(data.parcels[0].cropInfos[i].date).toDateString();
-        //                domConstruct.place(li, ul, "last");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Crop Type:</b> " + data.parcels[0].cropInfos[i].cropType;
-        //                domConstruct.place(li, ul, "last");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Pudding:</b> " + data.parcels[0].cropInfos[i].pudding;
-        //                domConstruct.place(li, ul, "last");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Rice Variety:</b> " + data.parcels[0].cropInfos[i].riceVariety;
-        //                domConstruct.place(li, ul, "last");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Sowing Practice:</b> " + data.parcels[0].cropInfos[i].sowingPractice;
-        //                domConstruct.place(li, ul, "last");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Uploading Date: </b>" + new Date(data.parcels[0].cropInfos[i].uploadingDate).toDateString();
-        //                domConstruct.place(li, ul, "last");
-        //                domConstruct.place(ul, product, "last");
-        //            }
-        //        }
-        //        if(data.parcels[0].diseases.length>0){
-        //            var label = dom.byId("diseases");
-        //            label.innerHTML = "Diseases (" + data.parcels[0].diseases.length + "):";
-        //            for(var i =0; i<data.parcels[0].diseases.length; i++) {
-        //                var product = dom.byId("diseases-data");
-        //                var ul = domConstruct.create("ul");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Date:</b> " + new Date(data.parcels[0].diseases[i].date).toDateString();
-        //                domConstruct.place(li, ul, "last");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Comments:</b> " + data.parcels[0].diseases[i].comments;
-        //                domConstruct.place(li, ul, "last");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Damage:</b> " + data.parcels[0].diseases[i].damage;
-        //                domConstruct.place(li, ul, "last");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Name:</b> " + data.parcels[0].diseases[i].name;
-        //                domConstruct.place(li, ul, "last");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Uploading Date: </b>" + new Date(data.parcels[0].diseases[i].uploadingDate).toDateString();
-        //                domConstruct.place(li, ul, "last");
-        //                domConstruct.place(ul, product, "last");
-        //            }
-        //        }
-        //        if(data.parcels[0].fertilizers.length>0){
-        //            var label = dom.byId("fertilizers");
-        //            label.innerHTML = "Fertilizers (" + data.parcels[0].fertilizers.length + "):";
-        //            for(var i =0; i<data.parcels[0].fertilizers.length; i++) {
-        //                var product = dom.byId("fertilizers-data");
-        //                var ul = domConstruct.create("ul");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Date:</b> " + new Date(data.parcels[0].fertilizers[i].date).toDateString();
-        //                domConstruct.place(li, ul, "last");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Nitrogen Content:</b> " + data.parcels[0].fertilizers[i].nitrogenContent;
-        //                domConstruct.place(li, ul, "last");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Phosphorus Content:</b> " + data.parcels[0].fertilizers[i].phosphorusContent;
-        //                domConstruct.place(li, ul, "last");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Potassium Content:</b> " + data.parcels[0].fertilizers[i].potassiumContent;
-        //                domConstruct.place(li, ul, "last");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Product:</b> " + data.parcels[0].fertilizers[i].product;
-        //                domConstruct.place(li, ul, "last");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Quantity:</b> " + data.parcels[0].fertilizers[i].quantity;
-        //                domConstruct.place(li, ul, "last");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Uploading Date: </b>" + new Date(data.parcels[0].fertilizers[i].uploadingDate).toDateString();
-        //                domConstruct.place(li, ul, "last");
-        //                domConstruct.place(ul, product, "last");
-        //            }
-        //        }
-        //        if(data.parcels[0].irrigationInfos.length>0){
-        //            var label = dom.byId("irrigationInfos");
-        //            label.innerHTML = "Irrigiation Info (" + data.parcels[0].irrigationInfos.length + "):";
-        //            for(var i =0; i<data.parcels[0].irrigationInfos.length; i++) {
-        //                var product = dom.byId("irrigationInfos-data");
-        //                var ul = domConstruct.create("ul");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Start Date:</b> " + new Date(data.parcels[0].irrigationInfos[i].startDate).toDateString();
-        //                domConstruct.place(li, ul, "last");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>End Date:</b> " + new Date(data.parcels[0].irrigationInfos[i].endDate).toDateString();
-        //                domConstruct.place(li, ul, "last");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Quantity of Water Measure:</b> " + data.parcels[0].irrigationInfos[i].quantityOfWaterMeasure;
-        //                domConstruct.place(li, ul, "last");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Water Depth:</b> " + data.parcels[0].irrigationInfos[i].waterDepth;
-        //                domConstruct.place(li, ul, "last");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Water Hours:</b> " + data.parcels[0].irrigationInfos[i].waterHours;
-        //                domConstruct.place(li, ul, "last");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Water Quantity:</b> " + data.parcels[0].irrigationInfos[i].waterQuantity;
-        //                domConstruct.place(li, ul, "last");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Uploading Date: </b>" + new Date(data.parcels[0].irrigationInfos[i].uploadingDate).toDateString();
-        //                domConstruct.place(li, ul, "last");
-        //                domConstruct.place(ul, product, "last");
-        //            }
-        //        }
-        //        if(data.parcels[0].observations.length>0){
-        //            var label = dom.byId("observations");
-        //            label.innerHTML = "Observations (" + data.parcels[0].observations.length + "):";
-        //            for(var i =0; i<data.parcels[0].observations.length; i++) {
-        //                var product = dom.byId("observations-data");
-        //                var ul = domConstruct.create("ul");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Comments:</b> " + data.parcels[0].observations[i].comments;
-        //                domConstruct.place(li, ul, "last");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Uploading Date: </b>" + new Date(data.parcels[0].observations[i].uploadingDate).toDateString();
-        //                domConstruct.place(li, ul, "last");
-        //                domConstruct.place(ul, product, "last");
-        //            }
-        //        }
-        //        if(data.parcels[0].parcelStatus.length>0){
-        //            var label = dom.byId("parcelStatus");
-        //            label.innerHTML = "Parcel Status (" + data.parcels[0].parcelStatus.length + "):";
-        //            for(var i =0; i<data.parcels[0].irrigationInfos.length; i++) {
-        //                var product = dom.byId("parcelStatus-data");
-        //                var ul = domConstruct.create("ul");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Date:</b> " + new Date(data.parcels[0].parcelStatus[i].date).toDateString();
-        //                domConstruct.place(li, ul, "last");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Status:</b> " + data.parcels[0].parcelStatus[i].parcelStatus;
-        //                domConstruct.place(li, ul, "last");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Uploading Date: </b>" + new Date(data.parcels[0].parcelStatus[i].uploadingDate).toDateString();
-        //                domConstruct.place(li, ul, "last");
-        //                domConstruct.place(ul, product, "last");
-        //            }
-        //        }
-        //        if(data.parcels[0].phatogens.length>0){
-        //            var label = dom.byId("phatogens");
-        //            label.innerHTML = "Pathogens (" + data.parcels[0].phatogens.length + "):";
-        //            for(var i =0; i<data.parcels[0].phatogens.length; i++) {
-        //                var product = dom.byId("phatogens-data");
-        //                var ul = domConstruct.create("ul");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Date:</b> " + new Date(data.parcels[0].phatogens[i].date).toDateString();
-        //                domConstruct.place(li, ul, "last");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Comments:</b> " + data.parcels[0].phatogens[i].comments;
-        //                domConstruct.place(li, ul, "last");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Damage:</b> " + data.parcels[0].phatogens[i].damage;
-        //                domConstruct.place(li, ul, "last");
-        //                //var li = domConstruct.create("li");
-        //                //li.innerHTML = "<b>File:</b> " + data.parcels[0].phatogens[i].file;
-        //                //domConstruct.place(li, ul, "last");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Name:</b> " + data.parcels[0].phatogens[i].name;
-        //                domConstruct.place(li, ul, "last");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Uploading Date: </b>" + new Date(data.parcels[0].phatogens[i].uploadingDate).toDateString();
-        //                domConstruct.place(li, ul, "last");
-        //                domConstruct.place(ul, product, "last");
-        //            }
-        //        }
-        //        if(data.parcels[0].phenologies.length>0){
-        //            var label = dom.byId("phenologies");
-        //            label.innerHTML = "Phenologies (" + data.parcels[0].phenologies.length + "):";
-        //            for(var i =0; i<data.parcels[0].phenologies.length; i++) {
-        //                var product = dom.byId("phenologies-data");
-        //                var ul = domConstruct.create("ul");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Date:</b> " + new Date(data.parcels[0].phenologies[i].date).toDateString();
-        //                domConstruct.place(li, ul, "last");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Code:</b> " + data.parcels[0].phenologies[i].code;
-        //                domConstruct.place(li, ul, "last");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Development Stage:</b> " + data.parcels[0].phenologies[i].developmentStage;
-        //                domConstruct.place(li, ul, "last");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Growth Stage:</b> " + data.parcels[0].phenologies[i].growthStage;
-        //                domConstruct.place(li, ul, "last");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Uploading Date: </b>" + new Date(data.parcels[0].phenologies[i].uploadingDate).toDateString();
-        //                domConstruct.place(li, ul, "last");
-        //                domConstruct.place(ul, product, "last");
-        //            }
-        //        }
-        //        if(data.parcels[0].soils.length>0){
-        //            var label = dom.byId("soils");
-        //            label.innerHTML = "Soils (" + data.parcels[0].soils.length + "):";
-        //            for(var i =0; i<data.parcels[0].soils.length; i++) {
-        //                var product = dom.byId("soils-data");
-        //                var ul = domConstruct.create("ul");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Date:</b> " + new Date(data.parcels[0].soils[i].date).toDateString();
-        //                domConstruct.place(li, ul, "last");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Organic Matter:</b> " + data.parcels[0].soils[i].organicMatter;
-        //                domConstruct.place(li, ul, "last");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>PH:</b> " + data.parcels[0].soils[i].ph;
-        //                domConstruct.place(li, ul, "last");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Soil Texture: </b>" + data.parcels[0].soils[i].soilTexture;
-        //                domConstruct.place(li, ul, "last");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Uploading Date: </b>" + new Date(data.parcels[0].soils[i].uploadingDate).toDateString();
-        //                domConstruct.place(li, ul, "last");
-        //                domConstruct.place(ul, product, "last");
-        //            }
-        //        }
-        //        if(data.parcels[0].weeds.length>0){
-        //            var label = dom.byId("weeds");
-        //            label.innerHTML = "Weeds (" + data.parcels[0].weeds.length + "):";
-        //            for(var i =0; i<data.parcels[0].weeds.length; i++) {
-        //                var product = dom.byId("weeds-data");
-        //                var ul = domConstruct.create("ul");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Date:</b> " + new Date(data.parcels[0].weeds[i].date).toDateString();
-        //                domConstruct.place(li, ul, "last");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Comments:</b> " + data.parcels[0].weeds[i].comments;
-        //                domConstruct.place(li, ul, "last");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Damage:</b> " + data.parcels[0].weeds[i].damage;
-        //                domConstruct.place(li, ul, "last");
-        //                //var li = domConstruct.create("li");
-        //                //li.innerHTML = "<b>File:</b> " + data.parcels[0].weeds[i].file;
-        //                //domConstruct.place(li, ul, "last");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Name: </b>" + data.parcels[0].weeds[i].name;
-        //                domConstruct.place(li, ul, "last");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Uploading Date: </b>" + new Date(data.parcels[0].weeds[i].uploadingDate).toDateString();
-        //                domConstruct.place(li, ul, "last");
-        //                domConstruct.place(ul, product, "last");
-        //            }
-        //        }
-        //        if(data.parcels[0].yields.length>0){
-        //            var label = dom.byId("yields");
-        //            label.innerHTML = "Yields (" + data.parcels[0].yields.length + "):";
-        //            for(var i =0; i<data.parcels[0].yields.length; i++) {
-        //                var product = dom.byId("yields-data");
-        //                var ul = domConstruct.create("ul");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Date:</b> " + new Date(data.parcels[0].yields[i].date).toDateString();
-        //                domConstruct.place(li, ul, "last");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Comments:</b> " + data.parcels[0].yields[i].comments;
-        //                domConstruct.place(li, ul, "last");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Yield:</b> " + data.parcels[0].yields[i].yield;
-        //                domConstruct.place(li, ul, "last");
-        //                var li = domConstruct.create("li");
-        //                li.innerHTML = "<b>Uploading Date: </b>" + new Date(data.parcels[0].yields[i].uploadingDate).toDateString();
-        //                domConstruct.place(li, ul, "last");
-        //                domConstruct.place(ul, product, "last");
-        //            }
-        //        }
-        //
-        //    }
-        //    else {
-        //        this.map.infoWindow.setTitle("Invalid Parcel.");
-        //        this.map.infoWindow.setContent("<b>This parcel doesn't belong to you.</b>");
-        //    }
-        //
-        //},
 
         _updateGraph: function(point){
             this.clickedGraph.setGeometry(point);

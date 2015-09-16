@@ -126,9 +126,6 @@
       "id": "Global Radiation",
       "name": "Global Radiation",
       "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-IT/REGIONAL_METEO_RAD/ImageServer",
-      "historicUrl": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-IT/REGIONAL_METEO_RAD_LTA/ImageServer",
-      "forecastUrl": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-IT/REGIONAL_METEO_RAD_FORE/ImageServer",
-      "description": "<p>This map shows estimates of Cumulate Global Solar Radiation for the selected date. The map was derived from ECMWF datasets. Unit measure are MJ m-2 day-1.</p><p>Strong differences between the current year values for a given date and the average values indicate anomalous meteorological conditions, potentially affecting rice development.</p>",
       "default": false,
       "yAxis": "Regional Meteo RAD Daily Global Radiation [MJ m-2 day-1]",
       "plotType": 4 //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV). 4-Three Series (Value + Forecast + Avg + StdDV). 5-Three Series without StdDv (Value + Forecast + Avg)

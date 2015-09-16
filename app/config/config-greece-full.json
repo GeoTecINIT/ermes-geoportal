@@ -63,96 +63,120 @@
   }],  
   "mosaics": [
     {
-      "id": "Regional Monitoring NDVI",
-      "name": "Regional Monitoring NDVI",
+      "id": "NDVI",
+      "name": "NDVI",
       "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-GR/REGIONAL_MONITORING_NDVI/ImageServer",
       "historicUrl": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-GR/REGIONAL_MONITORING_NVDI_LTA/ImageServer",
-      "description": "NDVI time-series datasets durng 2015 fo rhte Greek case study.",
+      "description": "<p>This map shows the values of the Normalized Difference Vegetation Index (NDVI) for the selected date. The map was derived from MODIS satellite data. </p><p>NDVI is a dimensionless indicator of vegetation development which is strongly related to plant biomass. On rice areas, low values of the index (e.g., 3000-4000) are characteristic of Bare Soil conditions and are typical of the winter season. Values then increase with plant development, reaching maximum values (7000 - 9000) when the plant reaches maximum biomass/LAI. </p><p>Strong differences between the current year values for a given date and the average values may indicate either an anomaly in growth conditions (e.g., anticipated or delayed development due to meteo conditions), or a change in the kind of crop cultivated in the area.</p>",
       "plotType": 3, //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
-      "default": true
+      "yAxis": "NDVI (x 10000)",
+      "default": false
     },
     {
-      "id": "Regional LAI MOD",
-      "name": "Regional LAI MOD",
+      "id": "Leaf Area Index (MODIS)",
+      "name": "Leaf Area Index (MODIS)",
       "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-GR/REGIONAL_LAI_MOD/ImageServer",
-      "description": "LAI measurement MOD sensor during 2015 in the Greek case study.",
+      "historicUrl": "",
+      "description": "<p>This map shows estimates of Leaf Area Index (LAI) for the selected date. The map was derived from MODIS satellite data. </p><p>LAI corresponds to the total leaf area insisting on each square meter of ground surface (LAI = leaf area / ground area, m2 / m2) ). It is directly related to biomass, light interception and primary production. On rice areas, low values of the LAI  (e.g., 0 - 0.3) are characteristic of Bare Soil conditions and are typical of the winter season. Values then increase with plant development, reaching maximum values (5-7) around heading. </p><p>Strong differences between the current year values for a given date and the average values may indicate either an anomaly in growth conditions (e.g., anticipated or delayed development due to meteo conditions), or a change in the kind of crop cultivated in the area.</p>",
       "plotType": 1, //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
-      "default": true
+      "yAxis": "Regional LAI MOD Leaf Area Index [m2/ m2]",
+      "default": false
     },
     {
-      "id": "Regional LAI VGT",
-      "name": "Regional LAI VGT",
+      "id": "Leaf Area Index (Proba-V)",
+      "name": "Leaf Area Index (Proba-V)",
       "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-GR/REGIONAL_LAI_VGT/ImageServer",
-      //"historicUrl": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-ES/REGIONAL_MONITORING_NVDI_LTA/ImageServer",
-      "description": "LAI measurement VGT sensor during 2015 in the Greek case study.",
+      "historicUrl": "",
+      "description": "<p>This map shows estimates of Leaf Area Index (LAI) for the selected date. The map was derived from Proba-V satellite data. </p><p>LAI corresponds to the total leaf area insisting on each square meter of ground surface (LAI = leaf area / ground area, m2 / m2) ). It is directly related to biomass, light interception and primary production. On rice areas, low values of the LAI  (e.g., 0 - 0.3) are characteristic of Bare Soil conditions and are typical of the winter season. Values then increase with plant development, reaching maximum values (5-7) around heading. </p><p>Strong differences between the current year values for a given date and the average values may indicate either an anomaly in growth conditions (e.g., anticipated or delayed development due to meteo conditions), or a change in the kind of crop cultivated in the area.</p>",
       "plotType": 1, //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
-      "default": true
+      "yAxis": "Leaf Area Index (Proba-V)",
+      "default": false
     },
     {
-      "id": "Regional METEO PCUM ",
-      "name": "Regional METEO PCUM",
-      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-GR/REGIONAL_METEO_PCUM/ImageServer",
-      "description": "Daily precipitations, PCUM, 2015, Greece.",
-      "plotType": 1, //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
-      "default": true
-    },
-    {
-      "id": "Regional METEO RAD",
-      "name": "Regional METEO RAD",
-      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-GR/REGIONAL_METEO_RAD/ImageServer",
-      //"historicUrl": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-ES/REGIONAL_MONITORING_NVDI_LTA/ImageServer",
-      "description": "Daily solar radiation, 2015, Greece.",
-      "plotType": 1, //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
-      "default": true
-    },
-    {
-      "id": "Regional METEO RHMAX",
-      "name": "Regional METEO RHMAX",
-      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-GR/REGIONAL_METEO_RHMAX/ImageServer",
-      "description": "Maximum relative humidity, RhMax, 2015, Greece.",
-      "plotType": 1, //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
-      "default": true
-    },
-    {
-      "id": "Regional METEO RHMIN",
-      "name": "Regional METEO RHMIN",
-      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-GR/REGIONAL_METEO_RHMIN/ImageServer",
-      //"historicUrl": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-ES/REGIONAL_MONITORING_NVDI_LTA/ImageServer",
-      "description": "Minimum relative humidity, RhMIN, 2015, Greece.",
-      "plotType": 1, //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
-      "default": true
-    },
-    {
-      "id": "Regional METEO TMAX",
-      "name": "Regional METEO TMAX",
+      "id": "Maximum Temperature",
+      "name": "Maximum Temperature",
       "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-GR/REGIONAL_METEO_TMAX/ImageServer",
-      "description": "Time-series meteo data, TMAX, 2015, Greece.",
+      "historicUrl": "",
+      "forecastUrl": "",
+      "description": "<p>This map shows estimates of Maximum Daily Temperature for the selected date. The map was derived from ECMWF datasets. Unit measure are °C.</p><p>Strong differences between the current year values for a given date and the average values indicate anomalous meteorological conditions ,potentially affecting rice development.</p>",
       "plotType": 1, //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
-      "default": true
+      "yAxis": "Maximum Daily Temperature [°C]",
+      "default": false
     },
     {
-      "id": "Regional METEO TMIN",
-      "name": "Regional METEO TMIN",
+      "id": "Minimum Temperature",
+      "name": "Minimum Temperature",
       "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-GR/REGIONAL_METEO_TMIN/ImageServer",
-      "description": "Time-series meteo data, TMIN, 2015, Greece.",
+      "historicUrl": "",
+      "forecastUrl": "",
+      "description": "<p>This map shows estimates of Minimum Daily Temperature for the selected date. The map was derived from ECMWF datasets.</p><p>Strong differences between the current year values for a given date and the average values indicate anomalous meteorological conditions ,potentially affecting rice development.</p>",
       "plotType": 1, //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
-      "default": true
+      "yAxis": "Minimum Daily Temperature [°C]",
+      "default": false
     },
     {
-      "id": "Regional METEO WS",
-      "name": "Regional METEO WS",
+      "id": "Global Radiation",
+      "name": "Global Radiation",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-GR/REGIONAL_METEO_RAD/ImageServer",
+      "historicUrl": "",
+      "forecastUrl": "",
+      "description": "<p>This map shows estimates of Cumulate Global Solar Radiation for the selected date. The map was derived from ECMWF datasets. Unit measure are MJ m-2 day-1.</p><p>Strong differences between the current year values for a given date and the average values indicate anomalous meteorological conditions, potentially affecting rice development.</p>",
+      "yAxis": "Regional Meteo RAD Daily Global Radiation [MJ m-2 day-1]",
+      "plotType": 1, //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
+      "default": false
+    },
+    {
+      "id": "Rainfall",
+      "name": "Rainfall",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-GR/REGIONAL_METEO_PCUM/ImageServer",
+      "historicUrl": "",
+      "forecastUrl": "",
+      "description": "<p>This map shows estimates of Cumulate Daily Rainfall for the selected date. The map was derived from ECMWF datasets. Unit measure are mm 1/day.</p>",
+      "yAxis": "Daily Rainfall [mm]",
+      "plotType": 1, //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
+      "default": false
+    },
+    {
+      "id": "Maximum Humidity",
+      "name": "Maximum Humidity",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-GR/REGIONAL_METEO_RHMAX/ImageServer",
+      "historicUrl": "",
+      "forecastUrl": "",
+      "description": "<p>This map shows estimates of 5.2.10 Maximum Relative Humidity  for the selected date. The map was derived from ECMWF datasets. Unit measure are m 1/s</p>",
+      "yAxis": "Maximum Daily Humidity [%]",
+      "plotType": 1, //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
+      "default": false
+    },
+    {
+      "id": "Minimum Humidity",
+      "name": "Minimum Humidity",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-GR/REGIONAL_METEO_RHMIN/ImageServer",
+      "historicUrl": "",
+      "forecastUrl": "",
+      "description": "<p>This map shows estimates of 5.2.10 Minimum Relative Humidity  for the selected date. The map was derived from ECMWF datasets. Unit measure are m 1/s</p>",
+      "yAxis": "Minimum Daily Humidity [%]",
+      "plotType": 1, //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
+      "default": false
+    },
+    {
+      "id": "Average WindSpeed",
+      "name": "Average WindSpeed",
       "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-GR/REGIONAL_METEO_WS/ImageServer",
-      "description": "Average wind speed, WS, 2015, Greece.",
+      "historicUrl": "",
+      "forecastUrl": "",
+      "description": "<p>This map shows estimates of Average Wind Speed for the selected date. The map was derived from ECMWF datasets. Unit measure are m 1/s.</p>",
+      "yAxis": "Regional Meteo WS Average WindSpeed [m s-1]",
       "plotType": 1, //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
-      "default": true
+      "default": false
     },
     {
-      "id": "Regional RISKBIOTIC JAPONICAMEDIUM",
-      "name": "Regional RISKBIOTIC JAPONICAMEDIUM",
+      "id": "Rice Blast Infection Risk",
+      "name": "Rice Blast Infection Risk",
       "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-GR/REGIONAL_RISKBIOTIC_JAPONICAMEDIUM/ImageServer",
-      "description": "Biotic risk map during 2015 in the Greek case study.",
+      "description": "Potential infection risk (biotic) for Greek use case, 2015 ",
+      "yAxis": "Rice Blast Infection Risk [%]",
       "plotType": 1, //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
-      "default": true
+      "default": false
     }
   ],
   "layers": [
