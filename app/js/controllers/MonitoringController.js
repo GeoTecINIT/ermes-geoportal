@@ -40,6 +40,7 @@ define([
         clickedGraph: new Graphic(null, null),
         mongoData: null,
         warmData: null,
+        warmInfectionData: null,
         localDataReceived: 0,
 
         constructor: function(args){
@@ -119,6 +120,7 @@ define([
                         parcelId: parcelid,
                         //Use this values to check if it is working.
                         //parcelId: "ES52346237A02500111G",
+                        //parcelId: "ITC4801818601100083B",
                         //doy: 200,
                         doy: doy,
                         year: now.getFullYear()
@@ -127,6 +129,34 @@ define([
                         "X-Requested-With": null
                     }
                 }).then(lang.hitch(this, "_receivedData", "warm"));
+            }
+
+            var serviceURL = "http://ermes.dlsi.uji.es:6585/api/warm/infection-risk";
+            if (response.features.length>0) {
+                var parcelid = response.features[0].attributes.PARCEL_ID;
+                var now = new Date();
+                var start = new Date(now.getFullYear(), 0, 0);
+                var diff = now - start;
+                var oneDay = 1000 * 60 * 60 * 24;
+
+                var doy = Math.floor(diff / oneDay);
+
+                xhr(serviceURL, {
+                    handleAs: "json",
+                    query: {
+                        username: username,
+                        parcelId: parcelid,
+                        //Use this values to check if it is working.
+                        //parcelId: "ES52346237A02500111G",
+                        //parcelId: "ITC4801818601100083B",
+                        //doy: 200,
+                        doy: doy,
+                        year: now.getFullYear()
+                    },
+                    headers: {
+                        "X-Requested-With": null
+                    }
+                }).then(lang.hitch(this, "_receivedData", "warmInfection"));
             }
         },
 
@@ -137,8 +167,11 @@ define([
             else if(profile=="warm"){
                 this.warmData = data;
             }
+            else if(profile=="warmInfection"){
+                this.warmInfectionData = data;
+            }
             this.localDataReceived++;
-            if(this.localDataReceived==2){
+            if(this.localDataReceived==3){
                 this.localDataReceived=0;
                 this._showInfoWindow()
             }
@@ -456,6 +489,25 @@ define([
                         domConstruct.place(li, ul, "last");
                         var li = domConstruct.create("li");
                         li.innerHTML = "<b>StageCode:</b> " + this.warmData.res.products[i].stagecode;
+                        domConstruct.place(li, ul, "last");
+                        domConstruct.place(ul, product, "last");
+                    }
+                }
+
+                if(!this.warmInfectionData.error){
+                    var label = dom.byId("infection");
+                    label.innerHTML = "Infections (WARM) (" + this.warmInfectionData.res.products.length + "):";
+                    for(var i =0; i<this.warmInfectionData.res.products.length; i++) {
+                        var product = dom.byId("infection-data");
+                        var ul = domConstruct.create("ul");
+                        var li = domConstruct.create("li");
+                        var day = this.warmInfectionData.res.products[i].doy;
+                        var dateShowed = new Date();
+                        dateShowed.setDate(dateShowed.getDate() + i);
+                        li.innerHTML = "<b>Date:</b> " + dateShowed.toDateString();
+                        domConstruct.place(li, ul, "last");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Infection Risk:</b> " + this.warmInfectionData.res.products[i].infectionRisk;
                         domConstruct.place(li, ul, "last");
                         domConstruct.place(ul, product, "last");
                     }
