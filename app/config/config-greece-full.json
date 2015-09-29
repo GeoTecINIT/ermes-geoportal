@@ -76,9 +76,9 @@
       "id": "Leaf Area Index (MODIS)",
       "name": "Leaf Area Index (MODIS)",
       "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-GR/REGIONAL_LAI_MOD/ImageServer",
-      "historicUrl": "",
+      "historicUrl": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-GR/REGIONAL_LAI_MOD_LTA/ImageServer",
       "description": "<p>This map shows estimates of Leaf Area Index (LAI) for the selected date. The map was derived from MODIS satellite data. </p><p>LAI corresponds to the total leaf area insisting on each square meter of ground surface (LAI = leaf area / ground area, m2 / m2) ). It is directly related to biomass, light interception and primary production. On rice areas, low values of the LAI  (e.g., 0 - 0.3) are characteristic of Bare Soil conditions and are typical of the winter season. Values then increase with plant development, reaching maximum values (5-7) around heading. </p><p>Strong differences between the current year values for a given date and the average values may indicate either an anomaly in growth conditions (e.g., anticipated or delayed development due to meteo conditions), or a change in the kind of crop cultivated in the area.</p>",
-      "plotType": 1, //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
+      "plotType": 3, //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
       "yAxis": "Regional LAI MOD Leaf Area Index [m2/ m2]",
       "default": false
     },
@@ -86,9 +86,9 @@
       "id": "Leaf Area Index (Proba-V)",
       "name": "Leaf Area Index (Proba-V)",
       "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-GR/REGIONAL_LAI_VGT/ImageServer",
-      "historicUrl": "",
+      "historicUrl": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-GR/REGIONAL_LAI_VGT_LTA/ImageServer",
       "description": "<p>This map shows estimates of Leaf Area Index (LAI) for the selected date. The map was derived from Proba-V satellite data. </p><p>LAI corresponds to the total leaf area insisting on each square meter of ground surface (LAI = leaf area / ground area, m2 / m2) ). It is directly related to biomass, light interception and primary production. On rice areas, low values of the LAI  (e.g., 0 - 0.3) are characteristic of Bare Soil conditions and are typical of the winter season. Values then increase with plant development, reaching maximum values (5-7) around heading. </p><p>Strong differences between the current year values for a given date and the average values may indicate either an anomaly in growth conditions (e.g., anticipated or delayed development due to meteo conditions), or a change in the kind of crop cultivated in the area.</p>",
-      "plotType": 1, //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
+      "plotType": 3, //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
       "yAxis": "Leaf Area Index (Proba-V)",
       "default": false
     },
@@ -96,10 +96,10 @@
       "id": "Maximum Temperature",
       "name": "Maximum Temperature",
       "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-GR/REGIONAL_METEO_TMAX/ImageServer",
-      "historicUrl": "",
+      "historicUrl": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-GR/REGIONAL_METEO_TMAX_LTA/ImageServer",
       "forecastUrl": "",
       "description": "<p>This map shows estimates of Maximum Daily Temperature for the selected date. The map was derived from ECMWF datasets. Unit measure are °C.</p><p>Strong differences between the current year values for a given date and the average values indicate anomalous meteorological conditions ,potentially affecting rice development.</p>",
-      "plotType": 1, //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
+      "plotType": 3, //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
       "yAxis": "Maximum Daily Temperature [°C]",
       "default": false
     },
@@ -107,10 +107,10 @@
       "id": "Minimum Temperature",
       "name": "Minimum Temperature",
       "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-GR/REGIONAL_METEO_TMIN/ImageServer",
-      "historicUrl": "",
+      "historicUrl": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-GR/REGIONAL_METEO_TMIN_LTA/ImageServer",
       "forecastUrl": "",
       "description": "<p>This map shows estimates of Minimum Daily Temperature for the selected date. The map was derived from ECMWF datasets.</p><p>Strong differences between the current year values for a given date and the average values indicate anomalous meteorological conditions ,potentially affecting rice development.</p>",
-      "plotType": 1, //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
+      "plotType": 3, //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
       "yAxis": "Minimum Daily Temperature [°C]",
       "default": false
     },
@@ -118,55 +118,55 @@
       "id": "Global Radiation",
       "name": "Global Radiation",
       "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-GR/REGIONAL_METEO_RAD/ImageServer",
-      "historicUrl": "",
+      "historicUrl": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-GR/REGIONAL_METEO_RAD_LTA/ImageServer",
       "forecastUrl": "",
       "description": "<p>This map shows estimates of Cumulate Global Solar Radiation for the selected date. The map was derived from ECMWF datasets. Unit measure are MJ m-2 day-1.</p><p>Strong differences between the current year values for a given date and the average values indicate anomalous meteorological conditions, potentially affecting rice development.</p>",
       "yAxis": "Regional Meteo RAD Daily Global Radiation [MJ m-2 day-1]",
-      "plotType": 1, //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
+      "plotType": 3, //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
       "default": false
     },
     {
       "id": "Rainfall",
       "name": "Rainfall",
       "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-GR/REGIONAL_METEO_PCUM/ImageServer",
-      "historicUrl": "",
+      "historicUrl": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-GR/REGIONAL_METEO_PCUM_LTA/ImageServer",
       "forecastUrl": "",
       "description": "<p>This map shows estimates of Cumulate Daily Rainfall for the selected date. The map was derived from ECMWF datasets. Unit measure are mm 1/day.</p>",
       "yAxis": "Daily Rainfall [mm]",
-      "plotType": 1, //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
+      "plotType": 3, //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
       "default": false
     },
     {
       "id": "Maximum Humidity",
       "name": "Maximum Humidity",
       "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-GR/REGIONAL_METEO_RHMAX/ImageServer",
-      "historicUrl": "",
+      "historicUrl": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-GR/REGIONAL_METEO_RHMAX_LTA/ImageServer",
       "forecastUrl": "",
       "description": "<p>This map shows estimates of 5.2.10 Maximum Relative Humidity  for the selected date. The map was derived from ECMWF datasets. Unit measure are m 1/s</p>",
       "yAxis": "Maximum Daily Humidity [%]",
-      "plotType": 1, //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
+      "plotType": 3, //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
       "default": false
     },
     {
       "id": "Minimum Humidity",
       "name": "Minimum Humidity",
       "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-GR/REGIONAL_METEO_RHMIN/ImageServer",
-      "historicUrl": "",
+      "historicUrl": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-GR/REGIONAL_METEO_RHMIN_LTA/ImageServer",
       "forecastUrl": "",
       "description": "<p>This map shows estimates of 5.2.10 Minimum Relative Humidity  for the selected date. The map was derived from ECMWF datasets. Unit measure are m 1/s</p>",
       "yAxis": "Minimum Daily Humidity [%]",
-      "plotType": 1, //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
+      "plotType": 3, //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
       "default": false
     },
     {
       "id": "Average WindSpeed",
       "name": "Average WindSpeed",
       "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-GR/REGIONAL_METEO_WS/ImageServer",
-      "historicUrl": "",
+      "historicUrl": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-GR/REGIONAL_METEO_WS_LTA/ImageServer",
       "forecastUrl": "",
       "description": "<p>This map shows estimates of Average Wind Speed for the selected date. The map was derived from ECMWF datasets. Unit measure are m 1/s.</p>",
       "yAxis": "Regional Meteo WS Average WindSpeed [m s-1]",
-      "plotType": 1, //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
+      "plotType": 3, //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
       "default": false
     },
     {
@@ -177,6 +177,46 @@
       "yAxis": "Rice Blast Infection Risk [%]",
       "plotType": 1, //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
       "default": false
+    },
+    {
+      "id": "Regional Ricemap",
+      "name": "Regional Ricemap",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-GR/REGIONAL_RICEMAP/ImageServer",
+      //"historicUrl": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-IT/REGIONAL_METEO_WS_LTA/ImageServer",
+      "description": "<p>This map shows the distribution of rice crop cultivations, as derived from analysis of multitemporal radar and optical satellite images. Highlighted areas correspond to rice fields. </p>",
+      "default": false,
+      "yAxis": "",
+      "plotType": 0 //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV). 4-Three Series (Value + Forecast + Avg + StdDV). 5-Three Series without StdDv (Value + Forecast + Avg)
+    },
+    {
+      "id": "Phenology - Establishment Date",
+      "name": "Phenology - Establishment Date",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-GR/REGIONAL_PHENOLOGY_MINDOYS/ImageServer",
+      //"historicUrl": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-IT/REGIONAL_METEO_WS_LTA/ImageServer",
+      "description": "<p>This map shows estimated of rice crop establishment dates (~Sowing date), derived from analysis of MODIS satellite images, at 2x2 km resolution. Values reported for each 2x2 km cell correspond to the average crop establishment dates estimated for rice cultivated areas located within the cell.</p>",
+      "default": false,
+      "yAxis": "",
+      "plotType": 0 //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV). 4-Three Series (Value + Forecast + Avg + StdDV). 5-Three Series without StdDv (Value + Forecast + Avg)
+    },
+    {
+      "id": "Phenology - Heading Date",
+      "name": "Phenology - Heading Date",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-GR/REGIONAL_PHENOLOGY_MAXDOYS/ImageServer",
+      //"historicUrl": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-IT/REGIONAL_METEO_WS_LTA/ImageServer",
+      "description": "<p>This map shows estimated of rice crop heading dates, derived from analysis of MODIS satellite images, at 2x2 km resolution. Values reported for each 2x2 km cell correspond to the average crop heading dates estimated for rice cultivated areas located within the cell</p>",
+      "default": false,
+      "yAxis": "",
+      "plotType": 0 //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV). 4-Three Series (Value + Forecast + Avg + StdDV). 5-Three Series without StdDv (Value + Forecast + Avg)
+    },
+    {
+      "id": "Phenology - Emergence Date",
+      "name": "Phenology - Emergence Date",
+      "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-GR/REGIONAL_PHENOLOGY_SOSDOYS/ImageServer",
+      //"historicUrl": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-IT/REGIONAL_METEO_WS_LTA/ImageServer",
+      "description": "<p>This map shows estimated of rice crop emergence dates, derived from analysis of MODIS satellite images, at 2x2 km resolution. Values reported for each 2x2 km cell correspond to the average crop emergence dates estimated for rice cultivated areas located within the cell.</p>",
+      "default": false,
+      "yAxis": "",
+      "plotType": 0 //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV). 4-Three Series (Value + Forecast + Avg + StdDV). 5-Three Series without StdDv (Value + Forecast + Avg)
     }
   ],
   "layers": [

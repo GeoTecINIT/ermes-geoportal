@@ -44,7 +44,7 @@
       "id": "Local LAI",
       "name": "Local LAI",
       "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-IT/LOCAL_LAI/ImageServer",
-      "description": "LAI local product, 2015, IT.",
+      "description": "<p>This map shows estimates of Leaf Area Index (LAI) for the selected date. The map was derived from MODIS satellite data. </p><p>LAI corresponds to the total leaf area insisting on each square meter of ground surface (LAI = leaf area / ground area, m2 / m2) ). It is directly related to biomass, light interception and primary production. On rice areas, low values of the LAI  (e.g., 0 - 0.3) are characteristic of Bare Soil conditions and are typical of the winter season. Values then increase with plant development, reaching maximum values (5-7) around heading. </p><p>Strong differences between the current year values for a given date and the average values may indicate either an anomaly in growth conditions (e.g., anticipated or delayed development due to meteo conditions), or a change in the kind of crop cultivated in the area.</p>",
       "default": true,
       "plotType": 0 //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
     },
@@ -52,7 +52,7 @@
       "id": "Seasonal patterns - NDVI",
       "name": "Seasonal patterns - NDVI",
       "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-IT/LOCAL_SEASONALPATTERNS_NDVI/ImageServer",
-      "description": "Seasonal patterns - NDVI.",
+      "description": "<p>This map shows the values of the Normalized Difference Vegetation Index (NDVI) for the selected date. The map was derived from MODIS satellite data. </p><p>NDVI is a dimensionless indicator of vegetation development which is strongly related to plant biomass. On rice areas, low values of the index (e.g., 3000-4000) are characteristic of Bare Soil conditions and are typical of the winter season. Values then increase with plant development, reaching maximum values (7000 - 9000) when the plant reaches maximum biomass/LAI. </p><p>Strong differences between the current year values for a given date and the average values may indicate either an anomaly in growth conditions (e.g., anticipated or delayed development due to meteo conditions), or a change in the kind of crop cultivated in the area.</p>",
       "default": true,
       "plotType": 0 //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
     },
@@ -60,7 +60,7 @@
       "id": "Seasonal Patterns - MCARI ",
       "name": "Seasonal Patterns - MCARI ",
       "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-IT/LOCAL_SEASONALPATTERNS_MCARI/ImageServer",
-      "description": "Seasonal Patterns - MCARI.",
+      "description": "MCARI = vegetation index calculated as recommended in the report: 'D5.7 Crop detection and  spatial variability (EP_L3)'.",
       "default": true,
       "plotType": 0 //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
     }

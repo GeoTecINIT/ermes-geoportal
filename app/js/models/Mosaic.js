@@ -67,27 +67,6 @@ define([
 	        	//var key = featureSet.features[i].attributes.OBJECTID;
 	        	var name = featureSet.features[i].attributes.Name;
 				var date = new Date(featureSet.features[i].attributes.DATE).toDateString();
-
-
-	        	//var nameToDate = function(name){
-	        	//	var nameArray = name.split('_');
-                //
-		        //	var day = parseInt(nameArray[nameArray.length-1]);
-		        //	var year = parseInt(nameArray[nameArray.length-2]);
-		        //	var dateFromDay = function(year, day){
-		        //		var date= new Date(year, 0);
-		        //		date = new Date(date.setDate(day));
-		        //		return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
-		        //	}
-	        	//	return dateFromDay(year, day);
-	        	//}
-	        	//try{
-	        	//	if(this.mosaicId == "Italy Rice Map") var date = "2014";
-	        	//	else var date = nameToDate(name);
-	        	//	if(date == "NaN/NaN/NaN") date="Not Avaliable";
-	        	//} catch (err){
-	        	//	var date = "Not Avaliable";
-	        	//}
 	        	this.rasters[key] = [name, date];
 	        }
 	        this.numRasters = this.rasters.length;
@@ -261,7 +240,7 @@ define([
                  this.currentValues = response.properties.Values.map(parseFloat);
                  this.historicDates = [];
                  response.catalogItems.features.forEach(lang.hitch(this,function(feature){
-                     var newYear = parseInt(feature.attributes.SDATE.split('/')[0])+1;
+                     var newYear = parseInt(feature.attributes.SDATE.split('/')[0]);
                      var newDate = newYear + '/' + feature.attributes.SDATE.split('/')[1]+ '/' + feature.attributes.SDATE.split('/')[2];
                      this.historicDates.push(newDate);
                  }));

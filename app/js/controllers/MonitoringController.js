@@ -55,6 +55,13 @@ define([
                 this.handler.pause();
             } else if (this.userProfile=="local"){
                 this.handler = on.pausable(this.map, 'click', lang.hitch(this, '_showParcelInfo'));
+
+                this.map.infoWindow.on("hide", lang.hitch(this, function() {
+
+                        this.map.infoWindow.setTitle("");
+                        this.map.infoWindow.setContent("");
+                    }
+                ));
             }
         },
 
@@ -72,7 +79,6 @@ define([
             domConstruct.place(span, h1, "only");
             domConstruct.place(h1, div, "only");
             this.map.infoWindow.setContent(div);
-
             this.parcelsLayer.queryFeatures(query, lang.hitch(this, "_queryMongoServer"));
         },
 
@@ -687,6 +693,10 @@ define([
             if(this.monitoringWidget!=null){
                 this.monitoringWidget.destroy();
             }
+            this.map.infoWindow.hide();
+            this.map.infoWindow.setTitle("");
+            this.map.infoWindow.setContent("");
+
         },
 
         startClickHandler: function(){
