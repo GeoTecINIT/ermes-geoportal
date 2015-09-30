@@ -75,6 +75,8 @@ define([
             if(this.primaryRasterLayer!=null){
                 this.map.removeLayer(this.primaryRasterLayer);
             }
+
+            this.legendDigit.destroy();
         },
 
         _changeRaster: function(){
@@ -92,8 +94,8 @@ define([
             this.map.addLayer(newLayer);
 
             //ADD LEGEND DIV
-            if(this.legendDijit!=null){
-                this.legendDijit.destroy();
+            if(this.legendDigit!=null){
+                this.legendDigit.destroy();
             }
             var constructLegendDiv = function(){
                 var legendDiv = domConstruct.create("div");
@@ -111,12 +113,12 @@ define([
         },
 
         _drawLegend: function(evt){
-            var legendTitle = "LEGEND: " + this.activeMosaic;
-            this.legendDijit = new Legend({
+            var legendTitle = this.activeMosaic;
+            this.legendDigit = new Legend({
                 map: this.map,
                 layerInfos: [{layer: evt.layer, title: legendTitle }]
             }, "legend-tool");
-            this.legendDijit.startup();
+            this.legendDigit.startup();
         },
 
         _requestSuccess: function(response) {

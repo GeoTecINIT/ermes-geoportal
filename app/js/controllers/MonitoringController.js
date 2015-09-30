@@ -48,8 +48,11 @@ define([
         },
 
         postCreate: function(){
+            this.own(on(dom.byId('clean-raster-map'), 'click', lang.hitch(this, '_noneRaster')));
+            Topic.subscribe("monitoring/close-chart", lang.hitch(this, function(){
+                this.map.graphics.remove(this.clickedGraph);
+            }));
             if(this.userProfile=="regional") {
-                this.own(on(dom.byId('clean-raster-map'), 'click', lang.hitch(this, '_noneRaster')));
                 this.handler = on.pausable(this.map, 'click', lang.hitch(this, '_showClickedPoint'));
                 Topic.subscribe("mosaic/raster-click", lang.hitch(this, '_rasterValuesCompleted'));
                 this.handler.pause();
@@ -619,7 +622,9 @@ define([
             this.emit("raster-selected-none",{});
             var labelRasterName = dom.byId("main-raster-name");
             domClass.replace(labelRasterName, "notvisible", "visible");
-            this.stopClickHandler();
+            if(this.userProfile=="regional") {
+                this.stopClickHandler();
+            }
             this.destroyChart();
             this.activeRaster = null;
             this.map.graphics.remove(this.clickedGraph);

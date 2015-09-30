@@ -8,6 +8,7 @@ define([
     'dijit/_WidgetBase',
 	'dijit/_TemplatedMixin',
     'text!templates/monitoringWidget.tpl.html',
+    "dojo/topic",
     'dojox/charting/Chart',
     'dojox/charting/themes/PrimaryColors',
     'dojox/charting/plot2d/Lines',
@@ -17,7 +18,7 @@ define([
     'dojox/charting/widget/Legend',
     'dojo/domReady!'
 	], function(declare, lang, on, dom, domConstruct, domAttr,
-		_WidgetBase, _TemplatedMixin, template, 
+		_WidgetBase, _TemplatedMixin, template, Topic,
         Chart, theme, Lines, StackedLines, AxisDefault, Tooltip, Legend){
 		
 		return declare([_WidgetBase, _TemplatedMixin], {
@@ -153,6 +154,7 @@ define([
         },
 
         _closeChart: function(){
+            Topic.publish("monitoring/close-chart");
             this.destroy();
         }
       
