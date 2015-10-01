@@ -33,8 +33,6 @@ define([
             historicDates: [],
             plotType: null,
             yAxis: null,
-            valuesReceived: 0,
-            parameterForPlot: [],
 
 		constructor: function(options){
 			this.mosaicId = options.id;
@@ -88,173 +86,167 @@ define([
 	    },
 
 	    getRasterValues: function(pointClicked){
-            //PlotType
-            //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
-            //4-Three Series (Value + Forecast + Avg + StdDV). 5-Three Series without StdDv (Value + Forecast + Avg)
-            this._getCurrentValues(pointClicked);
-            switch(this.plotType){
-                case 2:
-                    this._getAVGValues(pointClicked);
-                    break;
-                case 3:
-                    this._getAVGValues(pointClicked);
-                    this._getSTDValues(pointClicked);
-                    break;
-                case 4:
-                    this._getAVGValues(pointClicked);
-                    this._getSTDValues(pointClicked);
-                    this._getForecastValues(pointClicked);
-                    break;
-                case 5:
-                    this._getAVGValues(pointClicked);
-                    this._getForecastValues(pointClicked);
-                    break;
-                default:
-                    break;
+	    	var mosaicRule = new MosaicRule();
+            mosaicRule.ascending = true;
+            mosaicRule.method = MosaicRule.METHOD_ATTRIBUTE;
+            mosaicRule.sortField = "DATE";
+            //mosaicRule.sortField = "OBJECTID";
 
-            }
+            var parameters = new ImageServiceIdentifyParameters();
+            parameters.mosaicRule = mosaicRule;
+            parameters.geometry = pointClicked;
+
+            var identifyTask = new ImageServiceIdentifyTask(this.URL);
+
+            if(this.plotType==1)
+                identifyTask.execute(parameters, lang.hitch(this, '_rasterValuesObtained'));
+            else
+                identifyTask.execute(parameters, lang.hitch(this, '_getAVGValues', pointClicked));
 
 	    },
 
-        _getCurrentValues: function(pointClicked){
-            var mosaicRule = new MosaicRule();
-            mosaicRule.ascending = true;
-            mosaicRule.method = MosaicRule.METHOD_ATTRIBUTE;
-            mosaicRule.sortField = "DATE";
-            var parameters = new ImageServiceIdentifyParameters();
-            parameters.mosaicRule = mosaicRule;
-            parameters.geometry = pointClicked;
-            var identifyTask = new ImageServiceIdentifyTask(this.URL);
-            identifyTask.execute(parameters, lang.hitch(this, '_setCurrentValues'));
-        },
-
-        _setCurrentValues: function(response){
+        _getAVGValues: function(pointClicked, response){
             this.currentValues = response.properties.Values.map(parseFloat);
-            if(this.plotType==1){
-                this.historicDates = [];
-                response.catalogItems.features.forEach(lang.hitch(this,function(feature){
-                    var newYear = parseInt(feature.attributes.SDATE.split('/')[0]);
-                    var newDate = newYear + '/' + feature.attributes.SDATE.split('/')[1]+ '/' + feature.attributes.SDATE.split('/')[2];
-                    this.historicDates.push(newDate);
-                }));
-            }
-            this._responseFinished();
-        },
 
-        _getAVGValues: function(pointClicked){
             var mosaicRule = new MosaicRule();
             mosaicRule.ascending = true;
             mosaicRule.method = MosaicRule.METHOD_ATTRIBUTE;
             mosaicRule.sortField = "DATE";
+            //mosaicRule.sortField = "OBJECTID";
             mosaicRule.where = "PARAMNAME='AVG'";
+
             var parameters = new ImageServiceIdentifyParameters();
             parameters.mosaicRule = mosaicRule;
             parameters.geometry = pointClicked;
+
             var identifyTask = new ImageServiceIdentifyTask(this.historicURL);
-            identifyTask.execute(parameters, lang.hitch(this, '_setAVGValues'));
+            if(this.plotType==3 || this.plotType==4)
+                identifyTask.execute(parameters, lang.hitch(this, '_getSTDValues', pointClicked));
+            else if(this.plotType==5)
+                identifyTask.execute(parameters, lang.hitch(this, '_getForecastValuesNOStdDv', pointClicked));
+            else
+                identifyTask.execute(parameters, lang.hitch(this, '_rasterValuesObtained'));
         },
 
-        _setAVGValues: function(response){
+        _getSTDValues: function(pointClicked, response){
             this.avgValues = response.properties.Values.map(parseFloat);
-            if(this.plotType!=1){
-                this.historicDates = [];
-                response.catalogItems.features.forEach(lang.hitch(this,function(feature){
-                    var newYear = parseInt(feature.attributes.SDATE.split('/')[0])+1;
-                    var newDate = newYear + '/' + feature.attributes.SDATE.split('/')[1]+ '/' + feature.attributes.SDATE.split('/')[2];
-                    this.historicDates.push(newDate);
-                }));
-            }
-            this._responseFinished();
-        },
+            this.historicDates = [];
+            response.catalogItems.features.forEach(lang.hitch(this,function(feature){
+                var newYear = parseInt(feature.attributes.SDATE.split('/')[0])+1;
+                var newDate = newYear + '/' + feature.attributes.SDATE.split('/')[1]+ '/' + feature.attributes.SDATE.split('/')[2];
+                this.historicDates.push(newDate);
+            }));
 
-        _getSTDValues: function(pointClicked){
             var mosaicRule = new MosaicRule();
             mosaicRule.ascending = true;
             mosaicRule.method = MosaicRule.METHOD_ATTRIBUTE;
             mosaicRule.sortField = "DATE";
+            //mosaicRule.sortField = "OBJECTID";
             mosaicRule.where = "PARAMNAME='STD'"
+
             var parameters = new ImageServiceIdentifyParameters();
             parameters.mosaicRule = mosaicRule;
             parameters.geometry = pointClicked;
+
             var identifyTask = new ImageServiceIdentifyTask(this.historicURL);
-            identifyTask.execute(parameters, lang.hitch(this, '_setSTDValues'));
+            if(this.plotType==4)
+                identifyTask.execute(parameters, lang.hitch(this, '_getForecastValues', pointClicked));
+            else
+                identifyTask.execute(parameters, lang.hitch(this, '_rasterValuesObtained'));
         },
 
-        _setSTDValues: function(response){
+        _getForecastValues: function(pointClicked, response){
             this.stdValues = response.properties.Values.map(parseFloat);
-            this._responseFinished();
-        },
 
-        _getForecastValues: function(pointClicked){
             var mosaicRule = new MosaicRule();
             mosaicRule.ascending = true;
             mosaicRule.method = MosaicRule.METHOD_ATTRIBUTE;
             mosaicRule.sortField = "DATE";
+            //mosaicRule.sortField = "OBJECTID";
+
             var parameters = new ImageServiceIdentifyParameters();
             parameters.mosaicRule = mosaicRule;
             parameters.geometry = pointClicked;
 
             var identifyTask = new ImageServiceIdentifyTask(this.forecastURL);
-            identifyTask.execute(parameters, lang.hitch(this, '_setForecastValues'));
+            identifyTask.execute(parameters, lang.hitch(this, '_rasterValuesObtained'));
         },
 
-        _setForecastValues: function(response){
-            this.forecastValues = response.properties.Values.map(parseFloat);
-            this._responseFinished();
+        _getForecastValuesNOStdDv: function(pointClicked, response){
+            this.avgValues = response.properties.Values.map(parseFloat);
+            this.historicDates = [];
+            response.catalogItems.features.forEach(lang.hitch(this,function(feature){
+                var newYear = parseInt(feature.attributes.SDATE.split('/')[0])+1;
+                var newDate = newYear + '/' + feature.attributes.SDATE.split('/')[1]+ '/' + feature.attributes.SDATE.split('/')[2];
+                this.historicDates.push(newDate);
+            }));
+
+            var mosaicRule = new MosaicRule();
+            mosaicRule.ascending = true;
+            mosaicRule.method = MosaicRule.METHOD_ATTRIBUTE;
+            mosaicRule.sortField = "DATE";
+            //mosaicRule.sortField = "OBJECTID";
+
+            var parameters = new ImageServiceIdentifyParameters();
+            parameters.mosaicRule = mosaicRule;
+            parameters.geometry = pointClicked;
+
+            var identifyTask = new ImageServiceIdentifyTask(this.forecastURL);
+            identifyTask.execute(parameters, lang.hitch(this, '_rasterValuesObtained'));
         },
 
-        _responseFinished: function(){
-            this.valuesReceived++;
-            if(this.plotType==5) {
-                if(this.valuesReceived==3)
-                    this._rasterValuesObtained();
-            }
-
-            else if(this.plotType==4) {
-                if(this.valuesReceived==4)
-                    this._rasterValuesObtained();
-            }
-
-            else if(this.plotType==3) {
-                if(this.valuesReceived==3)
-                    this._rasterValuesObtained();
-            }
-
-            else if(this.plotType==2) {
-                if(this.valuesReceived==2)
-                    this._rasterValuesObtained();
-            }
-
-            else if(this.plotType==1) {
-                    this._rasterValuesObtained();
-            }
-        },
-
-	     _rasterValuesObtained: function(){
+	     _rasterValuesObtained: function(response){
              var parameter = [];
-             parameter.push(this.currentValues);
-             parameter.push(this.historicDates);
+
              if(this.plotType==5) {
+                 this.forecastValues = response.properties.Values.map(parseFloat);
+                 parameter.push(this.currentValues);
+                 parameter.push(this.historicDates);
                  parameter.push(this.avgValues);
                  parameter.push(this.forecastValues);
              }
 
              else if(this.plotType==4) {
+                 this.forecastValues = response.properties.Values.map(parseFloat);
+                 parameter.push(this.currentValues);
+                 parameter.push(this.historicDates);
                  parameter.push(this.avgValues);
                  parameter.push(this.stdValues);
                  parameter.push(this.forecastValues);
              }
 
              else if(this.plotType==3) {
+                 this.stdValues = response.properties.Values.map(parseFloat);
+                 parameter.push(this.currentValues);
+                 parameter.push(this.historicDates);
                  parameter.push(this.avgValues);
                  parameter.push(this.stdValues);
              }
 
              else if(this.plotType==2) {
+                 this.avgValues = response.properties.Values.map(parseFloat);
+                 this.historicDates = [];
+                 response.catalogItems.features.forEach(lang.hitch(this,function(feature){
+                     var newYear = parseInt(feature.attributes.SDATE.split('/')[0])+1;
+                     var newDate = newYear + '/' + feature.attributes.SDATE.split('/')[1]+ '/' + feature.attributes.SDATE.split('/')[2];
+                     this.historicDates.push(newDate);
+                 }));
+                 parameter.push(this.currentValues);
+                 parameter.push(this.historicDates);
                  parameter.push(this.avgValues);
              }
 
-             this.valuesReceived=0;
+             else if(this.plotType==1){
+                 this.currentValues = response.properties.Values.map(parseFloat);
+                 this.historicDates = [];
+                 response.catalogItems.features.forEach(lang.hitch(this,function(feature){
+                     var newYear = parseInt(feature.attributes.SDATE.split('/')[0]);
+                     var newDate = newYear + '/' + feature.attributes.SDATE.split('/')[1]+ '/' + feature.attributes.SDATE.split('/')[2];
+                     this.historicDates.push(newDate);
+                 }));
+                 parameter.push(this.currentValues);
+                 parameter.push(this.historicDates);
+             }
              Topic.publish('mosaic/raster-click', parameter);
         }
 	});

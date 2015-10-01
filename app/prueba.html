@@ -12,12 +12,10 @@
 <script>
 
     $(function() {
-
         $.get("http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-IT/REGIONAL_METEO_TMAX/ImageServer/identify?f=json&geometry=%7B%22x%22%3A1063775.1418051573%2C%22y%22%3A5615980.21810338%2C%22spatialReference%22%3A%7B%22wkid%22%3A102100%2C%22latestWkid%22%3A3857%7D%7D&returnGeometry=false&returnCatalogItems=true&mosaicRule=%7B%22mosaicMethod%22%3A%22esriMosaicAttribute%22%2C%22sortField%22%3A%22DATE%22%2C%22ascending%22%3Atrue%7D&geometryType=esriGeometryPoint");
         $.get("http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-IT/REGIONAL_METEO_TMAX_LTA/ImageServer/identify?f=json&geometry=%7B%22x%22%3A1063775.1418051573%2C%22y%22%3A5615980.21810338%2C%22spatialReference%22%3A%7B%22wkid%22%3A102100%2C%22latestWkid%22%3A3857%7D%7D&returnGeometry=false&returnCatalogItems=true&mosaicRule=%7B%22mosaicMethod%22%3A%22esriMosaicAttribute%22%2C%22where%22%3A%22PARAMNAME%3D%27AVG%27%22%2C%22sortField%22%3A%22DATE%22%2C%22ascending%22%3Atrue%7D&geometryType=esriGeometryPoint");
         $.get("http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-IT/REGIONAL_METEO_TMAX_LTA/ImageServer/identify?f=json&geometry=%7B%22x%22%3A1063775.1418051573%2C%22y%22%3A5615980.21810338%2C%22spatialReference%22%3A%7B%22wkid%22%3A102100%2C%22latestWkid%22%3A3857%7D%7D&returnGeometry=false&returnCatalogItems=true&mosaicRule=%7B%22mosaicMethod%22%3A%22esriMosaicAttribute%22%2C%22where%22%3A%22PARAMNAME%3D%27STD%27%22%2C%22sortField%22%3A%22DATE%22%2C%22ascending%22%3Atrue%7D&geometryType=esriGeometryPoint");
         $.get("http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-IT/REGIONAL_METEO_TMAX_FORE/ImageServer/identify?f=json&geometry=%7B%22x%22%3A1063775.1418051573%2C%22y%22%3A5615980.21810338%2C%22spatialReference%22%3A%7B%22wkid%22%3A102100%2C%22latestWkid%22%3A3857%7D%7D&returnGeometry=false&returnCatalogItems=true&mosaicRule=%7B%22mosaicMethod%22%3A%22esriMosaicAttribute%22%2C%22sortField%22%3A%22DATE%22%2C%22ascending%22%3Atrue%7D&geometryType=esriGeometryPoint");
-
     })
 </script>
 </html>
