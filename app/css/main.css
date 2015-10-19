@@ -140,8 +140,6 @@ html, body, #map-index-div {
     to { -webkit-transform: rotate(360deg);}
 }
 
-
-
 .esriScalebar {
     padding: 6px 38px 4px 4px;
     background-color: white;
@@ -164,9 +162,81 @@ html, body, #map-index-div {
     border-color: black;
 }
 
-#ermes-logo {
+#ermes-logo{
     position: absolute;
     z-index: 5;
     top: 1em;
     left: 5em;
+}
+
+#small-logo {
+    z-index: 6;
+    position:absolute;
+    display: block;
+    opacity: 1;
+    -webkit-transition: all 3s;
+    -moz-transition: all 3s;
+    -o-transition: all 3s;
+    transition: all 3s;
+}
+
+#small-logo:hover + #big-logo{
+    opacity: 1;
+    height: 72px;
+    width: 359px;
+}
+
+#big-logo{
+    z-index: 5;
+    width: 101px;
+    height: 72px;
+    position:absolute;
+    opacity: 0;
+    -webkit-transition: all .5s;
+    -moz-transition: all .5s;
+    -o-transition: all .5s;
+    transition: all .5s;
+
+}
+
+#initial-logo {
+    z-index: 5;
+    position:absolute;
+    opacity: 1;
+    animation: hide-logo 5s;
+    -webkit-animation-delay: 1s;
+    -moz-animation-delay: 10s;
+    -o-animation-delay: 10s;
+    animation-delay: 2s;
+    -webkit-animation-direction: alternate;
+    -moz-animation-direction: alternate;
+    -o-animation-direction: alternate;
+    animation-direction: alternate;
+    -webkit-animation-fill-mode: forwards;
+    -moz-animation-fill-mode: forwards;
+    -o-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+    -webkit-animation-iteration-count: 1;
+    -moz-animation-iteration-count: 1;
+    -o-animation-iteration-count: 1;
+    animation-iteration-count: 1;
+    display: block;
+    height: 72px;
+    width: 359px;
+}
+
+@keyframes hide-logo {
+    from {
+        display: block;
+        height: 72px;
+        width: 359px;
+        opacity: 1;
+    }
+    to   {
+        z-index: 1;
+        opacity: 0.3;
+        visibility: hidden;
+        height: 72px;
+        width: 101px;
+    }
 }
