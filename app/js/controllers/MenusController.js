@@ -46,13 +46,13 @@ define([
 				this.monitoringController.on("raster-selected", lang.hitch(this,"_changeRaster"));
 				this.monitoringController.on("raster-selected-none", lang.hitch(this,"_noneSelected"));
 				this.monitoringController.startup();
-				this.own(on(dom.byId('monitoring-tab-button'), 'click', lang.hitch(this, '_cancelComparing')));
-				this.own(on(dom.byId('monitoring-tab-button'), 'click', lang.hitch(this, '_continueCharting')));
+				this.own(on(dom.byId('monitoring-div-container'), 'click', lang.hitch(this, '_cancelComparing')));
+				this.own(on(dom.byId('monitoring-div-container'), 'click', lang.hitch(this, '_continueCharting')));
 
-				this.own(on(dom.byId('settings-tab-button'), 'click', lang.hitch(this, '_cancelComparing')));
+				this.own(on(dom.byId('settings-div-container'), 'click', lang.hitch(this, '_cancelComparing')));
 				
-				this.own(on(dom.byId('comparing-tab-button'), 'click', lang.hitch(this, '_cancelCharting')));
-				this.own(on(dom.byId('settings-tab-button'), 'click', lang.hitch(this, '_cancelCharting')));
+				this.own(on(dom.byId('comparing-div-container'), 'click', lang.hitch(this, '_cancelCharting')));
+				this.own(on(dom.byId('settings-div-container'), 'click', lang.hitch(this, '_cancelCharting')));
 				this.own(on(dom.byId('logout-button'), 'click', lang.hitch(this, '_logout')));
 			},
 

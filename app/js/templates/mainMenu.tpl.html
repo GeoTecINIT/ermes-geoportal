@@ -1,90 +1,16 @@
 <div>
-    <div role="tabpanel" class="ermes-menu-tabs hidden-print">
-        <div>
-            <ul class="nav nav-tabs" role="tablist">
-                <li id="monitoring-tab-button" role="presentation" class="active"><a href="#monitoring" aria-controls="home" role="tab" data-toggle="tab" class="ermes-tab-title">Crop Monitoring</a></li>
-                <li id="comparing-tab-button" role="presentation" ><a href="#comparing" aria-controls="profile" role="tab" data-toggle="tab" class="ermes-tab-title">Product Comparison</a></li>
-                <li id="settings-tab-button" role="presentation" ><a href="#settings" aria-controls="messages" role="tab" data-toggle="tab" class="ermes-tab-title">Map Settings</a></li>
+    <!--<div role="tabpanel" class="ermes-menu-tabs hidden-print">-->
+        <!--<div>-->
+            <!--<ul class="nav nav-tabs" role="tablist">-->
+                <!--<li id="comparing-tab-button" role="presentation" ><a href="#comparing" aria-controls="profile" role="tab" data-toggle="tab" class="ermes-tab-title">Product Comparison</a></li>-->
+            <!--</ul>-->
+        <!--</div>-->
 
-                <button id="logout-button" class="btn btn-default pull-right"><span id="span-logout" aria-hidden="true" class="glyphicon glyphicon-ban-circle"> Logout</span></button>
-                <button id="general-help-button" class="btn btn-default pull-right" data-toggle="modal" data-target="#general-help">
-                    <span id="span-general-help" aria-hidden="true" class="glyphicon glyphicon-info-sign"> Help</span>
-                </button>
+        <!--<div class="tab-content">-->
+            <!--<div role="tabpanel" class="tab-pane fade" id="comparing">-->
+                <!--<div id="comparing-div"></div>-->
+            <!--</div>-->
+        <!--</div>-->
 
-                <div class="modal fade" id="general-help" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title" id="myModalLabel">About ERMES</h4>
-                            </div>
-                                <div class="modal-body">
-                                    <p>ERMES project aims to develop pre-operational downstream services dedicated to <b>rice farming systems based</b> on the assimilation of <b>Earth Observations (EO) products</b> and <b>in-situ data </b>within crop  modeling solutions. ERMES will exploit the state-of-the-art coming from Geospatial Information Infrastructures (GII), also known as Spatial Data Infrastructures (SDI), and smart applications to acquire in-field information and deliver the service information to End-Users.</p>
-                                    <p>The ERMES information chain will be customized in 2 services at regional and local scale:</p>
-                                    <p><a href="www.ermes-fp7space.eu/project/services-rss/">The Regional Rice Service </a>(RRS) is intended to provide public authorities in charge of regional planning with a customized agro-monitoring system devoted to monitoring of crop status, analysis of regional yield estimates and alerting on potential biotic and abiotic risks.</p>
-                                    <p><a href="www.ermes-fp7space.eu/project/services-lrs/">The Local Rice Service </a>(LRS) wants to provide the private sector (farmers or agro-services such as operators for variable rate technologies (VRT) applications and insurance companies) with information on yield variability at farm scale. Spatially distributed assessment in form of High Resolution (HR) maps related to Cultivated area, Yield variability pattern, Risk alert (biotic/abiotic) and Crop damage will be disseminated to final End-User via smart technology applications.</p>
-                                    <p>More informations regarding the projects' aim, structure and results can be found at: http://www.ermes-fp7space.eu</p>
-                                    <h2>About the ERMES Regional geoportal</h2>
-                                    <p>The ERMES Regional Geoportal is devoted to providing to ERMES regional end-users a user friendly tool to monitor the current rice growth season in Near Real Time, through visualization of  some of the regional ERMES products (e.g., Periodically updated  Meteorological parameters maps, Leaf Area Index maps, rice blast infection risk maps), and comparison of values recorded in the current season with average values for the 2003-2014 period. </p>
-                                    <p>In particular, the following ERMES products can be visualized: </p>
-                                    <h3>Rice Crop Maps</h3>
-                                    <ul>
-                                        <li>Maps of rice cultivated area at 30 m spatial resolution, derived from analysis of radar (Sentinel 1) and optical (Landsat 8 OLI) imagery.</li>
-                                    </ul>
-                                    <p>These maps provide an indication of the area cultivated at rice for the current season. </p>
-                                    <h3>Products related with plant status</h3>
-                                    <ul>
-                                        <li>Weekly NDVI maps derived from MODIS satellite imagery, at 250 m resolution.</li>
-                                        <li>Weekly Leaf Area Index maps derived from MODISand Proba-V satellite imagery, at 2 km resolution.</li>
-                                    </ul>
-                                    <p>Maps and graphs related to these products provide an indication of rice development and are strongly related to plant total biomass. Strong differences between the current year values for a given date and the average values may indicate either an anomaly in growth conditions (e.g., anticipated or delayed development due to meteo conditions), or a change in the kind of crop cultivated in the area. </p>
-                                    <h3>Products related with meteorological conditions and forecast</h3>
-                                    <ul>
-                                        <li>Daily maps at 2x2 km resolution derived from ECMWF meteorological datasets of the following meteorological variables which influence rice development: Maximum and Minimum Daily Temperature, Maximum and Minimum Relative Humidity, Daily Global Radiation, Daily Rainfall, Average Daily Windspeed.</li>
-                                        <li>6-days forecasts for the aforementioned variables.</li>
-                                    </ul>
-                                    <p>Maps and graphs related to these products provide information on meteorological conditions of the current growing season. Strong differences between the current year values for a given date and the average values indicate anomalous meteorological conditions.</p>
-                                    <h3>Products related with agropractices and phenological development</h3>
-                                    <ul>
-                                        <li>Maps at 2x2 km resolution showing estimates of rice crop establishment (~Sowing date), crop emergenge and heading dates, derived from analysis of MODIS satellite images.</li>
-                                    </ul>
-                                    <p>Values reported for each 2x2 km cell correspond to the average crop establishment, crop emergence and heading dates estimated for rice pixels located within the cell. </p>
-                                    <h3>Products related with Biotic risks</h3>
-                                    <ul>
-                                        <li>Daily Maps at 2x2 km resolution produced using the WARM rice crop simulation model,  related to the presence of favourable meteorological conditions for rice blast infection.</li>
-                                        <li>6-days forecasts for the aforementioned maps</li>
-                                    </ul>
-                                    <p>Maps and graphs related to these products provide information regarding the potential risk of infection by rice blast in the different areas, due to favorable meteorological conditions for development of the pest. </p>
-                                    <h2>How to use the ERMES Regional geoportal</h2>
-                                    <h3>How to visualize a map</h3>
-                                    <p>To visualize a particular map, it is sufficient to select the product of interest from the “ERMES Product” drop down menu, and then select the date of interest. </p>
-                                    <h3>How to read the Time Series graphs</h3>
-                                    <p>After selecting a product and date, clicking on the map opens a graph shows the temporal trend of the selected variable (in green) for the current year, compared to the average of the last 10 years (in blue). The selectors at the bottom of the graph allow to zoom in particular periods of the year. </p>
-                                    <figure>
-                                        <img src="img/plotSample.jpg" alt="Plot Sample">
-                                        <figcaption>Exemple graph showing the evolution of NDVI for year 2015 (in green) , compared to the average of the last ten years (in blue). The graph suggests that plant development showed an advance in 2015 with respect to average trend.</figcaption>
-                                    </figure>
-                                </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close Help.</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </ul>
-        </div>
-
-        <div class="tab-content">
-            <div role="tabpanel" class="tab-pane fade in active" id="monitoring">
-                <div id="monitoring-div"></div>
-            </div>
-            <div role="tabpanel" class="tab-pane fade" id="comparing">
-                <div id="comparing-div"></div>
-            </div>
-            <div role="tabpanel" class="tab-pane fade" id="settings">
-                <div id="settings-div"></div>
-            </div>
-        </div>
-
-    </div>
+    <!--</div>-->
 </div>

@@ -1,11 +1,205 @@
 #basic-container-div{
-  position: absolute;
-  top: 1em;
-  right: 1em;
-  z-index: 35;
-  max-width: 40%;
-  min-width: 40%;
+    position: absolute;
+    top: 32em;
+    /*top: 1em;*/
+    /*right: 1em;*/
+    left: 1em;
+    z-index: 35;
+    max-width: 40%;
+    min-width: 40%;
 }
+
+.ermes-window-aspect{
+    background-color: rgba(255,255,255,0.8);
+    border-style: solid;
+    border-color: #4D8FD6;
+    border-radius: 10px;
+    padding: 1em;
+}
+
+#settings-div-container {
+    position: fixed;
+    z-index: 35;
+    top: 1em;
+    width: 15em;
+    -webkit-transition: all 1s;
+    -moz-transition: all 1s;
+    -o-transition: all 1s;
+    transition: all 1s;
+}
+
+.settings-div-container-visible {
+    right: 0em;
+}
+
+.settings-div-container-hidden {
+    right: -15em;
+}
+
+#settings-icon-div {
+    position: absolute;
+    padding: 0.5em;
+    display: block;
+    text-align: center;
+    vertical-align: middle;
+    z-index: 35;
+    -webkit-transition: all 1s;
+    -moz-transition: all 1s;
+    -o-transition: all 1s;
+    transition: all 1s;
+}
+
+.settings-icon-div-visible {
+    /*pointer-events: click;*/
+    left: -5em;
+    opacity: 1;
+}
+
+.settings-icon-div-hidden {
+    pointer-events: none;
+    left: 0em;
+    opacity: 0;
+}
+
+#settings-menu-div {
+    -webkit-transition: all 1s;
+    -moz-transition: all 1s;
+    -o-transition: all 1s;
+    transition: all 1s;
+}
+
+#settings-icon-div span.glyphicon-cog {
+    font-size: 50px;
+    width: 50px;
+    height: 50px;
+    margin: auto;
+    color: #009451;
+}
+
+#monitoring-div-container {
+    position: fixed;
+    z-index: 35;
+    top: 20em;
+    width: 15em;
+    -webkit-transition: all 1s;
+    -moz-transition: all 1s;
+    -o-transition: all 1s;
+    transition: all 1s;
+}
+
+.monitoring-div-container-visible {
+    left: 0em;
+}
+
+.monitoring-div-container-hidden {
+    z-index: -5;
+    left: -15em;
+}
+
+#monitoring-icon-div {
+    position: absolute;
+    padding: 0.5em;
+    display: block;
+    text-align: center;
+    vertical-align: middle;
+    z-index: 35;
+    -webkit-transition: all 1s;
+    -moz-transition: all 1s;
+    -o-transition: all 1s;
+    transition: all 1s;
+}
+
+.monitoring-icon-div-visible {
+    /*pointer-events: click;*/
+    right: -5em;
+    opacity: 1;
+}
+
+.monitoring-icon-div-hidden {
+    pointer-events: none;
+    z-index: 0;
+    right: 0em;
+    opacity: 0;
+}
+
+#monitoring-menu-div {
+    -webkit-transition: all 1s;
+    -moz-transition: all 1s;
+    -o-transition: all 1s;
+    transition: all 1s;
+}
+
+#monitoring-icon-div span.glyphicon-eye-open {
+    font-size: 50px;
+    width: 50px;
+    height: 50px;
+    margin: auto;
+    color: #009451;
+}
+
+#comparing-div-container {
+    position: fixed;
+    z-index: 35;
+    top: 20em;
+    width: 15em;
+    -webkit-transition: all 1s;
+    -moz-transition: all 1s;
+    -o-transition: all 1s;
+    transition: all 1s;
+}
+
+.comparing-div-container-visible {
+    left: 0em;
+}
+
+.comparing-div-container-hidden {
+    z-index: -5;
+    left: -15em;
+}
+
+#comparing-icon-div {
+    top: 6em;
+    position: absolute;
+    padding: 0.5em;
+    display: block;
+    text-align: center;
+    vertical-align: middle;
+    z-index: 35;
+    -webkit-transition: all 1s;
+    -moz-transition: all 1s;
+    -o-transition: all 1s;
+    transition: all 1s;
+}
+
+.comparing-icon-div-visible {
+    /*pointer-events: click;*/
+    right: -5em;
+    opacity: 1;
+}
+
+.comparing-icon-div-hidden {
+    pointer-events: none;
+    z-index: 0;
+    right: 0em;
+    opacity: 0;
+}
+
+#comparing-menu-div {
+    -webkit-transition: all 1s;
+    -moz-transition: all 1s;
+    -o-transition: all 1s;
+    transition: all 1s;
+}
+
+#comparing-icon-div span.glyphicon-transfer {
+    font-size: 50px;
+    width: 50px;
+    height: 50px;
+    margin: auto;
+    color: #009451;
+}
+
+
 
 #main-raster-name{
   position: absolute;
@@ -204,10 +398,10 @@ html, body, #map-index-div {
     position:absolute;
     opacity: 1;
     animation: hide-logo 5s;
-    -webkit-animation-delay: 1s;
+    -webkit-animation-delay: 10s;
     -moz-animation-delay: 10s;
     -o-animation-delay: 10s;
-    animation-delay: 2s;
+    animation-delay: 10s;
     -webkit-animation-direction: alternate;
     -moz-animation-direction: alternate;
     -o-animation-direction: alternate;

@@ -97,13 +97,15 @@ define([
             if(this.legendDigit!=null){
                 this.legendDigit.destroy();
             }
-            var constructLegendDiv = function(){
-                var legendDiv = domConstruct.create("div");
-                domAttr.set(legendDiv, "id", "legend-tool");
-                var container = dom.byId("legend-div");
-                domConstruct.place(legendDiv, container, "first");
-            };
-            constructLegendDiv();
+
+            this._constructLegendDiv();
+        },
+
+        _constructLegendDiv: function(){
+            var legendDiv = domConstruct.create("div");
+            domAttr.set(legendDiv, "id", "legend-tool");
+            var container = dom.byId("legend-div");
+            domConstruct.place(legendDiv, container, "first");
         },
 
         _mosaicLoaded: function(){
@@ -112,7 +114,18 @@ define([
                 this.menusController.loadMosaics();
         },
 
-        _drawLegend: function(evt){
+        _isBasemap: function(layer){
+            return !layer.name;
+        },
+
+        _drawLegend: function(evt) {
+            if(this._isBasemap(evt.layer)) return;
+
+            if (this.legendDigit){
+                this.legendDigit.destroy();
+                this._constructLegendDiv();
+            }
+
             var legendTitle = this.activeMosaic;
             this.legendDigit = new Legend({
                 map: this.map,
@@ -204,8 +217,7 @@ define([
             }
             this.menusController.loadLayers();
 
-
-
+            $(document).trigger("ui-ready");
         },
 
         _startListener: function(){
