@@ -106,9 +106,9 @@
       "url": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-IT/REGIONAL_METEO_TMAX/ImageServer",
       "historicUrl": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-IT/REGIONAL_METEO_TMAX_LTA/ImageServer",
       "forecastUrl": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-IT/REGIONAL_METEO_TMAX_FORE/ImageServer",
-      "description": "<p>This map shows estimates of Maximum Daily Temperature for the selected date. The map was derived from ECMWF datasets. Unit measure are °C.</p><p>Strong differences between the current year values for a given date and the average values indicate anomalous meteorological conditions ,potentially affecting rice development.</p>",
+      "description": "<p>This map shows estimates of Maximum Daily Temperature for the selected date. The map was derived from ECMWF datasets. Unit measure are &deg;C.</p><p>Strong differences between the current year values for a given date and the average values indicate anomalous meteorological conditions ,potentially affecting rice development.</p>",
       "default": false,
-      "yAxis": "Maximum Daily Temperature [°C]",
+      "yAxis": "Maximum Daily Temperature [&deg;C]",
       "plotType": 4 //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV). 4-Three Series (Value + Forecast + Avg + StdDV). 5-Three Series without StdDv (Value + Forecast + Avg)
     },
     {
@@ -119,7 +119,7 @@
       "forecastUrl": "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/2015-IT/REGIONAL_METEO_TMIN_FORE/ImageServer",
       "description": "<p>This map shows estimates of Minimum Daily Temperature for the selected date. The map was derived from ECMWF datasets.</p><p>Strong differences between the current year values for a given date and the average values indicate anomalous meteorological conditions ,potentially affecting rice development.</p>",
       "default": false,
-      "yAxis": "Minimum Daily Temperature [°C]",
+      "yAxis": "Minimum Daily Temperature [&deg;C]",
       "plotType": 4 //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV). 4-Three Series (Value + Forecast + Avg + StdDV). 5-Three Series without StdDv (Value + Forecast + Avg)
     },
     {

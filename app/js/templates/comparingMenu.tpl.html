@@ -1,28 +1,40 @@
 <div>
-	<div class="btn-group">
-	  <button type="button" class="btn btn-primary" id="comparing-mosaic-selector-button">ERMES Product</button>
-	  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-	    <span class="caret"></span>
-	  </button>
-	  <ul class="dropdown-menu scrollable-menu" role="menu" id="comparing-mosaics-list-ul">
+	<div class="btn-group ermes-dropdown-div">
+
+
+	<button type="button" class="btn btn-primary dropdown-toggle ermes-dropdown-inner-button" data-toggle="dropdown" id="comparing-mosaic-selector-button">
+		ERMES Product
+		<span class="glyphicon glyphicon-chevron-down"></span>
+	</button>
+        <ul class="dropdown-menu scrollable-menu" role="menu" id="comparing-mosaics-list-ul">
 	 
-	  </ul>
+	    </ul>
 	</div>
 
-	<div class="btn-group">
-	  <button type="button" class="btn btn-primary" id="comparing-raster-selector-button">Date</button>
-	  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-	    <span class="caret"></span>
-	  </button>
-	  <ul class="dropdown-menu scrollable-menu" role="menu" id="comparing-rasters-list-ul">
+    <div class="btn-group ermes-dropdown-div comparing-dropdown-hidden" id="comparing-rasters-selector-container">
+        <button type="button"  class="btn btn-primary dropdown-toggle ermes-dropdown-inner-button" data-toggle="dropdown" id="comparing-raster-selector-button">
+            Date
+            <span class="glyphicon glyphicon-chevron-down"></span>
+        </button>
+
+    	  <ul class="dropdown-menu scrollable-menu" role="menu" id="comparing-rasters-list-ul">
 	 
-	  </ul>
+	    </ul>
 
 	</div>
-	<div id="comparing-button-container">
-	</div>
-	<div id="comparing-widget-container">
-	</div>
-	<button id="close-comparing-button" type="button" class="btn btn-default">Close</button>
+
+    <hr class="ermes-separator-aspect"/>
+
+
+
+    <div id="comparing-div-controls" class="controls-container-half-width">
+        <!--<div id="comparing-button-container">-->
+        <!--</div>-->
+        <!--<div id="comparing-widget-container">-->
+        <!--</div>-->
+        <button id="close-comparing-button" type="button" class="btn btn-default btn-block settings-button-tools">
+            <span aria-hidden="true" class="glyphicon glyphicon-remove-circle"></span>Close
+        </button>
+    </div>
 
 </div>

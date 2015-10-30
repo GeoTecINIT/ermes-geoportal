@@ -100,7 +100,7 @@
       "forecastUrl": "",
       "description": "<p>This map shows estimates of Maximum Daily Temperature for the selected date. The map was derived from ECMWF datasets. Unit measure are °C.</p><p>Strong differences between the current year values for a given date and the average values indicate anomalous meteorological conditions ,potentially affecting rice development.</p>",
       "plotType": 3, //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
-      "yAxis": "Maximum Daily Temperature [°C]",
+      "yAxis": "Maximum Daily Temperature [&deg;C]",
       "default": false
     },
     {
@@ -111,7 +111,7 @@
       "forecastUrl": "",
       "description": "<p>This map shows estimates of Minimum Daily Temperature for the selected date. The map was derived from ECMWF datasets.</p><p>Strong differences between the current year values for a given date and the average values indicate anomalous meteorological conditions ,potentially affecting rice development.</p>",
       "plotType": 3, //0-No Plot. 1-One Serie (Value). 2- Two Series (Value + Avg). 3- Two Series + Error (Value + Avg + StdDV).
-      "yAxis": "Minimum Daily Temperature [°C]",
+      "yAxis": "Minimum Daily Temperature [&deg;C]",
       "default": false
     },
     {

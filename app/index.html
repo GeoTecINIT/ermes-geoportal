@@ -16,7 +16,12 @@
     <!--<link rel="stylesheet" href="http://cdn.jsdelivr.net/bootflat/2.0.0/css/bootflat.css">-->
     <!--<link rel="stylesheet" href="http://cdn.jsdelivr.net/bootflat/2.0.0/css/bootflat.css.map">-->
     <link rel="stylesheet" href="http://js.arcgis.com/3.13/esri/css/esri.css">
+    <link rel="stylesheet" href="css/animations.css" rel="stylesheet"/>
     <link rel="stylesheet" href="css/main.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="css/monitoringMenu.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="css/comparingMenu.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="css/plotWindow.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="css/settingsMenu.css" rel="stylesheet"/>
 
  </head>
   <body class="claro">
@@ -58,6 +63,14 @@
       </div>
     </div>
 
+    <div id="monitoring-widget-div" class="ermes-window-aspect display-none">
+
+      <span id="monitoring-widget-dragger" class="btn btn-default"><span class="glyphicon glyphicon-move"></span></span>
+
+      <div id="monitoring-widget-container">
+      </div>
+    </div>
+
     <div id="main-raster-name" class="notvisible"></div>
     <div id="compared-raster-name" class="notvisible"></div>
     <div id="legend-hover-div">
@@ -68,6 +81,7 @@
     <script type="text/javascript" src="http://js.arcgis.com/3.12"></script>
     <script type="text/javascript" src="js/run.js"></script>
     <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
     <!--<script src="//cdn.jsdelivr.net/bootstrap.material-design/0.3.0/js/material.min.js"></script>-->

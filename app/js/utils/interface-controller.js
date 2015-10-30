@@ -43,4 +43,9 @@ $(document).on('ui-ready', function(evt) {
         $("#monitoring-icon-div").toggleClass("monitoring-icon-div-visible monitoring-icon-div-hidden");
     });
 
+    //Launch Split Window
+    $("#split-window-button").on('click', function() {
+        window.location.href = "prueba2.html";
+    });
+
 });

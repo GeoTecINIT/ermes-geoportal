@@ -1,0 +1,50 @@
+#monitoring-rasters-list-ul {
+    width: 100%;
+    -webkit-transition: all 1s;
+    -moz-transition: all 1s;
+    -o-transition: all 1s;
+    transition: all 1s;
+}
+
+.monitoring-rasters-list-ul-visible {
+    visibility: visible;
+}
+
+.monitoring-rasters-list-ul-hidden {
+    visibility: hidden;
+}
+
+.monitoring-dropdown-hidden {
+    display: none;
+}
+
+.monitoring-dropdown-visible {
+    display: inline-block;
+}
+
+.controls-container-half-width {
+    width: 50%;
+    margin: auto;
+}
+
+#monitoring-widget-div {
+    z-index: 99;
+}
+
+#close-chart-button {
+    margin-top: 1em;
+}
+
+#raster-description {
+    margin: 0em 0em 1em 0em;
+}
+
+#monitoring-widget-dragger {
+    position: absolute;
+}
+
+#raster-description h3 {
+    text-align: center;
+    margin-top: 0em;
+    margin-bottom: 1em;
+}

@@ -1,26 +1,43 @@
 <div>
-	<div class="btn-group">
-	  <button type="button" class="btn btn-primary" id="basemap-selector-button">Select BaseMap</button>
-	  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-	    <span class="caret"></span>
-	  </button>
+	<div class="btn-group ermes-dropdown-div">
+	  <button type="button" class="btn btn-primary dropdown-toggle ermes-dropdown-inner-button" data-toggle="dropdown" id="basemap-selector-button">
+          Select BaseMap
+          <span class="glyphicon glyphicon-chevron-down"></span>
+      </button>
+	  <!--<button type="button" class="btn btn-primary dropdown-toggle"  aria-expanded="false">-->
+	   <!-- -->
+	  <!--</button>-->
 	  <ul class="dropdown-menu scrollable-menu" role="menu" id="basemap-list-ul">
 	 	    
 	  </ul>
 	</div>
-	<div id="operational-layers">
-	 
+    <hr class="ermes-separator-aspect">
+    <div>Select operational layers:</div>
+    <div id="operational-layers" >
+
     </div>
-  	<br><br>
-    <button id="print-button" type="button" class="btn btn-primary">Print</button>
+    <hr class="ermes-separator-aspect">
 
-	<button id="logout-button" class="btn btn-default pull-right"><span id="span-logout" aria-hidden="true" class="glyphicon glyphicon-ban-circle"> Logout</span></button>
-	<button id="general-help-button" class="btn btn-default pull-right" data-toggle="modal" data-target="#general-help">
-		<span id="span-general-help" aria-hidden="true" class="glyphicon glyphicon-info-sign"> Help</span>
-	</button>
 
-	<div class="modal fade" id="general-help" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-		<div class="modal-dialog" role="document">
+    <button id="general-help-button" class="btn btn-default btn-block settings-button-tools" data-toggle="modal" data-target="#general-help">
+        <span id="span-general-help" aria-hidden="true" class="glyphicon glyphicon-info-sign"></span>General Help
+    </button>
+    <button id="print-button" type="button" class="btn btn-default btn-block settings-button-tools">
+        <span aria-hidden="true" class="glyphicon glyphicon-print"></span>Print
+    </button>
+    <button id="split-window-button" type="button" class="btn btn-default btn-block settings-button-tools">
+        <span aria-hidden="true" class="glyphicon glyphicon-sound-stereo"></span>Split Mode
+    </button>
+    <button id="logout-button" class="btn btn-default btn-block settings-button-tools">
+        <span aria-hidden="true" class="glyphicon glyphicon-ban-circle"></span>Logout
+    </button>
+    <button id="close-settings-button" type="button" class="btn btn-default btn-block settings-button-tools">
+        <span aria-hidden="true" class="glyphicon glyphicon-remove-circle"></span>Close
+    </button>
+
+
+    <div class="modal fade" id="general-help" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -80,5 +97,6 @@
 		</div>
 	</div>
 
-	<button id="split-window-button" type="button" class="btn btn-success"><a href="prueba2.html">Split</a></button>
+
+
 </div>

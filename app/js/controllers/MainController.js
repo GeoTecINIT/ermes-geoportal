@@ -55,6 +55,12 @@ define([
             esriRequest(this._requestConfigFile()).then(requestJSONSuccess);
             var handleCancelLegend = Topic.subscribe('cancel-legend', lang.hitch(this,"_cancelLegend"));
             var handleEnableLegend = Topic.subscribe('enable-legend', lang.hitch(this,"_enableLegend"));
+
+            // Draggablke chart
+            $( "#monitoring-widget-div" ).draggable({
+                handle: $("#monitoring-widget-dragger"),
+                containment: 'html'
+            });
         },
 
         _cancelLegend: function(data){
@@ -76,7 +82,8 @@ define([
                 this.map.removeLayer(this.primaryRasterLayer);
             }
 
-            this.legendDigit.destroy();
+            if(this.legendDigit != null)
+                this.legendDigit.destroy();
         },
 
         _changeRaster: function(){

@@ -557,8 +557,16 @@ define([
             var constructDiv = function(){
                 var div = domConstruct.create("div");
                 domAttr.set(div, "id", "monitoring-widget-container");
-                var container = dom.byId("monitoring-div");
+                var container = dom.byId("monitoring-widget-div");
+
+
+                if(domClass.contains(container, "display-none")){
+                    domClass.remove(container, "display-none");
+                    domClass.add(container, "display-block");
+                }
+
                 domConstruct.place(div, container, "last");
+
             }
 
             this.destroyChart();
@@ -572,6 +580,7 @@ define([
                 actualTimePosition: this.activeRaster,
                 mosaic: this.mosaics[this.activeMosaic]
             }, 'monitoring-widget-container');
+
 
             this.handler.resume();
         },
@@ -609,7 +618,7 @@ define([
             domClass.replace(labelRasterName, "visible", "notvisible");
 
 
-            rasterButton.innerHTML = rasterDate;
+            rasterButton.innerHTML = rasterDate + '<span class="glyphicon glyphicon-chevron-down"></span>';
             this.activeMosaic = mosaicId;
             this.activeRaster = rasterId;
 
@@ -628,6 +637,8 @@ define([
             this.destroyChart();
             this.activeRaster = null;
             this.map.graphics.remove(this.clickedGraph);
+
+            this._hideDateSelector();
         },
 
         _populateRasterList: function(rastersList, mosaicId, mosaicName){
@@ -637,8 +648,11 @@ define([
             this.handler.pause();
 
             var container = dom.byId("monitoring-rasters-list-ul");
+
+            this._showDateSelector();
+
             var mosaicButton = dom.byId("monitoring-mosaic-selector-button");
-            mosaicButton.innerHTML = mosaicName;
+            mosaicButton.innerHTML = mosaicName + '<span class="glyphicon glyphicon-chevron-down"></span>';
             var rasterButton = dom.byId("monitoring-raster-selector-button");
             rasterButton.innerHTML = "Select Raster";
 
@@ -670,6 +684,24 @@ define([
 
         },
 
+        _showDateSelector: function() {
+            var buttonGroup = dom.byId("monitoring-rasters-selector-container");
+
+            if(domClass.contains(buttonGroup, "monitoring-dropdown-hidden")){
+                domClass.remove(buttonGroup, "monitoring-dropdown-hidden");
+                domClass.add(buttonGroup, "monitoring-dropdown-visible");
+            }
+        },
+
+        _hideDateSelector: function() {
+            var buttonGroup = dom.byId("monitoring-rasters-selector-container");
+
+            if(domClass.contains(buttonGroup, "monitoring-dropdown-visible")){
+                domClass.remove(buttonGroup, "monitoring-dropdown-visible");
+                domClass.add(buttonGroup, "monitoring-dropdown-hidden");
+            }
+        },
+
         populateMosaicsList: function(){
             var container = dom.byId('monitoring-mosaics-list-ul');
 
@@ -693,6 +725,7 @@ define([
             this.handler.pause();
         },
 
+
         destroyChart: function(){
 
             if(this.monitoringWidget!=null){
@@ -701,6 +734,13 @@ define([
             this.map.infoWindow.hide();
             this.map.infoWindow.setTitle("");
             this.map.infoWindow.setContent("");
+            var plotDiv = dom.byId("monitoring-widget-div");
+
+            if(domClass.contains(plotDiv, "display-block")){
+                domClass.remove(plotDiv, "display-block");
+                domClass.add(plotDiv, "display-none");
+            }
+
 
         },
 

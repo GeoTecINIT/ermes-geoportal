@@ -15,72 +15,49 @@
     border-color: #4D8FD6;
     border-radius: 10px;
     padding: 1em;
+    border-width: 1px;
 }
 
-#settings-div-container {
-    position: fixed;
-    z-index: 35;
-    top: 1em;
-    width: 15em;
-    -webkit-transition: all 1s;
-    -moz-transition: all 1s;
-    -o-transition: all 1s;
-    transition: all 1s;
+.ermes-dropdown-div {
+    width: 100%;
 }
-
-.settings-div-container-visible {
-    right: 0em;
+.ermes-dropdown-div+.ermes-dropdown-div {
+    margin-top: 5px;
 }
-
-.settings-div-container-hidden {
-    right: -15em;
+.ermes-dropdown-inner-button {
+    border-radius: 4px;
+    width: 100%;
+    clear: both;
 }
-
-#settings-icon-div {
-    position: absolute;
-    padding: 0.5em;
-    display: block;
-    text-align: center;
-    vertical-align: middle;
-    z-index: 35;
-    -webkit-transition: all 1s;
-    -moz-transition: all 1s;
-    -o-transition: all 1s;
-    transition: all 1s;
+.ermes-dropdown-inner-button span {
+    float: right;
+    top: 0em;
+    font-size: 1.5em;
 }
+.ermes-dropdown-inner-button:hover span {
+    -moz-animation: bounce 2s infinite;
+    -webkit-animation: bounce 2s infinite;
+    animation: bounce 2s infinite;}
 
-.settings-icon-div-visible {
-    /*pointer-events: click;*/
-    left: -5em;
-    opacity: 1;
-}
 
-.settings-icon-div-hidden {
-    pointer-events: none;
-    left: 0em;
-    opacity: 0;
-}
-
-#settings-menu-div {
-    -webkit-transition: all 1s;
-    -moz-transition: all 1s;
-    -o-transition: all 1s;
-    transition: all 1s;
-}
-
-#settings-icon-div span.glyphicon-cog {
-    font-size: 50px;
-    width: 50px;
-    height: 50px;
-    margin: auto;
-    color: #009451;
+.ermes-separator-aspect{
+    /*border-style: solid;*/
+    /*border-color: #4D8FD6;*/
+    /*border-width: 3px;*/
+    /*margin-left: -1em;*/
+    /*margin-right: -1em;*/
+    border-top: solid #4D8FD6 1px;
+    border-right: none;
+    border-bottom: none;
+    border-left: none;
+    margin: 1em -1em 1em -1em;
 }
 
 #monitoring-div-container {
     position: fixed;
     z-index: 35;
-    top: 20em;
-    width: 15em;
+    top: 35%;
+    width: 22em;
     -webkit-transition: all 1s;
     -moz-transition: all 1s;
     -o-transition: all 1s;
@@ -93,7 +70,7 @@
 
 .monitoring-div-container-hidden {
     z-index: -5;
-    left: -15em;
+    left: -22em;
 }
 
 #monitoring-icon-div {
@@ -137,67 +114,7 @@
     color: #009451;
 }
 
-#comparing-div-container {
-    position: fixed;
-    z-index: 35;
-    top: 20em;
-    width: 15em;
-    -webkit-transition: all 1s;
-    -moz-transition: all 1s;
-    -o-transition: all 1s;
-    transition: all 1s;
-}
 
-.comparing-div-container-visible {
-    left: 0em;
-}
-
-.comparing-div-container-hidden {
-    z-index: -5;
-    left: -15em;
-}
-
-#comparing-icon-div {
-    top: 6em;
-    position: absolute;
-    padding: 0.5em;
-    display: block;
-    text-align: center;
-    vertical-align: middle;
-    z-index: 35;
-    -webkit-transition: all 1s;
-    -moz-transition: all 1s;
-    -o-transition: all 1s;
-    transition: all 1s;
-}
-
-.comparing-icon-div-visible {
-    /*pointer-events: click;*/
-    right: -5em;
-    opacity: 1;
-}
-
-.comparing-icon-div-hidden {
-    pointer-events: none;
-    z-index: 0;
-    right: 0em;
-    opacity: 0;
-}
-
-#comparing-menu-div {
-    -webkit-transition: all 1s;
-    -moz-transition: all 1s;
-    -o-transition: all 1s;
-    transition: all 1s;
-}
-
-#comparing-icon-div span.glyphicon-transfer {
-    font-size: 50px;
-    width: 50px;
-    height: 50px;
-    margin: auto;
-    color: #009451;
-}
 
 
 
@@ -294,6 +211,14 @@
 
 .notvisible{
   visibility: hidden;
+}
+
+.display-block{
+  display: block;
+}
+
+.display-none{
+  display: none;
 }
 
 html, body, #map-index-div {

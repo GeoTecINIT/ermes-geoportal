@@ -1,0 +1,77 @@
+#comparing-div-container {
+    position: fixed;
+    z-index: 35;
+    top: 34%;
+    width: 22em;
+    -webkit-transition: all 1s;
+    -moz-transition: all 1s;
+    -o-transition: all 1s;
+    transition: all 1s;
+}
+
+.comparing-div-container-visible {
+    left: 0em;
+}
+
+.comparing-div-container-hidden {
+    z-index: -5;
+    left: -22em;
+}
+
+#comparing-icon-div {
+    top: 6em;
+    position: absolute;
+    padding: 0.5em;
+    display: block;
+    text-align: center;
+    vertical-align: middle;
+    z-index: 35;
+    -webkit-transition: all 1s;
+    -moz-transition: all 1s;
+    -o-transition: all 1s;
+    transition: all 1s;
+}
+
+.comparing-icon-div-visible {
+    /*pointer-events: click;*/
+    right: -5em;
+    opacity: 1;
+}
+
+.comparing-icon-div-hidden {
+    pointer-events: none;
+    z-index: 0;
+    right: 0em;
+    opacity: 0;
+}
+
+#comparing-menu-div {
+    -webkit-transition: all 1s;
+    -moz-transition: all 1s;
+    -o-transition: all 1s;
+    transition: all 1s;
+}
+
+#comparing-icon-div span.glyphicon-transfer {
+    font-size: 50px;
+    width: 50px;
+    height: 50px;
+    margin: auto;
+    color: #009451;
+}
+
+.comparing-rasters-list-ul-visible {
+    visibility: visible;
+}
+
+.comparing-rasters-list-ul-hidden {
+    visibility: hidden;
+}
+
+.comparing-dropdown-hidden {
+    display: none;
+}
+
+.comparing-dropdown-visible {
+    display: inline-block;
+}

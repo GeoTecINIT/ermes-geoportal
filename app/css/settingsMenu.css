@@ -1,0 +1,71 @@
+#settings-div-container {
+    position: fixed;
+    z-index: 35;
+    top: 1em;
+    width: 15em;
+    -webkit-transition: all 1s;
+    -moz-transition: all 1s;
+    -o-transition: all 1s;
+    transition: all 1s;
+    height: auto;
+}
+
+.settings-div-container-visible {
+    right: 0em;
+}
+
+.settings-div-container-hidden {
+    right: -15em;
+}
+
+#settings-icon-div {
+    position: absolute;
+    padding: 0.5em;
+    display: block;
+    text-align: center;
+    vertical-align: middle;
+    z-index: 35;
+    -webkit-transition: all 1s;
+    -moz-transition: all 1s;
+    -o-transition: all 1s;
+    transition: all 1s;
+}
+
+.settings-icon-div-visible {
+    /*pointer-events: click;*/
+    left: -5em;
+    opacity: 1;
+}
+
+.settings-icon-div-hidden {
+    pointer-events: none;
+    left: 0em;
+    opacity: 0;
+}
+
+#settings-menu-div {
+    -webkit-transition: all 1s;
+    -moz-transition: all 1s;
+    -o-transition: all 1s;
+    transition: all 1s;
+}
+
+#settings-icon-div span.glyphicon-cog {
+    font-size: 50px;
+    width: 50px;
+    height: 50px;
+    margin: auto;
+    color: #009451;
+}
+
+.settings-button-tools {
+    text-align: left;
+    transition: padding .25s;
+}
+.settings-button-tools:hover {
+    padding-left: 2em;
+}
+
+.settings-button-tools .glyphicon {
+    margin-right: 0.5em;
+}

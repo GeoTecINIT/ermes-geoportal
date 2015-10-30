@@ -1,0 +1,13 @@
+#monitoring-widget-div {
+    position: absolute;
+    left: 30%;
+    top: 30%;
+}
+
+.monitoring-widget-div-visible{
+    visibility: visible;
+}
+
+.monitoring-widget-div-hidden{
+    visibility: hidden;
+}

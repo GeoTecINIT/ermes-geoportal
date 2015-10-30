@@ -5,6 +5,7 @@ define([
     'dojo/dom',
     'dojo/dom-construct',
     'dojo/dom-attr',
+    'dojo/dom-class',
     'dijit/_WidgetBase',
 	'dijit/_TemplatedMixin',
     'text!templates/monitoringWidget.tpl.html',
@@ -17,7 +18,7 @@ define([
     'dojox/charting/action2d/Tooltip',
     'dojox/charting/widget/Legend',
     'dojo/domReady!'
-	], function(declare, lang, on, dom, domConstruct, domAttr,
+	], function(declare, lang, on, dom, domConstruct, domAttr, domClass,
 		_WidgetBase, _TemplatedMixin, template, Topic,
         Chart, theme, Lines, StackedLines, AxisDefault, Tooltip, Legend){
 		
@@ -151,11 +152,27 @@ define([
                 );
 
             }
+
+            var plotDiv = dom.byId("monitoring-widget-div");
+
+            if(domClass.contains(plotDiv, "display-none")){
+                domClass.remove(plotDiv, "display-none");
+                domClass.add(plotDiv, "display-block");
+            }
+
         },
 
         _closeChart: function(){
+            var plotDiv = dom.byId("monitoring-widget-div");
+
+            if(domClass.contains(plotDiv, "display-block")){
+                domClass.remove(plotDiv, "display-block");
+                domClass.add(plotDiv, "display-none");
+            }
+
             Topic.publish("monitoring/close-chart");
             this.destroy();
+
         }
       
 	});

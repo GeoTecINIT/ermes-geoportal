@@ -75,7 +75,7 @@ define([
 	    _createCompareButton: function(mosaicId, rasterId, rasterDate){
             this._resetSecondatyLayer();
             var rasterButton = dom.byId("comparing-raster-selector-button");
-            rasterButton.innerHTML = rasterDate;
+            rasterButton.innerHTML = rasterDate + '<span class="glyphicon glyphicon-chevron-down"></span>';
             this.secondaryMosaic = mosaicId;
             this.secondaryRaster = rasterId;
             
@@ -83,16 +83,15 @@ define([
             
             var button = domConstruct.create('button');
             domAttr.set(button, 'id', 'compare-button');
-            domAttr.set(button, 'id', 'compare-button');
-            domAttr.set(button, 'class', 'btn btn-default');
-            
-            button.innerHTML = "Compare";
-            var clickHandler = lang.hitch(this, "_createSwipeWidget", mosaicId, rasterDate);
-            this.own(on(button, "click", clickHandler));
+            domAttr.set(button, 'class', 'btn btn-default btn-block settings-button-tools');
+
+            button.innerHTML = '<span class="glyphicon glyphicon-transfer"></span>Compare';
+
+            this.own(on(button, "click", lang.hitch(this, "_createSwipeWidget", mosaicId, rasterDate)));
 
 
-            var container = dom.byId('comparing-button-container');
-            domConstruct.place(button, container, "only");
+            var container = dom.byId('comparing-div-controls');
+            domConstruct.place(button, container, "first");
 
         },
 
@@ -101,9 +100,9 @@ define([
 	    	domConstruct.destroy('compare-button');
             var container = dom.byId("comparing-rasters-list-ul");
             var mosaicButton = dom.byId("comparing-mosaic-selector-button");
-            mosaicButton.innerHTML = mosaicName;
+            mosaicButton.innerHTML = mosaicName + '<span class="glyphicon glyphicon-chevron-down"></span>';
             var rasterButton = dom.byId("comparing-raster-selector-button");
-            rasterButton.innerHTML = "Date";
+            rasterButton.innerHTML = 'Date <span class="glyphicon glyphicon-chevron-down"></span>';
 
             container.innerHTML =""; 
             for(var raster in rastersList){
@@ -118,7 +117,9 @@ define([
                 this.own(on(a, "click", clickHandler));
                 domConstruct.place(a, li, "only");
                 domConstruct.place(li, container, "last");
-            }            
+            }
+
+            this._showDateSelector();
         },
 
         populateMosaicsList: function(){
@@ -137,7 +138,32 @@ define([
         		domConstruct.place(a,li,"only");
         		domConstruct.place(li, container, "last");
         	}
-        }
+
+        },
+
+        _showDateSelector: function() {
+            var buttonGroup = dom.byId("comparing-rasters-selector-container");
+
+            if(domClass.contains(buttonGroup, "comparing-dropdown-hidden")){
+                domClass.remove(buttonGroup, "comparing-dropdown-hidden");
+                domClass.add(buttonGroup, "comparing-dropdown-visible");
+            }
+        },
+
+        _hideDateSelector: function() {
+            var buttonGroup = dom.byId("comparing-rasters-selector-container");
+
+            if(domClass.contains(buttonGroup, "comparing-dropdown-visible")){
+                domClass.remove(buttonGroup, "comparing-dropdown-visible");
+                domClass.add(buttonGroup, "comparing-dropdown-hidden");
+            }
+        },
+
+
+
+
+
+
 	});
 
 });

@@ -50,6 +50,7 @@ define([
 				this.own(on(dom.byId('monitoring-div-container'), 'click', lang.hitch(this, '_continueCharting')));
 
 				this.own(on(dom.byId('settings-div-container'), 'click', lang.hitch(this, '_cancelComparing')));
+				this.own(on(dom.byId('close-comparing-button'), 'click', lang.hitch(this, '_cancelComparing')));
 				
 				this.own(on(dom.byId('comparing-div-container'), 'click', lang.hitch(this, '_cancelCharting')));
 				this.own(on(dom.byId('settings-div-container'), 'click', lang.hitch(this, '_cancelCharting')));
