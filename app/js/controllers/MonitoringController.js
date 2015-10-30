@@ -572,7 +572,16 @@ define([
             this.destroyChart();
             constructDiv();
             var allValues = arguments[0];
-            var actualValue = allValues[this.activeRaster-1];
+            function getActualValue(date){
+                for(var i = 0; allValues[0].length; i++){
+                    if(allValues[1][i] == date)
+                        return allValues[0][i];
+                }
+
+            }
+
+            var actualValue = getActualValue(this.activeRaster);
+            //var actualValue = allValues[this.activeRaster-1];
             this.monitoringWidget = new MonitoringWidget({
                 actualValue: actualValue,
                 rasterValues: allValues,

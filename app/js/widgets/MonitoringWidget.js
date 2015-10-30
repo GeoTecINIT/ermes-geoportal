@@ -153,7 +153,16 @@ define([
 
             }
 
+            var titleSelected = this.mosaicName;
+            var valueClicked = "Value for " + this.actualTimePosition + " in the selected point is: "+ "<b>" + this.actualValue + "</b>";
+
+            var titleDiv = dom.byId("chart-title");
+            var valueDiv = dom.byId("chart-current-value");
+            titleDiv.innerHTML = titleSelected;
+            valueDiv.innerHTML = valueClicked;
+
             var plotDiv = dom.byId("monitoring-widget-div");
+
 
             if(domClass.contains(plotDiv, "display-none")){
                 domClass.remove(plotDiv, "display-none");
