@@ -45,7 +45,7 @@ $(document).on('ui-ready', function(evt) {
 
     //Launch Split Window
     $("#split-window-button").on('click', function() {
-        window.location.href = "prueba2.html";
+        window.location.href = "splitmode.html";
     });
 
 });

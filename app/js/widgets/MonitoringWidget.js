@@ -26,6 +26,7 @@ define([
 			templateString: template,
             actualValue: null,
             rasterValues: null,
+            graphic: null,
 
 		constructor: function(args){
             lang.mixin(this, args);
@@ -34,6 +35,7 @@ define([
         postCreate: function(){
             this._populateRasterInfo();
             this.own(on(dom.byId('close-chart-button'), 'click', lang.hitch(this, '_closeChart')));
+            this.own(on(dom.byId('export-chart-button'), 'click', lang.hitch(this, '_exportChart')));
         },
 
         _populateRasterInfo: function(){
@@ -56,7 +58,7 @@ define([
                         arrayData += seriesValues[1][i] + ",," + seriesValues[2][i] + ",\n";
                     }
                 }
-                var graphic = new Dygraph("raster-chart",
+                this.graphic = new Dygraph("raster-chart",
                     arrayData,
                     {
                         legend: 'always',
@@ -81,7 +83,7 @@ define([
                         arrayData += seriesValues[1][i] + ",,," + seriesValues[2][i] + "," + seriesValues[3][i] / 2 + ",,\n";
                     }
                 }
-                var graphic = new Dygraph("raster-chart",
+                this.graphic = new Dygraph("raster-chart",
                     arrayData,
                     {
                         legend: 'always',
@@ -102,7 +104,7 @@ define([
                         arrayData += seriesValues[1][i] + ",,," + seriesValues[2][i] + "," + seriesValues[3][i] / 2 + "\n";
                     }
                 }
-                var graphic = new Dygraph("raster-chart",
+                this.graphic = new Dygraph("raster-chart",
                     arrayData,
                     {
                         legend: 'always',
@@ -123,7 +125,7 @@ define([
                         arrayData += seriesValues[1][i] + ",," + seriesValues[2][i] + "\n";
                     }
                 }
-                var graphic = new Dygraph("raster-chart",
+                this.graphic = new Dygraph("raster-chart",
                     arrayData,
                     {
                         legend: 'always',
@@ -141,7 +143,7 @@ define([
                         arrayData += seriesValues[1][i] + "," + seriesValues[0][i]  + "\n";
                     }
                 }
-                var graphic = new Dygraph("raster-chart",
+                this.graphic = new Dygraph("raster-chart",
                     arrayData,
                     {
                         legend: 'always',
@@ -163,7 +165,6 @@ define([
 
             var plotDiv = dom.byId("monitoring-widget-div");
 
-
             if(domClass.contains(plotDiv, "display-none")){
                 domClass.remove(plotDiv, "display-none");
                 domClass.add(plotDiv, "display-block");
@@ -182,8 +183,19 @@ define([
             Topic.publish("monitoring/close-chart");
             this.destroy();
 
+        },
+
+        _exportChart: function(){
+            var img = dom.byId("chart-as-png");
+            Dygraph.Export.asPNG(this.graphic, img);
+            html2canvas(img,{
+                onrendered: function(canvas){
+                    canvas.toBlob(function(blob) {
+                        saveAs(blob, "PlotImage.png");
+                    });
+                }
+            });
         }
-      
 	});
 
 });

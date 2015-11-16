@@ -26,12 +26,13 @@ define([
     "esri/graphic",
     'dojo/request/xhr',
     "esri/tasks/query",
+    "esri/dijit/TimeSlider",
     'dojo/domReady!'
 ], function (declare, Evented, lang, arrayUtils, on, dom, domConstruct, domAttr, esriRequest, Map,
              Scalebar, InfoWindow, Legend, Mosaic, Topic, FeatureLayer, ArcGISDynamicMapServiceLayer,
              _WidgetBase, _TemplatedMixin, MenusController,
              SimpleRenderer, SimpleLineSymbol, SimpleFillSymbol, Color, Graphic,
-            xhr, Query) {
+            xhr, Query, TimeSlider) {
 
     var mosaicsLoaded = 0;
 
@@ -61,6 +62,9 @@ define([
                 handle: $("#monitoring-widget-dragger"),
                 containment: 'html'
             });
+
+            window.mainController = this;
+
         },
 
         _cancelLegend: function(data){
@@ -86,10 +90,10 @@ define([
                 this.legendDigit.destroy();
         },
 
-        _changeRaster: function(){
+        _changeRaster: function(raster){
 
-            var newMosaic =  this.menusController.getActiveMosaicAndRaster()[0];
-            var newRaster =  this.menusController.getActiveMosaicAndRaster()[1];
+            var newMosaic =  raster[0];
+            var newRaster =  raster[1];
             this.activeMosaic = newMosaic;
             var newLayer = this.mosaics[newMosaic].getLayerByID(newRaster);
             if(this.primaryRasterLayer!=null){
@@ -99,6 +103,15 @@ define([
             this.primaryRasterLayer = newLayer;
 
             this.map.addLayer(newLayer);
+
+
+
+
+
+
+
+
+
 
             //ADD LEGEND DIV
             if(this.legendDigit!=null){

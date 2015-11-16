@@ -598,6 +598,10 @@ define([
             return [this.activeMosaic, this.activeRaster];
         },
 
+        closeSwipe: function(){
+            $('#time-slider-container-div').removeClass('display-block').addClass('display-none');
+        },
+
         _showRaster: function(mosaicId, rasterId, rasterDate){
             this.destroyChart();
             var rasterButton = dom.byId("monitoring-raster-selector-button");
@@ -628,6 +632,16 @@ define([
 
 
             rasterButton.innerHTML = rasterDate + '<span class="glyphicon glyphicon-chevron-down"></span>';
+            $('#timeSliderDiv').addClass('event-disabled');
+            $('#time-slider-date-div').html(rasterDate);
+            var v = 0;
+            for(var r in this.mosaics[mosaicId].rasters){
+                if(r==rasterId)
+                    break;
+                v++;
+            }
+            $('#timeSliderDiv').slider('value',v);
+            $('#timeSliderDiv').removeClass('event-disabled');
             this.activeMosaic = mosaicId;
             this.activeRaster = rasterId;
 
@@ -650,6 +664,48 @@ define([
             this._hideDateSelector();
         },
 
+        _showSlider: function(rastersList, mosaicId, mosaicName) {
+
+            var rasterkeys = [];
+            for(var el in rastersList){
+                rasterkeys.push(el);
+            }
+
+            var that = this;
+
+            var sliderChangeListener = function sliderChangeListener(evt, ui) {
+                if($(this).hasClass('event-disabled')){
+                    return;
+                }
+                console.log(rasterkeys[ui.value]);
+                var _mosaicId = mosaicId;
+                var _raster = rasterkeys[ui.value];
+                var _rasterDate = rastersList[_raster][1];
+                that._showRaster(_mosaicId, _raster, _rasterDate);
+            };
+
+
+            $('#time-slider-container-div').removeClass('display-none').addClass('display-block');
+            $('#time-slider-date-div').html(rasterkeys[0]);
+            $('#time-slider-title-div').html(mosaicId);
+
+            if( $('#timeSliderDiv').slider("instance") )
+                //$('#timeSliderDiv').slider("instance").destroy();
+                $('#timeSliderDiv').slider("destroy");
+
+            $('#timeSliderDiv').html = '';
+            $('#timeSliderDiv').slider({
+                min: 0,
+                max: rasterkeys.length - 1,
+                range: "min",
+                value: 0
+            })  .unbind('slidechange')
+                .bind('slidechange', sliderChangeListener)
+                .on('slide', function( event, ui ){
+                    $('#time-slider-date-div').html(rasterkeys[ui.value]);
+                });
+        },
+
         _populateRasterList: function(rastersList, mosaicId, mosaicName){
 
             this.destroyChart();
@@ -659,6 +715,7 @@ define([
             var container = dom.byId("monitoring-rasters-list-ul");
 
             this._showDateSelector();
+            this._showSlider(rastersList, mosaicId, mosaicName);
 
             var mosaicButton = dom.byId("monitoring-mosaic-selector-button");
             mosaicButton.innerHTML = mosaicName + '<span class="glyphicon glyphicon-chevron-down"></span>';
@@ -688,6 +745,7 @@ define([
                     isFirst=false;
                 }
             }
+
             this._showRaster(mId, r, rD);
 
 
@@ -736,7 +794,6 @@ define([
 
 
         destroyChart: function(){
-
             if(this.monitoringWidget!=null){
                 this.monitoringWidget.destroy();
             }

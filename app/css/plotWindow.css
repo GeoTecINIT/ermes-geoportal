@@ -11,3 +11,10 @@
 .monitoring-widget-div-hidden{
     visibility: hidden;
 }
+
+#close-chart-button,
+#export-chart-button
+{
+    margin-top: 1em;
+}
+

@@ -359,3 +359,49 @@ html, body, #map-index-div {
         width: 101px;
     }
 }
+
+#time-slider-container-div{
+    position: absolute;
+    width: 50%;
+    z-index: 30;
+    left: 25%;
+    bottom: 10%;
+    text-align: center;
+}
+
+#time-slider-elements-container{
+    max-width: 38em;
+    min-width: 100%;
+    /*width: 100%;*/
+    display: inline-block;
+}
+
+#play-slider-button-div{
+    position: relative;
+    display: inline-block;
+}
+
+#timeSliderDiv {
+    position: relative;
+    display: inline-block;
+    width: 80%;
+    margin-left: 1em;
+}
+
+.inline-buttons {
+    display: inline-block;
+}
+
+#chart-as-png{
+    position: absolute;
+    top: 0;
+    z-index: -100;
+}
+
+
+.esriPrintButton{
+
+}
+/*#play-slider-button{*/
+
+/*}*/

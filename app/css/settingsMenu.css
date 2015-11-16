@@ -58,14 +58,14 @@
     color: #009451;
 }
 
-.settings-button-tools {
+.settings-button-tools, .esriPrint {
     text-align: left;
     transition: padding .25s;
 }
-.settings-button-tools:hover {
+.settings-button-tools:hover{
     padding-left: 2em;
 }
 
-.settings-button-tools .glyphicon {
+.settings-button-tools .glyphicon{
     margin-right: 0.5em;
 }
