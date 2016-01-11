@@ -37,7 +37,8 @@ define([
 			var printer = new Print({
 				map: this.map,
 				//url: "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task",
-				url: "http://sampleserver6.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task",
+				url: "http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task",
+				//url: "http://sampleserver6.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task",
 				templates: [{
 					label: "PDF",
 					format: "PDF",
@@ -51,16 +52,6 @@ define([
 				}]
 			}, dom.byId('print-button-div'));
 			printer.startup();
-			//var node = printer.printDomNode.children[0].children[0];
-            //
-            //domClass.remove(node, "esriPrint");
-			//domClass.add(node, "btn");
-			//domClass.add(node, "btn-default");
-			//domClass.add(node, "btn-block");
-			//domClass.add(node, "settings-button-tools");
-
-
-
 
 		},
 

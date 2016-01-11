@@ -19,6 +19,7 @@ define([
     'dijit/_WidgetBase',
     'dijit/_TemplatedMixin',
     'controllers/MenusController',
+    'esri/geometry/Extent',
     "esri/renderers/SimpleRenderer",
     "esri/symbols/SimpleLineSymbol",
     "esri/symbols/SimpleFillSymbol",
@@ -30,7 +31,7 @@ define([
     'dojo/domReady!'
 ], function (declare, Evented, lang, arrayUtils, on, dom, domConstruct, domAttr, esriRequest, Map,
              Scalebar, InfoWindow, Legend, Mosaic, Topic, FeatureLayer, ArcGISDynamicMapServiceLayer,
-             _WidgetBase, _TemplatedMixin, MenusController,
+             _WidgetBase, _TemplatedMixin, MenusController, Extent,
              SimpleRenderer, SimpleLineSymbol, SimpleFillSymbol, Color, Graphic,
             xhr, Query, TimeSlider) {
 
@@ -49,11 +50,13 @@ define([
         parcelsLayer: null,
         legendDigit: null,
         legendListener: null,
+        limits: null,
 
 
         constructor: function(){
-            var requestJSONSuccess = lang.hitch(this, '_requestSuccess')
-            esriRequest(this._requestConfigFile()).then(requestJSONSuccess);
+            //var requestJSONSuccess = lang.hitch(this, '_requestSuccess')
+            //esriRequest(this._requestConfigFile()).then(requestJSONSuccess);
+            this._requestConfigFile();
             var handleCancelLegend = Topic.subscribe('cancel-legend', lang.hitch(this,"_cancelLegend"));
             var handleEnableLegend = Topic.subscribe('enable-legend', lang.hitch(this,"_enableLegend"));
 
@@ -105,14 +108,6 @@ define([
             this.map.addLayer(newLayer);
 
 
-
-
-
-
-
-
-
-
             //ADD LEGEND DIV
             if(this.legendDigit!=null){
                 this.legendDigit.destroy();
@@ -158,6 +153,9 @@ define([
 
             //INITIATES MAP
             this.map = new Map("map-index-div", response.mapOptions);
+
+            //GET LIMITS OF MAP LAYERS
+            this.limits = new Extent(response.limits);
 
             //INFO WINDOW FOR LOCAL USERS
             var infowindow = null;
@@ -209,7 +207,9 @@ define([
                 userProfile: this.userProfile,
                 userRegion: this.userRegion,
                 username: this.username,
-                parcelsLayer: this.parcelsLayer}, 'basic-container-div');
+                parcelsLayer: this.parcelsLayer,
+                limits: this.limits
+            }, 'basic-container-div');
             this.menusController.on("update-raster", lang.hitch(this,"_changeRaster"));
             this.menusController.on("remove-raster", lang.hitch(this,"_cleanMap"));
             this.menusController.startup();
@@ -258,15 +258,19 @@ define([
                 new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([0, 255, 0]), 5),
                 new Color([255, 255, 0, 0])
             );
-            var parcelsURL = "http://ermes.dlsi.uji.es:6585/api/users/short/" + this.username;
+            var parcelsURL = "http://ermes.dlsi.uji.es:6686/api/users/" + this.username;
+            var username = this.username;
+            var password = getCookie("password");
             xhr(parcelsURL, {
                 handleAs: "json",
                 method: "GET",
                 headers: {
-                    "X-Requested-With": null
+                    "X-Requested-With": null,
+                    "X-Auth-Key": username+";"+password
                 }
             }).then(lang.hitch(this, function (data) {
-                    var myParcels = data.parcels.split(',');
+                    //var myParcels = data.parcels.split(',');
+                    var myParcels = data.user.parcels;
                     var layer =  this.parcelsLayer;
                     function findOwnedParcels(element, index, array) {
                         if(contains(myParcels, element.attributes.PARCEL_ID)){
@@ -289,29 +293,44 @@ define([
             this.userProfile = getCookie("profile");
             this.username = getCookie("username");
             var configFileURL;
+            var profileId;
+
+            //TODO Translate this to the server User Model.
             if(this.userRegion=="italy" && this.userProfile=="local") {
+                profileId = "IT-LOCAL";
                 configFileURL = "./config/config-italy-local.json";
             }
             else if(this.userRegion=="italy" && this.userProfile=="regional") {
+                profileId = "IT-REGIONAL";
                 configFileURL = "./config/config-italy-full.json";
             }
             else if(this.userRegion=="spain" && this.userProfile=="local") {
+                profileId = "SP-LOCAL";
                 configFileURL = "./config/config-spain-local.json";
             }
             else if(this.userRegion=="spain" && this.userProfile=="regional") {
+                profileId = "SP-REGIONAL";
                 configFileURL = "./config/config-spain-full.json";
             }
             else if(this.userRegion=="greece" && this.userProfile=="local") {
+                profileId = "GK-LOCAL";
                 configFileURL = "./config/config-greece-local.json";
             }
             else if(this.userRegion=="greece" && this.userProfile=="regional") {
+                profileId = "GK-REGIONAL";
                 configFileURL = "./config/config-greece-full.json";
             }
 
-            return {
-                url: configFileURL,
-                handleAs: "json"
-            };
+            var success = lang.hitch(this, "_requestSuccess")
+
+            xhr("http://ermes.dlsi.uji.es:6686/config", {
+            //xhr("http://ermes.dlsi.uji.es:6686/config", {
+                handleAs: "json",
+                method: "POST",
+                data: {
+                    "profileId": profileId
+                }
+            }).then(success);
 
             function getCookie(cname) {
                 var name = cname + "=";
@@ -323,6 +342,7 @@ define([
                 }
                 return "";
             }
+
         }
 
     });

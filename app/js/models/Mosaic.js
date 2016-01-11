@@ -10,12 +10,18 @@ define([
     'esri/tasks/ImageServiceIdentifyTask',
 	'esri/tasks/ImageServiceIdentifyParameters',
     'esri/layers/MosaicRule',
+    'dojo/request/xhr',
+    "esri/geometry/Point",
+    "esri/geometry/Extent",
     'esri/tasks/query',
-    'esri/tasks/QueryTask'
+    'esri/tasks/QueryTask',
+    "esri/tasks/GeometryService",
+    "esri/tasks/ProjectParameters",
+    "esri/SpatialReference"
 	], function(declare, lang, when, Topic, Evented, _WidgetBase,
 		 ArcGISImageServiceLayer, ArcGISTiledMapServiceLayer,
          ImageServiceIdentifyTask, ImageServiceIdentifyParameters,
-		 MosaicRule, Query, QueryTask){
+		 MosaicRule, xhr, Point, Extent, Query, QueryTask, GeometryService, ProjectParameters, SpatialReference){
 		
 		return declare([Evented, _WidgetBase], {
 			mosaicId: null,
@@ -35,6 +41,7 @@ define([
             yAxis: null,
             valuesReceived: 0,
             parameterForPlot: [],
+            limits: null,
 
 		constructor: function(options){
 			this.mosaicId = options.id;
@@ -46,9 +53,47 @@ define([
 			this.rasters = [];
             this.plotType = options.plotType;
             this.yAxis = options.yAxis;
+            this._getMosaicExtent();
 			this._loadRasters();
-	
 		},
+
+        _createLimits: function(arrayPoints){
+            var xmin = arrayPoints[0].x;
+            var ymin = arrayPoints[0].y;
+            var xmax = arrayPoints[1].x;
+            var ymax = arrayPoints[1].y;
+            var sr = new SpatialReference({"wkid": arrayPoints[0].spatialReference.wkid});
+            this.limits = new Extent(xmin, ymin, xmax, ymax, sr);
+        },
+
+        _projectExtent: function(response){
+            var geometries = [];
+            geometries.push(new Point(
+                response.extent.xmin,
+                response.extent.ymin,
+                new SpatialReference({ wkid: response.extent.spatialReference.wkid })
+            ));
+            geometries.push(new Point(
+                response.extent.xmax,
+                response.extent.ymax,
+                new SpatialReference({ wkid: response.extent.spatialReference.wkid })
+            ));
+            var geometryService = new GeometryService("http://tasks.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer");
+            var params = new ProjectParameters();
+            params.geometries = geometries;
+            params.outSR = new SpatialReference(4326) ;
+            var setLimits = lang.hitch(this, "_createLimits");
+            geometryService.project(params).then(setLimits);
+        },
+
+        _getMosaicExtent: function(){
+            var mosaicDataUrl = this.URL + '?f=pjson';
+            var project = lang.hitch(this, "_projectExtent");
+            xhr(mosaicDataUrl, {
+                handleAs: "json",
+                headers: {"X-Requested-With": null }
+            }).then(project);
+        },
 
 		getLayerByID: function(rasterId){
 			var layer = new ArcGISImageServiceLayer(this.URL);
@@ -70,6 +115,7 @@ define([
 	        	var name = featureSet.features[i].attributes.Name;
 				var date = new Date(featureSet.features[i].attributes.DATE).toDateString();
 	        	this.rasters[key] = [name, date];
+                this.rasters.length++;
 	        }
 	        this.numRasters = this.rasters.length;
 	        this.emit("mosaic-loaded",{});

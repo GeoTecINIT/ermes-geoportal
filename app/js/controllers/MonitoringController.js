@@ -23,11 +23,13 @@ define([
     'widgets/MonitoringWidget',
     "esri/symbols/PictureMarkerSymbol",
     "esri/graphic",
+    "esri/tasks/ProjectParameters",
+    "esri/tasks/GeometryService",
     'dojo/domReady!'
 ], function(declare, Evented, lang, when, on, dom, domConstruct, domAttr, domClass, Topic,  xhr, Query,
             _WidgetBase, _TemplatedMixin, MenusController, template, parcelTemplate, productHelpTemplate,
             ImageServiceIdentifyTask, MosaicRule, ImageServiceIdentifyParameters, MonitoringWidget,
-            PictureMarkerSymbol, Graphic){
+            PictureMarkerSymbol, Graphic, ProjectParameters, GeometryService){
 
     return declare([Evented, _WidgetBase, _TemplatedMixin], {
         templateString: template,
@@ -42,6 +44,9 @@ define([
         warmData: null,
         warmInfectionData: null,
         localDataReceived: 0,
+        playIteration: 0,
+        playMode: false,
+        playInterval: 0,
 
         constructor: function(args){
             lang.mixin(this, args);
@@ -49,12 +54,14 @@ define([
 
         postCreate: function(){
             this.own(on(dom.byId('clean-raster-map'), 'click', lang.hitch(this, '_noneRaster')));
-            Topic.subscribe("monitoring/close-chart", lang.hitch(this, function(){
-                this.map.graphics.remove(this.clickedGraph);
-            }));
+            //Topic.subscribe("monitoring/close-chart", lang.hitch(this, function(){
+            //    this.map.graphics.remove(this.clickedGraph);
+            //}));
             if(this.userProfile=="regional") {
                 this.handler = on.pausable(this.map, 'click', lang.hitch(this, '_showClickedPoint'));
                 Topic.subscribe("mosaic/raster-click", lang.hitch(this, '_rasterValuesCompleted'));
+                Topic.subscribe("coordinates/goAndChart", lang.hitch(this, '_showCoordinatesPoint'));
+                Topic.subscribe("coordinates/moveMarker", lang.hitch(this, '_moveMarker'));
                 this.handler.pause();
             } else if (this.userProfile=="local"){
                 this.handler = on.pausable(this.map, 'click', lang.hitch(this, '_showParcelInfo'));
@@ -66,9 +73,25 @@ define([
                     }
                 ));
             }
+            this.own(on(dom.byId('play-slider-button'), 'click', lang.hitch(this, '_playMode')));
+
+        },
+
+        _moveMarker: function(point){
+            if(this.clickedGraph.geometry && this._isPointInLimits(point)) {
+                this.map.centerAt(point);
+                this.clickedGraph.setGeometry(point);
+            }
+        },
+
+        _isPointInLimits: function(point){
+
+            //return this.mosaics[this.activeMosaic].limits.contains(point);
+            return true;
         },
 
         _showParcelInfo: function(evt){
+            this._stopPlayMode();
             //Consultar PARCEL ID clicado
             var query = new Query();
             query.geometry = evt.mapPoint;
@@ -86,8 +109,7 @@ define([
         },
 
         _queryMongoServer: function(response){
-            var serviceURL = "http://ermes.dlsi.uji.es:6585/api/parcelsinfo/";
-            //var serviceURL = "http://localhost:6585/api/parcelsinfo/";
+            var serviceURL = "http://ermes.dlsi.uji.es:6686/api/parcelsinfo/";
             var username = this.username;
             var password = getCookie("password");
             if (response.features.length>0) {
@@ -103,7 +125,8 @@ define([
                         parcelid: parcelid
                     },
                     headers: {
-                        "X-Requested-With": null
+                        "X-Requested-With": null,
+                        "X-Auth-Key": username+";"+password
                     }
                 }).then(lang.hitch(this, "_receivedData", "local"));
             }
@@ -112,7 +135,7 @@ define([
                 this.map.infoWindow.setContent("There is no parcel Here!");
             }
 
-            var serviceURL = "http://ermes.dlsi.uji.es:6585/api/warm/development-stage";
+            var serviceURL = "http://ermes.dlsi.uji.es:6686/api/warm/development-stage";
             if (response.features.length>0) {
                 var parcelid = response.features[0].attributes.PARCEL_ID;
                 var now = new Date();
@@ -135,12 +158,13 @@ define([
                         year: now.getFullYear()
                     },
                     headers: {
-                        "X-Requested-With": null
+                        "X-Requested-With": null,
+                        "X-Auth-Key": username+";"+password
                     }
                 }).then(lang.hitch(this, "_receivedData", "warm"));
             }
 
-            var serviceURL = "http://ermes.dlsi.uji.es:6585/api/warm/infection-risk";
+            var serviceURL = "http://ermes.dlsi.uji.es:6686/api/warm/infection-risk";
             if (response.features.length>0) {
                 var parcelid = response.features[0].attributes.PARCEL_ID;
                 var now = new Date();
@@ -163,7 +187,8 @@ define([
                         year: now.getFullYear()
                     },
                     headers: {
-                        "X-Requested-With": null
+                        "X-Requested-With": null,
+                        "X-Auth-Key": username+";"+password
                     }
                 }).then(lang.hitch(this, "_receivedData", "warmInfection"));
             }
@@ -528,32 +553,73 @@ define([
             }
         },
 
+
+
         _updateGraph: function(point){
             this.clickedGraph.setGeometry(point);
             this.clickedGraph.setSymbol(this.customSymbol);
             this.map.graphics.add(this.clickedGraph);
         },
 
+        _showLoadingImage: function(){
+            var container = dom.byId("loading-icon-div");
+            domClass.replace(container, "loading-icon-div-display", "loading-icon-div-hidden");
+        },
+
+        _hideLoadingImage: function(){
+            var container = dom.byId("loading-icon-div");
+            domClass.replace(container, "loading-icon-div-hidden", "loading-icon-div-display");
+        },
+
         _showClickedPoint: function(evt){
-            if( this.mosaics[this.activeMosaic] && this.mosaics[this.activeMosaic].plotType!=0) {
-                this.mosaics[this.activeMosaic].getRasterValues(evt.mapPoint);
-                this.handler.pause();
-                this.destroyChart();
-                var div = domConstruct.create("div");
-                domAttr.set(div, "id", "loading-image");
-                var span = domConstruct.create("span");
-                domAttr.set(span, "class", "glyphicon glyphicon-refresh glyphicon-refresh-animate");
-                var h1 = domConstruct.create("h1");
-                domConstruct.place(span, h1, "only");
-                domConstruct.place(h1, div, "only");
-                var container = dom.byId("monitoring-div");
-                domConstruct.place(div, container, "last");
-                this._updateGraph(evt.mapPoint);
+            if(this._isPointInLimits(evt.mapPoint)) {
+                this._stopPlayMode();
+                Topic.publish("coordinates/updatePointClicked", evt.mapPoint);
+                if (this.mosaics[this.activeMosaic] && this.mosaics[this.activeMosaic].plotType != 0) {
+                    this.mosaics[this.activeMosaic].getRasterValues(evt.mapPoint);
+                    this.handler.pause();
+                    this.destroyChart();
+                    this._showLoadingImage();
+                    //var div = domConstruct.create("div");
+                    //domAttr.set(div, "id", "loading-image");
+                    //var span = domConstruct.create("span");
+                    //domAttr.set(span, "class", "glyphicon glyphicon-refresh glyphicon-refresh-animate");
+                    //var h1 = domConstruct.create("h1");
+                    //domConstruct.place(span, h1, "only");
+                    //domConstruct.place(h1, div, "only");
+                    //var container = dom.byId("monitoring-div");
+                    //domConstruct.place(div, container, "last");
+                    this._updateGraph(evt.mapPoint);
+                }
+            }
+        },
+
+        _showCoordinatesPoint: function(point){
+            if(this._isPointInLimits(point)) {
+                this.map.centerAt(point);
+                this._stopPlayMode();
+                if (this.mosaics[this.activeMosaic] && this.mosaics[this.activeMosaic].plotType != 0) {
+                    this._showLoadingImage();
+                    this.mosaics[this.activeMosaic].getRasterValues(point);
+                    this.handler.pause();
+                    this.destroyChart();
+                    //var div = domConstruct.create("div");
+                    //domAttr.set(div, "id", "loading-image");
+                    //var span = domConstruct.create("span");
+                    //domAttr.set(span, "class", "glyphicon glyphicon-refresh glyphicon-refresh-animate");
+                    //var h1 = domConstruct.create("h1");
+                    //domConstruct.place(span, h1, "only");
+                    //domConstruct.place(h1, div, "only");
+                    //var container = dom.byId("monitoring-div");
+                    //domConstruct.place(div, container, "last");
+                    this._updateGraph(point);
+                }
             }
         },
 
         _rasterValuesCompleted: function(){
-            domConstruct.destroy("loading-image");
+            //domConstruct.destroy("loading-image");
+            this._hideLoadingImage();
             var constructDiv = function(){
                 var div = domConstruct.create("div");
                 domAttr.set(div, "id", "monitoring-widget-container");
@@ -570,25 +636,29 @@ define([
             }
 
             this.destroyChart();
-            constructDiv();
+
             var allValues = arguments[0];
-            function getActualValue(date){
-                for(var i = 0; allValues[0].length; i++){
-                    if(allValues[1][i] == date)
-                        return allValues[0][i];
+            if(allValues[0].length!=0) {
+                constructDiv();
+                function getActualValue(date) {
+                    for (var i = 0; allValues[0].length; i++) {
+                        if (allValues[1][i] == date)
+                            return allValues[0][i];
+                    }
+
                 }
 
+                var actualValue = getActualValue(this.activeRaster);
+                //var actualValue = allValues[this.activeRaster-1];
+                this.monitoringWidget = new MonitoringWidget({
+                    actualValue: actualValue,
+                    rasterValues: allValues,
+                    mosaicName: this.activeMosaic,
+                    actualTimePosition: this.activeRaster,
+                    mosaic: this.mosaics[this.activeMosaic]
+                }, 'monitoring-widget-container');
             }
 
-            var actualValue = getActualValue(this.activeRaster);
-            //var actualValue = allValues[this.activeRaster-1];
-            this.monitoringWidget = new MonitoringWidget({
-                actualValue: actualValue,
-                rasterValues: allValues,
-                mosaicName: this.activeMosaic,
-                actualTimePosition: this.activeRaster,
-                mosaic: this.mosaics[this.activeMosaic]
-            }, 'monitoring-widget-container');
 
 
             this.handler.resume();
@@ -599,7 +669,9 @@ define([
         },
 
         closeSwipe: function(){
+
             $('#time-slider-container-div').removeClass('display-block').addClass('display-none');
+            this._stopPlayMode();
         },
 
         _showRaster: function(mosaicId, rasterId, rasterDate){
@@ -634,6 +706,12 @@ define([
             rasterButton.innerHTML = rasterDate + '<span class="glyphicon glyphicon-chevron-down"></span>';
             $('#timeSliderDiv').addClass('event-disabled');
             $('#time-slider-date-div').html(rasterDate);
+
+            //TODO USE THIS ONLY IF NECESSARY THIS CORRELATES THE GEOPORTAL WITH THEIR CATALOG
+            var link = "http://get-it.ermes-fp7space.eu/layers/geonode:" + this.mosaics[mosaicId].rasters[rasterId][0].toLowerCase();
+            $('#time-slider-catalog-link-div').html(link);
+
+
             var v = 0;
             for(var r in this.mosaics[mosaicId].rasters){
                 if(r==rasterId)
@@ -662,7 +740,44 @@ define([
             this.map.graphics.remove(this.clickedGraph);
 
             this._hideDateSelector();
+            this._stopPlayMode();
         },
+
+        _playMode: function(){
+            if(this.playMode){
+                this._stopPlayMode();
+
+
+            }
+            else{
+                $('#play-pause-icon').removeClass('glyphicon-pause').addClass('glyphicon-pause');
+                this.playMode = true;
+                var frequency = 3000;
+                var value = $('#timeSliderDiv').slider("option", "value");
+                $('#timeSliderDiv').slider("value", value);
+
+                var myFunction = lang.hitch(this, "_moveSlider");
+                this.myInterval = setInterval(myFunction, frequency );
+            }
+
+        },
+
+        _stopPlayMode: function(){
+            this.playMode = false;
+            clearInterval(this.myInterval);
+            $('#play-pause-icon').removeClass('glyphicon-pause').addClass('glyphicon-play');
+        },
+
+        _moveSlider: function(value){
+            $('#play-pause-icon').removeClass('glyphicon-play').addClass('glyphicon-pause');
+            var value = $('#timeSliderDiv').slider("option", "value");
+            value++;
+            if(value==this.mosaics[this.activeMosaic].rasters.length) {
+                this._stopPlayMode();
+            }
+            $('#timeSliderDiv').slider('value',value);
+        },
+
 
         _showSlider: function(rastersList, mosaicId, mosaicName) {
 
@@ -687,6 +802,7 @@ define([
 
             $('#time-slider-container-div').removeClass('display-none').addClass('display-block');
             $('#time-slider-date-div').html(rasterkeys[0]);
+            //$('#time-slider-date-div').html(rasterId);
             $('#time-slider-title-div').html(mosaicId);
 
             if( $('#timeSliderDiv').slider("instance") )
@@ -790,6 +906,8 @@ define([
         stopClickHandler: function(){
             this.map.graphics.remove(this.clickedGraph);
             this.handler.pause();
+            this._stopPlayMode();
+
         },
 
 

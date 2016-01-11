@@ -21,21 +21,32 @@
             border-left: none;
             border-top: none;
             border-bottom: none;
-            border-right: 10px solid #003171;
+            /*border-right: 10px solid #003171;*/
+            border-right: 10px;
         }
 
         #iframe-2 {
             left: 50%;
-            border-left: 10px solid #003171;
+            border-left: 5px solid #39715c;
             border-top: none;
             border-bottom: none;
             border-right: none;
         }
+
+        .resizable{
+            z-index: 1000;
+            resize: horizontal;
+            overflow: auto;
+        }
     </style>
 </head>
 <body>
-<iframe src="index.html" id="iframe-1" style="width: 50%;"></iframe>
-<iframe src="index.html" id="iframe-2" style="width: 50%;"></iframe>
+    <div class="resizable">
+        <iframe src="index.html" id="iframe-1" ></iframe>
+    </div>
+    <div>
+        <iframe src="index.html" id="iframe-2" ></iframe>
+    </div>
 </body>
 
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>

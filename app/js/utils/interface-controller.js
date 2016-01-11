@@ -43,6 +43,21 @@ $(document).on('ui-ready', function(evt) {
         $("#monitoring-icon-div").toggleClass("monitoring-icon-div-visible monitoring-icon-div-hidden");
     });
 
+    // LEGEND WINDOW FUNCTION
+    $("#legend-icon-div").on('click', function(){
+        $("#legend-div-container").toggleClass("legend-div-container-visible legend-div-container-hidden");
+        $(this).toggleClass("legend-icon-div-visible legend-icon-div-hidden");
+    });
+
+    $("#close-legend-button").on('click', function() {
+        $("#legend-div-container").toggleClass("legend-div-container-visible legend-div-container-hidden");
+        $("#legend-icon-div").toggleClass("legend-icon-div-visible legend-icon-div-hidden");
+    });
+
+
+
+
+
     //Launch Split Window
     $("#split-window-button").on('click', function() {
         window.location.href = "splitmode.html";

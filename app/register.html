@@ -101,7 +101,8 @@
                 region = $("#selectRegion").val(),
                 profile = $("#selectProfile").val(),
 
-                url = "http://ermes.dlsi.uji.es:6585/signup";
+//                url = "http://localhost:6686/signup";
+                url = "http://ermes.dlsi.uji.es:6686/signup";
         if(email!=email2) {
             $("#response").text("Mail doesn't match.")
         }
@@ -114,7 +115,7 @@
 
             // Show results asynchronously.
             posting.done(function (data) {
-                if(data.user == username)
+                if(data == username)
                     window.location.replace("login.html");
                 else
                     $("#response").text("This user already exists. If the problem persists contact the ERMES administrators.");

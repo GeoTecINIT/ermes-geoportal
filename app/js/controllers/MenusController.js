@@ -14,9 +14,10 @@ define([
     'controllers/MonitoringController',
     'controllers/ComparingController',
     'controllers/SettingsController',
+	'widgets/CoordinatesWidget',
     'dojo/domReady!'	
 	], function(declare, Evented, lang, when, on, dom, domConstruct, Topic, _WidgetBase, _TemplatedMixin,
-		 template, MainController, MonitoringController, ComparingController, SettingsController){
+		 template, MainController, MonitoringController, ComparingController, SettingsController, CoordinatesWidget){
 		
 		return declare([Evented, _WidgetBase, _TemplatedMixin], {
 			templateString: template,
@@ -24,6 +25,8 @@ define([
 			monitoringController: null,
 			comparingController: null,
 			settingsController: null,
+			coordinatesWidget: null,
+
 
 			constructor: function(args){
 				lang.mixin(this, args);
@@ -36,24 +39,30 @@ define([
 					userProfile: this.userProfile,
 					userRegion: this.userRegion,
 					username: this.username,
-					parcelsLayer: this.parcelsLayer}, 'monitoring-div');
+					parcelsLayer: this.parcelsLayer,
+					limits: this.limits,
+				}, 'monitoring-div');
 				this.comparingController = new ComparingController({
 					mosaics: this.mosaics,
 					map: this.map}, 'comparing-div');
 				this.settingsController = new SettingsController({
 					layers: this.layers,
 					map: this.map}, 'settings-div');
+				this.coordinatesWidget = new CoordinatesWidget({
+					map: this.map,
+					limits: this.limits
+					}, 'coordinates-div');
 				this.monitoringController.on("raster-selected", lang.hitch(this,"_changeRaster"));
 				this.monitoringController.on("raster-selected-none", lang.hitch(this,"_noneSelected"));
 				this.monitoringController.startup();
 				this.own(on(dom.byId('monitoring-div-container'), 'click', lang.hitch(this, '_cancelComparing')));
 				this.own(on(dom.byId('monitoring-div-container'), 'click', lang.hitch(this, '_continueCharting')));
 
-				this.own(on(dom.byId('settings-div-container'), 'click', lang.hitch(this, '_cancelComparing')));
+				//this.own(on(dom.byId('settings-div-container'), 'click', lang.hitch(this, '_cancelComparing')));
 				this.own(on(dom.byId('close-comparing-button'), 'click', lang.hitch(this, '_cancelComparing')));
 				
-				this.own(on(dom.byId('comparing-div-container'), 'click', lang.hitch(this, '_cancelCharting')));
-				this.own(on(dom.byId('settings-div-container'), 'click', lang.hitch(this, '_cancelCharting')));
+				//this.own(on(dom.byId('comparing-div-container'), 'click', lang.hitch(this, '_cancelCharting')));
+				//this.own(on(dom.byId('settings-div-container'), 'click', lang.hitch(this, '_cancelCharting')));
 				this.own(on(dom.byId('logout-button'), 'click', lang.hitch(this, '_logout')));
 			},
 

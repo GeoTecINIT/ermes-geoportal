@@ -13,7 +13,8 @@
 }
 
 #close-chart-button,
-#export-chart-button
+#export-chart-button,
+#export-csv-button
 {
     margin-top: 1em;
 }

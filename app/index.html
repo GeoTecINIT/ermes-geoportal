@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="css/comparingMenu.css" rel="stylesheet"/>
     <link rel="stylesheet" href="css/plotWindow.css" rel="stylesheet"/>
     <link rel="stylesheet" href="css/settingsMenu.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="css/legendWindow.css" rel="stylesheet"/>
 
  </head>
 <body class="claro">
@@ -40,8 +41,8 @@
   </div>
   <div id="time-slider-elements-container">
       <div id="play-slider-button-div">
-          <button id="play-slider-button">
-            <span class="glyphicon glyphicon-play-circle"></span>
+          <button id="play-slider-button" class="btn btn-default">
+            <span id="play-pause-icon" class="glyphicon glyphicon-play"></span>
           </button>
       </div>
       <div id="timeSliderDiv">
@@ -50,6 +51,9 @@
   </div>
   <div id="time-slider-date-div">
 
+  </div>
+  <div id="time-slider-catalog-link-div">
+    Aqui el Link
   </div>
 </div>
 
@@ -94,10 +98,30 @@
 
 <div id="main-raster-name" class="notvisible"></div>
 <div id="compared-raster-name" class="notvisible"></div>
-<div id="legend-hover-div">
-  <b>LEGEND</b>
-  <div id="legend-div" ></div>
+
+<div class="legend-div-container-hidden" id="legend-div-container" title="Legend">
+  <div class="ermes-window-aspect legend-icon-div-visible" id="legend-icon-div">
+    Legend
+  </div>
+  <div class="ermes-window-aspect" id="legend-menu-div">
+    <div id="legend-div"></div>
+    <button id="close-legend-button" type="button" class="btn btn-default btn-block settings-button-tools">
+      <span aria-hidden="true" class="glyphicon glyphicon-remove-circle"></span>Close
+    </button>
+  </div>
 </div>
+
+<div class="ermes-window-aspect comparing-icon-div-visible loading-icon-div-hidden" id="loading-icon-div">
+  <div id="loading-image">
+    <h1><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span></h1>
+  </div>
+</div>
+
+<div id="coordinates-div"></div>
+<!--<div id="ermes-window-aspect legend-div-container-hidden" class="ermes-window-aspect">-->
+  <!--<b>LEGEND</b>-->
+  <!--<div id="legend-div" ></div>-->
+<!--</div>-->
 
 
 <div class="modal fade" id="general-help" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -160,7 +184,9 @@
     </div>
   </div>
 </div>
-<img id="chart-as-png">
+
+
+<!--<img id="chart-as-png">-->
 
 <script type="text/javascript" src="js/utils/FileSaver.js"></script>
 <script type="text/javascript" src="js/utils/canvas-toBlob.js"></script>
@@ -174,7 +200,7 @@
 <!--<script src="//cdn.jsdelivr.net/bootstrap.material-design/0.3.0/js/ripples.min.js"></script>-->
 
 <script type="text/javascript" src="js/utils/dygraph-combined-dev.js"></script>
-<script type="text/javascript" src="js/utils/dygraph-extra.js"></script>
+<!--<script type="text/javascript" src="js/utils/dygraph-extra.js"></script>-->
 <script type="text/javascript" src="js/utils/html2canvas.js"></script>
 <script type="text/javascript" src="js/utils/interface-controller.js"></script>
 </body>

@@ -1,0 +1,61 @@
+
+#legend-div-container {
+position: fixed;
+z-index: 35;
+top: 60%;
+width: 15em;
+-webkit-transition: all 1s;
+-moz-transition: all 1s;
+-o-transition: all 1s;
+transition: all 1s;
+}
+
+.legend-div-container-hidden{
+    z-index: -5;
+    left: -15em;
+}
+
+.legend-div-container-visible{
+    left: 0em;
+}
+
+#legend-icon-div {
+    position: absolute;
+    padding: 0.5em;
+    display: block;
+    text-align: center;
+    vertical-align: middle;
+    z-index: 35;
+    -webkit-transition: all 1s;
+    -moz-transition: all 1s;
+    -o-transition: all 1s;
+    transition: all 1s;
+}
+
+.legend-icon-div-visible {
+    /*pointer-events: click;*/
+    right: -5em;
+    opacity: 1;
+}
+
+.legend-icon-div-hidden {
+    pointer-events: none;
+    z-index: 0;
+    right: 0em;
+    opacity: 0;
+}
+
+#legend-menu-div {
+    -webkit-transition: all 1s;
+    -moz-transition: all 1s;
+    -o-transition: all 1s;
+    transition: all 1s;
+}
+
+#legend-icon-div span.glyphicon-eye-open{
+    font-size: 2em;
+    width: 50px;
+    height: 20px;
+    margin: auto;
+    color: #009451;
+}
