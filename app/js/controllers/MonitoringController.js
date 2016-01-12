@@ -708,8 +708,8 @@ define([
             $('#time-slider-date-div').html(rasterDate);
 
             //TODO USE THIS ONLY IF NECESSARY THIS CORRELATES THE GEOPORTAL WITH THEIR CATALOG
-            var link = "http://get-it.ermes-fp7space.eu/layers/geonode:" + this.mosaics[mosaicId].rasters[rasterId][0].toLowerCase();
-            $('#time-slider-catalog-link-div').html(link);
+            //var link = "http://get-it.ermes-fp7space.eu/layers/geonode:" + this.mosaics[mosaicId].rasters[rasterId][0].toLowerCase();
+            //$('#time-slider-catalog-link-div').html(link);
 
 
             var v = 0;

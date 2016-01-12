@@ -20,6 +20,7 @@ $(document).on('ui-ready', function(evt) {
         $("#monitoring-div-container").toggleClass("monitoring-div-container-visible monitoring-div-container-hidden");
         $(this).toggleClass("monitoring-icon-div-visible monitoring-icon-div-hidden");
         $("#comparing-icon-div").toggleClass("comparing-icon-div-visible comparing-icon-div-hidden");
+        $("#finder-icon-div").toggleClass("finder-icon-div-visible finder-icon-div-hidden");
 
     });
 
@@ -27,6 +28,8 @@ $(document).on('ui-ready', function(evt) {
         $("#monitoring-div-container").toggleClass("monitoring-div-container-visible monitoring-div-container-hidden");
         $("#monitoring-icon-div").toggleClass("monitoring-icon-div-visible monitoring-icon-div-hidden");
         $("#comparing-icon-div").toggleClass("comparing-icon-div-visible comparing-icon-div-hidden");
+        $("#finder-icon-div").toggleClass("finder-icon-div-visible finder-icon-div-hidden");
+
     });
 
     // COMPARING MENU FUNCTION
@@ -34,6 +37,8 @@ $(document).on('ui-ready', function(evt) {
         $("#comparing-div-container").toggleClass("comparing-div-container-visible comparing-div-container-hidden");
         $(this).toggleClass("comparing-icon-div-visible comparing-icon-div-hidden");
         $("#monitoring-icon-div").toggleClass("monitoring-icon-div-visible monitoring-icon-div-hidden");
+        $("#finder-icon-div").toggleClass("finder-icon-div-visible finder-icon-div-hidden");
+
 
     });
 
@@ -41,6 +46,24 @@ $(document).on('ui-ready', function(evt) {
         $("#comparing-div-container").toggleClass("comparing-div-container-visible comparing-div-container-hidden");
         $("#comparing-icon-div").toggleClass("comparing-icon-div-visible comparing-icon-div-hidden");
         $("#monitoring-icon-div").toggleClass("monitoring-icon-div-visible monitoring-icon-div-hidden");
+        $("#finder-icon-div").toggleClass("finder-icon-div-visible finder-icon-div-hidden");
+
+    });
+
+    // FINDER MENU FUNCTION
+    $("#finder-icon-div").on('click', function(){
+        $("#finder-div-container").toggleClass("finder-div-container-visible finder-div-container-hidden");
+        $(this).toggleClass("finder-icon-div-visible finder-icon-div-hidden");
+        $("#monitoring-icon-div").toggleClass("monitoring-icon-div-visible monitoring-icon-div-hidden");
+        $("#comparing-icon-div").toggleClass("comparing-icon-div-visible comparing-icon-div-hidden");
+
+    });
+
+    $("#close-finder-button").on('click', function() {
+        $("#finder-div-container").toggleClass("finder-div-container-visible finder-div-container-hidden");
+        $("#finder-icon-div").toggleClass("finder-icon-div-visible finder-icon-div-hidden");
+        $("#monitoring-icon-div").toggleClass("monitoring-icon-div-visible monitoring-icon-div-hidden");
+        $("#comparing-icon-div").toggleClass("comparing-icon-div-visible comparing-icon-div-hidden");
     });
 
     // LEGEND WINDOW FUNCTION

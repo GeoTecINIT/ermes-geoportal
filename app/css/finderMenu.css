@@ -1,25 +1,25 @@
-
-#legend-div-container {
-position: fixed;
-z-index: 35;
-top: 63%;
-width: 15em;
--webkit-transition: all 1s;
--moz-transition: all 1s;
--o-transition: all 1s;
-transition: all 1s;
+#finder-div-container {
+    position: fixed;
+    z-index: 35;
+    top: 34%;
+    width: 22em;
+    -webkit-transition: all 1s;
+    -moz-transition: all 1s;
+    -o-transition: all 1s;
+    transition: all 1s;
 }
 
-.legend-div-container-hidden{
-    z-index: -5;
-    left: -15em;
-}
-
-.legend-div-container-visible{
+.finder-div-container-visible {
     left: 0em;
 }
 
-#legend-icon-div {
+.finder-div-container-hidden {
+    z-index: -5;
+    left: -22em;
+}
+
+#finder-icon-div {
+    top: 12em;
     position: absolute;
     padding: 0.5em;
     display: block;
@@ -32,31 +32,38 @@ transition: all 1s;
     transition: all 1s;
 }
 
-
-.legend-icon-div-visible {
+.finder-icon-div-visible {
     /*pointer-events: click;*/
     right: -5em;
     opacity: 1;
 }
 
-.legend-icon-div-hidden {
+.finder-icon-div-hidden {
     pointer-events: none;
     z-index: 0;
     right: 0em;
     opacity: 0;
 }
 
-#legend-menu-div {
+#finder-menu-div {
     -webkit-transition: all 1s;
     -moz-transition: all 1s;
     -o-transition: all 1s;
     transition: all 1s;
 }
 
-#legend-icon-div span.glyphicon-list{
+#finder-icon-div span.glyphicon-search {
     font-size: 50px;
     width: 50px;
     height: 50px;
     margin: auto;
     color: #4D8FD6;;
+}
+
+.finder-menu-hidden{
+    display: none;
+}
+
+.finder-menu-displayed{
+    display: block;
 }

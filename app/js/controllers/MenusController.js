@@ -14,10 +14,11 @@ define([
     'controllers/MonitoringController',
     'controllers/ComparingController',
     'controllers/SettingsController',
+	'controllers/FinderController',
 	'widgets/CoordinatesWidget',
     'dojo/domReady!'	
 	], function(declare, Evented, lang, when, on, dom, domConstruct, Topic, _WidgetBase, _TemplatedMixin,
-		 template, MainController, MonitoringController, ComparingController, SettingsController, CoordinatesWidget){
+		 template, MainController, MonitoringController, ComparingController, SettingsController, FinderController, CoordinatesWidget){
 		
 		return declare([Evented, _WidgetBase, _TemplatedMixin], {
 			templateString: template,
@@ -26,6 +27,7 @@ define([
 			comparingController: null,
 			settingsController: null,
 			coordinatesWidget: null,
+			finderController: null,
 
 
 			constructor: function(args){
@@ -52,6 +54,11 @@ define([
 					map: this.map,
 					limits: this.limits
 					}, 'coordinates-div');
+				if(this.finder) {
+					this.finderController = new FinderController({
+						map: this.map
+					}, 'finder-div');
+				}
 				this.monitoringController.on("raster-selected", lang.hitch(this,"_changeRaster"));
 				this.monitoringController.on("raster-selected-none", lang.hitch(this,"_noneSelected"));
 				this.monitoringController.startup();

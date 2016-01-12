@@ -51,6 +51,7 @@ define([
         legendDigit: null,
         legendListener: null,
         limits: null,
+        finder: null,
 
 
         constructor: function(){
@@ -157,6 +158,9 @@ define([
             //GET LIMITS OF MAP LAYERS
             this.limits = new Extent(response.limits);
 
+            //GET FINDER CAPABILITIE
+            this.finder = response.finder;
+
             //INFO WINDOW FOR LOCAL USERS
             var infowindow = null;
             if(this.userProfile=="local") {
@@ -208,7 +212,8 @@ define([
                 userRegion: this.userRegion,
                 username: this.username,
                 parcelsLayer: this.parcelsLayer,
-                limits: this.limits
+                limits: this.limits,
+                finder: this.finder
             }, 'basic-container-div');
             this.menusController.on("update-raster", lang.hitch(this,"_changeRaster"));
             this.menusController.on("remove-raster", lang.hitch(this,"_cleanMap"));
@@ -323,8 +328,8 @@ define([
 
             var success = lang.hitch(this, "_requestSuccess")
 
+            //xhr("http://localhost:6686/config", {
             xhr("http://ermes.dlsi.uji.es:6686/config", {
-            //xhr("http://ermes.dlsi.uji.es:6686/config", {
                 handleAs: "json",
                 method: "POST",
                 data: {

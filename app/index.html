@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="css/plotWindow.css" rel="stylesheet"/>
     <link rel="stylesheet" href="css/settingsMenu.css" rel="stylesheet"/>
     <link rel="stylesheet" href="css/legendWindow.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="css/finderMenu.css" rel="stylesheet"/>
 
  </head>
 <body class="claro">
@@ -53,7 +54,6 @@
 
   </div>
   <div id="time-slider-catalog-link-div">
-    Aqui el Link
   </div>
 </div>
 
@@ -88,6 +88,15 @@
   </div>
 </div>
 
+<div class="finder-div-container-hidden finder-menu-hidden" id="finder-div-container" title="Find Parcel">
+  <div class="ermes-window-aspect finder-icon-div-visible" id="finder-icon-div">
+    <span class="glyphicon glyphicon-search" aria-hidden="true">&nbsp;</span>
+  </div>
+  <div class="ermes-window-aspect" id="finder-menu-div">
+    <div id="finder-div"></div>
+  </div>
+</div>
+
 <div id="monitoring-widget-div" class="ermes-window-aspect display-none">
 
   <span id="monitoring-widget-dragger" class="btn btn-default"><span class="glyphicon glyphicon-move"></span></span>
@@ -101,7 +110,7 @@
 
 <div class="legend-div-container-hidden" id="legend-div-container" title="Legend">
   <div class="ermes-window-aspect legend-icon-div-visible" id="legend-icon-div">
-    Legend
+    <span class="glyphicon glyphicon-list" aria-hidden="true">&nbsp;</span>
   </div>
   <div class="ermes-window-aspect" id="legend-menu-div">
     <div id="legend-div"></div>
