@@ -8,6 +8,7 @@ define([
     'dojo/dom-construct',
     'dojo/dom-attr',
     'dojo/dom-class',
+    'dojo/dom-form',
     'dojo/topic',
     'dojo/request/xhr',
     'esri/tasks/query',
@@ -26,7 +27,7 @@ define([
     "esri/tasks/ProjectParameters",
     "esri/tasks/GeometryService",
     'dojo/domReady!'
-], function(declare, Evented, lang, when, on, dom, domConstruct, domAttr, domClass, Topic,  xhr, Query,
+], function(declare, Evented, lang, when, on, dom, domConstruct, domAttr, domClass, domForm, Topic,  xhr, Query,
             _WidgetBase, _TemplatedMixin, MenusController, template, parcelTemplate, productHelpTemplate,
             ImageServiceIdentifyTask, MosaicRule, ImageServiceIdentifyParameters, MonitoringWidget,
             PictureMarkerSymbol, Graphic, ProjectParameters, GeometryService){
@@ -47,6 +48,10 @@ define([
         playIteration: 0,
         playMode: false,
         playInterval: 0,
+        currentPosition: [],
+        productsList: [],
+        clickEvent: null,
+        currentShowChartFunction: null,
 
         constructor: function(args){
             lang.mixin(this, args);
@@ -57,11 +62,19 @@ define([
             //Topic.subscribe("monitoring/close-chart", lang.hitch(this, function(){
             //    this.map.graphics.remove(this.clickedGraph);
             //}));
+
+            //TODO Testing with LOCAL.
+
+            Topic.subscribe("mosaic/raster-click", lang.hitch(this, '_rasterValuesCompleted'));
+            Topic.subscribe("coordinates/goAndChart", lang.hitch(this, '_showCoordinatesPoint'));
+            Topic.subscribe("coordinates/moveMarker", lang.hitch(this, '_moveMarker'));
+
             if(this.userProfile=="regional") {
                 this.handler = on.pausable(this.map, 'click', lang.hitch(this, '_showClickedPoint'));
-                Topic.subscribe("mosaic/raster-click", lang.hitch(this, '_rasterValuesCompleted'));
-                Topic.subscribe("coordinates/goAndChart", lang.hitch(this, '_showCoordinatesPoint'));
-                Topic.subscribe("coordinates/moveMarker", lang.hitch(this, '_moveMarker'));
+                //this.handler = on.pausable(this.map, 'click', lang.hitch(this, '_showClickedPoint'));
+                //Topic.subscribe("mosaic/raster-click", lang.hitch(this, '_rasterValuesCompleted'));
+                //Topic.subscribe("coordinates/goAndChart", lang.hitch(this, '_showCoordinatesPoint'));
+                //Topic.subscribe("coordinates/moveMarker", lang.hitch(this, '_moveMarker'));
                 this.handler.pause();
             } else if (this.userProfile=="local"){
                 this.handler = on.pausable(this.map, 'click', lang.hitch(this, '_showParcelInfo'));
@@ -72,15 +85,152 @@ define([
                         this.map.infoWindow.setContent("");
                     }
                 ));
+
             }
             this.own(on(dom.byId('play-slider-button'), 'click', lang.hitch(this, '_playMode')));
 
         },
 
+        _createViewInfoHandlers: function(){
+            this.own(on(dom.byId('agrochemicals-previous-button'), 'click', lang.hitch(this, '_changeObservationData', 'agrochemical', 'previous')));
+            this.own(on(dom.byId('agrochemicals-next-button'), 'click', lang.hitch(this, '_changeObservationData', 'agrochemical', 'next')));
+            this.own(on(dom.byId('agrochemicals-edit-button'), 'click', lang.hitch(this, '_editObservationData', 'agrochemical')));
+
+            this.own(on(dom.byId('cropInfo-previous-button'), 'click', lang.hitch(this, '_changeObservationData', 'cropInfo', 'previous')));
+            this.own(on(dom.byId('cropInfo-next-button'), 'click', lang.hitch(this, '_changeObservationData', 'cropInfo', 'next')));
+            this.own(on(dom.byId('cropInfo-edit-button'), 'click', lang.hitch(this, '_editObservationData', 'cropInfo')));
+
+            this.own(on(dom.byId('disease-previous-button'), 'click', lang.hitch(this, '_changeObservationData', 'disease', 'previous')));
+            this.own(on(dom.byId('disease-next-button'), 'click', lang.hitch(this, '_changeObservationData', 'disease', 'next')));
+            this.own(on(dom.byId('disease-edit-button'), 'click', lang.hitch(this, '_editObservationData', 'disease')));
+
+            this.own(on(dom.byId('fertilizer-previous-button'), 'click', lang.hitch(this, '_changeObservationData', 'fertilizer', 'previous')));
+            this.own(on(dom.byId('fertilizer-next-button'), 'click', lang.hitch(this, '_changeObservationData', 'fertilizer', 'next')));
+            this.own(on(dom.byId('fertilizer-edit-button'), 'click', lang.hitch(this, '_editObservationData', 'fertilizer')));
+
+            this.own(on(dom.byId('irrigationInfos-previous-button'), 'click', lang.hitch(this, '_changeObservationData', 'irrigationInfo', 'previous')));
+            this.own(on(dom.byId('irrigationInfos-next-button'), 'click', lang.hitch(this, '_changeObservationData', 'irrigationInfo', 'next')));
+            this.own(on(dom.byId('irrigationInfos-edit-button'), 'click', lang.hitch(this, '_editObservationData', 'irrigationInfo')));
+
+            this.own(on(dom.byId('observation-previous-button'), 'click', lang.hitch(this, '_changeObservationData', 'observation', 'previous')));
+            this.own(on(dom.byId('observation-next-button'), 'click', lang.hitch(this, '_changeObservationData', 'observation', 'next')));
+            this.own(on(dom.byId('observation-edit-button'), 'click', lang.hitch(this, '_editObservationData', 'observation')));
+
+            this.own(on(dom.byId('parcelStatus-previous-button'), 'click', lang.hitch(this, '_changeObservationData', 'parcelStatus', 'previous')));
+            this.own(on(dom.byId('parcelStatus-next-button'), 'click', lang.hitch(this, '_changeObservationData', 'parcelStatus', 'next')));
+            this.own(on(dom.byId('parcelStatus-edit-button'), 'click', lang.hitch(this, '_editObservationData', 'parcelStatus')));
+
+            this.own(on(dom.byId('pathogen-previous-button'), 'click', lang.hitch(this, '_changeObservationData', 'pathogen', 'previous')));
+            this.own(on(dom.byId('pathogen-next-button'), 'click', lang.hitch(this, '_changeObservationData', 'pathogen', 'next')));
+            this.own(on(dom.byId('pathogen-edit-button'), 'click', lang.hitch(this, '_editObservationData', 'pathogen')));
+
+            this.own(on(dom.byId('phenology-previous-button'), 'click', lang.hitch(this, '_changeObservationData', 'phenology', 'previous')));
+            this.own(on(dom.byId('phenology-next-button'), 'click', lang.hitch(this, '_changeObservationData', 'phenology', 'next')));
+            this.own(on(dom.byId('phenology-edit-button'), 'click', lang.hitch(this, '_editObservationData', 'phenology')));
+
+            this.own(on(dom.byId('soil-previous-button'), 'click', lang.hitch(this, '_changeObservationData', 'soil', 'previous')));
+            this.own(on(dom.byId('soil-next-button'), 'click', lang.hitch(this, '_changeObservationData', 'soil', 'next')));
+            this.own(on(dom.byId('soil-edit-button'), 'click', lang.hitch(this, '_editObservationData', 'soil')));
+
+            this.own(on(dom.byId('weed-previous-button'), 'click', lang.hitch(this, '_changeObservationData', 'weed', 'previous')));
+            this.own(on(dom.byId('weed-next-button'), 'click', lang.hitch(this, '_changeObservationData', 'weed', 'next')));
+            this.own(on(dom.byId('weed-edit-button'), 'click', lang.hitch(this, '_editObservationData', 'weed')));
+
+            this.own(on(dom.byId('yield-previous-button'), 'click', lang.hitch(this, '_changeObservationData', 'yield', 'previous')));
+            this.own(on(dom.byId('yield-next-button'), 'click', lang.hitch(this, '_changeObservationData', 'yield', 'next')));
+            this.own(on(dom.byId('yield-edit-button'), 'click', lang.hitch(this, '_editObservationData', 'yield')));
+        },
+
+        _editObservationData: function(product){
+            var productData = this.productsList[product][this.currentPosition[product]];
+            var header = dom.byId("edit-product-form-title");
+            header.innerHTML = "Editing parcel: " + this.mongoData.parcels[0].parcelId  + ".";
+            this._askForFormTemplate(product, productData);
+
+            //body.innerHTML = "Product: " + product + " ID: " + productId;
+        },
+
+        _askForFormTemplate: function(product, productData){
+            //var url = "http://localhost:6686/form-template/" + product;
+            var url = "http://ermes.dlsi.uji.es:6686/form-template/" + product;
+            xhr(url, {}).then(lang.hitch(this, "_formTemplateReceived", product, productData));
+        },
+
+        _formTemplateReceived: function(product, productData, template){
+            var compiled = _.template(template);
+            var finalHTML = compiled(productData);
+
+            var contentDiv = dom.byId("edit-product-form-content");
+            domConstruct.place(finalHTML, contentDiv, "only");
+
+            var formNode = dom.byId("form-template");
+            //var url = "http://localhost:6686/api/products" + domAttr.get(formNode, "date-url") + "/" + productData._id;
+            var url = "http://ermes.dlsi.uji.es:6686/api/products" + domAttr.get(formNode, "date-url") + "/" + productData._id;
+
+            var sendButton = dom.byId("confirm-edit-product-button");
+            on(sendButton, 'click', lang.hitch(this, "_updateProduct", url, product, formNode, productData));
+        },
+
+        _updateProduct: function(url, product, formNode, productData){
+            var responseText = dom.byId("form-put-response-label");
+            responseText.innerHTML = "Updating Product..."
+
+
+            var formDataJson = domForm.toJson(formNode);
+            var updatedData = lang.mixin(lang.clone(productData), JSON.parse(formDataJson));
+
+            var bodyObject = '{ "' + product + '": ' + JSON.stringify(updatedData) + '}';
+            bodyObject = JSON.parse(bodyObject);
+            bodyObject = JSON.stringify(bodyObject);
+            var username = this.username;
+            var password = getCookie("password");
+            //MAKE THE POST
+            xhr(url, {
+                handleAs: "json",
+                method: "PUT",
+                data: bodyObject,
+                headers: {
+                    "X-Requested-With": null,
+                    "X-Auth-Key": username+";"+password,
+                    "Content-Type": "application/json"
+                }
+            }).then(lang.hitch(this, "_productUpdated"));
+        },
+
+        _productUpdated: function(response){
+            var responseText = dom.byId("form-put-response-label");
+            responseText.innerHTML = "Product Updated."
+            lang.hitch(this, "_showParcelInfo", this.clickEvent)();
+        },
+
+        _changeObservationData: function(product, option){
+            var oldValue = this.currentPosition[product];
+            var previousNode = dom.byId(product + oldValue);
+            if(previousNode){
+                domClass.add(previousNode, "display-none");
+                domClass.remove(previousNode, "display-block");
+            }
+            if(option=='next') var newValue = oldValue+1;
+            else if(option=='previous') var newValue = oldValue-1;
+            var node = dom.byId(product + newValue);
+            if(node){
+                domClass.remove(node, "display-none");
+                domClass.add(node, "display-block");
+            }
+            else{
+                domClass.add(previousNode, "display-block");
+                domClass.remove(previousNode, "display-none");
+                newValue = oldValue;
+            }
+            this.currentPosition[product] = newValue;
+        },
+
         _moveMarker: function(point){
-            if(this.clickedGraph.geometry && this._isPointInLimits(point)) {
+            if(this._isPointInLimits(point)){
                 this.map.centerAt(point);
-                this.clickedGraph.setGeometry(point);
+                if(this.clickedGraph.geometry) {
+                    this.clickedGraph.setGeometry(point);
+                }
             }
         },
 
@@ -91,7 +241,10 @@ define([
         },
 
         _showParcelInfo: function(evt){
+            this.currentShowChartFunction = lang.hitch(this, "_showClickedPoint", evt);
+
             this._stopPlayMode();
+            this.clickEvent = evt;
             //Consultar PARCEL ID clicado
             var query = new Query();
             query.geometry = evt.mapPoint;
@@ -110,6 +263,7 @@ define([
 
         _queryMongoServer: function(response){
             var serviceURL = "http://ermes.dlsi.uji.es:6686/api/parcelsinfo/";
+            //var serviceURL = "http://localhost:6686/api/parcelsinfo/";
             var username = this.username;
             var password = getCookie("password");
             if (response.features.length>0) {
@@ -207,305 +361,84 @@ define([
             this.localDataReceived++;
             if(this.localDataReceived==3){
                 this.localDataReceived=0;
+                this.map.infoWindow.resize(350, 400);
+
                 this._showInfoWindow()
             }
         },
 
         _showInfoWindow: function(){
-            //console.log(data);
             var data= this.mongoData;
             domConstruct.destroy("loading-image")
             if(data.parcels){
                 var content = parcelTemplate;
                 this.map.infoWindow.setContent(content);
+
+                var showInfoChartHandler = on(dom.byId("show-chart-from-info-window"), 'click', this.currentShowChartFunction);
+
+                this._createViewInfoHandlers();
                 this.map.infoWindow.setTitle("Parcel ID: " + data.parcels[0].parcelId);
+
                 if(data.parcels[0].agrochemicals.length>0){
-                    var label = dom.byId("agrochemicals");
-                    label.innerHTML = "Agrochemicals (" + data.parcels[0].agrochemicals.length + "):";
-                    for(var i =0; i<data.parcels[0].agrochemicals.length; i++) {
-                        var product = dom.byId("agrochemicals-data");
-                        var ul = domConstruct.create("ul");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Date:</b> " + new Date(data.parcels[0].agrochemicals[i].date).toDateString();
-                        domConstruct.place(li, ul, "last");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Amount:</b> " + data.parcels[0].agrochemicals[i].amount;
-                        domConstruct.place(li, ul, "last");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Product:</b> " + data.parcels[0].agrochemicals[i].product;
-                        domConstruct.place(li, ul, "last");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Uploading Date: </b>" + new Date(data.parcels[0].agrochemicals[i].uploadingDate).toDateString();
-                        domConstruct.place(li, ul, "last");
-                        domConstruct.place(ul, product, "last");
-                    }
+                    var quantity = data.parcels[0].agrochemicals.length;
+                    var specificData = data.parcels[0].agrochemicals;
+                    this._askForInfoTemplate('agrochemical', quantity, specificData);
                 }
                 if(data.parcels[0].cropInfos.length>0){
-                    var label = dom.byId("cropInfos");
-                    label.innerHTML = "Crop Info (" + data.parcels[0].cropInfos.length + "):";
-                    for(var i =0; i<data.parcels[0].cropInfos.length; i++) {
-                        var product = dom.byId("cropInfos-data");
-                        var ul = domConstruct.create("ul");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Date:</b> " + new Date(data.parcels[0].cropInfos[i].date).toDateString();
-                        domConstruct.place(li, ul, "last");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Crop Type:</b> " + data.parcels[0].cropInfos[i].cropType;
-                        domConstruct.place(li, ul, "last");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Pudding:</b> " + data.parcels[0].cropInfos[i].pudding;
-                        domConstruct.place(li, ul, "last");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Rice Variety:</b> " + data.parcels[0].cropInfos[i].riceVariety;
-                        domConstruct.place(li, ul, "last");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Sowing Practice:</b> " + data.parcels[0].cropInfos[i].sowingPractice;
-                        domConstruct.place(li, ul, "last");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Uploading Date: </b>" + new Date(data.parcels[0].cropInfos[i].uploadingDate).toDateString();
-                        domConstruct.place(li, ul, "last");
-                        domConstruct.place(ul, product, "last");
-                    }
+                    var quantity = data.parcels[0].cropInfos.length;
+                    var specificData = data.parcels[0].cropInfos;
+                    this._askForInfoTemplate('cropInfo', quantity, specificData);
+
                 }
                 if(data.parcels[0].diseases.length>0){
-                    var label = dom.byId("diseases");
-                    label.innerHTML = "Diseases (" + data.parcels[0].diseases.length + "):";
-                    for(var i =0; i<data.parcels[0].diseases.length; i++) {
-                        var product = dom.byId("diseases-data");
-                        var ul = domConstruct.create("ul");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Date:</b> " + new Date(data.parcels[0].diseases[i].date).toDateString();
-                        domConstruct.place(li, ul, "last");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Comments:</b> " + data.parcels[0].diseases[i].comments;
-                        domConstruct.place(li, ul, "last");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Damage:</b> " + data.parcels[0].diseases[i].damage;
-                        domConstruct.place(li, ul, "last");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Name:</b> " + data.parcels[0].diseases[i].name;
-                        domConstruct.place(li, ul, "last");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Uploading Date: </b>" + new Date(data.parcels[0].diseases[i].uploadingDate).toDateString();
-                        domConstruct.place(li, ul, "last");
-                        domConstruct.place(ul, product, "last");
-                    }
+                    var quantity = data.parcels[0].diseases.length;
+                    var specificData = data.parcels[0].diseases;
+                    this._askForInfoTemplate('disease', quantity, specificData);
                 }
                 if(data.parcels[0].fertilizers.length>0){
-                    var label = dom.byId("fertilizers");
-                    label.innerHTML = "Fertilizers (" + data.parcels[0].fertilizers.length + "):";
-                    for(var i =0; i<data.parcels[0].fertilizers.length; i++) {
-                        var product = dom.byId("fertilizers-data");
-                        var ul = domConstruct.create("ul");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Date:</b> " + new Date(data.parcels[0].fertilizers[i].date).toDateString();
-                        domConstruct.place(li, ul, "last");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Nitrogen Content:</b> " + data.parcels[0].fertilizers[i].nitrogenContent;
-                        domConstruct.place(li, ul, "last");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Phosphorus Content:</b> " + data.parcels[0].fertilizers[i].phosphorusContent;
-                        domConstruct.place(li, ul, "last");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Potassium Content:</b> " + data.parcels[0].fertilizers[i].potassiumContent;
-                        domConstruct.place(li, ul, "last");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Product:</b> " + data.parcels[0].fertilizers[i].product;
-                        domConstruct.place(li, ul, "last");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Quantity:</b> " + data.parcels[0].fertilizers[i].quantity;
-                        domConstruct.place(li, ul, "last");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Uploading Date: </b>" + new Date(data.parcels[0].fertilizers[i].uploadingDate).toDateString();
-                        domConstruct.place(li, ul, "last");
-                        domConstruct.place(ul, product, "last");
-                    }
+                    var quantity = data.parcels[0].fertilizers.length;
+                    var specificData = data.parcels[0].fertilizers;
+                    this._askForInfoTemplate('fertilizer', quantity, specificData);
                 }
                 if(data.parcels[0].irrigationInfos.length>0){
-                    var label = dom.byId("irrigationInfos");
-                    label.innerHTML = "Irrigiation Info (" + data.parcels[0].irrigationInfos.length + "):";
-                    for(var i =0; i<data.parcels[0].irrigationInfos.length; i++) {
-                        var product = dom.byId("irrigationInfos-data");
-                        var ul = domConstruct.create("ul");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Start Date:</b> " + new Date(data.parcels[0].irrigationInfos[i].startDate).toDateString();
-                        domConstruct.place(li, ul, "last");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>End Date:</b> " + new Date(data.parcels[0].irrigationInfos[i].endDate).toDateString();
-                        domConstruct.place(li, ul, "last");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Quantity of Water Measure:</b> " + data.parcels[0].irrigationInfos[i].quantityOfWaterMeasure;
-                        domConstruct.place(li, ul, "last");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Water Depth:</b> " + data.parcels[0].irrigationInfos[i].waterDepth;
-                        domConstruct.place(li, ul, "last");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Water Hours:</b> " + data.parcels[0].irrigationInfos[i].waterHours;
-                        domConstruct.place(li, ul, "last");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Water Quantity:</b> " + data.parcels[0].irrigationInfos[i].waterQuantity;
-                        domConstruct.place(li, ul, "last");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Uploading Date: </b>" + new Date(data.parcels[0].irrigationInfos[i].uploadingDate).toDateString();
-                        domConstruct.place(li, ul, "last");
-                        domConstruct.place(ul, product, "last");
-                    }
+                    var quantity = data.parcels[0].irrigationInfos.length;
+                    var specificData = data.parcels[0].irrigationInfos;
+                    this._askForInfoTemplate('irrigationInfo', quantity, specificData);
                 }
                 if(data.parcels[0].observations.length>0){
-                    var label = dom.byId("observations");
-                    label.innerHTML = "Observations (" + data.parcels[0].observations.length + "):";
-                    for(var i =0; i<data.parcels[0].observations.length; i++) {
-                        var product = dom.byId("observations-data");
-                        var ul = domConstruct.create("ul");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Comments:</b> " + data.parcels[0].observations[i].comments;
-                        domConstruct.place(li, ul, "last");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Uploading Date: </b>" + new Date(data.parcels[0].observations[i].uploadingDate).toDateString();
-                        domConstruct.place(li, ul, "last");
-                        domConstruct.place(ul, product, "last");
-                    }
+                    var quantity = data.parcels[0].observations.length;
+                    var specificData = data.parcels[0].observations;
+                    this._askForInfoTemplate('observation', quantity, specificData);
                 }
                 if(data.parcels[0].parcelStatus.length>0){
-                    var label = dom.byId("parcelStatus");
-                    label.innerHTML = "Parcel Status (" + data.parcels[0].parcelStatus.length + "):";
-                    for(var i =0; i<data.parcels[0].irrigationInfos.length; i++) {
-                        var product = dom.byId("parcelStatus-data");
-                        var ul = domConstruct.create("ul");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Date:</b> " + new Date(data.parcels[0].parcelStatus[i].date).toDateString();
-                        domConstruct.place(li, ul, "last");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Status:</b> " + data.parcels[0].parcelStatus[i].parcelStatus;
-                        domConstruct.place(li, ul, "last");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Uploading Date: </b>" + new Date(data.parcels[0].parcelStatus[i].uploadingDate).toDateString();
-                        domConstruct.place(li, ul, "last");
-                        domConstruct.place(ul, product, "last");
-                    }
+                    var quantity = data.parcels[0].parcelStatus.length;
+                    var specificData = data.parcels[0].parcelStatus;
+                    this._askForInfoTemplate('parcelStatus', quantity, specificData);
                 }
                 if(data.parcels[0].phatogens.length>0){
-                    var label = dom.byId("phatogens");
-                    label.innerHTML = "Pathogens (" + data.parcels[0].phatogens.length + "):";
-                    for(var i =0; i<data.parcels[0].phatogens.length; i++) {
-                        var product = dom.byId("phatogens-data");
-                        var ul = domConstruct.create("ul");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Date:</b> " + new Date(data.parcels[0].phatogens[i].date).toDateString();
-                        domConstruct.place(li, ul, "last");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Comments:</b> " + data.parcels[0].phatogens[i].comments;
-                        domConstruct.place(li, ul, "last");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Damage:</b> " + data.parcels[0].phatogens[i].damage;
-                        domConstruct.place(li, ul, "last");
-                        //var li = domConstruct.create("li");
-                        //li.innerHTML = "<b>File:</b> " + data.parcels[0].phatogens[i].file;
-                        //domConstruct.place(li, ul, "last");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Name:</b> " + data.parcels[0].phatogens[i].name;
-                        domConstruct.place(li, ul, "last");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Uploading Date: </b>" + new Date(data.parcels[0].phatogens[i].uploadingDate).toDateString();
-                        domConstruct.place(li, ul, "last");
-                        domConstruct.place(ul, product, "last");
-                    }
+                    var quantity = data.parcels[0].phatogens.length;
+                    var specificData = data.parcels[0].phatogens;
+                    this._askForInfoTemplate('pathogen', quantity, specificData);
                 }
                 if(data.parcels[0].phenologies.length>0){
-                    var label = dom.byId("phenologies");
-                    label.innerHTML = "Phenologies (" + data.parcels[0].phenologies.length + "):";
-                    for(var i =0; i<data.parcels[0].phenologies.length; i++) {
-                        var product = dom.byId("phenologies-data");
-                        var ul = domConstruct.create("ul");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Date:</b> " + new Date(data.parcels[0].phenologies[i].date).toDateString();
-                        domConstruct.place(li, ul, "last");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Code:</b> " + data.parcels[0].phenologies[i].code;
-                        domConstruct.place(li, ul, "last");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Development Stage:</b> " + data.parcels[0].phenologies[i].developmentStage;
-                        domConstruct.place(li, ul, "last");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Growth Stage:</b> " + data.parcels[0].phenologies[i].growthStage;
-                        domConstruct.place(li, ul, "last");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Uploading Date: </b>" + new Date(data.parcels[0].phenologies[i].uploadingDate).toDateString();
-                        domConstruct.place(li, ul, "last");
-                        domConstruct.place(ul, product, "last");
-                    }
+                    var quantity = data.parcels[0].phenologies.length;
+                    var specificData = data.parcels[0].phenologies;
+                    this._askForInfoTemplate('phenology', quantity, specificData);
                 }
                 if(data.parcels[0].soils.length>0){
-                    var label = dom.byId("soils");
-                    label.innerHTML = "Soils (" + data.parcels[0].soils.length + "):";
-                    for(var i =0; i<data.parcels[0].soils.length; i++) {
-                        var product = dom.byId("soils-data");
-                        var ul = domConstruct.create("ul");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Date:</b> " + new Date(data.parcels[0].soils[i].date).toDateString();
-                        domConstruct.place(li, ul, "last");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Organic Matter:</b> " + data.parcels[0].soils[i].organicMatter;
-                        domConstruct.place(li, ul, "last");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>PH:</b> " + data.parcels[0].soils[i].ph;
-                        domConstruct.place(li, ul, "last");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Soil Texture: </b>" + data.parcels[0].soils[i].soilTexture;
-                        domConstruct.place(li, ul, "last");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Uploading Date: </b>" + new Date(data.parcels[0].soils[i].uploadingDate).toDateString();
-                        domConstruct.place(li, ul, "last");
-                        domConstruct.place(ul, product, "last");
-                    }
+                    var quantity = data.parcels[0].soils.length;
+                    var specificData = data.parcels[0].soils;
+                    this._askForInfoTemplate('soil', quantity, specificData);
                 }
                 if(data.parcels[0].weeds.length>0){
-                    var label = dom.byId("weeds");
-                    label.innerHTML = "Weeds (" + data.parcels[0].weeds.length + "):";
-                    for(var i =0; i<data.parcels[0].weeds.length; i++) {
-                        var product = dom.byId("weeds-data");
-                        var ul = domConstruct.create("ul");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Date:</b> " + new Date(data.parcels[0].weeds[i].date).toDateString();
-                        domConstruct.place(li, ul, "last");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Comments:</b> " + data.parcels[0].weeds[i].comments;
-                        domConstruct.place(li, ul, "last");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Damage:</b> " + data.parcels[0].weeds[i].damage;
-                        domConstruct.place(li, ul, "last");
-                        //var li = domConstruct.create("li");
-                        //li.innerHTML = "<b>File:</b> " + data.parcels[0].weeds[i].file;
-                        //domConstruct.place(li, ul, "last");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Name: </b>" + data.parcels[0].weeds[i].name;
-                        domConstruct.place(li, ul, "last");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Uploading Date: </b>" + new Date(data.parcels[0].weeds[i].uploadingDate).toDateString();
-                        domConstruct.place(li, ul, "last");
-                        domConstruct.place(ul, product, "last");
-                    }
+                    var quantity = data.parcels[0].weeds.length;
+                    var specificData = data.parcels[0].weeds;
+                    this._askForInfoTemplate('weed', quantity, specificData);
                 }
                 if(data.parcels[0].yields.length>0){
-                    var label = dom.byId("yields");
-                    label.innerHTML = "Yields (" + data.parcels[0].yields.length + "):";
-                    for(var i =0; i<data.parcels[0].yields.length; i++) {
-                        var product = dom.byId("yields-data");
-                        var ul = domConstruct.create("ul");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Date:</b> " + new Date(data.parcels[0].yields[i].date).toDateString();
-                        domConstruct.place(li, ul, "last");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Comments:</b> " + data.parcels[0].yields[i].comments;
-                        domConstruct.place(li, ul, "last");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Yield:</b> " + data.parcels[0].yields[i].yield;
-                        domConstruct.place(li, ul, "last");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Uploading Date: </b>" + new Date(data.parcels[0].yields[i].uploadingDate).toDateString();
-                        domConstruct.place(li, ul, "last");
-                        domConstruct.place(ul, product, "last");
-                    }
+                    var quantity = data.parcels[0].yields.length;
+                    var specificData = data.parcels[0].yields;
+                    this._askForInfoTemplate('yield', quantity, specificData);
                 }
 
                  //UNCOMMENT FOR ENABLE CONNECTION WITH WARM DATABASE.
@@ -527,7 +460,6 @@ define([
                         domConstruct.place(ul, product, "last");
                     }
                 }
-
                 if(!this.warmInfectionData.error){
                     var label = dom.byId("infection");
                     label.innerHTML = "Infections (WARM) (" + this.warmInfectionData.res.products.length + "):";
@@ -550,10 +482,232 @@ define([
             else {
                 this.map.infoWindow.setTitle("Invalid Parcel.");
                 this.map.infoWindow.setContent("<b>This parcel doesn't belong to you.</b>");
+                this.currentShowChartFunction();
+
             }
         },
 
+        _askForInfoTemplate: function(product, quantity, data){
+            //var url = "http://localhost:6686/info-template/" + product;
+            var url = "http://ermes.dlsi.uji.es:6686/info-template/" + product;
+            xhr(url, {
+                //handleAs: "json",
+            }).then(lang.hitch(this, "_showSpecificInfo", product, quantity, data));
+        },
 
+        _showSpecificInfo: function(product, quantity, data, template){
+            var showInfoFunctions = [];
+
+            showInfoFunctions['agrochemical'] = lang.hitch(this, "_showAgrochemicalsInfo");
+            showInfoFunctions['cropInfo'] = lang.hitch(this, "_showCropInfoInfo");
+            showInfoFunctions['disease'] = lang.hitch(this, "_showDiseasesInfo");
+            showInfoFunctions['fertilizer'] = lang.hitch(this, "_showFertilizersInfo");
+            showInfoFunctions['irrigationInfo'] = lang.hitch(this, "_showIrrigationInfoInfo");
+            showInfoFunctions['observation'] = lang.hitch(this, "_showObservationsInfo");
+            showInfoFunctions['parcelStatus'] = lang.hitch(this, "_showParcelStatusInfo");
+            showInfoFunctions['pathogen'] = lang.hitch(this, "_showPathogensInfo");
+            showInfoFunctions['phenology'] = lang.hitch(this, "_showPhenologiesInfo");
+            showInfoFunctions['soil'] = lang.hitch(this, "_showSoilsInfo");
+            showInfoFunctions['weed'] = lang.hitch(this, "_showWeedsInfo");
+            showInfoFunctions['yield'] = lang.hitch(this, "_showYieldsInfo");
+
+            showInfoFunctions[product](template, quantity, data);
+
+        },
+
+        _showAgrochemicalsInfo: function(template, quantity, data){
+            var label = dom.byId("agrochemicals");
+            label.innerHTML = "Agrochemicals (" + quantity + "):";
+            this.productsList['agrochemical'] = [];
+            for(var i =0; i<quantity; i++) {
+                var compiled = _.template(template);
+                var finalHTML = compiled(data[i]);
+                this.productsList['agrochemical'][i] = data[i];
+                var product = dom.byId("agrochemicals-data");
+                domConstruct.place(finalHTML, product, "last");
+                domAttr.set(dom.byId("agrochemical"), "id", "agrochemical" + i);
+            }
+            this.currentPosition['agrochemical'] = quantity - 2;
+            this._changeObservationData("agrochemical", 'next');
+        },
+
+        _showCropInfoInfo:  function(template, quantity, data){
+            var label = dom.byId("cropInfos");
+            label.innerHTML = "Crop Info (" + quantity + "):";
+            this.productsList['cropInfo'] = [];
+            for(var i =0; i<quantity; i++) {
+                var compiled = _.template(template);
+                var finalHTML = compiled(data[i]);
+                this.productsList['cropInfo'][i] = data[i];
+                var product = dom.byId("cropInfos-data");
+                domConstruct.place(finalHTML, product, "last");
+                domAttr.set(dom.byId("cropInfo"), "id", "cropInfo" + i);
+            }
+            this.currentPosition['cropInfo'] = quantity - 2;
+            this._changeObservationData("cropInfo", 'next');
+        },
+
+        _showDiseasesInfo: function(template, quantity, data){
+            var label = dom.byId("diseases");
+            label.innerHTML = "Diseases (" + quantity + "):";
+            this.productsList['disease'] = [];
+            for(var i =0; i<quantity; i++) {
+                var compiled = _.template(template);
+                var finalHTML = compiled(data[i]);
+                this.productsList['disease'][i] = data[i];
+                var product = dom.byId("diseases-data");
+                domConstruct.place(finalHTML, product, "last");
+                domAttr.set(dom.byId("disease"), "id", "disease" + i);
+            }
+            this.currentPosition['disease'] = quantity - 2;
+            this._changeObservationData("disease", 'next');
+        },
+
+        _showFertilizersInfo: function(template, quantity, data){
+            var label = dom.byId("fertilizers");
+            label.innerHTML = "Fertilizers (" + quantity + "):";
+            this.productsList['fertilizer'] = [];
+            for(var i =0; i<quantity; i++) {
+                var compiled = _.template(template);
+                var finalHTML = compiled(data[i]);
+                this.productsList['fertilizer'][i] = data[i];
+                var product = dom.byId("fertilizers-data");
+                domConstruct.place(finalHTML, product, "last");
+                domAttr.set(dom.byId("fertilizer"), "id", "fertilizer" + i);
+            }
+            this.currentPosition['fertilizer'] = quantity - 2;
+            this._changeObservationData("fertilizer", 'next');
+        },
+
+        _showIrrigationInfoInfo: function(template, quantity, data){
+            var label = dom.byId("irrigationInfos");
+            label.innerHTML = "Irrigiation Info (" + quantity + "):";
+            this.productsList['irrigationInfo'] = [];
+            for(var i =0; i<quantity; i++) {
+                var compiled = _.template(template);
+                var finalHTML = compiled(data[i]);
+                this.productsList['irrigationInfo'][i] = data[i];
+                var product = dom.byId("irrigationInfos-data");
+                domConstruct.place(finalHTML, product, "last");
+                domAttr.set(dom.byId("irrigationInfo"), "id", "irrigationInfo" + i);
+            }
+            this.currentPosition['irrigationInfo'] = quantity - 2;
+            this._changeObservationData("irrigationInfo", 'next');
+        },
+
+        _showObservationsInfo: function(template, quantity, data){
+            var label = dom.byId("observations");
+            label.innerHTML = "Observations (" + quantity + "):";
+            this.productsList['observation'] = [];
+            for(var i =0; i<quantity; i++) {
+                var compiled = _.template(template);
+                var finalHTML = compiled(data[i]);
+                this.productsList['observation'][i] = data[i];
+                var product = dom.byId("observations-data");
+                domConstruct.place(finalHTML, product, "last");
+                domAttr.set(dom.byId("observation"), "id", "observation" + i);
+            }
+            this.currentPosition['observation'] = quantity - 2;
+            this._changeObservationData("observation", 'next');
+        },
+
+        _showParcelStatusInfo: function(template, quantity, data){
+            var label = dom.byId("parcelStatus");
+            label.innerHTML = "Parcel Status (" + quantity + "):";
+            this.productsList['parcelStatus'] = [];
+            for(var i =0; i<quantity; i++) {
+                var compiled = _.template(template);
+                var finalHTML = compiled(data[i]);
+                this.productsList['parcelStatus'][i] = data[i];
+                var product = dom.byId("parcelStatus-data");
+                domConstruct.place(finalHTML, product, "last");
+                domAttr.set(dom.byId("parcelStatus"), "id", "parcelStatus" + i);
+            }
+            this.currentPosition['parcelStatus'] = quantity - 2;
+            this._changeObservationData("parcelStatus", 'next');
+        },
+
+        _showPathogensInfo: function(template, quantity, data){
+            var label = dom.byId("phatogens");
+            label.innerHTML = "Pathogens (" + quantity + "):";
+            this.productsList['pathogen'] = [];
+            for(var i =0; i<quantity; i++) {
+                var compiled = _.template(template);
+                var finalHTML = compiled(data[i]);
+                this.productsList['pathogen'][i] = data[i];
+                var product = dom.byId("phatogens-data");
+                domConstruct.place(finalHTML, product, "last");
+                domAttr.set(dom.byId("pathogen"), "id", "pathogen" + i);
+            }
+            this.currentPosition['pathogen'] = quantity - 2;
+            this._changeObservationData("pathogen", 'next');
+        },
+
+        _showPhenologiesInfo: function(template, quantity, data){
+            var label = dom.byId("phenologies");
+            label.innerHTML = "Phenologies (" + quantity + "):";
+            this.productsList['phenology'] = [];
+            for(var i =0; i<quantity; i++) {
+                var compiled = _.template(template);
+                var finalHTML = compiled(data[i]);
+                this.productsList['phenology'][i] = data[i];
+                var product = dom.byId("phenologies-data");
+                domConstruct.place(finalHTML, product, "last");
+                domAttr.set(dom.byId("phenology"), "id", "phenology" + i);
+            }
+            this.currentPosition['phenology'] = quantity - 2;
+            this._changeObservationData("phenology", 'next');
+        },
+
+        _showSoilsInfo: function(template, quantity, data){
+            var label = dom.byId("soils");
+            label.innerHTML = "Soils (" + quantity + "):";
+            this.productsList['soil'] = [];
+            for(var i =0; i<quantity; i++) {
+                var compiled = _.template(template);
+                var finalHTML = compiled(data[i]);
+                this.productsList['soil'][i] = data[i];
+                var product = dom.byId("soils-data");
+                domConstruct.place(finalHTML, product, "last");
+                domAttr.set(dom.byId("soil"), "id", "soil" + i);
+            }
+            this.currentPosition['soil'] = quantity - 2;
+            this._changeObservationData("soil", 'next');
+        },
+
+        _showWeedsInfo: function(template, quantity, data){
+            var label = dom.byId("weeds");
+            label.innerHTML = "Weeds (" + quantity + "):";
+            this.productsList['weed'] = [];
+            for(var i =0; i<quantity; i++) {
+                var compiled = _.template(template);
+                var finalHTML = compiled(data[i]);
+                this.productsList['weed'][i] = data[i];
+                var product = dom.byId("weeds-data");
+                domConstruct.place(finalHTML, product, "last");
+                domAttr.set(dom.byId("weed"), "id", "weed" + i);
+
+            }
+            this.currentPosition['weed'] = quantity - 2;
+            this._changeObservationData("weed", 'next');
+        },
+
+        _showYieldsInfo: function(template, quantity, data){
+            var label = dom.byId("yields");
+            label.innerHTML = "Yields (" + quantity + "):";
+            this.productsList['yield'] = [];
+            for(var i =0; i<quantity; i++) {
+                var compiled = _.template(template);
+                var finalHTML = compiled(data[i]);
+                this.productsList['yield'][i] = data[i];
+                var product = dom.byId("yields-data");
+                domConstruct.place(finalHTML, product, "last");
+                domAttr.set(dom.byId("yield"), "id", "yield" + i);
+
+            }
+            this.currentPosition['yield'] = quantity - 2;
+            this._changeObservationData("yield", 'next');
+        },
 
         _updateGraph: function(point){
             this.clickedGraph.setGeometry(point);
@@ -638,6 +792,8 @@ define([
             this.destroyChart();
 
             var allValues = arguments[0];
+            var dataObject = arguments[1];
+
             if(allValues[0].length!=0) {
                 constructDiv();
                 function getActualValue(date) {
@@ -653,6 +809,7 @@ define([
                 this.monitoringWidget = new MonitoringWidget({
                     actualValue: actualValue,
                     rasterValues: allValues,
+                    dataObject: dataObject,
                     mosaicName: this.activeMosaic,
                     actualTimePosition: this.activeRaster,
                     mosaic: this.mosaics[this.activeMosaic]
@@ -707,9 +864,15 @@ define([
             $('#timeSliderDiv').addClass('event-disabled');
             $('#time-slider-date-div').html(rasterDate);
 
-            //TODO USE THIS ONLY IF NECESSARY THIS CORRELATES THE GEOPORTAL WITH THEIR CATALOG
-            //var link = "http://get-it.ermes-fp7space.eu/layers/geonode:" + this.mosaics[mosaicId].rasters[rasterId][0].toLowerCase();
-            //$('#time-slider-catalog-link-div').html(link);
+            var link = "http://get-it.ermes-fp7space.eu/layers/geonode:" + this.mosaics[mosaicId].rasters[rasterId][0].toLowerCase();
+            var catalogInfo = dom.byId('time-slider-catalog-link-div');
+            xhr(link, { "method": "HEAD"}).then(function(response){
+                    domAttr.set(catalogInfo, "href", link);
+                    catalogInfo.innerHTML="Go to Catalog."
+                }, function(error){
+                    domAttr.remove(catalogInfo, "href")
+                    catalogInfo.innerHTML="No data in Catalog."
+                });
 
 
             var v = 0;
@@ -732,9 +895,9 @@ define([
             this.emit("raster-selected-none",{});
             var labelRasterName = dom.byId("main-raster-name");
             domClass.replace(labelRasterName, "notvisible", "visible");
-            if(this.userProfile=="regional") {
+            //if(this.userProfile=="regional") {
                 this.stopClickHandler();
-            }
+            //}
             this.destroyChart();
             this.activeRaster = null;
             this.map.graphics.remove(this.clickedGraph);
@@ -777,7 +940,6 @@ define([
             }
             $('#timeSliderDiv').slider('value',value);
         },
-
 
         _showSlider: function(rastersList, mosaicId, mosaicName) {
 
@@ -910,7 +1072,6 @@ define([
 
         },
 
-
         destroyChart: function(){
             if(this.monitoringWidget!=null){
                 this.monitoringWidget.destroy();
@@ -943,4 +1104,16 @@ function getCookie(cname) {
         if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
     }
     return "";
+}
+
+function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
 }

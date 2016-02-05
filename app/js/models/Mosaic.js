@@ -17,11 +17,14 @@ define([
     'esri/tasks/QueryTask',
     "esri/tasks/GeometryService",
     "esri/tasks/ProjectParameters",
-    "esri/SpatialReference"
+    "esri/SpatialReference",
+    "esri/layers/RasterFunction"
+
 	], function(declare, lang, when, Topic, Evented, _WidgetBase,
-		 ArcGISImageServiceLayer, ArcGISTiledMapServiceLayer,
-         ImageServiceIdentifyTask, ImageServiceIdentifyParameters,
-		 MosaicRule, xhr, Point, Extent, Query, QueryTask, GeometryService, ProjectParameters, SpatialReference){
+		ArcGISImageServiceLayer, ArcGISTiledMapServiceLayer,
+        ImageServiceIdentifyTask, ImageServiceIdentifyParameters,
+		MosaicRule, xhr, Point, Extent, Query, QueryTask, GeometryService, ProjectParameters,
+        SpatialReference, RasterFunction){
 		
 		return declare([Evented, _WidgetBase], {
 			mosaicId: null,
@@ -42,6 +45,10 @@ define([
             valuesReceived: 0,
             parameterForPlot: [],
             limits: null,
+            currentValuesDate: null,
+            avgValuesDate: null,
+            stdValuesDate: null,
+            forecastValuesDate: null,
 
 		constructor: function(options){
 			this.mosaicId = options.id;
@@ -78,7 +85,8 @@ define([
                 response.extent.ymax,
                 new SpatialReference({ wkid: response.extent.spatialReference.wkid })
             ));
-            var geometryService = new GeometryService("http://tasks.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer");
+            //var geometryService = new GeometryService("http://tasks.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer");
+            var geometryService = new GeometryService("http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Utilities/Geometry/GeometryServer");
             var params = new ProjectParameters();
             params.geometries = geometries;
             params.outSR = new SpatialReference(4326) ;
@@ -101,10 +109,17 @@ define([
 			var rule = new MosaicRule();
 			rule.ascending = true;
 			//rule.method = MosaicRule.METHOD_LOCKRASTER;
-            rule.method = MosaicRule.METHOD_ATTRIBUTE
+            rule.method = MosaicRule.METHOD_ATTRIBUTE;
 			//rule.lockRasterIds = [rasterId];
 			rule.where = "SDATE='" + rasterId + "'";
             layer.setMosaicRule(rule);
+
+            //TESTING RENDERING RULE
+            //var rasterFunction = new RasterFunction();
+            //rasterFunction.functionName = "SpirituKalkat";
+            //layer.setRenderingRule(rasterFunction);
+
+
 			return layer;
 		},
 
@@ -174,8 +189,25 @@ define([
             identifyTask.execute(parameters, lang.hitch(this, '_setCurrentValues'));
         },
 
+        _createArrayFromResponse: function(r, historic){
+            var i = 0;
+            var array = []
+            r.catalogItems.features.forEach(lang.hitch(this,function(feature){
+                var newYear = parseInt(feature.attributes.SDATE.split('/')[0]) + historic;
+                var newDate = newYear + '/' + feature.attributes.SDATE.split('/')[1]+ '/' + feature.attributes.SDATE.split('/')[2];
+                array[newDate] =  r.properties.Values[i];
+                array.length++;
+                i++;
+            }));
+            return array;
+        },
+
         _setCurrentValues: function(response){
             this.currentValues = response.properties.Values.map(parseFloat);
+
+            var getArray = lang.hitch(this, "_createArrayFromResponse");
+            this.currentValuesDate = getArray(response, 0);
+
             if(this.plotType==1){
                 this.historicDates = [];
                 response.catalogItems.features.forEach(lang.hitch(this,function(feature){
@@ -202,6 +234,10 @@ define([
 
         _setAVGValues: function(response){
             this.avgValues = response.properties.Values.map(parseFloat);
+
+            var getArray = lang.hitch(this, "_createArrayFromResponse");
+            this.avgValuesDate = getArray(response, 1);
+
             if(this.plotType!=1){
                 this.historicDates = [];
                 response.catalogItems.features.forEach(lang.hitch(this,function(feature){
@@ -228,6 +264,11 @@ define([
 
         _setSTDValues: function(response){
             this.stdValues = response.properties.Values.map(parseFloat);
+
+
+            var getArray = lang.hitch(this, "_createArrayFromResponse");
+            this.stdValuesDate = getArray(response, 1);
+
             this._responseFinished();
         },
 
@@ -246,6 +287,10 @@ define([
 
         _setForecastValues: function(response){
             this.forecastValues = response.properties.Values.map(parseFloat);
+
+            var getArray = lang.hitch(this, "_createArrayFromResponse");
+            this.forecastValuesDate = getArray(response, 0);
+
             this._responseFinished();
         },
 
@@ -300,8 +345,14 @@ define([
                  parameter.push(this.avgValues);
              }
 
+             var dataObject = {};
+             dataObject.currentValues = this.currentValuesDate;
+             dataObject.avgValues = this.avgValuesDate;
+             dataObject.stdValues = this.stdValuesDate;
+             dataObject.forecastValues= this.forecastValuesDate;
+
              this.valuesReceived=0;
-             Topic.publish('mosaic/raster-click', parameter);
+             Topic.publish('mosaic/raster-click', parameter, dataObject);
         }
 	});
 });

@@ -53,6 +53,7 @@
         var $form = $( this ),
                 username = $form.find( "input[name='username']" ).val(),
                 password = $form.find( "input[name='password']" ).val(),
+//                url = "http://localhost:6686/login";
                 url = "http://ermes.dlsi.uji.es:6686/login";
         // Make the POST
         var posting = $.post(url, {username: username, password: password});

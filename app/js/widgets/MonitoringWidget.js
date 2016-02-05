@@ -46,6 +46,43 @@ define([
 
         _createChart: function(){
             var seriesValues = this.rasterValues;
+
+            //TODO Other way of doing this, refactor when forectast column will be added.
+
+            //var dataToArray = function(collection){
+            //    array = [];
+            //    i=0;
+            //    for(var index in collection){
+            //        array.push([new Date(index), collection[index]]);
+            //        i++;
+            //    }
+            //
+            //    return array;
+            //}
+            //
+            //var currentArray = dataToArray(this.dataObject.currentValues);
+            //var avgArray = dataToArray(this.dataObject.avgValues);
+            //var stdArray = dataToArray(this.dataObject.stdValues);
+            //var forecastArray = dataToArray(this.dataObject.forecastValues);
+            //
+            //
+            ////Variable this.dataObject contains [DATE, VALUE] for all Series.
+            //
+            //
+            //    this.graphic = new Dygraph("raster-chart",
+            //        [valuesForChart1,
+            //            valuesForChart2],
+            //        {
+            //            legend: 'always',
+            //            //labels: [ "x", "A", "B" ],
+            //            //ylabel: this.mosaic.yAxis,
+            //            errorBars: false,
+            //            showRangeSelector: true
+            //        }
+            //    );
+
+            //Create Charts:
+
             if(this.mosaic.plotType==5) {
                 var arrayData = "";
                 arrayData += "x,2015,AVG,Forecast\n";
@@ -71,20 +108,19 @@ define([
                     }
                 );
             }
-
             else if(this.mosaic.plotType==4) {
                 var arrayData = "";
                 arrayData += "x,2015,AVG,Forecast\n";
                 var csvHeader = ["date", "currValue", "currValStdDev", "avg", "avgStdDev", "forecast", "forecastStdDev"];
                 for (var i = 0; i < seriesValues[1].length; i++) {
                     if (i < seriesValues[0].length) {
-                        arrayData += seriesValues[1][i] + "," + seriesValues[0][i] + ",," + seriesValues[2][i] + "," + seriesValues[3][i] / 2 + ",,\n";
+                        arrayData += seriesValues[1][i] + "," + seriesValues[0][i] + ","+ "" + "," + seriesValues[2][i] + "," + seriesValues[3][i] / 2 + ","+ "" + ",\n";
                     }
                     else if(i < seriesValues[0].length + seriesValues[4].length){
-                        arrayData += seriesValues[1][i] + ",,," + seriesValues[2][i] + "," + seriesValues[3][i] / 2 + "," + seriesValues[4][i-seriesValues[0].length] + ",\n";
+                        arrayData += seriesValues[1][i] + ","+ "" + ","+ "" + "," + seriesValues[2][i] + "," + seriesValues[3][i] / 2 + "," + seriesValues[4][i-seriesValues[0].length] + ",\n";
                     }
                     else {
-                        arrayData += seriesValues[1][i] + ",,," + seriesValues[2][i] + "," + seriesValues[3][i] / 2 + ",,\n";
+                        arrayData += seriesValues[1][i] + ","+ "" + ","+ "" + "," + seriesValues[2][i] + "," + seriesValues[3][i] / 2 + ","+ "" + ",\n";
                     }
                 }
                 this.graphic = new Dygraph("raster-chart",
@@ -163,6 +199,7 @@ define([
             }
 
 
+            //Download Data:
 
             var rows = arrayData.split('\n');
             var downloadableData = [];

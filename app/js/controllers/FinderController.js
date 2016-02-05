@@ -79,7 +79,8 @@ define([
 
             var centerInCoordinatesVar = lang.hitch(this, "centerInCoordinates");
 
-            var geometryService = new GeometryService("http://tasks.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer");
+            //var geometryService = new GeometryService("http://tasks.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer");
+            var geometryService = new GeometryService("http://ermes.dlsi.uji.es:6080/arcgis/rest/services/Utilities/Geometry/GeometryServer");
             var params = new ProjectParameters();
             params.geometries = geometries;
             params.outSR = this.map.spatialReference;
