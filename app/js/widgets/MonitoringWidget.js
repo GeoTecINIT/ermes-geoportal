@@ -47,8 +47,8 @@ define([
         _createChart: function(){
             var seriesValues = this.rasterValues;
 
-            //TODO Other way of doing this, refactor when forectast column will be added.
-
+            ////TODO Other way of doing this, refactor when forectast column will be added.
+            //
             //var dataToArray = function(collection){
             //    array = [];
             //    i=0;
@@ -66,20 +66,61 @@ define([
             //var forecastArray = dataToArray(this.dataObject.forecastValues);
             //
             //
-            ////Variable this.dataObject contains [DATE, VALUE] for all Series.
+            //var valores = _.zipObject(_.unzip(currentArray)[0], _.unzip(currentArray)[1]);
+            //var medias = _.zipObject(_.unzip(avgArray)[0], _.unzip(avgArray)[1]);
+            //var desviaciones = _.zipObject(_.unzip(stdArray)[0], _.unzip(stdArray)[1]);
+            //var predicciones = _.zipObject(_.unzip(forecastArray)[0], _.unzip(forecastArray)[1]);
+            //
+            //var todasLasFechas = _.chain([])
+            //    .concat(_.keys(valores))
+            //    .concat(_.keys(medias))
+            //    .concat(_.keys(desviaciones))
+            //    .concat(_.keys(predicciones))
+            //    .uniq()
+            //    .value();
+            //
+            //_.map(todasLasFechas, function(fecha) {
+            //    if( ! _.has(valores, fecha) ) valores[fecha] = "";
+            //    if( ! _.has(medias, fecha) ) medias[fecha] = "";
+            //    if( ! _.has(desviaciones, fecha) ) desviaciones[fecha] = "";
+            //    if( ! _.has(predicciones, fecha) ) predicciones[fecha] = "";
+            //});
             //
             //
-            //    this.graphic = new Dygraph("raster-chart",
-            //        [valuesForChart1,
-            //            valuesForChart2],
-            //        {
-            //            legend: 'always',
-            //            //labels: [ "x", "A", "B" ],
-            //            //ylabel: this.mosaic.yAxis,
-            //            errorBars: false,
-            //            showRangeSelector: true
-            //        }
-            //    );
+            //var resultado = _.map(todasLasFechas, function(fecha, i) {
+            //    return [new Date(fecha), valores[fecha], medias[fecha], desviaciones[fecha], predicciones[fecha]];
+            //});
+            //
+            //
+            //
+            //
+            //var arrayData="";
+            //var error = false;
+            //
+            //if(this.mosaic.plotType==3 || this.mosaic.plotType==4){
+            //    error=true;
+            //    arrayData += "x,2015,std,AVG,std,Forecast,std\n";
+            //    for(var i = 0; i<resultado.length; i++){
+            //        arrayData += new Date(resultado[i][0]) + "," + resultado[i][1] + ",," + resultado[i][2] + "," + resultado[i][3] + "," + resultado[i][4] + ",\n";
+            //    }
+            //}
+            //else if(this.mosaic.plotType==1 || this.mosaic.plotType==2 || this.mosaic.plotType==5) {
+            //    arrayData += "x,2015,AVG,Forecast\n";
+            //
+            //    for (var i = 0; i < resultado.length; i++) {
+            //        arrayData+= new Date(resultado[i][0]) + "," + resultado[i][1] + "," + resultado[i][2] + ","  + resultado[i][4] + "\n";
+            //    }
+            //}
+            //
+            //this.graphic = new Dygraph("raster-chart",
+            //    arrayData,
+            //    {
+            //        legend: 'always',
+            //        ylabel: this.mosaic.yAxis,
+            //        errorBars: error,
+            //        showRangeSelector: true
+            //    }
+            //);
 
             //Create Charts:
 
@@ -209,7 +250,6 @@ define([
             }
             downloadableData.shift();
             downloadableData.unshift(csvHeader);
-
             csvContent = "data:text/csv;charset=utf-8,";
             downloadableData.forEach(function(infoArray, index){
 
@@ -217,12 +257,10 @@ define([
                 csvContent += index < downloadableData.length ? dataString+ "\n" : dataString;
 
             });
-
             var encodedUri = encodeURI(csvContent);
             link = document.createElement("a");
             link.setAttribute("href", encodedUri);
             link.setAttribute("download", "csvData.csv");
-
             this.downloadLink = link;
 
 
@@ -243,6 +281,9 @@ define([
             }
 
         },
+
+
+
 
 
         _exportCSV: function(){

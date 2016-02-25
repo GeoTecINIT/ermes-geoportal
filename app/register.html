@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Ermes Movile APP</title>
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/main.css" rel="stylesheet"/>
     <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </head>
@@ -68,6 +69,30 @@
                                 </div>
                             </div>
 
+                            <div class="form-group">
+
+                                <div class="col-md-6 col-sd-6">
+                                    <div class="row">
+                                        <div class="col-md-6 col-sd-6">
+                                            <p> Select Your Type of User:</p>
+
+                                            <select id="selectType" class="form-control" required>
+                                                <option value=""></option>
+                                                <option value="owner">Owner</option>
+                                                <option value="collaborator">Collaborator</option>
+                                            </select>
+                                        </div>
+                                        <div id="associatedOwnerBlock" class="col-md-6 col-sd-6 display-none">
+                                            <p> Insert Your Associated Owner:</p>
+                                            <input type="test" id="selectAssociatedOwner" class="form-control">
+
+                                            </input>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
                             <div>
                                 <button type="submit" class="btn btn-default">Submit</button>
                                 <a href="login.html">Go to login Page</a>
@@ -100,29 +125,65 @@
                 email2 = $form.find( "input[name='email2']" ).val(),
                 region = $("#selectRegion").val(),
                 profile = $("#selectProfile").val(),
+                type = $("#selectType").val(),
+                collaboratesWith = $("#selectAssociatedOwner").val(),
 
-//                url = "http://localhost:6686/signup";
-                url = "http://ermes.dlsi.uji.es:6686/signup";
+//                url = "http://localhost:6787/api-v1/users";
+                url = "http://ermes.dlsi.uji.es:6787/api-v1/users";
         if(email!=email2) {
-            $("#response").text("Mail doesn't match.")
+            $("#response").text("Mail doesn't match.");
         }
         else if(password!=password2) {
             $("#response").text("Passwords doesn't match.");
         }
         else {
             // Make the POST
-            var posting = $.post(url, {username: username, password: password, email: email, region: region, profile: profile });
+            var requestObject = {
+                user: {
+                    username: username,
+                    password: password,
+                    email: email,
+                    region: region,
+                    profile: profile,
+                    type: type
+                }
+            }
+            if(collaboratesWith){
+                requestObject.user.collaboratesWith = collaboratesWith;
+            }
+            var posting = $.post(url, requestObject);
 
             // Show results asynchronously.
             posting.done(function (data) {
-                if(data == username)
+                if(data.user.username == username) {
                     window.location.replace("login.html");
-                else
-                    $("#response").text("This user already exists. If the problem persists contact the ERMES administrators.");
+                }else if(data.error.match(/email/i)){
+                    $("#response").text("There is a problem with the eMail. Try with another.");
+                }else if(data.error.match(/owner/i)){
+                    $("#response").text("This Owner does not exists.");
+                }else if(data.error.match(/username/i)){
+                    $("#response").text("This username already exists.");
+                }else{
+                    $("#response").text("Unexpected Error.");
+                }
             });
         }
     });
 
+</script>
+
+<script>
+    $('#selectType').change(function() {
+        opt = $(this).val();
+        if (opt=="collaborator") {
+            $('#associatedOwnerBlock').removeClass("display-none");
+            $('#associatedOwnerBlock').addClass("display-block");
+        }else {
+            $('#associatedOwnerBlock').removeClass("display-block");
+            $('#associatedOwnerBlock').addClass("display-none");
+        }
+
+    });
 </script>
 </body>
 </html>

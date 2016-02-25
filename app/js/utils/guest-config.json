@@ -1,0 +1,14 @@
+{
+  "spain": {
+    "regional": "Z3Vlc3RyczpxMXcyZTNyNHQ1eTY=",
+    "local":"Z3Vlc3RsczpxMXcyZTNyNHQ1eTY="
+  },
+  "italy": {
+    "regional": "Z3Vlc3RyaTpxMXcyZTNyNHQ1eTY=",
+    "local": "Z3Vlc3RsaTpxMXcyZTNyNHQ1eTY="
+  },
+  "greece": {
+    "regional": "Z3Vlc3RyZzpxMXcyZTNyNHQ1eTY=",
+    "local": "Z3Vlc3RsZzpxMXcyZTNyNHQ1eTY="
+  }
+}

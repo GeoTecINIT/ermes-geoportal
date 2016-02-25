@@ -43,20 +43,26 @@ define([
 					username: this.username,
 					parcelsLayer: this.parcelsLayer,
 					limits: this.limits,
+					urlServer: this.urlServer,
+					apiVersion: this.apiVersion
 				}, 'monitoring-div');
 				this.comparingController = new ComparingController({
 					mosaics: this.mosaics,
-					map: this.map}, 'comparing-div');
+					map: this.map,
+					urlServer: this.urlServer}, 'comparing-div');
 				this.settingsController = new SettingsController({
 					layers: this.layers,
-					map: this.map}, 'settings-div');
+					map: this.map,
+					urlServer: this.urlServer}, 'settings-div');
 				this.coordinatesWidget = new CoordinatesWidget({
 					map: this.map,
-					limits: this.limits
+					limits: this.limits,
+					urlServer: this.urlServer
 					}, 'coordinates-div');
 				if(this.finder) {
 					this.finderController = new FinderController({
-						map: this.map
+						map: this.map,
+						urlServer: this.urlServer
 					}, 'finder-div');
 				}
 				this.monitoringController.on("raster-selected", lang.hitch(this,"_changeRaster"));
@@ -74,12 +80,16 @@ define([
 			},
 
 			_logout: function(){
-				var delete_cookie = function(name) {
-					document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-				};
-				delete_cookie("region");
-				delete_cookie("profile");
-				delete_cookie("username");
+				//var delete_cookie = function(name) {
+				//	document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+				//};
+				localStorage.removeItem("region");
+				localStorage.removeItem("profile");
+				localStorage.removeItem("password");
+				localStorage.removeItem("username");
+				//delete_cookie("region");
+				//delete_cookie("profile");
+				//delete_cookie("username");
 				window.location.replace("login.html");
 			},
 

@@ -152,7 +152,7 @@ define([
 
         _askForFormTemplate: function(product, productData){
             //var url = "http://localhost:6686/form-template/" + product;
-            var url = "http://ermes.dlsi.uji.es:6686/form-template/" + product;
+            var url = this.urlServer + "/form-template/" + product;
             xhr(url, {}).then(lang.hitch(this, "_formTemplateReceived", product, productData));
         },
 
@@ -165,7 +165,7 @@ define([
 
             var formNode = dom.byId("form-template");
             //var url = "http://localhost:6686/api/products" + domAttr.get(formNode, "date-url") + "/" + productData._id;
-            var url = "http://ermes.dlsi.uji.es:6686/api/products" + domAttr.get(formNode, "date-url") + "/" + productData._id;
+            var url = this.urlServer + this.apiVersion + "/products" + domAttr.get(formNode, "date-url") + "/" + productData._id;
 
             var sendButton = dom.byId("confirm-edit-product-button");
             on(sendButton, 'click', lang.hitch(this, "_updateProduct", url, product, formNode, productData));
@@ -183,7 +183,7 @@ define([
             bodyObject = JSON.parse(bodyObject);
             bodyObject = JSON.stringify(bodyObject);
             var username = this.username;
-            var password = getCookie("password");
+            var password = localStorage.password;
             //MAKE THE POST
             xhr(url, {
                 handleAs: "json",
@@ -191,7 +191,7 @@ define([
                 data: bodyObject,
                 headers: {
                     "X-Requested-With": null,
-                    "X-Auth-Key": username+";"+password,
+                    "X-Authorization": "Bearer " + localStorage.token,
                     "Content-Type": "application/json"
                 }
             }).then(lang.hitch(this, "_productUpdated"));
@@ -262,34 +262,33 @@ define([
         },
 
         _queryMongoServer: function(response){
-            var serviceURL = "http://ermes.dlsi.uji.es:6686/api/parcelsinfo/";
             //var serviceURL = "http://localhost:6686/api/parcelsinfo/";
-            var username = this.username;
-            var password = getCookie("password");
+            //var username = this.username;
+            //var password = localStorage.password;
             if (response.features.length>0) {
                 var parcelid = response.features[0].attributes.PARCEL_ID;
+                //var serviceURL = this.urlServer + this.apiVersion + "/parcelsinfo/";
+                var serviceURL = this.urlServer + this.apiVersion + "/parcels/" + parcelid;
 
 
                 xhr(serviceURL, {
                     handleAs: "json",
-                    method: "POST",
-                    data: {
-                        username: username,
-                        password: password,
-                        parcelid: parcelid
+                    method: "GET",
+                    query: {
+                        limit: "-1"
                     },
                     headers: {
                         "X-Requested-With": null,
-                        "X-Auth-Key": username+";"+password
+                        "X-Authorization": "Bearer " + localStorage.token
                     }
-                }).then(lang.hitch(this, "_receivedData", "local"));
+                }).then(lang.hitch(this, "_receivedData", "local"), lang.hitch(this, "_receivedData", "local", {}));
             }
             else {
                 this.map.infoWindow.setTitle("ERROR!");
                 this.map.infoWindow.setContent("There is no parcel Here!");
             }
 
-            var serviceURL = "http://ermes.dlsi.uji.es:6686/api/warm/development-stage";
+            var serviceURL = this.urlServer + this.apiVersion + "/warm/developmentStages";
             if (response.features.length>0) {
                 var parcelid = response.features[0].attributes.PARCEL_ID;
                 var now = new Date();
@@ -302,7 +301,7 @@ define([
                 xhr(serviceURL, {
                     handleAs: "json",
                     query: {
-                        username: username,
+                        //username: username,
                         parcelId: parcelid,
                         //Use this values to check if it is working.
                         //parcelId: "ES52346237A02500111G",
@@ -313,12 +312,12 @@ define([
                     },
                     headers: {
                         "X-Requested-With": null,
-                        "X-Auth-Key": username+";"+password
+                        "X-Authorization": "Bearer " + localStorage.token
                     }
-                }).then(lang.hitch(this, "_receivedData", "warm"));
+                }).then(lang.hitch(this, "_receivedData", "warm"), lang.hitch(this, "_receivedData", "warm", {}));
             }
 
-            var serviceURL = "http://ermes.dlsi.uji.es:6686/api/warm/infection-risk";
+            var serviceURL = this.urlServer + this.apiVersion + "/warm/abioticRisks";
             if (response.features.length>0) {
                 var parcelid = response.features[0].attributes.PARCEL_ID;
                 var now = new Date();
@@ -331,7 +330,7 @@ define([
                 xhr(serviceURL, {
                     handleAs: "json",
                     query: {
-                        username: username,
+                        //username: username,
                         parcelId: parcelid,
                         //Use this values to check if it is working.
                         //parcelId: "ES52346237A02500111G",
@@ -342,9 +341,9 @@ define([
                     },
                     headers: {
                         "X-Requested-With": null,
-                        "X-Auth-Key": username+";"+password
+                        "X-Authorization": "Bearer " + localStorage.token
                     }
-                }).then(lang.hitch(this, "_receivedData", "warmInfection"));
+                }).then(lang.hitch(this, "_receivedData", "warmInfection"), lang.hitch(this, "_receivedData", "warmInfection", {}));
             }
         },
 
@@ -370,110 +369,110 @@ define([
         _showInfoWindow: function(){
             var data= this.mongoData;
             domConstruct.destroy("loading-image")
-            if(data.parcels){
+            if(data.parcel){
                 var content = parcelTemplate;
                 this.map.infoWindow.setContent(content);
 
                 var showInfoChartHandler = on(dom.byId("show-chart-from-info-window"), 'click', this.currentShowChartFunction);
 
                 this._createViewInfoHandlers();
-                this.map.infoWindow.setTitle("Parcel ID: " + data.parcels[0].parcelId);
+                this.map.infoWindow.setTitle("Parcel ID: " + data.parcel.parcelId);
 
-                if(data.parcels[0].agrochemicals.length>0){
-                    var quantity = data.parcels[0].agrochemicals.length;
-                    var specificData = data.parcels[0].agrochemicals;
+                if(data.agrochemicals.length>0){
+                    var quantity = data.agrochemicals.length;
+                    var specificData = data.agrochemicals;
                     this._askForInfoTemplate('agrochemical', quantity, specificData);
                 }
-                if(data.parcels[0].cropInfos.length>0){
-                    var quantity = data.parcels[0].cropInfos.length;
-                    var specificData = data.parcels[0].cropInfos;
+                if(data.cropInfos.length>0){
+                    var quantity = data.cropInfos.length;
+                    var specificData = data.cropInfos;
                     this._askForInfoTemplate('cropInfo', quantity, specificData);
 
                 }
-                if(data.parcels[0].diseases.length>0){
-                    var quantity = data.parcels[0].diseases.length;
-                    var specificData = data.parcels[0].diseases;
+                if(data.diseases.length>0){
+                    var quantity = data.diseases.length;
+                    var specificData = data.diseases;
                     this._askForInfoTemplate('disease', quantity, specificData);
                 }
-                if(data.parcels[0].fertilizers.length>0){
-                    var quantity = data.parcels[0].fertilizers.length;
-                    var specificData = data.parcels[0].fertilizers;
+                if(data.fertilizers.length>0){
+                    var quantity = data.fertilizers.length;
+                    var specificData = data.fertilizers;
                     this._askForInfoTemplate('fertilizer', quantity, specificData);
                 }
-                if(data.parcels[0].irrigationInfos.length>0){
-                    var quantity = data.parcels[0].irrigationInfos.length;
-                    var specificData = data.parcels[0].irrigationInfos;
+                if(data.irrigations.length>0){
+                    var quantity = data.irrigations.length;
+                    var specificData = data.irrigations;
                     this._askForInfoTemplate('irrigationInfo', quantity, specificData);
                 }
-                if(data.parcels[0].observations.length>0){
-                    var quantity = data.parcels[0].observations.length;
-                    var specificData = data.parcels[0].observations;
+                if(data.observations.length>0){
+                    var quantity = data.observations.length;
+                    var specificData = data.observations;
                     this._askForInfoTemplate('observation', quantity, specificData);
                 }
-                if(data.parcels[0].parcelStatus.length>0){
-                    var quantity = data.parcels[0].parcelStatus.length;
-                    var specificData = data.parcels[0].parcelStatus;
+                if(data.soilConditions.length>0){
+                    var quantity = data.soilConditions.length;
+                    var specificData = data.soilConditions;
                     this._askForInfoTemplate('parcelStatus', quantity, specificData);
                 }
-                if(data.parcels[0].phatogens.length>0){
-                    var quantity = data.parcels[0].phatogens.length;
-                    var specificData = data.parcels[0].phatogens;
+                if(data.insects.length>0){
+                    var quantity = data.insects.length;
+                    var specificData = data.insects;
                     this._askForInfoTemplate('pathogen', quantity, specificData);
                 }
-                if(data.parcels[0].phenologies.length>0){
-                    var quantity = data.parcels[0].phenologies.length;
-                    var specificData = data.parcels[0].phenologies;
+                if(data.cropPhenologies.length>0){
+                    var quantity = data.cropPhenologies.length;
+                    var specificData = data.cropPhenologies;
                     this._askForInfoTemplate('phenology', quantity, specificData);
                 }
-                if(data.parcels[0].soils.length>0){
-                    var quantity = data.parcels[0].soils.length;
-                    var specificData = data.parcels[0].soils;
+                if(data.soilTypes.length>0){
+                    var quantity = data.soilTypes.length;
+                    var specificData = data.soilTypes;
                     this._askForInfoTemplate('soil', quantity, specificData);
                 }
-                if(data.parcels[0].weeds.length>0){
-                    var quantity = data.parcels[0].weeds.length;
-                    var specificData = data.parcels[0].weeds;
+                if(data.weeds.length>0){
+                    var quantity = data.weeds.length;
+                    var specificData = data.weeds;
                     this._askForInfoTemplate('weed', quantity, specificData);
                 }
-                if(data.parcels[0].yields.length>0){
-                    var quantity = data.parcels[0].yields.length;
-                    var specificData = data.parcels[0].yields;
+                if(data.yields.length>0){
+                    var quantity = data.yields.length;
+                    var specificData = data.yields;
                     this._askForInfoTemplate('yield', quantity, specificData);
                 }
 
                  //UNCOMMENT FOR ENABLE CONNECTION WITH WARM DATABASE.
                 if(!this.warmData.error){
                     var label = dom.byId("developmentStage");
-                    label.innerHTML = "Development Stage (WARM) (" + this.warmData.res.products.length + "):";
-                    for(var i =0; i<this.warmData.res.products.length; i++) {
+                    label.innerHTML = "Development Stage (WARM) (" + this.warmData.developmentStages.length + "):";
+                    for(var i =0; i<this.warmData.developmentStages.length; i++) {
                         var product = dom.byId("developmentStage-data");
                         var ul = domConstruct.create("ul");
                         var li = domConstruct.create("li");
-                        var day = this.warmData.res.products[i].doy;
+                        var day = this.warmData.developmentStages[i].doy;
                         var dateShowed = new Date();
                         dateShowed.setDate(dateShowed.getDate() + i);
                         li.innerHTML = "<b>Date:</b> " + dateShowed.toDateString();
                         domConstruct.place(li, ul, "last");
                         var li = domConstruct.create("li");
-                        li.innerHTML = "<b>StageCode:</b> " + this.warmData.res.products[i].stagecode;
+                        li.innerHTML = "<b>StageCode:</b> " + this.warmData.developmentStages[i].value;
                         domConstruct.place(li, ul, "last");
                         domConstruct.place(ul, product, "last");
                     }
                 }
                 if(!this.warmInfectionData.error){
                     var label = dom.byId("infection");
-                    label.innerHTML = "Infections (WARM) (" + this.warmInfectionData.res.products.length + "):";
-                    for(var i =0; i<this.warmInfectionData.res.products.length; i++) {
+                    label.innerHTML = "Infections (WARM) (" + this.warmInfectionData.abioticRisks.length + "):";
+                    for(var i =0; i<this.warmInfectionData.abioticRisks.length; i++) {
                         var product = dom.byId("infection-data");
                         var ul = domConstruct.create("ul");
                         var li = domConstruct.create("li");
-                        var day = this.warmInfectionData.res.products[i].doy;
+                        var day = this.warmInfectionData.abioticRisks[i].doy;
                         var dateShowed = new Date();
                         dateShowed.setDate(dateShowed.getDate() + i);
                         li.innerHTML = "<b>Date:</b> " + dateShowed.toDateString();
                         domConstruct.place(li, ul, "last");
                         var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Infection Risk:</b> " + this.warmInfectionData.res.products[i].infectionRisk;
+                        li.innerHTML = "<b>Infection Risk:</b> " + this.warmInfectionData.abioticRisks[i].value;
                         domConstruct.place(li, ul, "last");
                         domConstruct.place(ul, product, "last");
                     }
@@ -489,7 +488,7 @@ define([
 
         _askForInfoTemplate: function(product, quantity, data){
             //var url = "http://localhost:6686/info-template/" + product;
-            var url = "http://ermes.dlsi.uji.es:6686/info-template/" + product;
+            var url = this.urlServer + "/info-template/" + product;
             xhr(url, {
                 //handleAs: "json",
             }).then(lang.hitch(this, "_showSpecificInfo", product, quantity, data));
@@ -745,6 +744,9 @@ define([
                     //domConstruct.place(div, container, "last");
                     this._updateGraph(evt.mapPoint);
                 }
+                //else if(true){
+                //
+                //}
             }
         },
 
@@ -865,12 +867,15 @@ define([
             $('#time-slider-date-div').html(rasterDate);
 
             var link = "http://get-it.ermes-fp7space.eu/layers/geonode:" + this.mosaics[mosaicId].rasters[rasterId][0].toLowerCase();
+            var proxyLink = this.urlServer + "/proxy?" + link;
             var catalogInfo = dom.byId('time-slider-catalog-link-div');
-            xhr(link, { "method": "HEAD"}).then(function(response){
+            xhr(proxyLink, { "method": "HEAD"}).then(function(response){
                     domAttr.set(catalogInfo, "href", link);
+                    domClass.remove(catalogInfo, "simple-bold-text");
                     catalogInfo.innerHTML="Go to Catalog."
                 }, function(error){
-                    domAttr.remove(catalogInfo, "href")
+                    domAttr.remove(catalogInfo, "href");
+                    domClass.add(catalogInfo, "simple-bold-text");
                     catalogInfo.innerHTML="No data in Catalog."
                 });
 
@@ -1095,16 +1100,16 @@ define([
     });
 });
 
-function getCookie(cname) {
-    var name = cname + "=";
-    var ca = document.cookie.split(';');
-    for(var i=0; i<ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0)==' ') c = c.substring(1);
-        if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
-    }
-    return "";
-}
+//function getCookie(cname) {
+//    var name = cname + "=";
+//    var ca = document.cookie.split(';');
+//    for(var i=0; i<ca.length; i++) {
+//        var c = ca[i];
+//        while (c.charAt(0)==' ') c = c.substring(1);
+//        if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+//    }
+//    return "";
+//}
 
 function formatDate(date) {
     var d = new Date(date),

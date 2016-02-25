@@ -96,7 +96,7 @@ define([
                 var parte2 = xmlData.getElementsByTagName("pc2")[0].textContent;
 
                 var referenciaCatastral = parte1 + parte2;
-                var urlCoordenadas = "http://ovc.catastro.meh.es//ovcservweb/OVCSWLocalizacionRC/OVCCoordenadas.asmx/Consulta_CPMRC?Provincia=&Municipio=&SRS=&RC=" + referenciaCatastral;
+                var urlCoordenadas = this.urlServer + "/proxy?http://ovc.catastro.meh.es//ovcservweb/OVCSWLocalizacionRC/OVCCoordenadas.asmx/Consulta_CPMRC?Provincia=&Municipio=&SRS=&RC=" + referenciaCatastral;
                 var centerMapVar = lang.hitch(this, "centerMap");
 
                 xhr.get(urlCoordenadas, {
@@ -118,7 +118,7 @@ define([
                 dom.byId("answer-finder-label").innerHTML = "Fill all fields.";
                 return;
             }
-            var urlReference = "http://ovc.catastro.meh.es/ovcservweb/OVCSWLocalizacionRC/OVCCallejero.asmx/Consulta_DNPPP?" +
+            var urlReference = this.urlServer + "/proxy?http://ovc.catastro.meh.es/ovcservweb/OVCSWLocalizacionRC/OVCCallejero.asmx/Consulta_DNPPP?" +
                 "&Provincia=" + province + "&Municipio=" + town +
                 "&Poligono=" + polygon + "&Parcela=" + parcel;
 

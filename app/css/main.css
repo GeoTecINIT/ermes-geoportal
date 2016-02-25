@@ -405,6 +405,17 @@ html, body, #map-index-div {
 .loading-icon-div-display{
     display: block;
 }
-/*#play-slider-button{*/
 
-/*}*/
+.simple-bold-text{
+    color: black;
+    font-weight: bold;
+    text-decoration: none;
+    /*/text-underline: false;*/
+}
+
+.simple-bold-text:hover{
+    color: black;
+    font-weight: bold;
+    text-decoration: none;
+    /*/text-underline: false;*/
+}

@@ -47,11 +47,15 @@ define([
         userProfile: null,
         userRegion: null,
         username: null,
+        userType: null,
         parcelsLayer: null,
         legendDigit: null,
         legendListener: null,
         limits: null,
         finder: null,
+        urlServer: "http://ermes.dlsi.uji.es:6787",
+        //urlServer: "http://localhost:6787",
+        apiVersion: "/api-v1",
 
 
         constructor: function(){
@@ -139,10 +143,11 @@ define([
 
             if (this.legendDigit){
                 this.legendDigit.destroy();
-                this._constructLegendDiv();
             }
+            this._constructLegendDiv();
 
             var legendTitle = this.activeMosaic;
+            if(!legendTitle) legendTitle = "Operational Layer";
             this.legendDigit = new Legend({
                 map: this.map,
                 layerInfos: [{layer: evt.layer, title: legendTitle }]
@@ -213,7 +218,9 @@ define([
                 username: this.username,
                 parcelsLayer: this.parcelsLayer,
                 limits: this.limits,
-                finder: this.finder
+                finder: this.finder,
+                urlServer: this.urlServer,
+                apiVersion: this.apiVersion
             }, 'basic-container-div');
             this.menusController.on("update-raster", lang.hitch(this,"_changeRaster"));
             this.menusController.on("remove-raster", lang.hitch(this,"_cleanMap"));
@@ -263,24 +270,43 @@ define([
                 new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([0, 255, 0]), 5),
                 new Color([255, 255, 0, 0])
             );
-            var parcelsURL = "http://ermes.dlsi.uji.es:6686/api/users/" + this.username;
-            var username = this.username;
-            var password = getCookie("password");
+
+            var symbolAlert = new SimpleFillSymbol(
+                SimpleFillSymbol.STYLE_SOLID,
+                new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([255, 0, 0]), 5),
+                new Color([255, 0, 0, 0])
+            );
+
+            var parcelsURL = this.urlServer + this.apiVersion +"/users/" + this.username;
+            //var username = this.username;
+            //var password = localStorage.password;
+            //var password = getCookie("password");
             xhr(parcelsURL, {
                 handleAs: "json",
                 method: "GET",
+                query: {
+                  withParcels: true
+                },
                 headers: {
                     "X-Requested-With": null,
-                    "X-Auth-Key": username+";"+password
+                    "X-Authorization": "Bearer " + localStorage.token
                 }
             }).then(lang.hitch(this, function (data) {
                     //var myParcels = data.parcels.split(',');
+                    var parcelsWithInfo = data.parcels;
                     var myParcels = data.user.parcels;
+
                     var layer =  this.parcelsLayer;
                     function findOwnedParcels(element, index, array) {
                         if(contains(myParcels, element.attributes.PARCEL_ID)){
                             var geometry = element.geometry;
-                            layer.add(new Graphic(geometry, symbol, element.attributes));
+                            var parcelInfo = _.find(parcelsWithInfo, {parcelId: element.attributes.PARCEL_ID});
+                            if(parcelInfo.inDanger){
+                                layer.add(new Graphic(geometry, symbolAlert, element.attributes));
+                            }
+                            else {
+                                layer.add(new Graphic(geometry, symbol, element.attributes));
+                            }
                         }
                     }
                     this.parcelsLayer.graphics.forEach(findOwnedParcels);
@@ -294,42 +320,76 @@ define([
         },
 
         _requestConfigFile: function() {
-            this.userRegion = getCookie("region");
-            this.userProfile = getCookie("profile");
-            this.username = getCookie("username");
+            this.userRegion = localStorage.region;
+            this.userProfile = localStorage.profile;
+            this.username = localStorage.username;
+            this.userType = localStorage.userType;
+
+            //this.userRegion = getCookie("region");
+            //this.userProfile = getCookie("profile");
+            //this.username = getCookie("username");
             var configFileURL;
             var profileId;
 
-            //TODO Translate this to the server User Model.
-            if(this.userRegion=="italy" && this.userProfile=="local") {
-                profileId = "IT-LOCAL";
-                configFileURL = "./config/config-italy-local.json";
+
+            if(this.userType=="guest"){
+                if (this.userRegion == "italy" && this.userProfile == "local") {
+                    profileId = "IT-LOCAL-GUEST";
+                    configFileURL = "./config/config-italy-local.json";
+                }
+                else if (this.userRegion == "italy" && this.userProfile == "regional") {
+                    profileId = "IT-REGIONAL-GUEST";
+                    configFileURL = "./config/config-italy-full.json";
+                }
+                else if (this.userRegion == "spain" && this.userProfile == "local") {
+                    profileId = "SP-LOCAL-GUEST";
+                    configFileURL = "./config/config-spain-local.json";
+                }
+                else if (this.userRegion == "spain" && this.userProfile == "regional") {
+                    profileId = "SP-REGIONAL-GUEST";
+                    configFileURL = "./config/config-spain-full.json";
+                }
+                else if (this.userRegion == "greece" && this.userProfile == "local") {
+                    profileId = "GK-LOCAL-GUEST";
+                    configFileURL = "./config/config-greece-local.json";
+                }
+                else if (this.userRegion == "greece" && this.userProfile == "regional") {
+                    profileId = "GK-REGIONAL-GUEST";
+                    configFileURL = "./config/config-greece-full.json";
+                }
             }
-            else if(this.userRegion=="italy" && this.userProfile=="regional") {
-                profileId = "IT-REGIONAL";
-                configFileURL = "./config/config-italy-full.json";
-            }
-            else if(this.userRegion=="spain" && this.userProfile=="local") {
-                profileId = "SP-LOCAL";
-                configFileURL = "./config/config-spain-local.json";
-            }
-            else if(this.userRegion=="spain" && this.userProfile=="regional") {
-                profileId = "SP-REGIONAL";
-                configFileURL = "./config/config-spain-full.json";
-            }
-            else if(this.userRegion=="greece" && this.userProfile=="local") {
-                profileId = "GK-LOCAL";
-                configFileURL = "./config/config-greece-local.json";
-            }
-            else if(this.userRegion=="greece" && this.userProfile=="regional") {
-                profileId = "GK-REGIONAL";
-                configFileURL = "./config/config-greece-full.json";
+            else {
+                //TODO Translate this to the server User Model.
+                if (this.userRegion == "italy" && this.userProfile == "local") {
+                    profileId = "IT-LOCAL";
+                    configFileURL = "./config/config-italy-local.json";
+                }
+                else if (this.userRegion == "italy" && this.userProfile == "regional") {
+                    profileId = "IT-REGIONAL";
+                    configFileURL = "./config/config-italy-full.json";
+                }
+                else if (this.userRegion == "spain" && this.userProfile == "local") {
+                    profileId = "SP-LOCAL";
+                    configFileURL = "./config/config-spain-local.json";
+                }
+                else if (this.userRegion == "spain" && this.userProfile == "regional") {
+                    profileId = "SP-REGIONAL";
+                    configFileURL = "./config/config-spain-full.json";
+                }
+                else if (this.userRegion == "greece" && this.userProfile == "local") {
+                    profileId = "GK-LOCAL";
+                    configFileURL = "./config/config-greece-local.json";
+                }
+                else if (this.userRegion == "greece" && this.userProfile == "regional") {
+                    profileId = "GK-REGIONAL";
+                    configFileURL = "./config/config-greece-full.json";
+                }
             }
 
             var success = lang.hitch(this, "_requestSuccess")
 
             //xhr("http://localhost:6686/config", {
-            xhr("http://ermes.dlsi.uji.es:6686/config", {
+            xhr(this.urlServer + "/config", {
                 handleAs: "json",
                 method: "POST",
                 data: {
@@ -337,16 +397,6 @@ define([
                 }
             }).then(success);
 
-            function getCookie(cname) {
-                var name = cname + "=";
-                var ca = document.cookie.split(';');
-                for(var i=0; i<ca.length; i++) {
-                    var c = ca[i];
-                    while (c.charAt(0)==' ') c = c.substring(1);
-                    if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
-                }
-                return "";
-            }
 
         }
 

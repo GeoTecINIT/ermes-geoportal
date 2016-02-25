@@ -202,7 +202,8 @@
 <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.3.0/lodash.min.js"></script>
 <script type="text/javascript" src="http://js.arcgis.com/3.12"></script>
 <script type="text/javascript" src="js/run.js"></script>
 
@@ -217,22 +218,24 @@
 </html>
 <script>
 
-  function getCookie(cname) {
-    var name = cname + "=";
-    var ca = document.cookie.split(';');
-    for(var i=0; i<ca.length; i++) {
-      var c = ca[i];
-      while (c.charAt(0)==' ') c = c.substring(1);
-      if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
-    }
-    return "";
-  }
-  var user = getCookie("username");
-  if (user == "") {
+//  function getCookie(cname) {
+//    var name = cname + "=";
+//    var ca = document.cookie.split(';');
+//    for(var i=0; i<ca.length; i++) {
+//      var c = ca[i];
+//      while (c.charAt(0)==' ') c = c.substring(1);
+//      if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+//    }
+//    return "";
+//  }
+  var user = localStorage.username;
+//  var user = getCookie("username");
+  if (!user) {
     window.location.replace("login.html");
   }
   else{
-    var profile = getCookie("profile");
+    var profile = localStorage.profile;
+//    var profile = getCookie("profile");
     if(profile=="local"){
       document.title = "ERMES - Local Geoportal";
     }
