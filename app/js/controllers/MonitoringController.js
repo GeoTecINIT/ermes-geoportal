@@ -144,7 +144,7 @@ define([
         _editObservationData: function(product){
             var productData = this.productsList[product][this.currentPosition[product]];
             var header = dom.byId("edit-product-form-title");
-            header.innerHTML = "Editing parcel: " + this.mongoData.parcels[0].parcelId  + ".";
+            header.innerHTML = "Editing parcel: " + this.mongoData.parcel.parcelId  + ".";
             this._askForFormTemplate(product, productData);
 
             //body.innerHTML = "Product: " + product + " ID: " + productId;
@@ -165,7 +165,7 @@ define([
 
             var formNode = dom.byId("form-template");
             //var url = "http://localhost:6686/api/products" + domAttr.get(formNode, "date-url") + "/" + productData._id;
-            var url = this.urlServer + this.apiVersion + "/products" + domAttr.get(formNode, "date-url") + "/" + productData._id;
+            var url = this.urlServer + this.apiVersion + "/products" + domAttr.get(formNode, "date-url") + "/" + productData.productId;
 
             var sendButton = dom.byId("confirm-edit-product-button");
             on(sendButton, 'click', lang.hitch(this, "_updateProduct", url, product, formNode, productData));
@@ -288,7 +288,65 @@ define([
                 this.map.infoWindow.setContent("There is no parcel Here!");
             }
 
-            var serviceURL = this.urlServer + this.apiVersion + "/warm/developmentStages";
+            //var serviceURL = this.urlServer + this.apiVersion + "/warm/developmentStages";
+            //if (response.features.length>0) {
+            //    var parcelid = response.features[0].attributes.PARCEL_ID;
+            //    var now = new Date();
+            //    var start = new Date(now.getFullYear(), 0, 0);
+            //    var diff = now - start;
+            //    var oneDay = 1000 * 60 * 60 * 24;
+            //
+            //    var doy = Math.floor(diff / oneDay);
+            //
+            //    xhr(serviceURL, {
+            //        handleAs: "json",
+            //        query: {
+            //            //username: username,
+            //            parcelId: parcelid,
+            //            //Use this values to check if it is working.
+            //            //parcelId: "ES52346237A02500111G",
+            //            //parcelId: "ITC4801818601100083B",
+            //            //doy: 200,
+            //            doy: doy,
+            //            year: now.getFullYear()
+            //        },
+            //        headers: {
+            //            "X-Requested-With": null,
+            //            "X-Authorization": "Bearer " + localStorage.token
+            //        }
+            //    }).then(lang.hitch(this, "_receivedData", "warm"), lang.hitch(this, "_receivedData", "warm", {}));
+            //}
+            //
+            //var serviceURL = this.urlServer + this.apiVersion + "/warm/abioticRisks";
+            //if (response.features.length>0) {
+            //    var parcelid = response.features[0].attributes.PARCEL_ID;
+            //    var now = new Date();
+            //    var start = new Date(now.getFullYear(), 0, 0);
+            //    var diff = now - start;
+            //    var oneDay = 1000 * 60 * 60 * 24;
+            //
+            //    var doy = Math.floor(diff / oneDay);
+            //
+            //    xhr(serviceURL, {
+            //        handleAs: "json",
+            //        query: {
+            //            //username: username,
+            //            parcelId: parcelid,
+            //            //Use this values to check if it is working.
+            //            //parcelId: "ES52346237A02500111G",
+            //            //parcelId: "ITC4801818601100083B",
+            //            //doy: 200,
+            //            doy: doy,
+            //            year: now.getFullYear()
+            //        },
+            //        headers: {
+            //            "X-Requested-With": null,
+            //            "X-Authorization": "Bearer " + localStorage.token
+            //        }
+            //    }).then(lang.hitch(this, "_receivedData", "warmInfection"), lang.hitch(this, "_receivedData", "warmInfection", {}));
+            //}
+
+            var serviceURL = this.urlServer + this.apiVersion + "/warm";
             if (response.features.length>0) {
                 var parcelid = response.features[0].attributes.PARCEL_ID;
                 var now = new Date();
@@ -316,35 +374,6 @@ define([
                     }
                 }).then(lang.hitch(this, "_receivedData", "warm"), lang.hitch(this, "_receivedData", "warm", {}));
             }
-
-            var serviceURL = this.urlServer + this.apiVersion + "/warm/abioticRisks";
-            if (response.features.length>0) {
-                var parcelid = response.features[0].attributes.PARCEL_ID;
-                var now = new Date();
-                var start = new Date(now.getFullYear(), 0, 0);
-                var diff = now - start;
-                var oneDay = 1000 * 60 * 60 * 24;
-
-                var doy = Math.floor(diff / oneDay);
-
-                xhr(serviceURL, {
-                    handleAs: "json",
-                    query: {
-                        //username: username,
-                        parcelId: parcelid,
-                        //Use this values to check if it is working.
-                        //parcelId: "ES52346237A02500111G",
-                        //parcelId: "ITC4801818601100083B",
-                        //doy: 200,
-                        doy: doy,
-                        year: now.getFullYear()
-                    },
-                    headers: {
-                        "X-Requested-With": null,
-                        "X-Authorization": "Bearer " + localStorage.token
-                    }
-                }).then(lang.hitch(this, "_receivedData", "warmInfection"), lang.hitch(this, "_receivedData", "warmInfection", {}));
-            }
         },
 
         _receivedData: function(profile, data, evt){
@@ -354,11 +383,11 @@ define([
             else if(profile=="warm"){
                 this.warmData = data;
             }
-            else if(profile=="warmInfection"){
-                this.warmInfectionData = data;
-            }
+            //else if(profile=="warmInfection"){
+            //    this.warmInfectionData = data;
+            //}
             this.localDataReceived++;
-            if(this.localDataReceived==3){
+            if(this.localDataReceived==2){
                 this.localDataReceived=0;
                 this.map.infoWindow.resize(350, 400);
 
@@ -458,25 +487,93 @@ define([
                         domConstruct.place(li, ul, "last");
                         domConstruct.place(ul, product, "last");
                     }
-                }
-                if(!this.warmInfectionData.error){
+
                     var label = dom.byId("infection");
-                    label.innerHTML = "Infections (WARM) (" + this.warmInfectionData.abioticRisks.length + "):";
-                    for(var i =0; i<this.warmInfectionData.abioticRisks.length; i++) {
+                    label.innerHTML = "Infections (WARM) (" + this.warmData.infectionRisks.length + "):";
+                    for(var i =0; i<this.warmData.infectionRisks.length; i++) {
                         var product = dom.byId("infection-data");
                         var ul = domConstruct.create("ul");
                         var li = domConstruct.create("li");
-                        var day = this.warmInfectionData.abioticRisks[i].doy;
+                        var day = this.warmData.infectionRisks[i].doy;
                         var dateShowed = new Date();
                         dateShowed.setDate(dateShowed.getDate() + i);
                         li.innerHTML = "<b>Date:</b> " + dateShowed.toDateString();
                         domConstruct.place(li, ul, "last");
                         var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Infection Risk:</b> " + this.warmInfectionData.abioticRisks[i].value;
+                        li.innerHTML = "<b>Infection Risk:</b> " + this.warmData.infectionRisks[i].value;
+                        domConstruct.place(li, ul, "last");
+                        domConstruct.place(ul, product, "last");
+                    }
+
+                    var label = dom.byId("abioticRisk");
+                    label.innerHTML = "Abiotic Risks (WARM) (" + this.warmData.abioticRisks.length + "):";
+                    for(var i =0; i<this.warmData.abioticRisks.length; i++) {
+                        var product = dom.byId("abioticRisk-data");
+                        var ul = domConstruct.create("ul");
+                        var li = domConstruct.create("li");
+                        var day = this.warmData.abioticRisks[i].doy;
+                        var dateShowed = new Date();
+                        dateShowed.setDate(dateShowed.getDate() + i);
+                        li.innerHTML = "<b>Date:</b> " + dateShowed.toDateString();
+                        domConstruct.place(li, ul, "last");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Abiotic Risk:</b> " + this.warmData.abioticRisks[i].value;
+                        domConstruct.place(li, ul, "last");
+                        domConstruct.place(ul, product, "last");
+                    }
+
+                    var label = dom.byId("biomass");
+                    label.innerHTML = "Biomasses (WARM) (" + this.warmData.biomasses.length + "):";
+                    for(var i =0; i<this.warmData.biomasses.length; i++) {
+                        var product = dom.byId("biomass-data");
+                        var ul = domConstruct.create("ul");
+                        var li = domConstruct.create("li");
+                        var day = this.warmData.biomasses[i].doy;
+                        var dateShowed = new Date();
+                        dateShowed.setDate(dateShowed.getDate() + i);
+                        li.innerHTML = "<b>Date:</b> " + dateShowed.toDateString();
+                        domConstruct.place(li, ul, "last");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Biomass:</b> " + this.warmData.biomasses[i].value;
+                        domConstruct.place(li, ul, "last");
+                        domConstruct.place(ul, product, "last");
+                    }
+
+                    var label = dom.byId("penicleBiomass");
+                    label.innerHTML = "Panicle Biomasses (WARM) (" + this.warmData.penicleBiomasses.length + "):";
+                    for(var i =0; i<this.warmData.penicleBiomasses.length; i++) {
+                        var product = dom.byId("penicleBiomass-data");
+                        var ul = domConstruct.create("ul");
+                        var li = domConstruct.create("li");
+                        var day = this.warmData.penicleBiomasses[i].doy;
+                        var dateShowed = new Date();
+                        dateShowed.setDate(dateShowed.getDate() + i);
+                        li.innerHTML = "<b>Date:</b> " + dateShowed.toDateString();
+                        domConstruct.place(li, ul, "last");
+                        var li = domConstruct.create("li");
+                        li.innerHTML = "<b>Panicle Biomass:</b> " + this.warmData.penicleBiomasses[i].value;
                         domConstruct.place(li, ul, "last");
                         domConstruct.place(ul, product, "last");
                     }
                 }
+                //if(!this.warmInfectionData.error){
+                //    var label = dom.byId("infection");
+                //    label.innerHTML = "Infections (WARM) (" + this.warmInfectionData.abioticRisks.length + "):";
+                //    for(var i =0; i<this.warmInfectionData.abioticRisks.length; i++) {
+                //        var product = dom.byId("infection-data");
+                //        var ul = domConstruct.create("ul");
+                //        var li = domConstruct.create("li");
+                //        var day = this.warmInfectionData.abioticRisks[i].doy;
+                //        var dateShowed = new Date();
+                //        dateShowed.setDate(dateShowed.getDate() + i);
+                //        li.innerHTML = "<b>Date:</b> " + dateShowed.toDateString();
+                //        domConstruct.place(li, ul, "last");
+                //        var li = domConstruct.create("li");
+                //        li.innerHTML = "<b>Infection Risk:</b> " + this.warmInfectionData.abioticRisks[i].value;
+                //        domConstruct.place(li, ul, "last");
+                //        domConstruct.place(ul, product, "last");
+                //    }
+                //}
             }
             else {
                 this.map.infoWindow.setTitle("Invalid Parcel.");
