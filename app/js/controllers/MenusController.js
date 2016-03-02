@@ -121,11 +121,14 @@ define([
 
 			_changeRaster: function(){
 				this.emit('update-raster', this.monitoringController.getActiveMosaicAndRaster());
+
 			},
 
 			_noneSelected: function(){
 				$('time-slider-container-div').removeClass('display-block').addClass('display-none');
 				this.emit('remove-raster', {});
+
+
 			},
 
 			getActiveMosaicAndRaster: function(){

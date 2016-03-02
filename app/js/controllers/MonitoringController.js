@@ -402,6 +402,17 @@ define([
                 var content = parcelTemplate;
                 this.map.infoWindow.setContent(content);
 
+
+
+                if(this.activeRaster) {
+                    $('#info-window-show-chart-button').removeClass('display-none').addClass('display-block');
+                    $('#info-window-show-chart-text').removeClass('display-block').addClass('display-none');
+                }
+                else{
+                    $('#info-window-show-chart-text').removeClass('display-none').addClass('display-block');
+                    $('#info-window-show-chart-button').removeClass('display-block').addClass('display-none');
+                }
+
                 var showInfoChartHandler = on(dom.byId("show-chart-from-info-window"), 'click', this.currentShowChartFunction);
 
                 this._createViewInfoHandlers();

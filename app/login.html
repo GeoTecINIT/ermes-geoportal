@@ -108,26 +108,47 @@
 
         // Show results asynchronously.
         posting.done(function (data) {
-            console.log(data);
-            if(!data)
-                $("#response").text("User or Password Wrong.");
-            else {
+           //console.log(data);
 
+            if(data.user) {
                 var user = data.user;
                 localStorage.username = user.username;
                 localStorage.region = user.region;
                 localStorage.profile = user.profile;
                 localStorage.userType = user.type;
-//                localStorage.password = password;
                 localStorage.token = token;
-
-//                document.cookie="username=" + data.user;
-//                document.cookie="region=" + data.region;
-//                document.cookie="profile=" + data.profile;
-//                document.cookie="password=" + password;
                 window.location.replace("./index.html");
             }
-        });
+            else if(data.errors[0]){
+                $("#response").text(data.errors[0].message);
+            }
+            else{
+                $("#response").text("Unexpected error.");
+            }
+
+
+//            if(!data)
+//                $("#response").text("User or Password Wrong.");
+//            else {
+//
+//                var user = data.user;
+//                localStorage.username = user.username;
+//                localStorage.region = user.region;
+//                localStorage.profile = user.profile;
+//                localStorage.userType = user.type;
+////                localStorage.password = password;
+//                localStorage.token = token;
+//
+////                document.cookie="username=" + data.user;
+////                document.cookie="region=" + data.region;
+////                document.cookie="profile=" + data.profile;
+////                document.cookie="password=" + password;
+//                window.location.replace("./index.html");
+//            }
+        })
+                .fail(function(error){
+                    $("#response").text("User or Password Wrong.");
+                });
     });
 
 </script>
