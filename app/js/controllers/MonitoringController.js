@@ -12,6 +12,7 @@ define([
     'dojo/topic',
     'dojo/request/xhr',
     'esri/tasks/query',
+    "esri/InfoTemplate",
     'dijit/_WidgetBase',
     'dijit/_TemplatedMixin',
     'controllers/MenusController',
@@ -28,7 +29,7 @@ define([
     "esri/tasks/GeometryService",
     'dojo/domReady!'
 ], function(declare, Evented, lang, when, on, dom, domConstruct, domAttr, domClass, domForm, Topic,  xhr, Query,
-            _WidgetBase, _TemplatedMixin, MenusController, template, parcelTemplate, productHelpTemplate,
+            InfoTemplate, _WidgetBase, _TemplatedMixin, MenusController, template, parcelTemplate, productHelpTemplate,
             ImageServiceIdentifyTask, MosaicRule, ImageServiceIdentifyParameters, MonitoringWidget,
             PictureMarkerSymbol, Graphic, ProjectParameters, GeometryService){
 
@@ -52,6 +53,8 @@ define([
         productsList: [],
         clickEvent: null,
         currentShowChartFunction: null,
+        statsLayerShowed: false,
+        statsLayer: null,
 
         constructor: function(args){
             lang.mixin(this, args);
@@ -68,6 +71,10 @@ define([
             Topic.subscribe("mosaic/raster-click", lang.hitch(this, '_rasterValuesCompleted'));
             Topic.subscribe("coordinates/goAndChart", lang.hitch(this, '_showCoordinatesPoint'));
             Topic.subscribe("coordinates/moveMarker", lang.hitch(this, '_moveMarker'));
+            Topic.subscribe("stats/layerSelected", lang.hitch(this, '_statsLayerSelected'));
+            Topic.subscribe("stats/layerUnselected", lang.hitch(this, '_statsLayerRemoved'));
+
+
 
             if(this.userProfile=="regional") {
                 this.handler = on.pausable(this.map, 'click', lang.hitch(this, '_showClickedPoint'));
@@ -389,7 +396,7 @@ define([
             this.localDataReceived++;
             if(this.localDataReceived==2){
                 this.localDataReceived=0;
-                this.map.infoWindow.resize(350, 400);
+                this.map.infoWindow.resize(400, 400);
 
                 this._showInfoWindow()
             }
@@ -413,68 +420,93 @@ define([
                     $('#info-window-show-chart-button').removeClass('display-block').addClass('display-none');
                 }
 
+                if(data.parcel.inDanger) {
+                    $('#remove-alert-button-h4').removeClass('display-none').addClass('display-block');
+                    $('#remove-alert-text-h4').removeClass('display-block').addClass('display-none');
+                    $('#remove-alert-button').attr("data-parcelid", data.parcel.parcelId);
+                }
+                else{
+                    $('#remove-alert-text-h4').removeClass('display-none').addClass('display-block');
+                    $('#remove-alert-button-h4').removeClass('display-block').addClass('display-none');
+                }
+
                 var showInfoChartHandler = on(dom.byId("show-chart-from-info-window"), 'click', this.currentShowChartFunction);
+
+                var removeAlertHandler = on(dom.byId("remove-alert-button"), 'click', lang.hitch(this, "_removeAlert"));
+
 
                 this._createViewInfoHandlers();
                 this.map.infoWindow.setTitle("Parcel ID: " + data.parcel.parcelId);
 
                 if(data.agrochemicals.length>0){
+                    $('#agrochemicals-nav').toggleClass("display-none display-block");
                     var quantity = data.agrochemicals.length;
                     var specificData = data.agrochemicals;
                     this._askForInfoTemplate('agrochemical', quantity, specificData);
                 }
                 if(data.cropInfos.length>0){
+                    $('#cropInfos-nav').toggleClass("display-none display-block");
                     var quantity = data.cropInfos.length;
                     var specificData = data.cropInfos;
                     this._askForInfoTemplate('cropInfo', quantity, specificData);
 
                 }
                 if(data.diseases.length>0){
+                    $('#diseases-nav').toggleClass("display-none display-block");
                     var quantity = data.diseases.length;
                     var specificData = data.diseases;
                     this._askForInfoTemplate('disease', quantity, specificData);
                 }
                 if(data.fertilizers.length>0){
+                    $('#fertilizers-nav').toggleClass("display-none display-block");
                     var quantity = data.fertilizers.length;
                     var specificData = data.fertilizers;
                     this._askForInfoTemplate('fertilizer', quantity, specificData);
                 }
                 if(data.irrigations.length>0){
+                    $('#irrigationInfos-nav').toggleClass("display-none display-block");
                     var quantity = data.irrigations.length;
                     var specificData = data.irrigations;
                     this._askForInfoTemplate('irrigationInfo', quantity, specificData);
                 }
                 if(data.observations.length>0){
+                    $('#observations-nav').toggleClass("display-none display-block");
                     var quantity = data.observations.length;
                     var specificData = data.observations;
                     this._askForInfoTemplate('observation', quantity, specificData);
                 }
                 if(data.soilConditions.length>0){
+                    $('#parcelStatus-nav').toggleClass("display-none display-block");
                     var quantity = data.soilConditions.length;
                     var specificData = data.soilConditions;
                     this._askForInfoTemplate('parcelStatus', quantity, specificData);
                 }
                 if(data.insects.length>0){
+                    $('#phatogens-nav').toggleClass("display-none display-block");
                     var quantity = data.insects.length;
                     var specificData = data.insects;
                     this._askForInfoTemplate('pathogen', quantity, specificData);
                 }
                 if(data.cropPhenologies.length>0){
+                    $('#phenologies-nav').toggleClass("display-none display-block");
                     var quantity = data.cropPhenologies.length;
                     var specificData = data.cropPhenologies;
                     this._askForInfoTemplate('phenology', quantity, specificData);
                 }
                 if(data.soilTypes.length>0){
+                    $('#soils-nav').toggleClass("display-none display-block");
                     var quantity = data.soilTypes.length;
                     var specificData = data.soilTypes;
                     this._askForInfoTemplate('soil', quantity, specificData);
                 }
                 if(data.weeds.length>0){
+                    $('#weeds-nav').toggleClass("display-none display-block");
                     var quantity = data.weeds.length;
                     var specificData = data.weeds;
                     this._askForInfoTemplate('weed', quantity, specificData);
                 }
                 if(data.yields.length>0){
+                    $('#yields-nav').toggleClass("display-none display-block");
                     var quantity = data.yields.length;
                     var specificData = data.yields;
                     this._askForInfoTemplate('yield', quantity, specificData);
@@ -594,6 +626,28 @@ define([
             }
         },
 
+        _removeAlert: function(evt){
+            var parcelId =  $('#remove-alert-button').attr("data-parcelid");
+            //MAKE DELETE OF ALERTS
+
+            var url = this.urlServer + this.apiVersion + "/parcels/" + parcelId + "/alerts";
+            xhr(url, {
+                handleAs: "json",
+                method: "DELETE",
+                headers: {
+                    "X-Requested-With": null,
+                    "X-Authorization": "Bearer " + localStorage.token
+                }
+            }).then(lang.hitch(this, "_alertRemoved"));
+
+            $('#remove-alert-text-h4').removeClass('display-none').addClass('display-block');
+            $('#remove-alert-button-h4').removeClass('display-block').addClass('display-none');
+        },
+
+        _alertRemoved: function(response){
+            this.parcelsLayer.refresh();
+        },
+
         _askForInfoTemplate: function(product, quantity, data){
             //var url = "http://localhost:6686/info-template/" + product;
             var url = this.urlServer + "/info-template/" + product;
@@ -688,7 +742,7 @@ define([
 
         _showIrrigationInfoInfo: function(template, quantity, data){
             var label = dom.byId("irrigationInfos");
-            label.innerHTML = "Irrigiation Info (" + quantity + "):";
+            label.innerHTML = "Irrigiation (" + quantity + "):";
             this.productsList['irrigationInfo'] = [];
             for(var i =0; i<quantity; i++) {
                 var compiled = _.template(template);
@@ -720,7 +774,7 @@ define([
 
         _showParcelStatusInfo: function(template, quantity, data){
             var label = dom.byId("parcelStatus");
-            label.innerHTML = "Parcel Status (" + quantity + "):";
+            label.innerHTML = "Soil Condition (" + quantity + "):";
             this.productsList['parcelStatus'] = [];
             for(var i =0; i<quantity; i++) {
                 var compiled = _.template(template);
@@ -736,7 +790,7 @@ define([
 
         _showPathogensInfo: function(template, quantity, data){
             var label = dom.byId("phatogens");
-            label.innerHTML = "Pathogens (" + quantity + "):";
+            label.innerHTML = "Insects (" + quantity + "):";
             this.productsList['pathogen'] = [];
             for(var i =0; i<quantity; i++) {
                 var compiled = _.template(template);
@@ -752,7 +806,7 @@ define([
 
         _showPhenologiesInfo: function(template, quantity, data){
             var label = dom.byId("phenologies");
-            label.innerHTML = "Phenologies (" + quantity + "):";
+            label.innerHTML = "Crop Phenology (" + quantity + "):";
             this.productsList['phenology'] = [];
             for(var i =0; i<quantity; i++) {
                 var compiled = _.template(template);
@@ -768,7 +822,7 @@ define([
 
         _showSoilsInfo: function(template, quantity, data){
             var label = dom.byId("soils");
-            label.innerHTML = "Soils (" + quantity + "):";
+            label.innerHTML = "Soil Type (" + quantity + "):";
             this.productsList['soil'] = [];
             for(var i =0; i<quantity; i++) {
                 var compiled = _.template(template);
@@ -836,26 +890,39 @@ define([
             if(this._isPointInLimits(evt.mapPoint)) {
                 this._stopPlayMode();
                 Topic.publish("coordinates/updatePointClicked", evt.mapPoint);
-                if (this.mosaics[this.activeMosaic] && this.mosaics[this.activeMosaic].plotType != 0) {
-                    this.mosaics[this.activeMosaic].getRasterValues(evt.mapPoint);
-                    this.handler.pause();
-                    this.destroyChart();
-                    this._showLoadingImage();
-                    //var div = domConstruct.create("div");
-                    //domAttr.set(div, "id", "loading-image");
-                    //var span = domConstruct.create("span");
-                    //domAttr.set(span, "class", "glyphicon glyphicon-refresh glyphicon-refresh-animate");
-                    //var h1 = domConstruct.create("h1");
-                    //domConstruct.place(span, h1, "only");
-                    //domConstruct.place(h1, div, "only");
-                    //var container = dom.byId("monitoring-div");
-                    //domConstruct.place(div, container, "last");
-                    this._updateGraph(evt.mapPoint);
+                if(!this.statsLayerShowed) {
+                    if (this.mosaics[this.activeMosaic] && this.mosaics[this.activeMosaic].plotType != 0) {
+                        this.mosaics[this.activeMosaic].getRasterValues(evt.mapPoint);
+                        this.handler.pause();
+                        this.destroyChart();
+                        this._showLoadingImage();
+
+                        this._updateGraph(evt.mapPoint);
+                    }
                 }
-                //else if(true){
-                //
-                //}
+                else{
+                    lang.hitch(this, "_showStats", evt.mapPoint)();
+                }
+
             }
+        },
+
+        _showStats: function(point){
+
+            console.log("Show Stats!");
+        },
+
+        _statsLayerSelected: function(operationalLayer){
+            this.statsLayerShowed = true;
+            this.handler.resume();
+            this.statsLayer = operationalLayer;
+            console.log("Layer selected");
+        },
+
+        _statsLayerRemoved: function(operationalLayer){
+            this.statsLayerShowed = false;
+            console.log("Layer UNselected");
+
         },
 
         _showCoordinatesPoint: function(point){

@@ -15,6 +15,7 @@ define([
     "models/Mosaic",
     "dojo/topic",
     'esri/layers/FeatureLayer',
+    "esri/InfoTemplate",
     "esri/layers/ArcGISDynamicMapServiceLayer",
     'dijit/_WidgetBase',
     'dijit/_TemplatedMixin',
@@ -30,7 +31,7 @@ define([
     "esri/dijit/TimeSlider",
     'dojo/domReady!'
 ], function (declare, Evented, lang, arrayUtils, on, dom, domConstruct, domAttr, esriRequest, Map,
-             Scalebar, InfoWindow, Legend, Mosaic, Topic, FeatureLayer, ArcGISDynamicMapServiceLayer,
+             Scalebar, InfoWindow, Legend, Mosaic, Topic, FeatureLayer, InfoTemplate, ArcGISDynamicMapServiceLayer,
              _WidgetBase, _TemplatedMixin, MenusController, Extent,
              SimpleRenderer, SimpleLineSymbol, SimpleFillSymbol, Color, Graphic,
             xhr, Query, TimeSlider) {
@@ -243,6 +244,7 @@ define([
                 var ldescritpion = response.layers[i].description;
                 var tempLayer = new FeatureLayer(lurl, {
                     id: lid,
+                    infoTemplate: new InfoTemplate("Attributes", "${*}")
                 });
                 this.layers[lid] = tempLayer;
                 this.layers.length++;

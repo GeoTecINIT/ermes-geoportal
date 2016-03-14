@@ -8,13 +8,14 @@ define([
 	'esri/dijit/Print',
     'dojo/_base/lang',
     'dojo/when',
+	'dojo/topic',
     'dijit/_WidgetBase',
 	'dijit/_TemplatedMixin',
     'controllers/MenusController',
     'text!templates/settingsMenu.tpl.html',
     'dojo/domReady!'	
 	], function(declare, on, dom, domClass, domConstruct, domAttr, Print,
-				lang, when, _WidgetBase, _TemplatedMixin, MenusController, template){
+				lang, when, Topic, _WidgetBase, _TemplatedMixin, MenusController, template){
 		
 		return declare([_WidgetBase, _TemplatedMixin], {
 			templateString: template,
@@ -89,9 +90,11 @@ define([
 			if( layer == null){
 				layer = this.layers[id];
 				this.map.addLayer(layer);
+				Topic.publish("stats/layerSelected", layer);
 			}
 			else{
 				this.map.removeLayer(layer)
+				Topic.publish("stats/layerUnselected", layer);
 			}
 			domClass.toggle(dom.byId(id + "-button"), 'btn-info btn-default');
 		},

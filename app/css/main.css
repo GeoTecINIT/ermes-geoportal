@@ -419,3 +419,10 @@ html, body, #map-index-div {
     text-decoration: none;
     /*/text-underline: false;*/
 }
+
+#show-play-menu-button{
+    position: absolute;
+    left: 0%;
+    top: 15%;
+}
+

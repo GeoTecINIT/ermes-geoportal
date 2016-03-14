@@ -77,6 +77,16 @@ $(document).on('ui-ready', function(evt) {
         $("#legend-icon-div").toggleClass("legend-icon-div-visible legend-icon-div-hidden");
     });
 
+    $('#hide-play-menu-button').on('click', function(){
+        $("#time-slider-container-div").toggleClass("display-none display-block");
+        $("#show-play-menu-button").toggleClass("display-block display-none");
+    });
+
+    $('#show-play-menu-button').on('click', function(){
+        $("#time-slider-container-div").toggleClass("display-none display-block");
+        $("#show-play-menu-button").toggleClass("display-none display-block");
+    })
+
 
 
 

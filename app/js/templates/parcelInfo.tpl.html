@@ -4,29 +4,18 @@
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active"><a href="#local-tab" aria-controls="home" role="tab" data-toggle="tab">Local Data</a></li>
         <li role="presentation"><a href="#model-tab" aria-controls="profile" role="tab" data-toggle="tab">Model Data</a></li>
-        <li role="presentation"><a href="#chart-tab" aria-controls="messages" role="tab" data-toggle="tab">Chart</a></li>
+        <li role="presentation"><a href="#chart-tab" aria-controls="messages" role="tab" data-toggle="tab">Chart Satellite<br>Time Series</a></li>
     </ul>
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="local-tab">
-            <div class="panel panel-default">
-                <div class="panel-heading" role="tab" id="agrochemicalsHeading">
-                    <h4 class="panel-title">
-                        <a id="agrochemicals" role="button" data-toggle="collapse" data-parent="#accordion" href="#agrochemicalsCollapse" aria-expanded="true" aria-controls="agrochemicalsCollapse">
-                            Agrochemicals (0):
-                        </a>
-                    </h4>
-                </div>
-                <div id="agrochemicalsCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="agrochemicalsHeading">
-                    <div class="panel-body" id="agrochemicals-data">
-                        <nav>
-                            <ul class="pager">
-                                <li><a id="agrochemicals-previous-button" href="#">Prev</a></li>
-                                <li><a id="agrochemicals-edit-button" href="#" data-toggle="modal" data-target="#edit-product-form">Edit</a></li>
-                                <li><a id="agrochemicals-next-button" href="#">Next</a></li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
+
+            <div class="panel-heading" role="tab">
+                <h4 id="remove-alert-button-h4" class="panel-title display-none">
+                    <button class="btn btn-danger" id="remove-alert-button" data-parcelid="">Remove Alert</button>
+                </h4>
+                <h4 id="remove-alert-text-h4" class="panel-title display-none">
+                    <p>This parcel has no alerts.</p>
+                </h4>
             </div>
 
             <div class="panel panel-default">
@@ -37,13 +26,97 @@
                         </a>
                     </h4>
                 </div>
-                <div id="cropInfoCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="cropInfoHeading">
-                    <div class="panel-body" id="cropInfos-data">
+                <div id="cropInfoCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="cropInfoHeading" >
+                    <div class="panel-body" id="cropInfos-data" >
                         <nav>
-                            <ul class="pager">
+                            <ul id="cropInfos-nav" class="pager display-none">
                                 <li><a id="cropInfo-previous-button" href="#">Prev</a></li>
                                 <li><a id="cropInfo-edit-button" href="#" data-toggle="modal" data-target="#edit-product-form">Edit</a></li>
                                 <li><a id="cropInfo-next-button" href="#">Next</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="soilsHeading">
+                    <h4 class="panel-title">
+                        <a id="soils" class="soilsCollapse" role="button" data-toggle="collapse" data-parent="#accordion" href="#soilsCollapse" aria-expanded="false" aria-controls="soilsCollapse">
+                            Soil Type (0):
+                        </a>
+                    </h4>
+                </div>
+                <div id="soilsCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="soilsHeading">
+                    <div class="panel-body" id="soils-data">
+                        <nav>
+                            <ul id="soils-nav" class="pager display-none">
+                                <li><a id="soil-previous-button" href="#">Prev</a></li>
+                                <li><a id="soil-edit-button" href="#" data-toggle="modal" data-target="#edit-product-form">Edit</a></li>
+                                <li><a id="soil-next-button" href="#">Next</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="parcelStatusHeading">
+                    <h4 class="panel-title">
+                        <a id="parcelStatus" role="button" data-toggle="collapse" data-parent="#accordion" href="#parcelStatusCollapse" aria-expanded="true" aria-controls="parcelStatusCollapse">
+                            Soil Condition (0):
+                        </a>
+                    </h4>
+                </div>
+                <div id="parcelStatusCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="parcelStatusHeading">
+                    <div class="panel-body" id="parcelStatus-data">
+                        <nav>
+                            <ul id="parcelStatus-nav" class="pager display-none">
+                                <li><a id="parcelStatus-previous-button" href="#">Prev</a></li>
+                                <li><a id="parcelStatus-edit-button" href="#" data-toggle="modal" data-target="#edit-product-form">Edit</a></li>
+                                <li><a id="parcelStatus-next-button" href="#">Next</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="phenologiesHeading">
+                    <h4 class="panel-title">
+                        <a id="phenologies" role="button" data-toggle="collapse" data-parent="#accordion" href="#phenologiesCollapse" aria-expanded="true" aria-controls="phenologiesCollapse">
+                            Crop Phenology (0):
+                        </a>
+                    </h4>
+                </div>
+                <div id="phenologiesCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="phenologiesHeading">
+                    <div class="panel-body" id="phenologies-data">
+                        <nav>
+                            <ul id="phenologies-nav" class="pager display-none">
+                                <li><a id="phenology-previous-button" href="#">Prev</a></li>
+                                <li><a id="phenology-edit-button" href="#" data-toggle="modal" data-target="#edit-product-form">Edit</a></li>
+                                <li><a id="phenology-next-button" href="#">Next</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="phatogensHeading">
+                    <h4 class="panel-title">
+                        <a id="phatogens" class="phatogensCollapse" role="button" data-toggle="collapse" data-parent="#accordion" href="#phatogensCollapse" aria-expanded="false" aria-controls="phatogensCollapse">
+                            Insects (0):
+                        </a>
+                    </h4>
+                </div>
+                <div id="phatogensCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="phatogensHeading">
+                    <div class="panel-body" id="phatogens-data">
+                        <nav>
+                            <ul id="phatogens-nav" class="pager display-none">
+                                <li><a id="pathogen-previous-button" href="#">Prev</a></li>
+                                <li><a id="pathogen-edit-button" href="#" data-toggle="modal" data-target="#edit-product-form">Edit</a></li>
+                                <li><a id="pathogen-next-button" href="#">Next</a></li>
                             </ul>
                         </nav>
                     </div>
@@ -61,157 +134,10 @@
                 <div id="diseasesCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="diseasesHeading">
                     <div class="panel-body" id="diseases-data">
                         <nav>
-                            <ul class="pager">
+                            <ul id="diseases-nav" class="pager display-none">
                                 <li><a id="disease-previous-button" href="#">Prev</a></li>
                                 <li><a id="disease-edit-button" href="#" data-toggle="modal" data-target="#edit-product-form">Edit</a></li>
                                 <li><a id="disease-next-button" href="#">Next</a></li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-
-            <div class="panel panel-default">
-                <div class="panel-heading" role="tab" id="fertilizersHeading">
-                    <h4 class="panel-title">
-                        <a id="fertilizers" class="fertilizersCollapse" role="button" data-toggle="collapse" data-parent="#accordion" href="#fertilizersCollapse" aria-expanded="false" aria-controls="fertilizersCollapse">
-                            Fertilizers (0):
-                        </a>
-                    </h4>
-                </div>
-                <div id="fertilizersCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="fertilizersHeading">
-                    <div class="panel-body" id="fertilizers-data">
-                        <nav>
-                            <ul class="pager">
-                                <li><a id="fertilizer-previous-button" href="#">Prev</a></li>
-                                <li><a id="fertilizer-edit-button" href="#" data-toggle="modal" data-target="#edit-product-form">Edit</a></li>
-                                <li><a id="fertilizer-next-button" href="#">Next</a></li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-
-            <div class="panel panel-default">
-                <div class="panel-heading" role="tab" id="irrigationInfosHeading">
-                    <h4 class="panel-title">
-                        <a id="irrigationInfos" role="button" data-toggle="collapse" data-parent="#accordion" href="#irrigationInfosCollapse" aria-expanded="true" aria-controls="irrigationInfosCollapse">
-                            Irrigation Infos (0):
-                        </a>
-                    </h4>
-                </div>
-                <div id="irrigationInfosCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="irrigationInfosHeading">
-                    <div class="panel-body" id="irrigationInfos-data">
-                        <nav>
-                            <ul class="pager">
-                                <li><a id="irrigationInfos-previous-button" href="#">Prev</a></li>
-                                <li><a id="irrigationInfos-edit-button" href="#" data-toggle="modal" data-target="#edit-product-form">Edit</a></li>
-                                <li><a id="irrigationInfos-next-button" href="#">Next</a></li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-
-            <div class="panel panel-default">
-                <div class="panel-heading" role="tab" id="observationsHeading">
-                    <h4 class="panel-title">
-                        <a id="observations" class="observationsCollapse" role="button" data-toggle="collapse" data-parent="#accordion" href="#observationsCollapse" aria-expanded="false" aria-controls="observationsCollapse">
-                            Observations (0):
-                        </a>
-                    </h4>
-                </div>
-                <div id="observationsCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="observationsHeading">
-                    <div class="panel-body" id="observations-data">
-                        <nav>
-                            <ul class="pager">
-                                <li><a id="observation-previous-button" href="#">Prev</a></li>
-                                <li><a id="observation-edit-button" href="#" data-toggle="modal" data-target="#edit-product-form">Edit</a></li>
-                                <li><a id="observation-next-button" href="#">Next</a></li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-
-            <div class="panel panel-default">
-                <div class="panel-heading" role="tab" id="parcelStatusHeading">
-                    <h4 class="panel-title">
-                        <a id="parcelStatus" role="button" data-toggle="collapse" data-parent="#accordion" href="#parcelStatusCollapse" aria-expanded="true" aria-controls="parcelStatusCollapse">
-                            Parcel Status (0):
-                        </a>
-                    </h4>
-                </div>
-                <div id="parcelStatusCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="parcelStatusHeading">
-                    <div class="panel-body" id="parcelStatus-data">
-                        <nav>
-                            <ul class="pager">
-                                <li><a id="parcelStatus-previous-button" href="#">Prev</a></li>
-                                <li><a id="parcelStatus-edit-button" href="#" data-toggle="modal" data-target="#edit-product-form">Edit</a></li>
-                                <li><a id="parcelStatus-next-button" href="#">Next</a></li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-
-            <div class="panel panel-default">
-                <div class="panel-heading" role="tab" id="phatogensHeading">
-                    <h4 class="panel-title">
-                        <a id="phatogens" class="phatogensCollapse" role="button" data-toggle="collapse" data-parent="#accordion" href="#phatogensCollapse" aria-expanded="false" aria-controls="phatogensCollapse">
-                            Pathogens (0):
-                        </a>
-                    </h4>
-                </div>
-                <div id="phatogensCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="phatogensHeading">
-                    <div class="panel-body" id="phatogens-data">
-                        <nav>
-                            <ul class="pager">
-                                <li><a id="pathogen-previous-button" href="#">Prev</a></li>
-                                <li><a id="pathogen-edit-button" href="#" data-toggle="modal" data-target="#edit-product-form">Edit</a></li>
-                                <li><a id="pathogen-next-button" href="#">Next</a></li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-
-            <div class="panel panel-default">
-                <div class="panel-heading" role="tab" id="phenologiesHeading">
-                    <h4 class="panel-title">
-                        <a id="phenologies" role="button" data-toggle="collapse" data-parent="#accordion" href="#phenologiesCollapse" aria-expanded="true" aria-controls="phenologiesCollapse">
-                            Phenologies (0):
-                        </a>
-                    </h4>
-                </div>
-                <div id="phenologiesCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="phenologiesHeading">
-                    <div class="panel-body" id="phenologies-data">
-                        <nav>
-                            <ul class="pager">
-                                <li><a id="phenology-previous-button" href="#">Prev</a></li>
-                                <li><a id="phenology-edit-button" href="#" data-toggle="modal" data-target="#edit-product-form">Edit</a></li>
-                                <li><a id="phenology-next-button" href="#">Next</a></li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-
-            <div class="panel panel-default">
-                <div class="panel-heading" role="tab" id="soilsHeading">
-                    <h4 class="panel-title">
-                        <a id="soils" class="soilsCollapse" role="button" data-toggle="collapse" data-parent="#accordion" href="#soilsCollapse" aria-expanded="false" aria-controls="soilsCollapse">
-                            Soils (0):
-                        </a>
-                    </h4>
-                </div>
-                <div id="soilsCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="soilsHeading">
-                    <div class="panel-body" id="soils-data">
-                        <nav>
-                            <ul class="pager">
-                                <li><a id="soil-previous-button" href="#">Prev</a></li>
-                                <li><a id="soil-edit-button" href="#" data-toggle="modal" data-target="#edit-product-form">Edit</a></li>
-                                <li><a id="soil-next-button" href="#">Next</a></li>
                             </ul>
                         </nav>
                     </div>
@@ -229,10 +155,75 @@
                 <div id="weedsCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="weedsHeading">
                     <div class="panel-body" id="weeds-data">
                         <nav>
-                            <ul class="pager">
+                            <ul id="weeds-nav" class="pager display-none">
                                 <li><a id="weed-previous-button" href="#">Prev</a></li>
                                 <li><a id="weed-edit-button" href="#" data-toggle="modal" data-target="#edit-product-form">Edit</a></li>
                                 <li><a id="weed-next-button" href="#">Next</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+
+            <!--Abiotic Stress-->
+
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="fertilizersHeading">
+                    <h4 class="panel-title">
+                        <a id="fertilizers" class="fertilizersCollapse" role="button" data-toggle="collapse" data-parent="#accordion" href="#fertilizersCollapse" aria-expanded="false" aria-controls="fertilizersCollapse">
+                            Fertilizers (0):
+                        </a>
+                    </h4>
+                </div>
+                <div id="fertilizersCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="fertilizersHeading">
+                    <div class="panel-body" id="fertilizers-data">
+                        <nav>
+                            <ul id="fertilizers-nav" class="pager display-none">
+                                <li><a id="fertilizer-previous-button" href="#">Prev</a></li>
+                                <li><a id="fertilizer-edit-button" href="#" data-toggle="modal" data-target="#edit-product-form">Edit</a></li>
+                                <li><a id="fertilizer-next-button" href="#">Next</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="agrochemicalsHeading">
+                    <h4 class="panel-title">
+                        <a id="agrochemicals" role="button" data-toggle="collapse" data-parent="#accordion" href="#agrochemicalsCollapse" aria-expanded="true" aria-controls="agrochemicalsCollapse">
+                            Agrochemicals (0):
+                        </a>
+                    </h4>
+                </div>
+                <div id="agrochemicalsCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="agrochemicalsHeading">
+                    <div class="panel-body" id="agrochemicals-data">
+                        <nav>
+                            <ul id="agrochemicals-nav" class="pager display-none">
+                                <li><a id="agrochemicals-previous-button" href="#">Prev</a></li>
+                                <li><a id="agrochemicals-edit-button" href="#" data-toggle="modal" data-target="#edit-product-form">Edit</a></li>
+                                <li><a id="agrochemicals-next-button" href="#">Next</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="irrigationInfosHeading">
+                    <h4 class="panel-title">
+                        <a id="irrigationInfos" role="button" data-toggle="collapse" data-parent="#accordion" href="#irrigationInfosCollapse" aria-expanded="true" aria-controls="irrigationInfosCollapse">
+                            Irrigation (0):
+                        </a>
+                    </h4>
+                </div>
+                <div id="irrigationInfosCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="irrigationInfosHeading">
+                    <div class="panel-body" id="irrigationInfos-data">
+                        <nav>
+                            <ul id="irrigationInfos-nav" class="pager display-none">
+                                <li><a id="irrigationInfos-previous-button" href="#">Prev</a></li>
+                                <li><a id="irrigationInfos-edit-button" href="#" data-toggle="modal" data-target="#edit-product-form">Edit</a></li>
+                                <li><a id="irrigationInfos-next-button" href="#">Next</a></li>
                             </ul>
                         </nav>
                     </div>
@@ -250,7 +241,7 @@
                 <div id="yieldsCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="yieldsHeading">
                     <div class="panel-body" id="yields-data">
                         <nav>
-                            <ul class="pager">
+                            <ul id="yields-nav" class="pager display-none">
                                 <li><a id="yield-previous-button" href="#">Prev</a></li>
                                 <li><a id="yield-edit-button" href="#" data-toggle="modal" data-target="#edit-product-form">Edit</a></li>
                                 <li><a id="yield-next-button" href="#">Next</a></li>
@@ -259,6 +250,28 @@
                     </div>
                 </div>
             </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="observationsHeading">
+                    <h4 class="panel-title">
+                        <a id="observations" class="observationsCollapse" role="button" data-toggle="collapse" data-parent="#accordion" href="#observationsCollapse" aria-expanded="false" aria-controls="observationsCollapse">
+                            Observations (0):
+                        </a>
+                    </h4>
+                </div>
+                <div id="observationsCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="observationsHeading">
+                    <div class="panel-body" id="observations-data">
+                        <nav>
+                            <ul id="observations-nav" class="pager display-none">
+                                <li><a id="observation-previous-button" href="#">Prev</a></li>
+                                <li><a id="observation-edit-button" href="#" data-toggle="modal" data-target="#edit-product-form">Edit</a></li>
+                                <li><a id="observation-next-button" href="#">Next</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
         <div role="tabpanel" class="tab-pane" id="model-tab">
