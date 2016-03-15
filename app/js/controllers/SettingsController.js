@@ -43,12 +43,17 @@ define([
 				templates: [{
 					label: "PDF",
 					format: "PDF",
-					layout: "A4 Portrait",
+					layout: "A3 Landscape",
 					layoutOptions: {
 						titleText: "Printed Map",
 						authorText: "ERMES Printer Service",
 						copyrightText: "ERMES",
 						scalebarUnit: "Kilometers",
+					},
+					exportOptions: {
+						width: 2000,
+						height: 2000,
+						dpi: 96
 					}
 				}]
 			}, dom.byId('print-button-div'));
@@ -120,7 +125,13 @@ define([
         _printMap: function(){
 			var printer = new Print({
 				map: this.map,
-				url: "http://sampleserver6.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task"
+				url: "http://sampleserver6.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task",
+				exportOptions: {
+					width: 2000,
+					height: 2000,
+					dpi: 96
+				},
+				layout: "A4 Portrait"
 			}, dom.byId('print-button'));
 			printer.startup();
 			//window.print();

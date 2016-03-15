@@ -244,7 +244,7 @@ define([
                 var ldescritpion = response.layers[i].description;
                 var tempLayer = new FeatureLayer(lurl, {
                     id: lid,
-                    infoTemplate: new InfoTemplate("Attributes", "${*}")
+                    infoTemplate: new InfoTemplate()
                 });
                 this.layers[lid] = tempLayer;
                 this.layers.length++;
