@@ -126,7 +126,7 @@ define([
 
             if(this.mosaic.plotType==5) {
                 var arrayData = "";
-                arrayData += "x,2015,AVG,Forecast\n";
+                arrayData += "x," + this.mosaic.year + ",AVG,Forecast\n";
                 var csvHeader = ["date", "currValue", "avg", "forecast"];
                 for (var i = 0; i < seriesValues[1].length; i++) {
                     if (i < seriesValues[0].length) {
@@ -151,7 +151,7 @@ define([
             }
             else if(this.mosaic.plotType==4) {
                 var arrayData = "";
-                arrayData += "x,2015,AVG,Forecast\n";
+                arrayData += "x," + this.mosaic.year + ",AVG,Forecast\n";
                 var csvHeader = ["date", "currValue", "currValStdDev", "avg", "avgStdDev", "forecast", "forecastStdDev"];
                 for (var i = 0; i < seriesValues[1].length; i++) {
                     if (i < seriesValues[0].length) {
@@ -176,7 +176,7 @@ define([
             }
             else if(this.mosaic.plotType==3) {
                 var arrayData = "";
-                arrayData += "x,2015,AVG\n";
+                arrayData += "x," + this.mosaic.year + ",AVG\n";
                 var csvHeader = ["date", "currValue", "currStdDev", "avg", "avgStdDev"];
                 for (var i = 0; i < seriesValues[1].length; i++) {
                     if (i < seriesValues[0].length) {
@@ -198,7 +198,7 @@ define([
             }
             else if(this.mosaic.plotType==2) {
                 var arrayData = "";
-                arrayData += "x,2015,AVG\n";
+                arrayData += "x," + this.mosaic.year + ",AVG\n";
                 var csvHeader = ["date", "currValue", "avg"];
                 for (var i = 0; i < seriesValues[1].length; i++) {
                     if (i < seriesValues[0].length) {
@@ -220,7 +220,7 @@ define([
             }
             else{
                 var arrayData = "";
-                arrayData += "x,2015\n";
+                arrayData += "x," + this.mosaic.year + "\n";
                 var csvHeader = ["date", "currValue"];
                 for (var i = 0; i < seriesValues[1].length; i++) {
                     if (i < seriesValues[0].length) {

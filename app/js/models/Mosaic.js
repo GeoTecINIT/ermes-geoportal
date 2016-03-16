@@ -49,6 +49,7 @@ define([
             avgValuesDate: null,
             stdValuesDate: null,
             forecastValuesDate: null,
+            year: null,
 
 		constructor: function(options){
 			this.mosaicId = options.id;
@@ -60,6 +61,7 @@ define([
 			this.rasters = [];
             this.plotType = options.plotType;
             this.yAxis = options.yAxis;
+            this.year = options.year;
             this._getMosaicExtent();
 			this._loadRasters();
 		},

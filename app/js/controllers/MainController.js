@@ -242,10 +242,30 @@ define([
                 var lid = response.layers[i].id;
                 var lname = response.layers[i].name;
                 var ldescritpion = response.layers[i].description;
+                var myInfoTemplate=new InfoTemplate();
+                myInfoTemplate.setTitle("Statistics in in ${label}");
+                myInfoTemplate.setContent("<b>Label: </b>${label}<br/>" +
+                    "<b>RiceFc: </b>${RiceFc:compare}%<br/>" +
+                    "<b>RiceAreaha: </b>${RiceAreaha}<br/>" +
+                    "<b>Avg_sow: </b>${avg_sow:NumberFormat}<br/>" +
+                    "<b>Avg_flw: </b>${avg_flw:NumberFormat}<br/>" +
+                    "<b>Yield: </b>${yield:NumberFormat}<br/>" +
+                    "<b>N_risk: </b>${n_risk:NumberFormat}");
+
+                compare = function(value, key, data){
+                    return Math.round(value*100);
+                }
+
                 var tempLayer = new FeatureLayer(lurl, {
                     id: lid,
-                    infoTemplate: new InfoTemplate()
+                    outFields: ['*'],
+                    infoTemplate: myInfoTemplate
                 });
+                //var tempLayer = new FeatureLayer(lurl, {
+                //    id: lid,
+                //    outFields: ['*'],
+                //    infoTemplate: new InfoTemplate("Stats", "${*}")
+                //});
                 this.layers[lid] = tempLayer;
                 this.layers.length++;
             }

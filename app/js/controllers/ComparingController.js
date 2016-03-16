@@ -23,10 +23,24 @@ define([
 			secondaryMosaic: null,
 			secondaryRaster: null,
 			swipeWidget: null,
+            currentActiveYear: 2016,
 
 		constructor: function(args){
 			lang.mixin(this, args);
+
+
 	    },
+
+        postCreate: function(){
+            this.own(on(dom.byId('comparing-radio-select-2015'), 'click', lang.hitch(this, '_yearChanged', 2015)));
+            this.own(on(dom.byId('comparing-radio-select-2016'), 'click', lang.hitch(this, '_yearChanged', 2016)));
+        },
+
+        _yearChanged: function(year){
+            //this._noneRaster();
+            this.currentActiveYear = year;
+            this.populateMosaicsList();
+        },
 
         resetSwipeWidget: function(){
             this._destroySwipeWidget();
@@ -124,19 +138,21 @@ define([
 
         populateMosaicsList: function(){
         	var container = dom.byId('comparing-mosaics-list-ul');
-
+            domConstruct.empty(container);
         	for(var mosaic in this.mosaics){
-        		var mosaicId = this.mosaics[mosaic].mosaicId;
-        		var mosaicName = this.mosaics[mosaic].name;
-        		var li = domConstruct.create("li");
-        		domAttr.set(li, "mosaicId", mosaicId);
-        		var a = domConstruct.create("a");
-        		a.innerHTML = mosaicName;
-        		domAttr.set(a,"href","#");
-                var clickHandler = lang.hitch(this, "_populateRasterList", this.mosaics[mosaic].rasters, mosaicId, mosaicName);
-                this.own(on(a, "click", clickHandler));
-        		domConstruct.place(a,li,"only");
-        		domConstruct.place(li, container, "last");
+                if(this.currentActiveYear == this.mosaics[mosaic].year) {
+                    var mosaicId = this.mosaics[mosaic].mosaicId;
+                    var mosaicName = this.mosaics[mosaic].name;
+                    var li = domConstruct.create("li");
+                    domAttr.set(li, "mosaicId", mosaicId);
+                    var a = domConstruct.create("a");
+                    a.innerHTML = mosaicName;
+                    domAttr.set(a, "href", "#");
+                    var clickHandler = lang.hitch(this, "_populateRasterList", this.mosaics[mosaic].rasters, mosaicId, mosaicName);
+                    this.own(on(a, "click", clickHandler));
+                    domConstruct.place(a, li, "only");
+                    domConstruct.place(li, container, "last");
+                }
         	}
 
         },
