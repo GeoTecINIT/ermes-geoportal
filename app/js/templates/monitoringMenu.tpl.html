@@ -1,14 +1,23 @@
 <div>
-	<p>Select Year</p>
-	<div>
+	<!--<div>-->
 
-		<label class="radio-inline"><input id="radio-select-2015" type="radio" name="products-year-radio">2015</label>
-		<label class="radio-inline"><input id="radio-select-2016" type="radio" name="products-year-radio" checked>2016</label>
+		<!--<label class="radio-inline"><input id="radio-select-2015" type="radio" name="products-year-radio">2015</label>-->
+		<!--<label class="radio-inline"><input id="radio-select-2016" type="radio" name="products-year-radio" checked>2016</label>-->
+	<!--</div>-->
+	<div class="btn-group ermes-dropdown-div">
+		<button type="button" class="btn btn-primary dropdown-toggle ermes-dropdown-inner-button" data-toggle="dropdown" id="year-mosaic-selector-button">
+			2016
+			<span class="glyphicon glyphicon-chevron-down"></span>
+		</button>
+
+		<ul class="dropdown-menu scrollable-menu" role="menu" id="year-mosaics-list-ul">
+			<li id="radio-select-2015"><a href="#">2015</a></li>
+			<li id="radio-select-2016"><a href="#">2016</a></li>
+		</ul>
 	</div>
 	<div class="btn-group ermes-dropdown-div">
-		<p>Select Product:</p>
 	  <button type="button" class="btn btn-primary dropdown-toggle ermes-dropdown-inner-button" data-toggle="dropdown" id="monitoring-mosaic-selector-button">
-		  ERMES Product
+		  Select ERMES Product:
 		  <span class="glyphicon glyphicon-chevron-down"></span>
 	  </button>
 

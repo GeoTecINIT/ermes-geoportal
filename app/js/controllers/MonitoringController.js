@@ -109,7 +109,6 @@ define([
             this.populateMosaicsList();
         },
 
-
         _createViewInfoHandlers: function(){
             this.own(on(dom.byId('agrochemicals-previous-button'), 'click', lang.hitch(this, '_changeObservationData', 'agrochemical', 'previous')));
             this.own(on(dom.byId('agrochemicals-next-button'), 'click', lang.hitch(this, '_changeObservationData', 'agrochemical', 'next')));
@@ -1091,7 +1090,7 @@ define([
                 this.stopClickHandler();
             //}
             var mosaicButton = dom.byId("monitoring-mosaic-selector-button");
-            mosaicButton.innerHTML = 'ERMES Product <span class="glyphicon glyphicon-chevron-down"></span>';
+            mosaicButton.innerHTML = 'Select ERMES Product: <span class="glyphicon glyphicon-chevron-down"></span>';
 
             var playWidget = dom.byId("time-slider-container-div");
             domClass.add(playWidget, "display-none");

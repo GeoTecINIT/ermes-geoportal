@@ -90,18 +90,55 @@ define([
 			dom.byId("basemap-selector-button").innerHTML=this._capitalizeFirstLetter(baseMap) + ' <span class="glyphicon glyphicon-chevron-down"></span>';
 	    },
 
+		_removeAllOperationalLayersFromMap: function(){
+			for(var layerId in this.layers){
+				var layer = this.map.getLayer(layerId);
+				if(layer) this.map.removeLayer(layer);
+			}
+		},
+
+		_allOperationalLayerButtonsOff: function(){
+			for(var layerId in this.layers){
+				domClass.remove(dom.byId(layerId + "-button"), 'btn-info');
+				domClass.add(dom.byId(layerId + "-button"), 'btn-default');
+			}
+		},
+
 		_showLayer: function(id){
 			var layer = this.map.getLayer(id);
-			if( layer == null){
+
+			if( layer == null) {
+				lang.hitch(this, "_removeAllOperationalLayersFromMap")();
 				layer = this.layers[id];
+				Topic.publish("legend/updateLegend", id);
 				this.map.addLayer(layer);
 				Topic.publish("stats/layerSelected", layer);
+				lang.hitch(this, "_allOperationalLayerButtonsOff")();
+				domClass.add(dom.byId(id + "-button"), 'btn-info');
 			}
+
 			else{
-				this.map.removeLayer(layer)
+				lang.hitch(this, "_removeAllOperationalLayersFromMap")();
+				Topic.publish("legend/updateLegend", null);
 				Topic.publish("stats/layerUnselected", layer);
+				lang.hitch(this, "_allOperationalLayerButtonsOff")();
 			}
-			domClass.toggle(dom.byId(id + "-button"), 'btn-info btn-default');
+
+			//_.contains(this.map.layerIds, )
+
+
+
+			//if( layer == null){
+			//	layer = this.layers[id];
+			//	Topic.publish("legend/updateLegend", id);
+			//	this.map.addLayer(layer);
+			//	Topic.publish("stats/layerSelected", layer);
+			//}
+			//else{
+			//	this.map.removeLayer(layer)
+			//	Topic.publish("stats/layerUnselected", layer);
+			//}
+			//domClass.toggle(dom.byId(id + "-button"), 'btn-info btn-default');
 		},
 
 		populateLayersList: function(){

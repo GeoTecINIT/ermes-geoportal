@@ -85,7 +85,23 @@ $(document).on('ui-ready', function(evt) {
     $('#show-play-menu-button').on('click', function(){
         $("#time-slider-container-div").toggleClass("display-none display-block");
         $("#show-play-menu-button").toggleClass("display-none display-block");
-    })
+    });
+
+    $('#radio-select-2015').on('click', function() {
+        $('#year-mosaic-selector-button').html("2015<span class='glyphicon glyphicon-chevron-down'></span>");
+    });
+
+    $('#radio-select-2016').on('click', function() {
+        $('#year-mosaic-selector-button').html("2016<span class='glyphicon glyphicon-chevron-down'></span>");
+    });
+
+    $('#comparing-radio-select-2015').on('click', function() {
+        $('#comparing-year-mosaic-selector-button').html("2015<span class='glyphicon glyphicon-chevron-down'></span>");
+    });
+
+    $('#comparing-radio-select-2016').on('click', function() {
+        $('#comparing-year-mosaic-selector-button').html("2016<span class='glyphicon glyphicon-chevron-down'></span>");
+    });
 
 
 

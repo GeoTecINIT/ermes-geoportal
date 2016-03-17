@@ -57,7 +57,7 @@ define([
         urlServer: "http://ermes.dlsi.uji.es:6787",
         //urlServer: "http://localhost:6787",
         apiVersion: "/api-v1",
-
+        legendTitle: null,
 
         constructor: function(){
             //var requestJSONSuccess = lang.hitch(this, '_requestSuccess')
@@ -74,6 +74,19 @@ define([
 
             window.mainController = this;
 
+            Topic.subscribe("legend/updateLegend", lang.hitch(this, '_updateLegend'));
+
+        },
+
+        _updateLegend: function(label){
+          if(label) this.setLegendTitle(label);
+          else{
+              this.setLegendTitle(this.activeMosaic);
+          }
+        },
+
+        setLegendTitle: function(title){
+          this.legendTitle = title;
         },
 
         _cancelLegend: function(data){
@@ -110,12 +123,13 @@ define([
             }
             newLayer.setOpacity(0.7);
             this.primaryRasterLayer = newLayer;
-
+            this.setLegendTitle(newMosaic);
             this.map.addLayer(newLayer);
 
 
             //ADD LEGEND DIV
             if(this.legendDigit!=null){
+
                 this.legendDigit.destroy();
             }
 
@@ -143,15 +157,14 @@ define([
             if(this._isBasemap(evt.layer)) return;
 
             if (this.legendDigit){
+                this.legendDigitOld = this.legendDigit;
                 this.legendDigit.destroy();
             }
             this._constructLegendDiv();
 
-            var legendTitle = this.activeMosaic;
-            if(!legendTitle) legendTitle = "Operational Layer";
             this.legendDigit = new Legend({
                 map: this.map,
-                layerInfos: [{layer: evt.layer, title: legendTitle }]
+                layerInfos: [{layer: evt.layer, title: this.legendTitle }]
             }, "legend-tool");
             this.legendDigit.startup();
         },
@@ -243,7 +256,7 @@ define([
                 var lname = response.layers[i].name;
                 var ldescritpion = response.layers[i].description;
                 var myInfoTemplate=new InfoTemplate();
-                myInfoTemplate.setTitle("Statistics in in ${label}");
+                myInfoTemplate.setTitle("Statistics in ${label}");
                 myInfoTemplate.setContent("<b>Label: </b>${label}<br/>" +
                     "<b>RiceFc: </b>${RiceFc:compare}%<br/>" +
                     "<b>RiceAreaha: </b>${RiceAreaha}<br/>" +
@@ -252,7 +265,7 @@ define([
                     "<b>Yield: </b>${yield:NumberFormat}<br/>" +
                     "<b>N_risk: </b>${n_risk:NumberFormat}");
 
-                compare = function(value, key, data){
+                var compare = function(value, key, data){
                     return Math.round(value*100);
                 }
 
@@ -261,6 +274,7 @@ define([
                     outFields: ['*'],
                     infoTemplate: myInfoTemplate
                 });
+                //tempLayer.attr("legendTitle", lid);
                 //var tempLayer = new FeatureLayer(lurl, {
                 //    id: lid,
                 //    outFields: ['*'],
@@ -334,11 +348,6 @@ define([
                     this.parcelsLayer.graphics.forEach(findOwnedParcels);
                 })
             );
-        },
-        //
-
-        _requestError: function(error) {
-            console.log('ERROR - Loading config file: ' + error);
         },
 
         _requestConfigFile: function() {

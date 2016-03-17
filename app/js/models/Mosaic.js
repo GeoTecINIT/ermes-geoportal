@@ -62,6 +62,7 @@ define([
             this.plotType = options.plotType;
             this.yAxis = options.yAxis;
             this.year = options.year;
+
             this._getMosaicExtent();
 			this._loadRasters();
 		},
@@ -108,6 +109,7 @@ define([
 		getLayerByID: function(rasterId){
 			var layer = new ArcGISImageServiceLayer(this.URL);
 			//var layer = new ArcGISTiledMapServiceLayer(this.URL);
+
 			var rule = new MosaicRule();
 			rule.ascending = true;
 			//rule.method = MosaicRule.METHOD_LOCKRASTER;
