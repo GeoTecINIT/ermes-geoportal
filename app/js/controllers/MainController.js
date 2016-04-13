@@ -265,8 +265,8 @@ define([
                     "<b>Yield: </b>${yield:NumberFormat}<br/>" +
                     "<b>N_risk: </b>${n_risk:NumberFormat}");
 
-                var compare = function(value, key, data){
-                    return Math.round(value*100);
+                compare = function(value, key, data){
+                    return (value*100).toFixed(2);
                 }
 
                 var tempLayer = new FeatureLayer(lurl, {
