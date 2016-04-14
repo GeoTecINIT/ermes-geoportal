@@ -1,0 +1,762 @@
+[
+  {
+    "idNode": "settings-div-container",
+    "sp": {
+      "title": "Ajustes de la Aplicación",
+      "html": null
+    },
+    "en": {
+      "title": "Application Settings",
+      "html": null
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "show-play-menu-button",
+    "sp": {
+      "title": "Mostrar menú de Play",
+      "html": null
+    },
+    "en": {
+      "title": "Show play Menu",
+      "html": null
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "monitoring-div-container",
+    "sp": {
+      "title": "Monitorización de Cultivo",
+      "html": null
+    },
+    "en": {
+      "title": "Crop Monitoring",
+      "html": null
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "comparing-div-container",
+    "sp": {
+      "title": "Comparar Productos",
+      "html": null
+    },
+    "en": {
+      "title": "Comparing Products",
+      "html": null
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "finder-div-container",
+    "sp": {
+      "title": "Buscar Parcela",
+      "html": null
+    },
+    "en": {
+      "title": "Find Parcel",
+      "html": null
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "legend-div-container",
+    "sp": {
+      "title": "Leyenda",
+      "html": null
+    },
+    "en": {
+      "title": "Legend",
+      "html": null
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "basemap-selector-button",
+    "sp": {
+      "title": null,
+      "html": "Mapa Base <span class='glyphicon glyphicon-chevron-down'></span>"
+    },
+    "en": {
+      "title": null,
+      "html": "Basemap <span class='glyphicon glyphicon-chevron-down'></span>"
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "language-selector-button",
+    "sp": {
+      "title": null,
+      "html": "Seleccione Idioma <span class='glyphicon glyphicon-chevron-down'></span>"
+    },
+    "en": {
+      "title": null,
+      "html": "Select Language <span class='glyphicon glyphicon-chevron-down'></span>"
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "language-selected-english",
+    "sp": {
+      "title": null,
+      "html": "Inglés"
+    },
+    "en": {
+      "title": null,
+      "html": "English"
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "language-selected-spanish",
+    "sp": {
+      "title": null,
+      "html": "Español"
+    },
+    "en": {
+      "title": null,
+      "html": "Spanish"
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "language-selected-greek",
+    "sp": {
+      "title": null,
+      "html": "Griego"
+    },
+    "en": {
+      "title": null,
+      "html": "Greek"
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "language-selected-italian",
+    "sp": {
+      "title": null,
+      "html": "Italiano"
+    },
+    "en": {
+      "title": null,
+      "html": "Italian"
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "general-help-button",
+    "sp": {
+      "title": null,
+      "html": "<span id='span-general-help' aria-hidden='true' class='glyphicon glyphicon-info-sign'></span>Ayuda General"
+    },
+    "en": {
+      "title": null,
+      "html": "<span id='span-general-help' aria-hidden='true' class='glyphicon glyphicon-info-sign'></span>General Help"
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "split-window-button",
+    "sp": {
+      "title": null,
+      "html": "<span aria-hidden='true' class='glyphicon glyphicon-sound-stereo'></span>Pantalla Dividida"
+    },
+    "en": {
+      "title": null,
+      "html": "<span aria-hidden='true' class='glyphicon glyphicon-sound-stereo'></span>Split Mode"
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "logout-button",
+    "sp": {
+      "title": null,
+      "html": "<span aria-hidden='true' class='glyphicon glyphicon-ban-circle'></span>Desconectar"
+    },
+    "en": {
+      "title": null,
+      "html": "<span aria-hidden='true' class='glyphicon glyphicon-ban-circle'></span>Logout"
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "close-settings-button",
+    "sp": {
+      "title": null,
+      "html": "<span aria-hidden='true' class='glyphicon glyphicon-remove-circle'></span>Cerrar"
+    },
+    "en": {
+      "title": null,
+      "html": "<span aria-hidden='true' class='glyphicon glyphicon-remove-circle'></span>Close"
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "close-product-help-button",
+    "sp": {
+      "title": null,
+      "html": "Cerrar Ayuda"
+    },
+    "en": {
+      "title": null,
+      "html": "Close Help"
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "close-chart-button",
+    "sp": {
+      "title": null,
+      "html": "<span aria-hidden='true' class='glyphicon glyphicon-remove-circle'></span>Cerrar Gráfico"
+    },
+    "en": {
+      "title": null,
+      "html": "<span aria-hidden='true' class='glyphicon glyphicon-remove-circle'></span>Close chart"
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "export-chart-button",
+    "sp": {
+      "title": null,
+      "html": "<span aria-hidden='true' class='glyphicon glyphicon-remove-circle'></span>Exportar como PNG"
+    },
+    "en": {
+      "title": null,
+      "html": "<span aria-hidden='true' class='glyphicon glyphicon-remove-circle'></span>Export as PNG"
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "export-csv-button",
+    "sp": {
+      "title": null,
+      "html": "<span aria-hidden='true' class='glyphicon glyphicon-save'></span>Exportar como CSV"
+    },
+    "en": {
+      "title": null,
+      "html": "<span aria-hidden='true' class='glyphicon glyphicon-save'></span>Export as CSV"
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "chart-value-text",
+    "sp": {
+      "title": null,
+      "html": "El valor para "
+    },
+    "en": {
+      "title": "",
+      "html": "Value for "
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "chart-selected-point-text",
+    "sp": {
+      "title": null,
+      "html": " en el punto seleccionado es: "
+    },
+    "en": {
+      "title": null,
+      "html": " in the selected point is: "
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "monitoring-mosaic-selector-button",
+    "sp": {
+      "title": null,
+      "html": "Seleccione Producto de ERMES:<span class='glyphicon glyphicon-chevron-down'></span>"
+    },
+    "en": {
+      "title": null,
+      "html": "Select ERMES Product:<span class='glyphicon glyphicon-chevron-down'></span>"
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "monitoring-raster-selector-button",
+    "sp": {
+      "title": null,
+      "html": "Fecha<span class='glyphicon glyphicon-chevron-down'></span>"
+    },
+    "en": {
+      "title": null,
+      "html": "Date<span class='glyphicon glyphicon-chevron-down'></span>"
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "clean-raster-map",
+    "sp": {
+      "title": null,
+      "html": "<span aria-hidden='true' class='glyphicon glyphicon-erase'></span>Limpiar Mapa"
+    },
+    "en": {
+      "title": null,
+      "html": "<span aria-hidden='true' class='glyphicon glyphicon-erase'></span>Clear Map"
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "close-monitoring-button",
+    "sp": {
+      "title": null,
+      "html": "<span aria-hidden='true' class='glyphicon glyphicon-remove-circle'></span>Cerrar"
+    },
+    "en": {
+      "title": null,
+      "html": "<span aria-hidden='true' class='glyphicon glyphicon-remove-circle'></span>Close"
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "",
+    "sp": {
+      "title": "",
+      "html": ""
+    },
+    "en": {
+      "title": "",
+      "html": ""
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "",
+    "sp": {
+      "title": "",
+      "html": ""
+    },
+    "en": {
+      "title": "",
+      "html": ""
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "",
+    "sp": {
+      "title": "",
+      "html": ""
+    },
+    "en": {
+      "title": "",
+      "html": ""
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "",
+    "sp": {
+      "title": "",
+      "html": ""
+    },
+    "en": {
+      "title": "",
+      "html": ""
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "",
+    "sp": {
+      "title": "",
+      "html": ""
+    },
+    "en": {
+      "title": "",
+      "html": ""
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "",
+    "sp": {
+      "title": "",
+      "html": ""
+    },
+    "en": {
+      "title": "",
+      "html": ""
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "",
+    "sp": {
+      "title": "",
+      "html": ""
+    },
+    "en": {
+      "title": "",
+      "html": ""
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "",
+    "sp": {
+      "title": "",
+      "html": ""
+    },
+    "en": {
+      "title": "",
+      "html": ""
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "",
+    "sp": {
+      "title": "",
+      "html": ""
+    },
+    "en": {
+      "title": "",
+      "html": ""
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "",
+    "sp": {
+      "title": "",
+      "html": ""
+    },
+    "en": {
+      "title": "",
+      "html": ""
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "",
+    "sp": {
+      "title": "",
+      "html": ""
+    },
+    "en": {
+      "title": "",
+      "html": ""
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "",
+    "sp": {
+      "title": "",
+      "html": ""
+    },
+    "en": {
+      "title": "",
+      "html": ""
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "",
+    "sp": {
+      "title": "",
+      "html": ""
+    },
+    "en": {
+      "title": "",
+      "html": ""
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "",
+    "sp": {
+      "title": "",
+      "html": ""
+    },
+    "en": {
+      "title": "",
+      "html": ""
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  }
+]

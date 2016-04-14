@@ -107,8 +107,10 @@ define([
         },
 
 		getLayerByID: function(rasterId){
-			var layer = new ArcGISImageServiceLayer(this.URL);
-			//var layer = new ArcGISTiledMapServiceLayer(this.URL);
+            var layer = new ArcGISImageServiceLayer(this.URL, {
+                displayLevels: [9, 10, 11, 12, 13, 14, 15, 16, 17]
+            });
+            //var layer = new ArcGISImageServiceLayer(this.URL);
 
 			var rule = new MosaicRule();
 			rule.ascending = true;

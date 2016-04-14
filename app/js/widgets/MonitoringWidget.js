@@ -38,6 +38,7 @@ define([
             this.own(on(dom.byId('close-chart-button'), 'click', lang.hitch(this, '_closeChart')));
             this.own(on(dom.byId('export-chart-button'), 'click', lang.hitch(this, '_exportChart')));
             this.own(on(dom.byId('export-csv-button'), 'click', lang.hitch(this, '_exportCSV')));
+            SetLanguage(localStorage.language);
         },
 
         _populateRasterInfo: function(){
@@ -266,12 +267,19 @@ define([
 
 
             var titleSelected = this.mosaicName;
-            var valueClicked = "Value for " + this.actualTimePosition + " in the selected point is: "+ "<b>" + this.actualValue + "</b>";
+          //  var valueClicked = "Value for " + this.actualTimePosition + " in the selected point is: "+ "<b>" + this.actualValue + "</b>";
+
+           // var chartValueText = dom.byId("chart-value-text");
+            var chartValueValue = dom.byId("chart-value-value");
+           // var chartSelectedPintText = dom.byId("chart-selected-point-text");
+            var chartselectedPointText = dom.byId("chart-selected-point-value");
+            chartValueValue.innerHTML = this.actualTimePosition;
+            chartselectedPointText.innerHTML = this.actualValue;
 
             var titleDiv = dom.byId("chart-title");
             var valueDiv = dom.byId("chart-current-value");
             titleDiv.innerHTML = titleSelected;
-            valueDiv.innerHTML = valueClicked;
+           // valueDiv.innerHTML = valueClicked;
 
             var plotDiv = dom.byId("monitoring-widget-div");
 

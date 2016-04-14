@@ -1090,8 +1090,8 @@ define([
                 this.stopClickHandler();
             //}
             var mosaicButton = dom.byId("monitoring-mosaic-selector-button");
-            mosaicButton.innerHTML = 'Select ERMES Product: <span class="glyphicon glyphicon-chevron-down"></span>';
-
+           // mosaicButton.innerHTML = 'Select ERMES Product: <span class="glyphicon glyphicon-chevron-down"></span>';
+            SetDropdownLabels();
             var playWidget = dom.byId("time-slider-container-div");
             domClass.add(playWidget, "display-none");
 

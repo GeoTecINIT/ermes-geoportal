@@ -103,13 +103,28 @@ $(document).on('ui-ready', function(evt) {
         $('#comparing-year-mosaic-selector-button').html("2016<span class='glyphicon glyphicon-chevron-down'></span>");
     });
 
-
-
-
-
     //Launch Split Window
     $("#split-window-button").on('click', function() {
         window.location.href = "splitmode.html";
     });
 
+    $("#language-selected-spanish").on('click', function() {
+        localStorage.language = "sp";
+        SetLanguage("sp");
+    });
+    $("#language-selected-english").on('click', function() {
+        localStorage.language = "en";
+        SetLanguage("en");
+    });
+
+    $("#language-selected-greek").on('click', function() {
+        localStorage.language = "gk";
+        SetLanguage("gk");
+    });
+    $("#language-selected-italian").on('click', function() {
+        localStorage.language = "it";
+        SetLanguage("it");
+    });
+
+    SetLanguage(localStorage.language);
 });
