@@ -110,7 +110,7 @@ define([
         },
 
         _populateRasterList: function(rastersList, mosaicId, mosaicName){
-
+            SetDateLabel();
 	    	domConstruct.destroy('compare-button');
             var container = dom.byId("comparing-rasters-list-ul");
             var mosaicButton = dom.byId("comparing-mosaic-selector-button");

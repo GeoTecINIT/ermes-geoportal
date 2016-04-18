@@ -2,9 +2,9 @@
 
 
     <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active"><a href="#local-tab" aria-controls="home" role="tab" data-toggle="tab">Local Data</a></li>
-        <li role="presentation"><a href="#model-tab" aria-controls="profile" role="tab" data-toggle="tab">Model Data</a></li>
-        <li role="presentation"><a href="#chart-tab" aria-controls="messages" role="tab" data-toggle="tab">Chart Satellite<br>Time Series</a></li>
+        <li role="presentation" class="active"><a id="info-window-menu-title-local" href="#local-tab" aria-controls="home" role="tab" data-toggle="tab">Local Data</a></li>
+        <li role="presentation"><a id="info-window-menu-title-model" href="#model-tab" aria-controls="profile" role="tab" data-toggle="tab">Model Data</a></li>
+        <li role="presentation"><a id="info-window-menu-title-chart" href="#chart-tab" aria-controls="messages" role="tab" data-toggle="tab">Chart Satellite<br>Time Series</a></li>
     </ul>
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="local-tab">
@@ -279,7 +279,7 @@
                 <div class="panel-heading" role="tab" id="developmentStageHeading">
                     <h4 class="panel-title">
                         <a id="developmentStage" class="developmentStageCollapse" role="button" data-toggle="collapse" data-parent="#accordion" href="#developmentStageCollapse" aria-expanded="false" aria-controls="developmentStageCollapse">
-                            Development Stage (WARM) (0):
+                            Rice development  stage (WARM) (0):
                         </a>
                     </h4>
                 </div>
@@ -293,7 +293,7 @@
                 <div class="panel-heading" role="tab" id="infectionHeading">
                     <h4 class="panel-title">
                         <a id="infection" class="infectionCollapse" role="button" data-toggle="collapse" data-parent="#accordion" href="#infectionCollapse" aria-expanded="false" aria-controls="infectionCollapse">
-                            Infections (WARM) (0):
+                            Potential Risk of Blast Infection (WARM) (0):
                         </a>
                     </h4>
                 </div>
@@ -307,7 +307,7 @@
                 <div class="panel-heading" role="tab" id="abioticRiskHeading">
                     <h4 class="panel-title">
                         <a id="abioticRisk" class="abioticRiskCollapse" role="button" data-toggle="collapse" data-parent="#accordion" href="#abioticRiskCollapse" aria-expanded="false" aria-controls="abioticRiskCollapse">
-                            Abiotic Risks (WARM) (0):
+                            Potential risk of Cold Sterility (WARM) (0):
                         </a>
                     </h4>
                 </div>
@@ -321,7 +321,7 @@
                 <div class="panel-heading" role="tab" id="biomassHeading">
                     <h4 class="panel-title">
                         <a id="biomass" class="biomassCollapse" role="button" data-toggle="collapse" data-parent="#accordion" href="#biomassCollapse" aria-expanded="false" aria-controls="biomassCollapse">
-                            Biomasses (WARM) (0):
+                            Above Ground Biomass (WARM) (0):
                         </a>
                     </h4>
                 </div>
@@ -371,8 +371,8 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id="confirm-edit-product-button" class="btn btn-primary">CONFIRM CHANGES</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel Editing</button>
+                    <button type="button" id="confirm-edit-product-button" class="btn btn-primary">Confirm Changes</button>
+                    <button type="button" id="cancel-editing-modal-window" class="btn btn-default" data-dismiss="modal">Cancel Editing</button>
                 </div>
             </div>
         </div>

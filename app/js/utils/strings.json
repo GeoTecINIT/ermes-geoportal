@@ -494,13 +494,15 @@
     }
   },
   {
-    "idNode": "",
+    "idNode": "town-finder-input",
     "sp": {
+      "placeholder": "Inserte Ciudad",
       "title": "",
       "html": ""
     },
     "en": {
-      "title": "",
+      "placeholder": "Insert Town",
+      "title": "Insert Town",
       "html": ""
     },
     "it": {
@@ -513,13 +515,15 @@
     }
   },
   {
-    "idNode": "",
+    "idNode": "polygon-finder-input",
     "sp": {
+      "placeholder": "Inserte Polígono",
       "title": "",
       "html": ""
     },
     "en": {
-      "title": "",
+      "placeholder": "Insert Polygon",
+      "title": "Insert Town",
       "html": ""
     },
     "it": {
@@ -532,13 +536,15 @@
     }
   },
   {
-    "idNode": "",
+    "idNode": "parcel-finder-input",
     "sp": {
+      "placeholder": "Inserte Parcela",
       "title": "",
       "html": ""
     },
     "en": {
-      "title": "",
+      "placeholder": "Insert Parcel",
+      "title": "Insert Town",
       "html": ""
     },
     "it": {
@@ -551,14 +557,14 @@
     }
   },
   {
-    "idNode": "",
+    "idNode": "query-position-finder-button",
     "sp": {
       "title": "",
-      "html": ""
+      "html": "<span aria-hidden='true' class='glyphicon glyphicon-search'></span>Buscar"
     },
     "en": {
       "title": "",
-      "html": ""
+      "html": "<span aria-hidden='true' class='glyphicon glyphicon-search'></span>Find"
     },
     "it": {
       "title": null,
@@ -570,14 +576,14 @@
     }
   },
   {
-    "idNode": "",
+    "idNode": "close-finder-button",
     "sp": {
       "title": "",
-      "html": ""
+      "html": "<span aria-hidden='true' class='glyphicon glyphicon-remove-circle'></span>Cerrar"
     },
     "en": {
       "title": "",
-      "html": ""
+      "html": "<span aria-hidden='true' class='glyphicon glyphicon-remove-circle'></span>Close"
     },
     "it": {
       "title": null,
@@ -589,14 +595,60 @@
     }
   },
   {
-    "idNode": "",
+    "idNode": "input-longitude",
     "sp": {
+      "placeholder": "Longitud",
       "title": "",
       "html": ""
     },
     "en": {
+      "placeholder": "Longitude",
       "title": "",
       "html": ""
+    },
+    "it": {
+      "placeholder": "",
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "placeholder": "",
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "input-latitude",
+    "sp": {
+      "placeholder": "Latitud",
+      "title": "",
+      "html": ""
+    },
+    "en": {
+      "placeholder": "Latitude",
+      "title": "",
+      "html": ""
+    },
+    "it": {
+      "placeholder": "",
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "placeholder": "",
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "goandchart-button",
+    "sp": {
+      "title": "",
+      "html": "Ir y mostrar gráfico"
+    },
+    "en": {
+      "title": "",
+      "html": "Go and Chart"
     },
     "it": {
       "title": null,
@@ -608,14 +660,14 @@
     }
   },
   {
-    "idNode": "",
+    "idNode": "comparing-mosaic-selector-button",
     "sp": {
-      "title": "",
-      "html": ""
+      "title": null,
+      "html": "Seleccione Producto de ERMES:<span class='glyphicon glyphicon-chevron-down'></span>"
     },
     "en": {
-      "title": "",
-      "html": ""
+      "title": null,
+      "html": "Select ERMES Product:<span class='glyphicon glyphicon-chevron-down'></span>"
     },
     "it": {
       "title": null,
@@ -627,14 +679,14 @@
     }
   },
   {
-    "idNode": "",
+    "idNode": "comparing-raster-selector-button",
     "sp": {
-      "title": "",
-      "html": ""
+      "title": null,
+      "html": "Fecha<span class='glyphicon glyphicon-chevron-down'></span>"
     },
     "en": {
-      "title": "",
-      "html": ""
+      "title": null,
+      "html": "Date<span class='glyphicon glyphicon-chevron-down'></span>"
     },
     "it": {
       "title": null,
@@ -646,14 +698,261 @@
     }
   },
   {
-    "idNode": "",
+    "idNode": "close-comparing-button",
+    "sp": {
+      "title": null,
+      "html": "<span aria-hidden='true' class='glyphicon glyphicon-remove-circle'></span>Cerrar"
+    },
+    "en": {
+      "title": null,
+      "html": "<span aria-hidden='true' class='glyphicon glyphicon-remove-circle'></span>Close"
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "info-window-menu-title-local",
     "sp": {
       "title": "",
-      "html": ""
+      "html": "Datos Locales"
     },
     "en": {
       "title": "",
-      "html": ""
+      "html": "Local Data"
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "info-window-menu-title-model",
+    "sp": {
+      "title": "",
+      "html": "Información<br>del Modelo"
+    },
+    "en": {
+      "title": "",
+      "html": "Model Data"
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "info-window-menu-title-chart",
+    "sp": {
+      "title": "",
+      "html": "Gráfico"
+    },
+    "en": {
+      "title": "",
+      "html": "Chart Satellite<br>Time Series"
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+  "idNode": "show-chart-from-info-window",
+  "sp": {
+    "title": "",
+    "html": "Mostrar Gráfico"
+  },
+  "en": {
+    "title": "",
+    "html": "Show Chart"
+  },
+  "it": {
+    "title": null,
+    "html": null
+  },
+  "gk": {
+    "title": null,
+    "html": null
+  }
+},
+  {
+    "idNode": "info-window-show-chart-text",
+    "sp": {
+      "title": "",
+      "html": " <p>Seleccione un producto para mostrar su gráfico.</p>"
+    },
+    "en": {
+      "title": "",
+      "html": " <p>Select a Product First.</p>"
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "confirm-edit-product-button",
+    "sp": {
+      "title": "",
+      "html": "Confirmar Cambios"
+    },
+    "en": {
+      "title": "",
+      "html": "Confirm Changes"
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+  "idNode": "cancel-editing-modal-window",
+  "sp": {
+    "title": "",
+    "html": "Cancelar Edición"
+  },
+  "en": {
+    "title": "",
+    "html": "Cancel Editing"
+  },
+  "it": {
+    "title": null,
+    "html": null
+  },
+  "gk": {
+    "title": null,
+    "html": null
+  }
+},
+  {
+    "idNode": "parcel-not-owned-text",
+    "sp": {
+      "title": "",
+      "html": "Esta parcela no le pertenece."
+    },
+    "en": {
+      "title": "",
+      "html": "This parcel doesn't belong to you."
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "remove-alert-button",
+    "sp": {
+      "title": "",
+      "html": "Eliminar Alerta"
+    },
+    "en": {
+      "title": "",
+      "html": "Remove Alert"
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "remove-alert-text-h4",
+    "sp": {
+      "title": "",
+      "html": "Esta parcela no tiene alertas."
+    },
+    "en": {
+      "title": "",
+      "html": "This parcel has no alerts."
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "info-window-parcel-id-title",
+    "sp": {
+      "title": "",
+      "html": "ID de Parcela: "
+    },
+    "en": {
+      "title": "",
+      "html": "Parcel ID:  "
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "info-window-invalid-parcel-title",
+    "sp": {
+      "title": "",
+      "html": "Parcela no válida."
+    },
+    "en": {
+      "title": "",
+      "html": "Invalid Parcel."
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "info-window-searching-text",
+    "sp": {
+      "title": "",
+      "html": "Buscando..."
+    },
+    "en": {
+      "title": "",
+      "html": "Searching..."
     },
     "it": {
       "title": null,

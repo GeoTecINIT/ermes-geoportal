@@ -257,13 +257,13 @@ define([
                 var ldescritpion = response.layers[i].description;
                 var myInfoTemplate=new InfoTemplate();
                 myInfoTemplate.setTitle("Statistics in ${label}");
-                myInfoTemplate.setContent("<b>Label: </b>${label}<br/>" +
-                    "<b>RiceFc: </b>${RiceFc:compare}%<br/>" +
-                    "<b>RiceAreaha: </b>${RiceAreaha}<br/>" +
-                    "<b>Avg_sow: </b>${avg_sow:NumberFormat}<br/>" +
-                    "<b>Avg_flw: </b>${avg_flw:NumberFormat}<br/>" +
+                myInfoTemplate.setContent("<b>Municipality: </b>${label}<br/>" +
+                    "<b>Area covered by rice [%]: </b>${RiceFc:compare}%<br/>" +
+                    "<b>Area covered by rice [hectares]: </b>${RiceAreaha}<br/>" +
+                    "<b>Average Sowing Date: </b>${avg_sow:NumberFormat}<br/>" +
+                    "<b>Average Flowering Date: </b>${avg_flw:NumberFormat}<br/>" +
                     "<b>Yield: </b>${yield:NumberFormat}<br/>" +
-                    "<b>N_risk: </b>${n_risk:NumberFormat}");
+                    "<b>Average n° of days with high potential blast infection risk: </b>${n_risk:NumberFormat}");
 
                 compare = function(value, key, data){
                     return (value*100).toFixed(2);

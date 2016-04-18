@@ -267,7 +267,7 @@ define([
             var query = new Query();
             query.geometry = evt.mapPoint;
             this.map.infoWindow.show(evt.mapPoint, this.map.getInfoWindowAnchor(evt.screenPoint));
-            this.map.infoWindow.setTitle("Searching...");
+            this.map.infoWindow.setTitle("<b id='info-window-searching-text'>Searching...</b>");
             var div = domConstruct.create("div");
             domAttr.set(div, "id", "loading-image");
             var span = domConstruct.create("span");
@@ -277,6 +277,7 @@ define([
             domConstruct.place(h1, div, "only");
             this.map.infoWindow.setContent(div);
             this.parcelsLayer.queryFeatures(query, lang.hitch(this, "_queryMongoServer"));
+            SetInfoWindowLanguage();
         },
 
         _queryMongoServer: function(response){
@@ -422,6 +423,7 @@ define([
 
 
 
+
                 if(this.activeRaster) {
                     $('#info-window-show-chart-button').removeClass('display-none').addClass('display-block');
                     $('#info-window-show-chart-text').removeClass('display-block').addClass('display-none');
@@ -447,7 +449,7 @@ define([
 
 
                 this._createViewInfoHandlers();
-                this.map.infoWindow.setTitle("Parcel ID: " + data.parcel.parcelId);
+                this.map.infoWindow.setTitle("<b id='info-window-parcel-id-title'>Parcel ID: </b>" + data.parcel.parcelId);
 
                 if(data.agrochemicals.length>0){
                     $('#agrochemicals-nav').toggleClass("display-none display-block");
@@ -526,7 +528,7 @@ define([
                  //UNCOMMENT FOR ENABLE CONNECTION WITH WARM DATABASE.
                 if(!this.warmData.error){
                     var label = dom.byId("developmentStage");
-                    label.innerHTML = "Development Stage (WARM) (" + this.warmData.developmentStages.length + "):";
+                    label.innerHTML = "Rice development  stage (WARM) (" + this.warmData.developmentStages.length + "):";
                     for(var i =0; i<this.warmData.developmentStages.length; i++) {
                         var product = dom.byId("developmentStage-data");
                         var ul = domConstruct.create("ul");
@@ -543,7 +545,7 @@ define([
                     }
 
                     var label = dom.byId("infection");
-                    label.innerHTML = "Infections (WARM) (" + this.warmData.infectionRisks.length + "):";
+                    label.innerHTML = "Potential Risk of Blast Infection (WARM) (" + this.warmData.infectionRisks.length + "):";
                     for(var i =0; i<this.warmData.infectionRisks.length; i++) {
                         var product = dom.byId("infection-data");
                         var ul = domConstruct.create("ul");
@@ -560,7 +562,7 @@ define([
                     }
 
                     var label = dom.byId("abioticRisk");
-                    label.innerHTML = "Abiotic Risks (WARM) (" + this.warmData.abioticRisks.length + "):";
+                    label.innerHTML = "Potential risk of Cold Sterility (WARM) (" + this.warmData.abioticRisks.length + "):";
                     for(var i =0; i<this.warmData.abioticRisks.length; i++) {
                         var product = dom.byId("abioticRisk-data");
                         var ul = domConstruct.create("ul");
@@ -577,7 +579,7 @@ define([
                     }
 
                     var label = dom.byId("biomass");
-                    label.innerHTML = "Biomasses (WARM) (" + this.warmData.biomasses.length + "):";
+                    label.innerHTML = "Above Ground Biomass (WARM) (" + this.warmData.biomasses.length + "):";
                     for(var i =0; i<this.warmData.biomasses.length; i++) {
                         var product = dom.byId("biomass-data");
                         var ul = domConstruct.create("ul");
@@ -630,11 +632,13 @@ define([
                 //}
             }
             else {
-                this.map.infoWindow.setTitle("Invalid Parcel.");
-                this.map.infoWindow.setContent("<b>This parcel doesn't belong to you.</b>");
+                this.map.infoWindow.setTitle("<b id='info-window-invalid-parcel-title'>Invalid Parcel.</b>");
+                this.map.infoWindow.setContent("<b id='parcel-not-owned-text'></b>");
+                //this.map.infoWindow.setContent("<b>This parcel doesn't belong to you.</b>");
                 this.currentShowChartFunction();
 
             }
+            SetInfoWindowLanguage();
         },
 
         _removeAlert: function(evt){
