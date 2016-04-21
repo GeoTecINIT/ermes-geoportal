@@ -27,21 +27,21 @@
     margin: auto;
 }
 
-#monitoring-widget-div {
+#monitoring-widget-div, #info-window-chart-widget-div {
     z-index: 99;
 }
 
 
 
-#raster-description {
+#raster-description, #model-product-title-div {
     margin: 0em 0em 1em 0em;
 }
 
-#monitoring-widget-dragger {
+#monitoring-widget-dragger, #info-window-chart-widget-dragger {
     position: absolute;
 }
 
-#raster-description h3 {
+#raster-description h3, #model-product-title-div h3 {
     text-align: center;
     margin-top: 0em;
     margin-bottom: 1em;

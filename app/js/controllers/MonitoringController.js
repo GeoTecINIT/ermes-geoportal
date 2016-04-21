@@ -380,12 +380,8 @@ define([
                     query: {
                         //username: username,
                         parcelId: parcelid,
-                        //Use this values to check if it is working.
-                        //parcelId: "ES52346237A02500111G",
-                        //parcelId: "ITC4801818601100083B",
-                        //doy: 200,
-                        doy: doy,
-                        year: now.getFullYear()
+                        //Change for 2016.
+                        year: now.getFullYear()-1
                     },
                     headers: {
                         "X-Requested-With": null,
@@ -527,90 +523,124 @@ define([
 
                  //UNCOMMENT FOR ENABLE CONNECTION WITH WARM DATABASE.
                 if(!this.warmData.error){
+                    //Development Stage
                     var label = dom.byId("developmentStage");
                     label.innerHTML = "Rice development  stage (WARM) (" + this.warmData.developmentStages.length + "):";
-                    for(var i =0; i<this.warmData.developmentStages.length; i++) {
-                        var product = dom.byId("developmentStage-data");
-                        var ul = domConstruct.create("ul");
-                        var li = domConstruct.create("li");
-                        var day = this.warmData.developmentStages[i].doy;
-                        var dateShowed = new Date();
-                        dateShowed.setDate(dateShowed.getDate() + i);
-                        li.innerHTML = "<b>Date:</b> " + dateShowed.toDateString();
-                        domConstruct.place(li, ul, "last");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>StageCode:</b> " + this.warmData.developmentStages[i].value;
-                        domConstruct.place(li, ul, "last");
-                        domConstruct.place(ul, product, "last");
-                    }
+                    var chartTitle = "Rice development  stage";
+                    var node = dom.byId("developmentStage-data");
+                    ShowGraph(node, this.warmData.developmentStages, chartTitle);
 
+                    //TEST FOR CHARTS
+                    //var nodeTest = dom.byId("developmentStage-data");
+                    //ShowGraph(nodeTest);
+                    //
+                    //for(var i =0; i<this.warmData.developmentStages.length; i++) {
+                    //    var node = dom.byId("developmentStage-data");
+                    //    ShowGraph(node, this.warmData.developmentStages);
+                    //
+                    //    ShowGraph(product);
+                    //
+                    //    OLD WAY
+                    //    var ul = domConstruct.create("ul");
+                    //    var li = domConstruct.create("li");
+                    //    var day = this.warmData.developmentStages[i].doy;
+                    //    var dateShowed = new Date();
+                    //    dateShowed.setDate(dateShowed.getDate() + i);
+                    //    li.innerHTML = "<b>Date:</b> " + dateShowed.toDateString();
+                    //    domConstruct.place(li, ul, "last");
+                    //    var li = domConstruct.create("li");
+                    //    li.innerHTML = "<b>StageCode:</b> " + this.warmData.developmentStages[i].value;
+                    //    domConstruct.place(li, ul, "last");
+                    //    domConstruct.place(ul, product, "last");
+                    //}
+
+                    //Infection
                     var label = dom.byId("infection");
+                    var chartTitle = "Potential Risk of Blast Infection";
                     label.innerHTML = "Potential Risk of Blast Infection (WARM) (" + this.warmData.infectionRisks.length + "):";
-                    for(var i =0; i<this.warmData.infectionRisks.length; i++) {
-                        var product = dom.byId("infection-data");
-                        var ul = domConstruct.create("ul");
-                        var li = domConstruct.create("li");
-                        var day = this.warmData.infectionRisks[i].doy;
-                        var dateShowed = new Date();
-                        dateShowed.setDate(dateShowed.getDate() + i);
-                        li.innerHTML = "<b>Date:</b> " + dateShowed.toDateString();
-                        domConstruct.place(li, ul, "last");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Infection Risk:</b> " + this.warmData.infectionRisks[i].value;
-                        domConstruct.place(li, ul, "last");
-                        domConstruct.place(ul, product, "last");
-                    }
+                    var node = dom.byId("infection-data");
+                    ShowGraph(node, this.warmData.infectionRisks, chartTitle);
 
+                    //for(var i =0; i<this.warmData.infectionRisks.length; i++) {
+                    //    var product = dom.byId("infection-data");
+                    //    var ul = domConstruct.create("ul");
+                    //    var li = domConstruct.create("li");
+                    //    var day = this.warmData.infectionRisks[i].doy;
+                    //    var dateShowed = new Date();
+                    //    dateShowed.setDate(dateShowed.getDate() + i);
+                    //    li.innerHTML = "<b>Date:</b> " + dateShowed.toDateString();
+                    //    domConstruct.place(li, ul, "last");
+                    //    var li = domConstruct.create("li");
+                    //    li.innerHTML = "<b>Infection Risk:</b> " + this.warmData.infectionRisks[i].value;
+                    //    domConstruct.place(li, ul, "last");
+                    //    domConstruct.place(ul, product, "last");
+                    //}
+
+                    //Abiotic Risk
                     var label = dom.byId("abioticRisk");
                     label.innerHTML = "Potential risk of Cold Sterility (WARM) (" + this.warmData.abioticRisks.length + "):";
-                    for(var i =0; i<this.warmData.abioticRisks.length; i++) {
-                        var product = dom.byId("abioticRisk-data");
-                        var ul = domConstruct.create("ul");
-                        var li = domConstruct.create("li");
-                        var day = this.warmData.abioticRisks[i].doy;
-                        var dateShowed = new Date();
-                        dateShowed.setDate(dateShowed.getDate() + i);
-                        li.innerHTML = "<b>Date:</b> " + dateShowed.toDateString();
-                        domConstruct.place(li, ul, "last");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Abiotic Risk:</b> " + this.warmData.abioticRisks[i].value;
-                        domConstruct.place(li, ul, "last");
-                        domConstruct.place(ul, product, "last");
-                    }
+                    var chartTitle = "Potential risk of Cold Sterility";
+                    var node = dom.byId("abioticRisk-data");
+                    ShowGraph(node, this.warmData.abioticRisks, chartTitle);
 
+                    //for(var i =0; i<this.warmData.abioticRisks.length; i++) {
+                    //    var product = dom.byId("abioticRisk-data");
+                    //    var ul = domConstruct.create("ul");
+                    //    var li = domConstruct.create("li");
+                    //    var day = this.warmData.abioticRisks[i].doy;
+                    //    var dateShowed = new Date();
+                    //    dateShowed.setDate(dateShowed.getDate() + i);
+                    //    li.innerHTML = "<b>Date:</b> " + dateShowed.toDateString();
+                    //    domConstruct.place(li, ul, "last");
+                    //    var li = domConstruct.create("li");
+                    //    li.innerHTML = "<b>Abiotic Risk:</b> " + this.warmData.abioticRisks[i].value;
+                    //    domConstruct.place(li, ul, "last");
+                    //    domConstruct.place(ul, product, "last");
+                    //}
+
+                    //Biomass
                     var label = dom.byId("biomass");
                     label.innerHTML = "Above Ground Biomass (WARM) (" + this.warmData.biomasses.length + "):";
-                    for(var i =0; i<this.warmData.biomasses.length; i++) {
-                        var product = dom.byId("biomass-data");
-                        var ul = domConstruct.create("ul");
-                        var li = domConstruct.create("li");
-                        var day = this.warmData.biomasses[i].doy;
-                        var dateShowed = new Date();
-                        dateShowed.setDate(dateShowed.getDate() + i);
-                        li.innerHTML = "<b>Date:</b> " + dateShowed.toDateString();
-                        domConstruct.place(li, ul, "last");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Biomass:</b> " + this.warmData.biomasses[i].value;
-                        domConstruct.place(li, ul, "last");
-                        domConstruct.place(ul, product, "last");
-                    }
+                    var chartTitle = "Above Ground Biomass";
+                    var node = dom.byId("biomass-data");
+                    ShowGraph(node, this.warmData.biomasses, chartTitle);
 
+                    //for(var i =0; i<this.warmData.biomasses.length; i++) {
+                    //    var product = dom.byId("biomass-data");
+                    //    var ul = domConstruct.create("ul");
+                    //    var li = domConstruct.create("li");
+                    //    var day = this.warmData.biomasses[i].doy;
+                    //    var dateShowed = new Date();
+                    //    dateShowed.setDate(dateShowed.getDate() + i);
+                    //    li.innerHTML = "<b>Date:</b> " + dateShowed.toDateString();
+                    //    domConstruct.place(li, ul, "last");
+                    //    var li = domConstruct.create("li");
+                    //    li.innerHTML = "<b>Biomass:</b> " + this.warmData.biomasses[i].value;
+                    //    domConstruct.place(li, ul, "last");
+                    //    domConstruct.place(ul, product, "last");
+                    //}
+
+                    //PanicleBiomass
                     var label = dom.byId("penicleBiomass");
                     label.innerHTML = "Panicle Biomasses (WARM) (" + this.warmData.penicleBiomasses.length + "):";
-                    for(var i =0; i<this.warmData.penicleBiomasses.length; i++) {
-                        var product = dom.byId("penicleBiomass-data");
-                        var ul = domConstruct.create("ul");
-                        var li = domConstruct.create("li");
-                        var day = this.warmData.penicleBiomasses[i].doy;
-                        var dateShowed = new Date();
-                        dateShowed.setDate(dateShowed.getDate() + i);
-                        li.innerHTML = "<b>Date:</b> " + dateShowed.toDateString();
-                        domConstruct.place(li, ul, "last");
-                        var li = domConstruct.create("li");
-                        li.innerHTML = "<b>Panicle Biomass:</b> " + this.warmData.penicleBiomasses[i].value;
-                        domConstruct.place(li, ul, "last");
-                        domConstruct.place(ul, product, "last");
-                    }
+                    var chartTitle = "Panicle Biomasses";
+                    var node = dom.byId("penicleBiomass-data");
+                    ShowGraph(node, this.warmData.penicleBiomasses, chartTitle);
+
+                    //for(var i =0; i<this.warmData.penicleBiomasses.length; i++) {
+                    //    var product = dom.byId("penicleBiomass-data");
+                    //    var ul = domConstruct.create("ul");
+                    //    var li = domConstruct.create("li");
+                    //    var day = this.warmData.penicleBiomasses[i].doy;
+                    //    var dateShowed = new Date();
+                    //    dateShowed.setDate(dateShowed.getDate() + i);
+                    //    li.innerHTML = "<b>Date:</b> " + dateShowed.toDateString();
+                    //    domConstruct.place(li, ul, "last");
+                    //    var li = domConstruct.create("li");
+                    //    li.innerHTML = "<b>Panicle Biomass:</b> " + this.warmData.penicleBiomasses[i].value;
+                    //    domConstruct.place(li, ul, "last");
+                    //    domConstruct.place(ul, product, "last");
+                    //}
                 }
                 //if(!this.warmInfectionData.error){
                 //    var label = dom.byId("infection");

@@ -4,7 +4,7 @@
     "configId": "IT-REGIONAL",
     "region": "IT",
     "products": [101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 118, 121, 122, 123, 124, 125, 126, 127, 128, 129],
-    "operationalLayers": [101, 102, 103],
+    "operationalLayers": [103],
     "parcelsLayer": 101,
     "parcelFinder": false
   },
@@ -13,7 +13,7 @@
     "configId": "IT-LOCAL",
     "region": "IT",
     "products": [116, 117, 118, 130, 131],
-    "operationalLayers": [101],
+    "operationalLayers": [],
     "parcelsLayer": 101,
     "parcelFinder": false
   },
@@ -30,7 +30,7 @@
     "profileId": "SP-LOCAL",
     "configId": "SP-LOCAL",
     "region": "SP",
-    "products": [216, 217],
+    "products": [216, 217, 230, 231, 232, 233, 234],
     "operationalLayers": [],
     "parcelsLayer": 201,
     "parcelFinder": true
@@ -48,7 +48,7 @@
     "profileId": "GK-LOCAL",
     "configId": "GK-LOCAL",
     "region": "GK",
-    "products": [316, 317],
+    "products": [316, 317, 330, 331],
     "operationalLayers": [],
     "parcelsLayer": 301,
     "parcelFinder": false

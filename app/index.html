@@ -110,6 +110,29 @@
   </div>
 </div>
 
+<div id="info-window-chart-widget-div" class="ermes-window-aspect display-none">
+
+  <span id="info-window-chart-widget-dragger" class="btn btn-default"><span class="glyphicon glyphicon-move"></span></span>
+
+  <div id="info-window-chart-widget-container">
+    <div id="chart-info-window-widget">
+      <div id="model-product-title-div">
+        <h3 id="model-product-title-h">Titulo</h3>
+      </div>
+      <div id="model-product-chart-div">
+      </div>
+
+      <div>
+        <div class="inline-buttons">
+          <button id="close-info-window-chart-button" class="btn btn-default settings-button-tools">
+            <span aria-hidden="true" class="glyphicon glyphicon-remove-circle"></span>Close chart
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div id="main-raster-name" class="notvisible"></div>
 <div id="compared-raster-name" class="notvisible"></div>
 
@@ -199,7 +222,6 @@
   </div>
 </div>
 
-
 <!--<img id="chart-as-png">-->
 
 <script type="text/javascript" src="js/utils/FileSaver.js"></script>
@@ -213,6 +235,7 @@
 <script type="text/javascript" src="js/run.js"></script>
 <script type="text/javascript" src="js/utils/strings.json"></script>
 <script type="text/javascript" src="js/utils/language-controller.js"></script>
+<script type="text/javascript" src="js/utils/dygraph-model-creator.js"></script>
 
 <!--<script src="//cdn.jsdelivr.net/bootstrap.material-design/0.3.0/js/material.min.js"></script>-->
 <!--<script src="//cdn.jsdelivr.net/bootstrap.material-design/0.3.0/js/ripples.min.js"></script>-->

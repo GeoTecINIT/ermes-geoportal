@@ -1,4 +1,4 @@
-#monitoring-widget-div {
+#monitoring-widget-div, #info-window-chart-widget-div {
     position: absolute;
     left: 30%;
     top: 30%;
