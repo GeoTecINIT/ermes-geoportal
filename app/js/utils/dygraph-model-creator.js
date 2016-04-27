@@ -12,8 +12,21 @@ function ShowGraph(node, modelData, title){
     }
 
     var data = "";
+    //for(var i =0; i<modelData.length; i++) {
+    //    data+= dateFromDay(2015, modelData[i].doy) + "," + modelData[i].value + "\n";
+    //    //data.push([modelData[i].value]);
+    //}
+    var currentDoy = getDOY();
     for(var i =0; i<modelData.length; i++) {
-        data+= dateFromDay(2015, modelData[i].doy) + "," + modelData[i].value + "\n";
+        if(modelData[i].doy<currentDoy) {
+            data += dateFromDay(2015, modelData[i].doy) + "," + modelData[i].value + ",\n";
+        }
+        else if (modelData[i].doy - currentDoy < 5){
+            data += dateFromDay(2015, modelData[i].doy) + ",," + modelData[i].value + "\n";
+        }
+        else {
+            break;
+        }
         //data.push([modelData[i].value]);
     }
 
@@ -40,13 +53,36 @@ function ShowGraph(node, modelData, title){
             $("#info-window-chart-widget-div").addClass("display-none");
         });
         var g = new Dygraph("model-product-chart-div", data, {
-            labels: [ "Doy", "Value" ],
-            showRangeSelector: true
+            labels: [ "Doy", "Value", "Prediction" ],
+            showRangeSelector: true,
+            ylabel: title,
+            legend: 'always'
+            //underlayCallback: function(canvas, area, g) {
+            //    var LowCoords = g.toDomCoords(0, 2.25);
+            //    var HighCoords = g.toDomCoords(0, 4);
+            //
+            //    var high = HighCoords[1];
+            //    var low = LowCoords[1];
+            //
+            //    canvas.fillStyle = 'red';
+            //    canvas.fillRect(area.x, low, area.w, 2);
+            //    canvas.fillStyle = 'blue';
+            //    canvas.fillRect(area.x, high, area.w, 2);
+            //}
         });
 
     }
     $(node).append(button);
 
     $('#' + buttonId).on('click', launchGraph);
+
+}
+
+function getDOY(){var now = new Date();
+    var start = new Date(now.getFullYear(), 0, 0);
+    var diff = now - start;
+    var oneDay = 1000 * 60 * 60 * 24;
+    var day = Math.floor(diff / oneDay);
+    return day;
 
 }

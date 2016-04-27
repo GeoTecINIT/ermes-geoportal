@@ -4,6 +4,7 @@
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active"><a id="info-window-menu-title-local" href="#local-tab" aria-controls="home" role="tab" data-toggle="tab">Local Data</a></li>
         <li role="presentation"><a id="info-window-menu-title-model" href="#model-tab" aria-controls="profile" role="tab" data-toggle="tab">Model Data</a></li>
+        <li role="presentation"><a id="info-window-menu-title-meteo" href="#meteo-tab" aria-controls="profile" role="tab" data-toggle="tab">Meteo</a></li>
         <li role="presentation"><a id="info-window-menu-title-chart" href="#chart-tab" aria-controls="messages" role="tab" data-toggle="tab">Chart Satellite<br>Time Series</a></li>
     </ul>
     <div class="tab-content">
@@ -344,6 +345,158 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="meteo-tab">
+
+
+
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="meteoRadiationHeading">
+                    <h4 class="panel-title">
+                        <a id="meteoRadiation" class="meteoRadiationCollapse" role="button" data-toggle="collapse" data-parent="#accordion" href="#meteoRadiationCollapse" aria-expanded="false" aria-controls="meteoRadiationCollapse">
+                            Radiation (0):
+                        </a>
+                    </h4>
+                </div>
+                <div id="meteoRadiationCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="meteoRadiationHeading">
+                    <div class="panel-body" id="meteoRadiation-data">
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="meteoRainfallHeading">
+                    <h4 class="panel-title">
+                        <a id="meteoRainfall" class="meteoRainfallCollapse" role="button" data-toggle="collapse" data-parent="#accordion" href="#meteoRainfallCollapse" aria-expanded="false" aria-controls="meteoRainfallCollapse">
+                            Rainfall (0):
+                        </a>
+                    </h4>
+                </div>
+                <div id="meteoRainfallCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="meteoRainfallHeading">
+                    <div class="panel-body" id="meteoRainfall-data">
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="meteoMaximumHumidityHeading">
+                    <h4 class="panel-title">
+                        <a id="meteoMaximumHumidity" class="meteoMaximumHumidityCollapse" role="button" data-toggle="collapse" data-parent="#accordion" href="#meteoMaximumHumidityCollapse" aria-expanded="false" aria-controls="meteoMaximumHumidityCollapse">
+                            Maximum humidity (0):
+                        </a>
+                    </h4>
+                </div>
+                <div id="meteoMaximumHumidityCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="meteoMaximumHumidityHeading">
+                    <div class="panel-body" id="meteoMaximumHumidity-data">
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="meteoMinimumHumidityHeading">
+                    <h4 class="panel-title">
+                        <a id="meteoMinimumHumidity" class="meteoMinimumHumidityCollapse" role="button" data-toggle="collapse" data-parent="#accordion" href="#meteoMinimumHumidityCollapse" aria-expanded="false" aria-controls="meteoMinimumHumidityCollapse">
+                            Minimum humidity (0):
+                        </a>
+                    </h4>
+                </div>
+                <div id="meteoMinimumHumidityCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="meteoMinimumHumidityHeading">
+                    <div class="panel-body" id="meteoMinimumHumidity-data">
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="meteoMaximumTemperatureHeading">
+                    <h4 class="panel-title">
+                        <a id="meteoMaximumTemperature" class="meteoMaximumTemperatureCollapse" role="button" data-toggle="collapse" data-parent="#accordion" href="#meteoMaximumTemperatureCollapse" aria-expanded="false" aria-controls="meteoMaximumTemperatureCollapse">
+                            Maximum Temperature (0):
+                        </a>
+                    </h4>
+                </div>
+                <div id="meteoMaximumTemperatureCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="meteoMaximumTemperatureHeading">
+                    <div class="panel-body" id="meteoMaximumTemperature-data">
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="meteoMinimumTemperatureHeading">
+                    <h4 class="panel-title">
+                        <a id="meteoMinimumTemperature" class="meteoMinimumTemperatureCollapse" role="button" data-toggle="collapse" data-parent="#accordion" href="#meteoMinimumTemperatureCollapse" aria-expanded="false" aria-controls="meteoMinimumTemperatureCollapse">
+                            Minimum Temperature (0):
+                        </a>
+                    </h4>
+                </div>
+                <div id="meteoMinimumTemperatureCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="meteoMinimumTemperatureHeading">
+                    <div class="panel-body" id="meteoMinimumTemperature-data">
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="meteoWindSpeedHeading">
+                    <h4 class="panel-title">
+                        <a id="meteoWindSpeed" class="meteoWindSpeedCollapse" role="button" data-toggle="collapse" data-parent="#accordion" href="#meteoWindSpeedCollapse" aria-expanded="false" aria-controls="meteoWindSpeedCollapse">
+                            Wind Speed (0):
+                        </a>
+                    </h4>
+                </div>
+                <div id="meteoWindSpeedCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="meteoWindSpeedHeading">
+                    <div class="panel-body" id="meteoWindSpeed-data">
+                    </div>
+                </div>
+            </div>
+            <!--<div class="panel panel-default">-->
+                <!--<div class="panel-heading" role="tab" id="infectionHeading">-->
+                    <!--<h4 class="panel-title">-->
+                        <!--<a id="infection" class="infectionCollapse" role="button" data-toggle="collapse" data-parent="#accordion" href="#infectionCollapse" aria-expanded="false" aria-controls="infectionCollapse">-->
+                            <!--Potential Risk of Blast Infection (WARM) (0):-->
+                        <!--</a>-->
+                    <!--</h4>-->
+                <!--</div>-->
+                <!--<div id="infectionCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="infectionHeading">-->
+                    <!--<div class="panel-body" id="infection-data">-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+
+            <!--<div class="panel panel-default">-->
+                <!--<div class="panel-heading" role="tab" id="abioticRiskHeading">-->
+                    <!--<h4 class="panel-title">-->
+                        <!--<a id="abioticRisk" class="abioticRiskCollapse" role="button" data-toggle="collapse" data-parent="#accordion" href="#abioticRiskCollapse" aria-expanded="false" aria-controls="abioticRiskCollapse">-->
+                            <!--Potential risk of Cold Sterility (WARM) (0):-->
+                        <!--</a>-->
+                    <!--</h4>-->
+                <!--</div>-->
+                <!--<div id="abioticRiskCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="abioticRiskHeading">-->
+                    <!--<div class="panel-body" id="abioticRisk-data">-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+
+            <!--<div class="panel panel-default">-->
+                <!--<div class="panel-heading" role="tab" id="biomassHeading">-->
+                    <!--<h4 class="panel-title">-->
+                        <!--<a id="biomass" class="biomassCollapse" role="button" data-toggle="collapse" data-parent="#accordion" href="#biomassCollapse" aria-expanded="false" aria-controls="biomassCollapse">-->
+                            <!--Above Ground Biomass (WARM) (0):-->
+                        <!--</a>-->
+                    <!--</h4>-->
+                <!--</div>-->
+                <!--<div id="biomassCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="biomassHeading">-->
+                    <!--<div class="panel-body" id="biomass-data">-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+
+            <!--<div class="panel panel-default">-->
+                <!--<div class="panel-heading" role="tab" id="penicleBiomassHeading">-->
+                    <!--<h4 class="panel-title">-->
+                        <!--<a id="penicleBiomass" class="penicleBiomassCollapse" role="button" data-toggle="collapse" data-parent="#accordion" href="#penicleBiomassCollapse" aria-expanded="false" aria-controls="penicleBiomassCollapse">-->
+                            <!--Penicle Biomasses (WARM) (0):-->
+                        <!--</a>-->
+                    <!--</h4>-->
+                <!--</div>-->
+                <!--<div id="penicleBiomassCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="penicleBiomassHeading">-->
+                    <!--<div class="panel-body" id="penicleBiomass-data">-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
         </div>
 
         <div role="tabpanel" class="tab-pane" id="chart-tab">

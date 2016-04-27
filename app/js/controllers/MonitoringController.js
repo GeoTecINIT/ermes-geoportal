@@ -44,6 +44,7 @@ define([
         clickedGraph: new Graphic(null, null),
         mongoData: null,
         warmData: null,
+        meteoData: null,
         warmInfectionData: null,
         localDataReceived: 0,
         playIteration: 0,
@@ -382,12 +383,40 @@ define([
                         parcelId: parcelid,
                         //Change for 2016.
                         year: now.getFullYear()-1
+                        //year: 2015
                     },
                     headers: {
                         "X-Requested-With": null,
                         "X-Authorization": "Bearer " + localStorage.token
                     }
                 }).then(lang.hitch(this, "_receivedData", "warm"), lang.hitch(this, "_receivedData", "warm", {}));
+            }
+
+
+            //METEO QUERY
+            var serviceURL = this.urlServer + this.apiVersion + "/warm/meteo";
+            if (response.features.length>0) {
+                var parcelid = response.features[0].attributes.PARCEL_ID;
+                var now = new Date();
+                var start = new Date(now.getFullYear(), 0, 0);
+                var diff = now - start;
+                var oneDay = 1000 * 60 * 60 * 24;
+
+                var doy = Math.floor(diff / oneDay);
+
+                xhr(serviceURL, {
+                    handleAs: "json",
+                    query: {
+                        //username: username,
+                        parcelId: parcelid,
+                        //Change for 2016.
+                        year: now.getFullYear()-1
+                    },
+                    headers: {
+                        "X-Requested-With": null,
+                        "X-Authorization": "Bearer " + localStorage.token
+                    }
+                }).then(lang.hitch(this, "_receivedData", "meteo"), lang.hitch(this, "_receivedData", "meteo", {}));
             }
         },
 
@@ -398,11 +427,14 @@ define([
             else if(profile=="warm"){
                 this.warmData = data;
             }
+            else if(profile=="meteo") {
+                this.meteoData = data;
+            }
             //else if(profile=="warmInfection"){
             //    this.warmInfectionData = data;
             //}
             this.localDataReceived++;
-            if(this.localDataReceived==2){
+            if(this.localDataReceived==3){
                 this.localDataReceived=0;
                 this.map.infoWindow.resize(400, 400);
 
@@ -416,9 +448,6 @@ define([
             if(data.parcel){
                 var content = parcelTemplate;
                 this.map.infoWindow.setContent(content);
-
-
-
 
                 if(this.activeRaster) {
                     $('#info-window-show-chart-button').removeClass('display-none').addClass('display-block');
@@ -524,12 +553,13 @@ define([
                  //UNCOMMENT FOR ENABLE CONNECTION WITH WARM DATABASE.
                 if(!this.warmData.error){
                     //Development Stage
-                    var label = dom.byId("developmentStage");
-                    label.innerHTML = "Rice development  stage (WARM) (" + this.warmData.developmentStages.length + "):";
-                    var chartTitle = "Rice development  stage";
-                    var node = dom.byId("developmentStage-data");
-                    ShowGraph(node, this.warmData.developmentStages, chartTitle);
-
+                    if(this.warmData.developmentStages) {
+                        var label = dom.byId("developmentStage");
+                        label.innerHTML = "Rice development  stage (WARM) (" + this.warmData.developmentStages.length + "):";
+                        var chartTitle = "Rice development  stage";
+                        var node = dom.byId("developmentStage-data");
+                        ShowGraph(node, this.warmData.developmentStages, chartTitle);
+                    }
                     //TEST FOR CHARTS
                     //var nodeTest = dom.byId("developmentStage-data");
                     //ShowGraph(nodeTest);
@@ -555,12 +585,13 @@ define([
                     //}
 
                     //Infection
-                    var label = dom.byId("infection");
-                    var chartTitle = "Potential Risk of Blast Infection";
-                    label.innerHTML = "Potential Risk of Blast Infection (WARM) (" + this.warmData.infectionRisks.length + "):";
-                    var node = dom.byId("infection-data");
-                    ShowGraph(node, this.warmData.infectionRisks, chartTitle);
-
+                    if(this.warmData.infectionRisks) {
+                        var label = dom.byId("infection");
+                        var chartTitle = "Potential Risk of Blast Infection";
+                        label.innerHTML = "Potential Risk of Blast Infection (WARM) (" + this.warmData.infectionRisks.length + "):";
+                        var node = dom.byId("infection-data");
+                        ShowGraph(node, this.warmData.infectionRisks, chartTitle);
+                    }
                     //for(var i =0; i<this.warmData.infectionRisks.length; i++) {
                     //    var product = dom.byId("infection-data");
                     //    var ul = domConstruct.create("ul");
@@ -577,12 +608,13 @@ define([
                     //}
 
                     //Abiotic Risk
-                    var label = dom.byId("abioticRisk");
-                    label.innerHTML = "Potential risk of Cold Sterility (WARM) (" + this.warmData.abioticRisks.length + "):";
-                    var chartTitle = "Potential risk of Cold Sterility";
-                    var node = dom.byId("abioticRisk-data");
-                    ShowGraph(node, this.warmData.abioticRisks, chartTitle);
-
+                    if(this.warmData.abioticRisks) {
+                        var label = dom.byId("abioticRisk");
+                        label.innerHTML = "Potential risk of Cold Sterility (WARM) (" + this.warmData.abioticRisks.length + "):";
+                        var chartTitle = "Potential risk of Cold Sterility";
+                        var node = dom.byId("abioticRisk-data");
+                        ShowGraph(node, this.warmData.abioticRisks, chartTitle);
+                    }
                     //for(var i =0; i<this.warmData.abioticRisks.length; i++) {
                     //    var product = dom.byId("abioticRisk-data");
                     //    var ul = domConstruct.create("ul");
@@ -599,12 +631,13 @@ define([
                     //}
 
                     //Biomass
-                    var label = dom.byId("biomass");
-                    label.innerHTML = "Above Ground Biomass (WARM) (" + this.warmData.biomasses.length + "):";
-                    var chartTitle = "Above Ground Biomass";
-                    var node = dom.byId("biomass-data");
-                    ShowGraph(node, this.warmData.biomasses, chartTitle);
-
+                    if(this.warmData.biomasses) {
+                        var label = dom.byId("biomass");
+                        label.innerHTML = "Above Ground Biomass (WARM) (" + this.warmData.biomasses.length + "):";
+                        var chartTitle = "Above Ground Biomass";
+                        var node = dom.byId("biomass-data");
+                        ShowGraph(node, this.warmData.biomasses, chartTitle);
+                    }
                     //for(var i =0; i<this.warmData.biomasses.length; i++) {
                     //    var product = dom.byId("biomass-data");
                     //    var ul = domConstruct.create("ul");
@@ -621,12 +654,13 @@ define([
                     //}
 
                     //PanicleBiomass
-                    var label = dom.byId("penicleBiomass");
-                    label.innerHTML = "Panicle Biomasses (WARM) (" + this.warmData.penicleBiomasses.length + "):";
-                    var chartTitle = "Panicle Biomasses";
-                    var node = dom.byId("penicleBiomass-data");
-                    ShowGraph(node, this.warmData.penicleBiomasses, chartTitle);
-
+                    if(this.warmData.penicleBiomasses) {
+                        var label = dom.byId("penicleBiomass");
+                        label.innerHTML = "Panicle Biomasses (WARM) (" + this.warmData.penicleBiomasses.length + "):";
+                        var chartTitle = "Panicle Biomasses";
+                        var node = dom.byId("penicleBiomass-data");
+                        ShowGraph(node, this.warmData.penicleBiomasses, chartTitle);
+                    }
                     //for(var i =0; i<this.warmData.penicleBiomasses.length; i++) {
                     //    var product = dom.byId("penicleBiomass-data");
                     //    var ul = domConstruct.create("ul");
@@ -660,6 +694,66 @@ define([
                 //        domConstruct.place(ul, product, "last");
                 //    }
                 //}
+                if(!this.meteoData.error){
+                    //Extract to formatedMeteoData
+                    var formatedMeteoData = this._changeMeteoFormat(this.meteoData.meteo);
+                    if(formatedMeteoData.radiation) {
+                        var label = dom.byId("meteoRadiation");
+                        label.innerHTML = "Radiation (" + formatedMeteoData.radiation.length + "):";
+                        var chartTitle = "Radiation";
+                        var node = dom.byId("meteoRadiation-data");
+
+                        ShowGraph(node, formatedMeteoData.radiation, chartTitle);
+                    }
+                    if(formatedMeteoData.rainfall) {
+                        var label = dom.byId("meteoRainfall");
+                        label.innerHTML = "Rainfall (" + formatedMeteoData.rainfall.length + "):";
+                        var chartTitle = "Rainfall";
+                        var node = dom.byId("meteoRainfall-data");
+
+                        ShowGraph(node, formatedMeteoData.rainfall, chartTitle);
+                    }
+                    if(formatedMeteoData.maximumHumidity) {
+                        var label = dom.byId("meteoMaximumHumidity");
+                        label.innerHTML = "Maximum Humidity (" + formatedMeteoData.maximumHumidity.length + "):";
+                        var chartTitle = "Maximum Humidity";
+                        var node = dom.byId("meteoMaximumHumidity-data");
+
+                        ShowGraph(node, formatedMeteoData.maximumHumidity, chartTitle);
+                    }
+                    if(formatedMeteoData.minimumHumidity) {
+                        var label = dom.byId("meteoMinimumHumidity");
+                        label.innerHTML = "Minimum Humidity (" + formatedMeteoData.minimumHumidity.length + "):";
+                        var chartTitle = "Minimum Humidity";
+                        var node = dom.byId("meteoMinimumHumidity-data");
+
+                        ShowGraph(node, formatedMeteoData.minimumHumidity, chartTitle);
+                    }
+                    if(formatedMeteoData.maximumTemperature) {
+                        var label = dom.byId("meteoMaximumTemperature");
+                        label.innerHTML = "Maximum Temperature (" + formatedMeteoData.maximumTemperature.length + "):";
+                        var chartTitle = "Maximum Temperature";
+                        var node = dom.byId("meteoMaximumTemperature-data");
+
+                        ShowGraph(node, formatedMeteoData.maximumTemperature, chartTitle);
+                    }
+                    if(formatedMeteoData.minimumTemperature) {
+                        var label = dom.byId("meteoMinimumTemperature");
+                        label.innerHTML = "Minimum Temperature (" + formatedMeteoData.minimumTemperature.length + "):";
+                        var chartTitle = "Minimum Temperature";
+                        var node = dom.byId("meteoMinimumTemperature-data");
+
+                        ShowGraph(node, formatedMeteoData.minimumTemperature, chartTitle);
+                    }
+                    if(formatedMeteoData.windSpeed) {
+                        var label = dom.byId("meteoWindSpeed");
+                        label.innerHTML = "Wind Speed (" + formatedMeteoData.windSpeed.length + "):";
+                        var chartTitle = "Wind Speed";
+                        var node = dom.byId("meteoWindSpeed-data");
+
+                        ShowGraph(node, formatedMeteoData.windSpeed, chartTitle);
+                    }
+                }
             }
             else {
                 this.map.infoWindow.setTitle("<b id='info-window-invalid-parcel-title'>Invalid Parcel.</b>");
@@ -669,6 +763,37 @@ define([
 
             }
             SetInfoWindowLanguage();
+        },
+
+        _changeMeteoFormat: function(originalMeteo){
+            formatedMeteo = {};
+            formatedMeteo.radiation = [];
+            formatedMeteo.maximumHumidity = [];
+            formatedMeteo.minimumHumidity = [];
+            formatedMeteo.rainfall = [];
+            formatedMeteo.maximumTemperature = [];
+            formatedMeteo.minimumTemperature= [];
+            formatedMeteo.windSpeed = [];
+
+            for(var i = originalMeteo.length-1; i>0; i--){
+                formatedMeteo.radiation.push({ "doy": originalMeteo[i].doy, "value": originalMeteo[i].radiation});
+                formatedMeteo.maximumHumidity.push({ "doy": originalMeteo[i].doy, "value": originalMeteo[i].rhmax});
+                formatedMeteo.minimumHumidity.push({ "doy": originalMeteo[i].doy, "value": originalMeteo[i].rhmin});
+                formatedMeteo.rainfall.push({ "doy": originalMeteo[i].doy, "value": originalMeteo[i].rainfall});
+                formatedMeteo.maximumTemperature.push({ "doy": originalMeteo[i].doy, "value": originalMeteo[i].tmax});
+                formatedMeteo.minimumTemperature.push({ "doy": originalMeteo[i].doy, "value": originalMeteo[i].tmin});
+                formatedMeteo.windSpeed.push({ "doy": originalMeteo[i].doy, "value": originalMeteo[i].windSpeed});
+            }
+            formatedMeteo.radiation = _.sortBy(formatedMeteo.radiation, "doy");
+            formatedMeteo.maximumHumidity = _.sortBy(formatedMeteo.maximumHumidity, "doy");
+            formatedMeteo.minimumHumidity = _.sortBy(formatedMeteo.minimumHumidity, "doy");
+            formatedMeteo.rainfall = _.sortBy(formatedMeteo.rainfall, "doy");
+            formatedMeteo.maximumTemperature = _.sortBy(formatedMeteo.maximumTemperature, "doy");
+            formatedMeteo.minimumTemperature = _.sortBy(formatedMeteo.minimumTemperature, "doy");
+            formatedMeteo.windSpeed = _.sortBy(formatedMeteo.windSpeed, "doy");
+
+            return formatedMeteo;
+
         },
 
         _removeAlert: function(evt){
