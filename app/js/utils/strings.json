@@ -720,11 +720,11 @@
     "idNode": "info-window-menu-title-local",
     "sp": {
       "title": "",
-      "html": "Datos Locales"
+      "html": "Datos<br>Locales"
     },
     "en": {
       "title": "",
-      "html": "Local Data"
+      "html": "Local<br>Data"
     },
     "it": {
       "title": null,
@@ -743,7 +743,7 @@
     },
     "en": {
       "title": "",
-      "html": "Model Data"
+      "html": "Model<br>Data"
     },
     "it": {
       "title": null,
@@ -762,7 +762,7 @@
     },
     "en": {
       "title": "",
-      "html": "Chart Satellite<br>Time Series"
+      "html": "Chart<br>Satellite<br>Time<br>Series"
     },
     "it": {
       "title": null,
@@ -953,6 +953,481 @@
     "en": {
       "title": "",
       "html": "Searching..."
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "hide-play-menu-button",
+    "sp": {
+      "title": "",
+      "html": "Ocultar"
+    },
+    "en": {
+      "title": "",
+      "html": "Hide"
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "info-window-crop-info-label",
+    "sp": {
+      "title": "",
+      "html": "Datos de cultivo"
+    },
+    "en": {
+      "title": "",
+      "html": "Crop Info"
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "info-window-soils-label",
+    "sp": {
+      "title": "",
+      "html": "Tipo de Suelo"
+    },
+    "en": {
+      "title": "",
+      "html": "Soil Type"
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "info-window-parcelStatus-label",
+    "sp": {
+      "title": "",
+      "html": "Condición de suelo"
+    },
+    "en": {
+      "title": "",
+      "html": "Soil Condition"
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "info-window-phenologies-label",
+    "sp": {
+      "title": "",
+      "html": "Fenología del cultivo"
+    },
+    "en": {
+      "title": "",
+      "html": "Crop Phenology"
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "info-window-phatogens-label",
+    "sp": {
+      "title": "",
+      "html": "Insectos"
+    },
+    "en": {
+      "title": "",
+      "html": "Insects"
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "info-window-diseases-label",
+    "sp": {
+      "title": "",
+      "html": "Enfermedades"
+    },
+    "en": {
+      "title": "",
+      "html": "Diseases"
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "info-window-weeds-label",
+    "sp": {
+      "title": "",
+      "html": "Hierbas"
+    },
+    "en": {
+      "title": "",
+      "html": "Weeds"
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "info-window-fertilizers-label",
+    "sp": {
+      "title": "",
+      "html": "Fertilizantes"
+    },
+    "en": {
+      "title": "",
+      "html": "Fertilizers"
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "info-window-agrochemicals-label",
+    "sp": {
+      "title": "",
+      "html": "Agroquímicos"
+    },
+    "en": {
+      "title": "",
+      "html": "Agrochemicals"
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "info-window-irrigationInfos-label",
+    "sp": {
+      "title": "",
+      "html": "Riego"
+    },
+    "en": {
+      "title": "",
+      "html": "Irrigation"
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "info-window-yields-label",
+    "sp": {
+      "title": "",
+      "html": "Produccion"
+    },
+    "en": {
+      "title": "",
+      "html": "Yields"
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "info-window-observations-label",
+    "sp": {
+      "title": "",
+      "html": "Observaciones"
+    },
+    "en": {
+      "title": "",
+      "html": "Observations"
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "info-window-developmentStage-label",
+    "sp": {
+      "title": "",
+      "html": "Fase de desarrollo del arroz"
+    },
+    "en": {
+      "title": "",
+      "html": "Rice development stage"
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "info-window-infection-label",
+    "sp": {
+      "title": "",
+      "html": "Riesgo potencial de Infección"
+    },
+    "en": {
+      "title": "",
+      "html": "Potential Risk of Blast Infection"
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "info-window-abioticRisk-label",
+    "sp": {
+      "title": "",
+      "html": "Riesgo potencial de esterilidad por frío"
+    },
+    "en": {
+      "title": "",
+      "html": "Potential risk of Cold Sterility"
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "info-window-biomass-label",
+    "sp": {
+      "title": "",
+      "html": "Biomasa a nivel del suelo"
+    },
+    "en": {
+      "title": "",
+      "html": "Above Ground Biomass"
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "info-window-penicleBiomass-label",
+    "sp": {
+      "title": "",
+      "html": "Biomasa en la Panícula"
+    },
+    "en": {
+      "title": "",
+      "html": "Penicle Biomasses"
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "info-window-meteoRadiation-label",
+    "sp": {
+      "title": "",
+      "html": "Radiación"
+    },
+    "en": {
+      "title": "",
+      "html": "Radiation"
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "info-window-meteoRainfall-label",
+    "sp": {
+      "title": "",
+      "html": "Precipitación"
+    },
+    "en": {
+      "title": "",
+      "html": "Rainfall"
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "info-window-meteoMaximumHumidity-label",
+    "sp": {
+      "title": "",
+      "html": "Humedad Máxima"
+    },
+    "en": {
+      "title": "",
+      "html": "Maximum humidity"
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "info-window-meteoMinimumHumidity-label",
+    "sp": {
+      "title": "",
+      "html": "Humedad Mínima"
+    },
+    "en": {
+      "title": "",
+      "html": "Minimum humidity"
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "info-window-meteoMaximumTemperature-label",
+    "sp": {
+      "title": "",
+      "html": "Temperatura Máxima"
+    },
+    "en": {
+      "title": "",
+      "html": "Maximum Temperature"
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "info-window-meteoMinimumTemperature-label",
+    "sp": {
+      "title": "",
+      "html": "Temperatura Mínima"
+    },
+    "en": {
+      "title": "",
+      "html": "Minimum Temperature"
+    },
+    "it": {
+      "title": null,
+      "html": null
+    },
+    "gk": {
+      "title": null,
+      "html": null
+    }
+  },
+  {
+    "idNode": "info-window-meteoWindSpeed-label",
+    "sp": {
+      "title": "",
+      "html": "Velocidad del Viento"
+    },
+    "en": {
+      "title": "",
+      "html": "Wind Speed"
     },
     "it": {
       "title": null,

@@ -2,10 +2,10 @@
 
 
     <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active"><a id="info-window-menu-title-local" href="#local-tab" aria-controls="home" role="tab" data-toggle="tab">Local Data</a></li>
-        <li role="presentation"><a id="info-window-menu-title-model" href="#model-tab" aria-controls="profile" role="tab" data-toggle="tab">Model Data</a></li>
+        <li role="presentation" class="active"><a id="info-window-menu-title-local" href="#local-tab" aria-controls="home" role="tab" data-toggle="tab">Local <br>Data</a></li>
+        <li role="presentation"><a id="info-window-menu-title-model" href="#model-tab" aria-controls="profile" role="tab" data-toggle="tab">Model <br>Data</a></li>
         <li role="presentation"><a id="info-window-menu-title-meteo" href="#meteo-tab" aria-controls="profile" role="tab" data-toggle="tab">Meteo</a></li>
-        <li role="presentation"><a id="info-window-menu-title-chart" href="#chart-tab" aria-controls="messages" role="tab" data-toggle="tab">Chart Satellite<br>Time Series</a></li>
+        <li role="presentation"><a id="info-window-menu-title-chart" href="#chart-tab" aria-controls="messages" role="tab" data-toggle="tab">Chart <br>Satellite<br>Time <br>Series</a></li>
     </ul>
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="local-tab">
@@ -23,7 +23,7 @@
                 <div class="panel-heading" role="tab" id="cropInfoHeading">
                     <h4 class="panel-title">
                         <a id="cropInfos" class="cropInfoCollapse" role="button" data-toggle="collapse" data-parent="#accordion" href="#cropInfoCollapse" aria-expanded="false" aria-controls="cropInfoCollapse">
-                            Crop Info (0):
+                            <ins id="info-window-crop-info-label">Crop Info</ins> <ins id="cropInfos-number">(0)</ins>
                         </a>
                     </h4>
                 </div>
@@ -44,7 +44,7 @@
                 <div class="panel-heading" role="tab" id="soilsHeading">
                     <h4 class="panel-title">
                         <a id="soils" class="soilsCollapse" role="button" data-toggle="collapse" data-parent="#accordion" href="#soilsCollapse" aria-expanded="false" aria-controls="soilsCollapse">
-                            Soil Type (0):
+                            <ins id="info-window-soils-label">Soil Type</ins> <ins id="soils-number">(0)</ins>
                         </a>
                     </h4>
                 </div>
@@ -65,7 +65,8 @@
                 <div class="panel-heading" role="tab" id="parcelStatusHeading">
                     <h4 class="panel-title">
                         <a id="parcelStatus" role="button" data-toggle="collapse" data-parent="#accordion" href="#parcelStatusCollapse" aria-expanded="true" aria-controls="parcelStatusCollapse">
-                            Soil Condition (0):
+                            <ins id="info-window-parcelStatus-label">Soil Condition</ins> <ins id="parcelStatus-number">(0)</ins>
+
                         </a>
                     </h4>
                 </div>
@@ -86,7 +87,8 @@
                 <div class="panel-heading" role="tab" id="phenologiesHeading">
                     <h4 class="panel-title">
                         <a id="phenologies" role="button" data-toggle="collapse" data-parent="#accordion" href="#phenologiesCollapse" aria-expanded="true" aria-controls="phenologiesCollapse">
-                            Crop Phenology (0):
+                            <ins id="info-window-phenologies-label">Crop Phenology</ins> <ins id="phenologies-number">(0)</ins>
+
                         </a>
                     </h4>
                 </div>
@@ -107,7 +109,8 @@
                 <div class="panel-heading" role="tab" id="phatogensHeading">
                     <h4 class="panel-title">
                         <a id="phatogens" class="phatogensCollapse" role="button" data-toggle="collapse" data-parent="#accordion" href="#phatogensCollapse" aria-expanded="false" aria-controls="phatogensCollapse">
-                            Insects (0):
+                            <ins id="info-window-phatogens-label">Insects</ins> <ins id="phatogens-number">(0)</ins>
+
                         </a>
                     </h4>
                 </div>
@@ -128,7 +131,7 @@
                 <div class="panel-heading" role="tab" id="diseasesHeading">
                     <h4 class="panel-title">
                         <a id="diseases" role="button" data-toggle="collapse" data-parent="#accordion" href="#diseasesCollapse" aria-expanded="true" aria-controls="diseasesCollapse">
-                            Diseases (0):
+                            <ins id="info-window-diseases-label">Diseases</ins> <ins id="diseases-number">(0)</ins>
                         </a>
                     </h4>
                 </div>
@@ -149,7 +152,7 @@
                 <div class="panel-heading" role="tab" id="weedsHeading">
                     <h4 class="panel-title">
                         <a id="weeds" role="button" data-toggle="collapse" data-parent="#accordion" href="#weedsCollapse" aria-expanded="true" aria-controls="weedsCollapse">
-                            Weeds (0):
+                            <ins id="info-window-weeds-label">Weeds</ins> <ins id="weeds-number">(0)</ins>
                         </a>
                     </h4>
                 </div>
@@ -166,13 +169,11 @@
                 </div>
             </div>
 
-            <!--Abiotic Stress-->
-
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="fertilizersHeading">
                     <h4 class="panel-title">
                         <a id="fertilizers" class="fertilizersCollapse" role="button" data-toggle="collapse" data-parent="#accordion" href="#fertilizersCollapse" aria-expanded="false" aria-controls="fertilizersCollapse">
-                            Fertilizers (0):
+                            <ins id="info-window-fertilizers-label">Fertilizers</ins> <ins id="fertilizers-number">(0)</ins>
                         </a>
                     </h4>
                 </div>
@@ -193,7 +194,7 @@
                 <div class="panel-heading" role="tab" id="agrochemicalsHeading">
                     <h4 class="panel-title">
                         <a id="agrochemicals" role="button" data-toggle="collapse" data-parent="#accordion" href="#agrochemicalsCollapse" aria-expanded="true" aria-controls="agrochemicalsCollapse">
-                            Agrochemicals (0):
+                            <ins id="info-window-agrochemicals-label">Agrochemicals</ins> <ins id="agrochemicals-number">(0)</ins>
                         </a>
                     </h4>
                 </div>
@@ -214,7 +215,7 @@
                 <div class="panel-heading" role="tab" id="irrigationInfosHeading">
                     <h4 class="panel-title">
                         <a id="irrigationInfos" role="button" data-toggle="collapse" data-parent="#accordion" href="#irrigationInfosCollapse" aria-expanded="true" aria-controls="irrigationInfosCollapse">
-                            Irrigation (0):
+                            <ins id="info-window-irrigationInfos-label">Irrigation</ins> <ins id="irrigationInfos-number">(0)</ins>
                         </a>
                     </h4>
                 </div>
@@ -235,7 +236,7 @@
                 <div class="panel-heading" role="tab" id="yieldsHeading">
                     <h4 class="panel-title">
                         <a id="yields" class="yieldsCollapse" role="button" data-toggle="collapse" data-parent="#accordion" href="#yieldsCollapse" aria-expanded="false" aria-controls="yieldsCollapse">
-                            Yields (0):
+                            <ins id="info-window-yields-label">Yields</ins> <ins id="yields-number">(0)</ins>
                         </a>
                     </h4>
                 </div>
@@ -256,7 +257,7 @@
                 <div class="panel-heading" role="tab" id="observationsHeading">
                     <h4 class="panel-title">
                         <a id="observations" class="observationsCollapse" role="button" data-toggle="collapse" data-parent="#accordion" href="#observationsCollapse" aria-expanded="false" aria-controls="observationsCollapse">
-                            Observations (0):
+                            <ins id="info-window-observations-label">Observations</ins> <ins id="observations-number">(0)</ins>
                         </a>
                     </h4>
                 </div>
@@ -280,7 +281,7 @@
                 <div class="panel-heading" role="tab" id="developmentStageHeading">
                     <h4 class="panel-title">
                         <a id="developmentStage" class="developmentStageCollapse" role="button" data-toggle="collapse" data-parent="#accordion" href="#developmentStageCollapse" aria-expanded="false" aria-controls="developmentStageCollapse">
-                            Rice development  stage (WARM) (0):
+                            <ins id="info-window-developmentStage-label">Rice development stage</ins> <ins id="developmentStage-number">(0)</ins>
                         </a>
                     </h4>
                 </div>
@@ -294,7 +295,7 @@
                 <div class="panel-heading" role="tab" id="infectionHeading">
                     <h4 class="panel-title">
                         <a id="infection" class="infectionCollapse" role="button" data-toggle="collapse" data-parent="#accordion" href="#infectionCollapse" aria-expanded="false" aria-controls="infectionCollapse">
-                            Potential Risk of Blast Infection (WARM) (0):
+                            <ins id="info-window-infection-label">Potential Risk of Blast Infection</ins> <ins id="infection-number">(0)</ins>
                         </a>
                     </h4>
                 </div>
@@ -308,7 +309,7 @@
                 <div class="panel-heading" role="tab" id="abioticRiskHeading">
                     <h4 class="panel-title">
                         <a id="abioticRisk" class="abioticRiskCollapse" role="button" data-toggle="collapse" data-parent="#accordion" href="#abioticRiskCollapse" aria-expanded="false" aria-controls="abioticRiskCollapse">
-                            Potential risk of Cold Sterility (WARM) (0):
+                            <ins id="info-window-abioticRisk-label">Potential risk of Cold Sterility</ins> <ins id="abioticRisk-number">(0)</ins>
                         </a>
                     </h4>
                 </div>
@@ -322,7 +323,7 @@
                 <div class="panel-heading" role="tab" id="biomassHeading">
                     <h4 class="panel-title">
                         <a id="biomass" class="biomassCollapse" role="button" data-toggle="collapse" data-parent="#accordion" href="#biomassCollapse" aria-expanded="false" aria-controls="biomassCollapse">
-                            Above Ground Biomass (WARM) (0):
+                            <ins id="info-window-biomass-label">Above Ground Biomass</ins> <ins id="biomass-number">(0)</ins>
                         </a>
                     </h4>
                 </div>
@@ -336,7 +337,7 @@
                 <div class="panel-heading" role="tab" id="penicleBiomassHeading">
                     <h4 class="panel-title">
                         <a id="penicleBiomass" class="penicleBiomassCollapse" role="button" data-toggle="collapse" data-parent="#accordion" href="#penicleBiomassCollapse" aria-expanded="false" aria-controls="penicleBiomassCollapse">
-                            Penicle Biomasses (WARM) (0):
+                            <ins id="info-window-penicleBiomass-label">Penicle Biomasses</ins> <ins id="penicleBiomass-number">(0)</ins>
                         </a>
                     </h4>
                 </div>
@@ -349,13 +350,11 @@
 
         <div role="tabpanel" class="tab-pane" id="meteo-tab">
 
-
-
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="meteoRadiationHeading">
                     <h4 class="panel-title">
                         <a id="meteoRadiation" class="meteoRadiationCollapse" role="button" data-toggle="collapse" data-parent="#accordion" href="#meteoRadiationCollapse" aria-expanded="false" aria-controls="meteoRadiationCollapse">
-                            Radiation (0):
+                            <ins id="info-window-meteoRadiation-label">Radiation</ins> <ins id="meteoRadiation-number">(0)</ins>
                         </a>
                     </h4>
                 </div>
@@ -368,7 +367,7 @@
                 <div class="panel-heading" role="tab" id="meteoRainfallHeading">
                     <h4 class="panel-title">
                         <a id="meteoRainfall" class="meteoRainfallCollapse" role="button" data-toggle="collapse" data-parent="#accordion" href="#meteoRainfallCollapse" aria-expanded="false" aria-controls="meteoRainfallCollapse">
-                            Rainfall (0):
+                            <ins id="info-window-meteoRainfall-label">Rainfall</ins> <ins id="meteoRainfall-number">(0)</ins>
                         </a>
                     </h4>
                 </div>
@@ -381,7 +380,7 @@
                 <div class="panel-heading" role="tab" id="meteoMaximumHumidityHeading">
                     <h4 class="panel-title">
                         <a id="meteoMaximumHumidity" class="meteoMaximumHumidityCollapse" role="button" data-toggle="collapse" data-parent="#accordion" href="#meteoMaximumHumidityCollapse" aria-expanded="false" aria-controls="meteoMaximumHumidityCollapse">
-                            Maximum humidity (0):
+                            <ins id="info-window-meteoMaximumHumidity-label">Maximum humidity</ins> <ins id="meteoMaximumHumidity-number">(0)</ins>
                         </a>
                     </h4>
                 </div>
@@ -394,7 +393,7 @@
                 <div class="panel-heading" role="tab" id="meteoMinimumHumidityHeading">
                     <h4 class="panel-title">
                         <a id="meteoMinimumHumidity" class="meteoMinimumHumidityCollapse" role="button" data-toggle="collapse" data-parent="#accordion" href="#meteoMinimumHumidityCollapse" aria-expanded="false" aria-controls="meteoMinimumHumidityCollapse">
-                            Minimum humidity (0):
+                            <ins id="info-window-meteoMinimumHumidity-label">Minimum humidity</ins> <ins id="meteoMinimumHumidity-number">(0)</ins>
                         </a>
                     </h4>
                 </div>
@@ -407,7 +406,7 @@
                 <div class="panel-heading" role="tab" id="meteoMaximumTemperatureHeading">
                     <h4 class="panel-title">
                         <a id="meteoMaximumTemperature" class="meteoMaximumTemperatureCollapse" role="button" data-toggle="collapse" data-parent="#accordion" href="#meteoMaximumTemperatureCollapse" aria-expanded="false" aria-controls="meteoMaximumTemperatureCollapse">
-                            Maximum Temperature (0):
+                            <ins id="info-window-meteoMaximumTemperature-label">Maximum Temperature</ins> <ins id="meteoMaximumTemperature-number">(0)</ins>
                         </a>
                     </h4>
                 </div>
@@ -420,7 +419,7 @@
                 <div class="panel-heading" role="tab" id="meteoMinimumTemperatureHeading">
                     <h4 class="panel-title">
                         <a id="meteoMinimumTemperature" class="meteoMinimumTemperatureCollapse" role="button" data-toggle="collapse" data-parent="#accordion" href="#meteoMinimumTemperatureCollapse" aria-expanded="false" aria-controls="meteoMinimumTemperatureCollapse">
-                            Minimum Temperature (0):
+                            <ins id="info-window-meteoMinimumTemperature-label">Minimum Temperature</ins> <ins id="meteoMinimumTemperature-number">(0)</ins>
                         </a>
                     </h4>
                 </div>
@@ -433,7 +432,7 @@
                 <div class="panel-heading" role="tab" id="meteoWindSpeedHeading">
                     <h4 class="panel-title">
                         <a id="meteoWindSpeed" class="meteoWindSpeedCollapse" role="button" data-toggle="collapse" data-parent="#accordion" href="#meteoWindSpeedCollapse" aria-expanded="false" aria-controls="meteoWindSpeedCollapse">
-                            Wind Speed (0):
+                            <ins id="info-window-meteoWindSpeed-label">Wind Speed</ins> <ins id="meteoWindSpeed-number">(0)</ins>
                         </a>
                     </h4>
                 </div>
@@ -442,61 +441,7 @@
                     </div>
                 </div>
             </div>
-            <!--<div class="panel panel-default">-->
-                <!--<div class="panel-heading" role="tab" id="infectionHeading">-->
-                    <!--<h4 class="panel-title">-->
-                        <!--<a id="infection" class="infectionCollapse" role="button" data-toggle="collapse" data-parent="#accordion" href="#infectionCollapse" aria-expanded="false" aria-controls="infectionCollapse">-->
-                            <!--Potential Risk of Blast Infection (WARM) (0):-->
-                        <!--</a>-->
-                    <!--</h4>-->
-                <!--</div>-->
-                <!--<div id="infectionCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="infectionHeading">-->
-                    <!--<div class="panel-body" id="infection-data">-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
 
-            <!--<div class="panel panel-default">-->
-                <!--<div class="panel-heading" role="tab" id="abioticRiskHeading">-->
-                    <!--<h4 class="panel-title">-->
-                        <!--<a id="abioticRisk" class="abioticRiskCollapse" role="button" data-toggle="collapse" data-parent="#accordion" href="#abioticRiskCollapse" aria-expanded="false" aria-controls="abioticRiskCollapse">-->
-                            <!--Potential risk of Cold Sterility (WARM) (0):-->
-                        <!--</a>-->
-                    <!--</h4>-->
-                <!--</div>-->
-                <!--<div id="abioticRiskCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="abioticRiskHeading">-->
-                    <!--<div class="panel-body" id="abioticRisk-data">-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-
-            <!--<div class="panel panel-default">-->
-                <!--<div class="panel-heading" role="tab" id="biomassHeading">-->
-                    <!--<h4 class="panel-title">-->
-                        <!--<a id="biomass" class="biomassCollapse" role="button" data-toggle="collapse" data-parent="#accordion" href="#biomassCollapse" aria-expanded="false" aria-controls="biomassCollapse">-->
-                            <!--Above Ground Biomass (WARM) (0):-->
-                        <!--</a>-->
-                    <!--</h4>-->
-                <!--</div>-->
-                <!--<div id="biomassCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="biomassHeading">-->
-                    <!--<div class="panel-body" id="biomass-data">-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-
-            <!--<div class="panel panel-default">-->
-                <!--<div class="panel-heading" role="tab" id="penicleBiomassHeading">-->
-                    <!--<h4 class="panel-title">-->
-                        <!--<a id="penicleBiomass" class="penicleBiomassCollapse" role="button" data-toggle="collapse" data-parent="#accordion" href="#penicleBiomassCollapse" aria-expanded="false" aria-controls="penicleBiomassCollapse">-->
-                            <!--Penicle Biomasses (WARM) (0):-->
-                        <!--</a>-->
-                    <!--</h4>-->
-                <!--</div>-->
-                <!--<div id="penicleBiomassCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="penicleBiomassHeading">-->
-                    <!--<div class="panel-body" id="penicleBiomass-data">-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
         </div>
 
         <div role="tabpanel" class="tab-pane" id="chart-tab">

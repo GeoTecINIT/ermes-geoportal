@@ -255,20 +255,22 @@ define([
                 var lid = response.layers[i].id;
                 var lname = response.layers[i].name;
                 var ldescritpion = response.layers[i].description;
-                var myInfoTemplate=new InfoTemplate();
-                myInfoTemplate.setTitle("Statistics in ${label}");
-                myInfoTemplate.setContent("<b>Municipality: </b>${label}<br/>" +
-                    "<b>Area covered by rice [%]: </b>${RiceFc:compare}%<br/>" +
-                    "<b>Area covered by rice [hectares]: </b>${RiceAreaha}<br/>" +
-                    "<b>Average Sowing Date: </b>${avg_sow:NumberFormat}<br/>" +
-                    "<b>Average Flowering Date: </b>${avg_flw:NumberFormat}<br/>" +
-                    "<b>Yield: </b>${yield:NumberFormat}<br/>" +
-                    "<b>Average n° of days with high potential blast infection risk: </b>${n_risk:NumberFormat}");
+                var myInfoTemplate = new InfoTemplate();
+                if(localStorage.profile == "regional") {
+                    myInfoTemplate.setTitle("Statistics in ${label}");
 
-                compare = function(value, key, data){
-                    return (value*100).toFixed(2);
+                    myInfoTemplate.setContent("<b>Municipality: </b>${label}<br/>" +
+                        "<b>Area covered by rice [%]: </b>${RiceFc:compare}%<br/>" +
+                        "<b>Area covered by rice [hectares]: </b>${RiceAreaha}<br/>" +
+                        "<b>Average Sowing Date: </b>${avg_sow:NumberFormat}<br/>" +
+                        "<b>Average Flowering Date: </b>${avg_flw:NumberFormat}<br/>" +
+                        "<b>Yield: </b>${yield:NumberFormat}<br/>" +
+                        "<b>Average n° of days with high potential blast infection risk: </b>${n_risk:NumberFormat}");
+
+                    compare = function (value, key, data) {
+                        return (value * 100).toFixed(2);
+                    }
                 }
-
                 var tempLayer = new FeatureLayer(lurl, {
                     id: lid,
                     outFields: ['*'],

@@ -17,19 +17,88 @@ function ShowGraph(node, modelData, title){
     //    //data.push([modelData[i].value]);
     //}
     var currentDoy = getDOY();
-    for(var i =0; i<modelData.length; i++) {
-        if(modelData[i].doy<currentDoy) {
-            data += dateFromDay(2015, modelData[i].doy) + "," + modelData[i].value + ",\n";
+
+    if(title=="Rice development stage") {
+        for (var i = 0; i < modelData.length; i++) {
+            if (modelData[i].doy < currentDoy) {
+                data += dateFromDay(2015, modelData[i].doy) + ",1,1.3,1.6,2,2.5,3,4," + modelData[i].value + ",\n";
+            }
+            else if (modelData[i].doy - currentDoy < 5) {
+                data += dateFromDay(2015, modelData[i].doy) + ",1,1.3,1.6,2,2.5,3,4,," + modelData[i].value + "\n";
+            }
+            else {
+                break;
+            }
+            //data.push([modelData[i].value]);
         }
-        else if (modelData[i].doy - currentDoy < 5){
-            data += dateFromDay(2015, modelData[i].doy) + ",," + modelData[i].value + "\n";
+        if(localStorage.language == 'sp'){
+            var plotLabels = ["Doy", "Emersión", "Ahijamiento", "Iniciación de la Panícula", "Floración", "Desarrollo del Grano", "Madurez", "Maximo", "Valor", "Predicción"];
         }
         else {
-            break;
+            var plotLabels = ["Doy", "Emergence", "Tillering", "Panicle Initiation", "Flowering", "Grain Filling", "Maturation", "Maximum", "Value", "Prediction"];
         }
-        //data.push([modelData[i].value]);
     }
+    else if(title == "Above Ground Biomass"){
+        for (var i = 0; i < modelData.length; i++) {
+            if (modelData[i].doy < currentDoy) {
+                data += dateFromDay(2015, modelData[i].doy) + "," + modelData[i].value/1000 + ",\n";
+            }
+            else if (modelData[i].doy - currentDoy < 5) {
+                data += dateFromDay(2015, modelData[i].doy) + ",," + modelData[i].value/1000 + "\n";
+            }
+            else {
+                break;
+            }
+            //data.push([modelData[i].value]);
+        }
+        if(localStorage.language == 'sp'){
+            var plotLabels = [ "Doy", "Valor", "Prediccion" ];
+        }
+        else {
+            var plotLabels = [ "Doy", "Value", "Prediction" ];
+        }
+    }
+    else if(title == "Panicle Biomasses"){
+        for (var i = 0; i < modelData.length; i++) {
+            if (modelData[i].doy < currentDoy) {
+                data += dateFromDay(2015, modelData[i].doy) + "," + modelData[i].value/1000 + ",\n";
+            }
+            else if (modelData[i].doy - currentDoy < 5) {
+                data += dateFromDay(2015, modelData[i].doy) + ",," + modelData[i].value/1000 + "\n";
+            }
+            else {
+                break;
+            }
+            //data.push([modelData[i].value]);
+        }
+        if(localStorage.language == 'sp'){
+            var plotLabels = [ "Doy", "Valor", "Prediccion" ];
+        }
+        else {
+            var plotLabels = [ "Doy", "Value", "Prediction" ];
+        }
+    }
+    else{
+        for (var i = 0; i < modelData.length; i++) {
+            if (modelData[i].doy < currentDoy) {
+                data += dateFromDay(2015, modelData[i].doy) + "," + modelData[i].value + ",\n";
+            }
+            else if (modelData[i].doy - currentDoy < 5) {
+                data += dateFromDay(2015, modelData[i].doy) + ",," + modelData[i].value + "\n";
+            }
+            else {
+                break;
+            }
+            //data.push([modelData[i].value]);
+        }
+        if(localStorage.language == 'sp'){
+            var plotLabels = [ "Doy", "Valor", "Prediccion" ];
+        }
+        else {
+            var plotLabels = [ "Doy", "Value", "Prediction" ];
+        }
 
+    }
     //var data = _.map(modelData, function(value){return value});
     var titleNoSpaces = title.replace(/\s+/g, '');
     var buttonId = "button-show-chart-info-window" + titleNoSpaces;
@@ -52,24 +121,28 @@ function ShowGraph(node, modelData, title){
             $("#info-window-chart-widget-div").removeClass("display-block");
             $("#info-window-chart-widget-div").addClass("display-none");
         });
-        var g = new Dygraph("model-product-chart-div", data, {
-            labels: [ "Doy", "Value", "Prediction" ],
-            showRangeSelector: true,
-            ylabel: title,
-            legend: 'always'
-            //underlayCallback: function(canvas, area, g) {
-            //    var LowCoords = g.toDomCoords(0, 2.25);
-            //    var HighCoords = g.toDomCoords(0, 4);
-            //
-            //    var high = HighCoords[1];
-            //    var low = LowCoords[1];
-            //
-            //    canvas.fillStyle = 'red';
-            //    canvas.fillRect(area.x, low, area.w, 2);
-            //    canvas.fillStyle = 'blue';
-            //    canvas.fillRect(area.x, high, area.w, 2);
-            //}
-        });
+        var g = new Dygraph("model-product-chart-div", data,
+            {
+                legend: 'follow',
+                ylabel: title,
+                errorBars: false,
+                labels: plotLabels,
+                showRangeSelector: true,
+
+                //underlayCallback: function(canvas, area, g) {
+                //    var LowCoords = g.toDomCoords(0, 2.25);
+                //    var HighCoords = g.toDomCoords(0, 4);
+                //
+                //    var high = HighCoords[1];
+                //    var low = LowCoords[1];
+                //
+                //    canvas.fillStyle = 'red';
+                //    canvas.fillRect(area.x, low, area.w, 2);
+                //    canvas.fillStyle = 'blue';
+                //    canvas.fillRect(area.x, high, area.w, 2);
+                //}
+            }
+        );
 
     }
     $(node).append(button);

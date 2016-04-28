@@ -260,25 +260,27 @@ define([
         },
 
         _showParcelInfo: function(evt){
-            this.currentShowChartFunction = lang.hitch(this, "_showClickedPoint", evt);
+            if(!this.statsLayerShowed) {
+                this.currentShowChartFunction = lang.hitch(this, "_showClickedPoint", evt);
 
-            this._stopPlayMode();
-            this.clickEvent = evt;
-            //Consultar PARCEL ID clicado
-            var query = new Query();
-            query.geometry = evt.mapPoint;
-            this.map.infoWindow.show(evt.mapPoint, this.map.getInfoWindowAnchor(evt.screenPoint));
-            this.map.infoWindow.setTitle("<b id='info-window-searching-text'>Searching...</b>");
-            var div = domConstruct.create("div");
-            domAttr.set(div, "id", "loading-image");
-            var span = domConstruct.create("span");
-            domAttr.set(span, "class", "glyphicon glyphicon-refresh glyphicon-refresh-animate");
-            var h1 = domConstruct.create("h1");
-            domConstruct.place(span, h1, "only");
-            domConstruct.place(h1, div, "only");
-            this.map.infoWindow.setContent(div);
-            this.parcelsLayer.queryFeatures(query, lang.hitch(this, "_queryMongoServer"));
-            SetInfoWindowLanguage();
+                this._stopPlayMode();
+                this.clickEvent = evt;
+                //Consultar PARCEL ID clicado
+                var query = new Query();
+                query.geometry = evt.mapPoint;
+                this.map.infoWindow.show(evt.mapPoint, this.map.getInfoWindowAnchor(evt.screenPoint));
+                this.map.infoWindow.setTitle("<b id='info-window-searching-text'>Searching...</b>");
+                var div = domConstruct.create("div");
+                domAttr.set(div, "id", "loading-image");
+                var span = domConstruct.create("span");
+                domAttr.set(span, "class", "glyphicon glyphicon-refresh glyphicon-refresh-animate");
+                var h1 = domConstruct.create("h1");
+                domConstruct.place(span, h1, "only");
+                domConstruct.place(h1, div, "only");
+                this.map.infoWindow.setContent(div);
+                this.parcelsLayer.queryFeatures(query, lang.hitch(this, "_queryMongoServer"));
+                SetInfoWindowLanguage();
+            }
         },
 
         _queryMongoServer: function(response){
@@ -382,7 +384,7 @@ define([
                         //username: username,
                         parcelId: parcelid,
                         //Change for 2016.
-                        year: now.getFullYear()-1
+                        year: now.getFullYear()
                         //year: 2015
                     },
                     headers: {
@@ -410,7 +412,7 @@ define([
                         //username: username,
                         parcelId: parcelid,
                         //Change for 2016.
-                        year: now.getFullYear()-1
+                        year: now.getFullYear()
                     },
                     headers: {
                         "X-Requested-With": null,
@@ -554,127 +556,49 @@ define([
                 if(!this.warmData.error){
                     //Development Stage
                     if(this.warmData.developmentStages) {
-                        var label = dom.byId("developmentStage");
-                        label.innerHTML = "Rice development  stage (WARM) (" + this.warmData.developmentStages.length + "):";
-                        var chartTitle = "Rice development  stage";
+                        var label = dom.byId("developmentStage-number");
+                        label.innerHTML = "(" + this.warmData.developmentStages.length + "):";
+                        var chartTitle = "Rice development stage";
                         var node = dom.byId("developmentStage-data");
                         ShowGraph(node, this.warmData.developmentStages, chartTitle);
                     }
-                    //TEST FOR CHARTS
-                    //var nodeTest = dom.byId("developmentStage-data");
-                    //ShowGraph(nodeTest);
-                    //
-                    //for(var i =0; i<this.warmData.developmentStages.length; i++) {
-                    //    var node = dom.byId("developmentStage-data");
-                    //    ShowGraph(node, this.warmData.developmentStages);
-                    //
-                    //    ShowGraph(product);
-                    //
-                    //    OLD WAY
-                    //    var ul = domConstruct.create("ul");
-                    //    var li = domConstruct.create("li");
-                    //    var day = this.warmData.developmentStages[i].doy;
-                    //    var dateShowed = new Date();
-                    //    dateShowed.setDate(dateShowed.getDate() + i);
-                    //    li.innerHTML = "<b>Date:</b> " + dateShowed.toDateString();
-                    //    domConstruct.place(li, ul, "last");
-                    //    var li = domConstruct.create("li");
-                    //    li.innerHTML = "<b>StageCode:</b> " + this.warmData.developmentStages[i].value;
-                    //    domConstruct.place(li, ul, "last");
-                    //    domConstruct.place(ul, product, "last");
-                    //}
 
                     //Infection
                     if(this.warmData.infectionRisks) {
-                        var label = dom.byId("infection");
+                        var label = dom.byId("infection-number");
                         var chartTitle = "Potential Risk of Blast Infection";
-                        label.innerHTML = "Potential Risk of Blast Infection (WARM) (" + this.warmData.infectionRisks.length + "):";
+                        label.innerHTML = "(" + this.warmData.infectionRisks.length + "):";
                         var node = dom.byId("infection-data");
                         ShowGraph(node, this.warmData.infectionRisks, chartTitle);
                     }
-                    //for(var i =0; i<this.warmData.infectionRisks.length; i++) {
-                    //    var product = dom.byId("infection-data");
-                    //    var ul = domConstruct.create("ul");
-                    //    var li = domConstruct.create("li");
-                    //    var day = this.warmData.infectionRisks[i].doy;
-                    //    var dateShowed = new Date();
-                    //    dateShowed.setDate(dateShowed.getDate() + i);
-                    //    li.innerHTML = "<b>Date:</b> " + dateShowed.toDateString();
-                    //    domConstruct.place(li, ul, "last");
-                    //    var li = domConstruct.create("li");
-                    //    li.innerHTML = "<b>Infection Risk:</b> " + this.warmData.infectionRisks[i].value;
-                    //    domConstruct.place(li, ul, "last");
-                    //    domConstruct.place(ul, product, "last");
-                    //}
 
                     //Abiotic Risk
                     if(this.warmData.abioticRisks) {
-                        var label = dom.byId("abioticRisk");
-                        label.innerHTML = "Potential risk of Cold Sterility (WARM) (" + this.warmData.abioticRisks.length + "):";
+                        var label = dom.byId("abioticRisk-number");
+                        label.innerHTML = "(" + this.warmData.abioticRisks.length + "):";
                         var chartTitle = "Potential risk of Cold Sterility";
                         var node = dom.byId("abioticRisk-data");
                         ShowGraph(node, this.warmData.abioticRisks, chartTitle);
                     }
-                    //for(var i =0; i<this.warmData.abioticRisks.length; i++) {
-                    //    var product = dom.byId("abioticRisk-data");
-                    //    var ul = domConstruct.create("ul");
-                    //    var li = domConstruct.create("li");
-                    //    var day = this.warmData.abioticRisks[i].doy;
-                    //    var dateShowed = new Date();
-                    //    dateShowed.setDate(dateShowed.getDate() + i);
-                    //    li.innerHTML = "<b>Date:</b> " + dateShowed.toDateString();
-                    //    domConstruct.place(li, ul, "last");
-                    //    var li = domConstruct.create("li");
-                    //    li.innerHTML = "<b>Abiotic Risk:</b> " + this.warmData.abioticRisks[i].value;
-                    //    domConstruct.place(li, ul, "last");
-                    //    domConstruct.place(ul, product, "last");
-                    //}
 
                     //Biomass
                     if(this.warmData.biomasses) {
-                        var label = dom.byId("biomass");
-                        label.innerHTML = "Above Ground Biomass (WARM) (" + this.warmData.biomasses.length + "):";
+                        var label = dom.byId("biomass-number");
+                        label.innerHTML = "(" + this.warmData.biomasses.length + "):";
                         var chartTitle = "Above Ground Biomass";
                         var node = dom.byId("biomass-data");
                         ShowGraph(node, this.warmData.biomasses, chartTitle);
                     }
-                    //for(var i =0; i<this.warmData.biomasses.length; i++) {
-                    //    var product = dom.byId("biomass-data");
-                    //    var ul = domConstruct.create("ul");
-                    //    var li = domConstruct.create("li");
-                    //    var day = this.warmData.biomasses[i].doy;
-                    //    var dateShowed = new Date();
-                    //    dateShowed.setDate(dateShowed.getDate() + i);
-                    //    li.innerHTML = "<b>Date:</b> " + dateShowed.toDateString();
-                    //    domConstruct.place(li, ul, "last");
-                    //    var li = domConstruct.create("li");
-                    //    li.innerHTML = "<b>Biomass:</b> " + this.warmData.biomasses[i].value;
-                    //    domConstruct.place(li, ul, "last");
-                    //    domConstruct.place(ul, product, "last");
-                    //}
 
                     //PanicleBiomass
                     if(this.warmData.penicleBiomasses) {
-                        var label = dom.byId("penicleBiomass");
-                        label.innerHTML = "Panicle Biomasses (WARM) (" + this.warmData.penicleBiomasses.length + "):";
+                        var label = dom.byId("penicleBiomass-number");
+                        label.innerHTML = "(" + this.warmData.penicleBiomasses.length + "):";
                         var chartTitle = "Panicle Biomasses";
                         var node = dom.byId("penicleBiomass-data");
                         ShowGraph(node, this.warmData.penicleBiomasses, chartTitle);
                     }
-                    //for(var i =0; i<this.warmData.penicleBiomasses.length; i++) {
-                    //    var product = dom.byId("penicleBiomass-data");
-                    //    var ul = domConstruct.create("ul");
-                    //    var li = domConstruct.create("li");
-                    //    var day = this.warmData.penicleBiomasses[i].doy;
-                    //    var dateShowed = new Date();
-                    //    dateShowed.setDate(dateShowed.getDate() + i);
-                    //    li.innerHTML = "<b>Date:</b> " + dateShowed.toDateString();
-                    //    domConstruct.place(li, ul, "last");
-                    //    var li = domConstruct.create("li");
-                    //    li.innerHTML = "<b>Panicle Biomass:</b> " + this.warmData.penicleBiomasses[i].value;
-                    //    domConstruct.place(li, ul, "last");
-                    //    domConstruct.place(ul, product, "last");
-                    //}
+
                 }
                 //if(!this.warmInfectionData.error){
                 //    var label = dom.byId("infection");
@@ -698,56 +622,56 @@ define([
                     //Extract to formatedMeteoData
                     var formatedMeteoData = this._changeMeteoFormat(this.meteoData.meteo);
                     if(formatedMeteoData.radiation) {
-                        var label = dom.byId("meteoRadiation");
-                        label.innerHTML = "Radiation (" + formatedMeteoData.radiation.length + "):";
+                        var label = dom.byId("meteoRadiation-number");
+                        label.innerHTML = "(" + formatedMeteoData.radiation.length + "):";
                         var chartTitle = "Radiation";
                         var node = dom.byId("meteoRadiation-data");
 
                         ShowGraph(node, formatedMeteoData.radiation, chartTitle);
                     }
                     if(formatedMeteoData.rainfall) {
-                        var label = dom.byId("meteoRainfall");
-                        label.innerHTML = "Rainfall (" + formatedMeteoData.rainfall.length + "):";
+                        var label = dom.byId("meteoRainfall-number");
+                        label.innerHTML = "(" + formatedMeteoData.rainfall.length + "):";
                         var chartTitle = "Rainfall";
                         var node = dom.byId("meteoRainfall-data");
 
                         ShowGraph(node, formatedMeteoData.rainfall, chartTitle);
                     }
                     if(formatedMeteoData.maximumHumidity) {
-                        var label = dom.byId("meteoMaximumHumidity");
-                        label.innerHTML = "Maximum Humidity (" + formatedMeteoData.maximumHumidity.length + "):";
+                        var label = dom.byId("meteoMaximumHumidity-number");
+                        label.innerHTML = "Humidity (" + formatedMeteoData.maximumHumidity.length + "):";
                         var chartTitle = "Maximum Humidity";
                         var node = dom.byId("meteoMaximumHumidity-data");
 
                         ShowGraph(node, formatedMeteoData.maximumHumidity, chartTitle);
                     }
                     if(formatedMeteoData.minimumHumidity) {
-                        var label = dom.byId("meteoMinimumHumidity");
-                        label.innerHTML = "Minimum Humidity (" + formatedMeteoData.minimumHumidity.length + "):";
+                        var label = dom.byId("meteoMinimumHumidity-number");
+                        label.innerHTML = "(" + formatedMeteoData.minimumHumidity.length + "):";
                         var chartTitle = "Minimum Humidity";
                         var node = dom.byId("meteoMinimumHumidity-data");
 
                         ShowGraph(node, formatedMeteoData.minimumHumidity, chartTitle);
                     }
                     if(formatedMeteoData.maximumTemperature) {
-                        var label = dom.byId("meteoMaximumTemperature");
-                        label.innerHTML = "Maximum Temperature (" + formatedMeteoData.maximumTemperature.length + "):";
+                        var label = dom.byId("meteoMaximumTemperature-number");
+                        label.innerHTML = "(" + formatedMeteoData.maximumTemperature.length + "):";
                         var chartTitle = "Maximum Temperature";
                         var node = dom.byId("meteoMaximumTemperature-data");
 
                         ShowGraph(node, formatedMeteoData.maximumTemperature, chartTitle);
                     }
                     if(formatedMeteoData.minimumTemperature) {
-                        var label = dom.byId("meteoMinimumTemperature");
-                        label.innerHTML = "Minimum Temperature (" + formatedMeteoData.minimumTemperature.length + "):";
+                        var label = dom.byId("meteoMinimumTemperature-number");
+                        label.innerHTML = "(" + formatedMeteoData.minimumTemperature.length + "):";
                         var chartTitle = "Minimum Temperature";
                         var node = dom.byId("meteoMinimumTemperature-data");
 
                         ShowGraph(node, formatedMeteoData.minimumTemperature, chartTitle);
                     }
                     if(formatedMeteoData.windSpeed) {
-                        var label = dom.byId("meteoWindSpeed");
-                        label.innerHTML = "Wind Speed (" + formatedMeteoData.windSpeed.length + "):";
+                        var label = dom.byId("meteoWindSpeed-number");
+                        label.innerHTML = "(" + formatedMeteoData.windSpeed.length + "):";
                         var chartTitle = "Wind Speed";
                         var node = dom.byId("meteoWindSpeed-data");
 
@@ -847,8 +771,8 @@ define([
         },
 
         _showAgrochemicalsInfo: function(template, quantity, data){
-            var label = dom.byId("agrochemicals");
-            label.innerHTML = "Agrochemicals (" + quantity + "):";
+            var label = dom.byId("agrochemicals-number");
+            label.innerHTML = "(" + quantity + "):";
             this.productsList['agrochemical'] = [];
             for(var i =0; i<quantity; i++) {
                 var compiled = _.template(template);
@@ -863,8 +787,8 @@ define([
         },
 
         _showCropInfoInfo:  function(template, quantity, data){
-            var label = dom.byId("cropInfos");
-            label.innerHTML = "Crop Info (" + quantity + "):";
+            var label = dom.byId("cropInfos-number");
+            label.innerHTML = "(" + quantity + "):";
             this.productsList['cropInfo'] = [];
             for(var i =0; i<quantity; i++) {
                 var compiled = _.template(template);
@@ -879,8 +803,8 @@ define([
         },
 
         _showDiseasesInfo: function(template, quantity, data){
-            var label = dom.byId("diseases");
-            label.innerHTML = "Diseases (" + quantity + "):";
+            var label = dom.byId("diseases-number");
+            label.innerHTML = "(" + quantity + "):";
             this.productsList['disease'] = [];
             for(var i =0; i<quantity; i++) {
                 var compiled = _.template(template);
@@ -895,8 +819,8 @@ define([
         },
 
         _showFertilizersInfo: function(template, quantity, data){
-            var label = dom.byId("fertilizers");
-            label.innerHTML = "Fertilizers (" + quantity + "):";
+            var label = dom.byId("fertilizers-number");
+            label.innerHTML = "(" + quantity + "):";
             this.productsList['fertilizer'] = [];
             for(var i =0; i<quantity; i++) {
                 var compiled = _.template(template);
@@ -911,8 +835,8 @@ define([
         },
 
         _showIrrigationInfoInfo: function(template, quantity, data){
-            var label = dom.byId("irrigationInfos");
-            label.innerHTML = "Irrigiation (" + quantity + "):";
+            var label = dom.byId("irrigationInfos-number");
+            label.innerHTML = "(" + quantity + "):";
             this.productsList['irrigationInfo'] = [];
             for(var i =0; i<quantity; i++) {
                 var compiled = _.template(template);
@@ -927,8 +851,8 @@ define([
         },
 
         _showObservationsInfo: function(template, quantity, data){
-            var label = dom.byId("observations");
-            label.innerHTML = "Observations (" + quantity + "):";
+            var label = dom.byId("observations-number");
+            label.innerHTML = "(" + quantity + "):";
             this.productsList['observation'] = [];
             for(var i =0; i<quantity; i++) {
                 var compiled = _.template(template);
@@ -943,8 +867,8 @@ define([
         },
 
         _showParcelStatusInfo: function(template, quantity, data){
-            var label = dom.byId("parcelStatus");
-            label.innerHTML = "Soil Condition (" + quantity + "):";
+            var label = dom.byId("parcelStatus-number");
+            label.innerHTML = "(" + quantity + "):";
             this.productsList['parcelStatus'] = [];
             for(var i =0; i<quantity; i++) {
                 var compiled = _.template(template);
@@ -959,8 +883,8 @@ define([
         },
 
         _showPathogensInfo: function(template, quantity, data){
-            var label = dom.byId("phatogens");
-            label.innerHTML = "Insects (" + quantity + "):";
+            var label = dom.byId("phatogens-number");
+            label.innerHTML = "(" + quantity + "):";
             this.productsList['pathogen'] = [];
             for(var i =0; i<quantity; i++) {
                 var compiled = _.template(template);
@@ -975,8 +899,8 @@ define([
         },
 
         _showPhenologiesInfo: function(template, quantity, data){
-            var label = dom.byId("phenologies");
-            label.innerHTML = "Crop Phenology (" + quantity + "):";
+            var label = dom.byId("phenologies-number");
+            label.innerHTML = "(" + quantity + "):";
             this.productsList['phenology'] = [];
             for(var i =0; i<quantity; i++) {
                 var compiled = _.template(template);
@@ -991,8 +915,8 @@ define([
         },
 
         _showSoilsInfo: function(template, quantity, data){
-            var label = dom.byId("soils");
-            label.innerHTML = "Soil Type (" + quantity + "):";
+            var label = dom.byId("soils-number");
+            label.innerHTML = "(" + quantity + "):";
             this.productsList['soil'] = [];
             for(var i =0; i<quantity; i++) {
                 var compiled = _.template(template);
@@ -1007,8 +931,8 @@ define([
         },
 
         _showWeedsInfo: function(template, quantity, data){
-            var label = dom.byId("weeds");
-            label.innerHTML = "Weeds (" + quantity + "):";
+            var label = dom.byId("weeds-number");
+            label.innerHTML = "(" + quantity + "):";
             this.productsList['weed'] = [];
             for(var i =0; i<quantity; i++) {
                 var compiled = _.template(template);
@@ -1024,8 +948,8 @@ define([
         },
 
         _showYieldsInfo: function(template, quantity, data){
-            var label = dom.byId("yields");
-            label.innerHTML = "Yields (" + quantity + "):";
+            var label = dom.byId("yields-number");
+            label.innerHTML = "(" + quantity + "):";
             this.productsList['yield'] = [];
             for(var i =0; i<quantity; i++) {
                 var compiled = _.template(template);
@@ -1217,11 +1141,23 @@ define([
             xhr(proxyLink, { "method": "HEAD"}).then(function(response){
                     domAttr.set(catalogInfo, "href", link);
                     domClass.remove(catalogInfo, "simple-bold-text");
-                    catalogInfo.innerHTML="Go to Catalog."
+                    if(localStorage.language == "sp"){
+                        catalogInfo.innerHTML="Ir al catálogo."
+                    }
+                    else{
+                        catalogInfo.innerHTML="Go to Catalog."
+                    }
+
                 }, function(error){
                     domAttr.remove(catalogInfo, "href");
                     domClass.add(catalogInfo, "simple-bold-text");
+                if(localStorage.language == "sp"){
+                    catalogInfo.innerHTML="Catálogo sin datos."
+                }
+                else{
                     catalogInfo.innerHTML="No data in Catalog."
+                }
+
                 });
 
 

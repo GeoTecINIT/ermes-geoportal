@@ -82,8 +82,81 @@ function SetInfoWindowLanguage(){
             if(node["idNode"] == "info-window-invalid-parcel-title"){
                 $("#info-window-invalid-parcel-title").html(node[localStorage.language].html);
             }
-            if(node["idNode"] == "info-window-searching-text"){
+            if(node["idNode"] == "info-window-searching-text") {
                 $("#info-window-searching-text").html(node[localStorage.language].html);
+            }
+            if(node["idNode"] == "info-window-crop-info-label"){
+                $("#info-window-crop-info-label").html(node[localStorage.language].html);
+            }
+
+            if(node["idNode"] == "info-window-soils-label"){
+                $("#info-window-soils-label").html(node[localStorage.language].html);
+            }
+            if(node["idNode"] == "info-window-parcelStatus-label"){
+                $("#info-window-parcelStatus-label").html(node[localStorage.language].html);
+            }
+            if(node["idNode"] == "info-window-phenologies-label"){
+                $("#info-window-phenologies-label").html(node[localStorage.language].html);
+            }
+            if(node["idNode"] == "info-window-phatogens-label"){
+                $("#info-window-phatogens-label").html(node[localStorage.language].html);
+            }
+            if(node["idNode"] == "info-window-diseases-label"){
+                $("#info-window-diseases-label").html(node[localStorage.language].html);
+            }
+            if(node["idNode"] == "info-window-weeds-label"){
+                $("#info-window-weeds-label").html(node[localStorage.language].html);
+            }
+            if(node["idNode"] == "info-window-fertilizers-label"){
+                $("#info-window-fertilizers-label").html(node[localStorage.language].html);
+            }
+            if(node["idNode"] == "info-window-agrochemicals-label"){
+                $("#info-window-agrochemicals-label").html(node[localStorage.language].html);
+            }
+            if(node["idNode"] == "info-window-irrigationInfos-label"){
+                $("#info-window-irrigationInfos-label").html(node[localStorage.language].html);
+            }
+            if(node["idNode"] == "info-window-yields-label"){
+                $("#info-window-yields-label").html(node[localStorage.language].html);
+            }
+            if(node["idNode"] == "info-window-observations-label"){
+                $("#info-window-observations-label").html(node[localStorage.language].html);
+            }
+            if(node["idNode"] == "info-window-developmentStage-label"){
+                $("#info-window-developmentStage-label").html(node[localStorage.language].html);
+            }
+            if(node["idNode"] == "info-window-infection-label"){
+                $("#info-window-infection-label").html(node[localStorage.language].html);
+            }
+            if(node["idNode"] == "info-window-abioticRisk-label"){
+                $("#info-window-abioticRisk-label").html(node[localStorage.language].html);
+            }
+            if(node["idNode"] == "info-window-biomass-label"){
+                $("#info-window-biomass-label").html(node[localStorage.language].html);
+            }
+            if(node["idNode"] == "info-window-penicleBiomass-label"){
+                $("#info-window-penicleBiomass-label").html(node[localStorage.language].html);
+            }
+            if(node["idNode"] == "info-window-meteoRadiation-label"){
+                $("#info-window-meteoRadiation-label").html(node[localStorage.language].html);
+            }
+            if(node["idNode"] == "info-window-meteoRainfall-label"){
+                $("#info-window-meteoRainfall-label").html(node[localStorage.language].html);
+            }
+            if(node["idNode"] == "info-window-meteoMaximumHumidity-label"){
+                $("#info-window-meteoMaximumHumidity-label").html(node[localStorage.language].html);
+            }
+            if(node["idNode"] == "info-window-meteoMinimumHumidity-label"){
+                $("#info-window-meteoMinimumHumidity-label").html(node[localStorage.language].html);
+            }
+            if(node["idNode"] == "info-window-meteoMaximumTemperature-label"){
+                $("#info-window-meteoMaximumTemperature-label").html(node[localStorage.language].html);
+            }
+            if(node["idNode"] == "info-window-meteoMinimumTemperature-label"){
+                $("#info-window-meteoMinimumTemperature-label").html(node[localStorage.language].html);
+            }
+            if(node["idNode"] == "info-window-meteoWindSpeed-label"){
+                $("#info-window-meteoWindSpeed-label").html(node[localStorage.language].html);
             }
         });
     });
