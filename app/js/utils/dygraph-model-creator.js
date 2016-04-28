@@ -17,14 +17,15 @@ function ShowGraph(node, modelData, title){
     //    //data.push([modelData[i].value]);
     //}
     var currentDoy = getDOY();
+    var currentYear = new Date().getFullYear();
 
     if(title=="Rice development stage") {
         for (var i = 0; i < modelData.length; i++) {
             if (modelData[i].doy < currentDoy) {
-                data += dateFromDay(2015, modelData[i].doy) + ",1,1.3,1.6,2,2.5,3,4," + modelData[i].value + ",\n";
+                data += dateFromDay(currentYear, modelData[i].doy) + ",1,1.3,1.6,2,2.5,3,4," + modelData[i].value + ",\n";
             }
             else if (modelData[i].doy - currentDoy < 5) {
-                data += dateFromDay(2015, modelData[i].doy) + ",1,1.3,1.6,2,2.5,3,4,," + modelData[i].value + "\n";
+                data += dateFromDay(currentYear, modelData[i].doy) + ",1,1.3,1.6,2,2.5,3,4,," + modelData[i].value + "\n";
             }
             else {
                 break;
@@ -41,10 +42,10 @@ function ShowGraph(node, modelData, title){
     else if(title == "Above Ground Biomass"){
         for (var i = 0; i < modelData.length; i++) {
             if (modelData[i].doy < currentDoy) {
-                data += dateFromDay(2015, modelData[i].doy) + "," + modelData[i].value/1000 + ",\n";
+                data += dateFromDay(currentYear, modelData[i].doy) + "," + modelData[i].value/1000 + ",\n";
             }
             else if (modelData[i].doy - currentDoy < 5) {
-                data += dateFromDay(2015, modelData[i].doy) + ",," + modelData[i].value/1000 + "\n";
+                data += dateFromDay(currentYear, modelData[i].doy) + ",," + modelData[i].value/1000 + "\n";
             }
             else {
                 break;
@@ -61,10 +62,10 @@ function ShowGraph(node, modelData, title){
     else if(title == "Panicle Biomasses"){
         for (var i = 0; i < modelData.length; i++) {
             if (modelData[i].doy < currentDoy) {
-                data += dateFromDay(2015, modelData[i].doy) + "," + modelData[i].value/1000 + ",\n";
+                data += dateFromDay(currentYear, modelData[i].doy) + "," + modelData[i].value/1000 + ",\n";
             }
             else if (modelData[i].doy - currentDoy < 5) {
-                data += dateFromDay(2015, modelData[i].doy) + ",," + modelData[i].value/1000 + "\n";
+                data += dateFromDay(currentYear, modelData[i].doy) + ",," + modelData[i].value/1000 + "\n";
             }
             else {
                 break;
@@ -81,10 +82,10 @@ function ShowGraph(node, modelData, title){
     else{
         for (var i = 0; i < modelData.length; i++) {
             if (modelData[i].doy < currentDoy) {
-                data += dateFromDay(2015, modelData[i].doy) + "," + modelData[i].value + ",\n";
+                data += dateFromDay(currentYear, modelData[i].doy) + "," + modelData[i].value + ",\n";
             }
             else if (modelData[i].doy - currentDoy < 5) {
-                data += dateFromDay(2015, modelData[i].doy) + ",," + modelData[i].value + "\n";
+                data += dateFromDay(currentYear, modelData[i].doy) + ",," + modelData[i].value + "\n";
             }
             else {
                 break;
