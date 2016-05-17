@@ -1,32 +1,33 @@
 <!doctype html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-    <title>ERMES - Regional Rice Service</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <title>ERMES - Regional Rice Service</title>
 
 
-    <link rel="stylesheet" href="http://js.arcgis.com/3.12/dijit/themes/claro/claro.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flat-ui/2.2.2/css/flat-ui.min.css">-->
-    <!--<link rel="stylesheet" href="//cdn.jsdelivr.net/bootstrap.material-design/0.3.0/css/material-wfont.min.css">-->
-    <!--<link rel="stylesheet" href="//cdn.jsdelivr.net/bootstrap.material-design/0.3.0/css/material.min.css">-->
-    <!--<link rel="stylesheet" href="//cdn.jsdelivr.net/bootstrap.material-design/0.3.0/css/ripples.min.css">-->
+  <link rel="stylesheet" href="http://js.arcgis.com/3.12/dijit/themes/claro/claro.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flat-ui/2.2.2/css/flat-ui.min.css">-->
+  <!--<link rel="stylesheet" href="//cdn.jsdelivr.net/bootstrap.material-design/0.3.0/css/material-wfont.min.css">-->
+  <!--<link rel="stylesheet" href="//cdn.jsdelivr.net/bootstrap.material-design/0.3.0/css/material.min.css">-->
+  <!--<link rel="stylesheet" href="//cdn.jsdelivr.net/bootstrap.material-design/0.3.0/css/ripples.min.css">-->
 
-    <!--<link rel="stylesheet" href="http://cdn.jsdelivr.net/bootflat/2.0.0/css/bootflat.css">-->
-    <!--<link rel="stylesheet" href="http://cdn.jsdelivr.net/bootflat/2.0.0/css/bootflat.css.map">-->
-    <link rel="stylesheet" href="http://js.arcgis.com/3.13/esri/css/esri.css">
-    <link rel="stylesheet" href="css/animations.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="css/main.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="css/monitoringMenu.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="css/comparingMenu.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="css/plotWindow.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="css/settingsMenu.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="css/legendWindow.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="css/finderMenu.css" rel="stylesheet"/>
+  <!--<link rel="stylesheet" href="http://cdn.jsdelivr.net/bootflat/2.0.0/css/bootflat.css">-->
+  <!--<link rel="stylesheet" href="http://cdn.jsdelivr.net/bootflat/2.0.0/css/bootflat.css.map">-->
+  <link rel="stylesheet" href="http://js.arcgis.com/3.13/esri/css/esri.css">
+  <link rel="stylesheet" href="https://js.arcgis.com/4.0/esri/css/main.css">
+  <link rel="stylesheet" href="css/animations.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/main.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/monitoringMenu.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/comparingMenu.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/plotWindow.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/settingsMenu.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/legendWindow.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/finderMenu.css" rel="stylesheet"/>
 
- </head>
+</head>
 <body class="claro">
 
 
@@ -42,14 +43,14 @@
 
   </div>
   <div id="time-slider-elements-container">
-      <div id="play-slider-button-div">
-          <button id="play-slider-button" class="btn btn-default">
-            <span id="play-pause-icon" class="glyphicon glyphicon-play"></span>
-          </button>
-      </div>
-      <div id="timeSliderDiv">
+    <div id="play-slider-button-div">
+      <button id="play-slider-button" class="btn btn-default">
+        <span id="play-pause-icon" class="glyphicon glyphicon-play"></span>
+      </button>
+    </div>
+    <div id="timeSliderDiv">
 
-      </div>
+    </div>
   </div>
   <div id="time-slider-date-div">
 
@@ -156,8 +157,8 @@
 
 <div id="coordinates-div"></div>
 <!--<div id="ermes-window-aspect legend-div-container-hidden" class="ermes-window-aspect">-->
-  <!--<b>LEGEND</b>-->
-  <!--<div id="legend-div" ></div>-->
+<!--<b>LEGEND</b>-->
+<!--<div id="legend-div" ></div>-->
 <!--</div>-->
 
 
@@ -231,9 +232,12 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.3.0/lodash.min.js"></script>
-<script type="text/javascript" src="http://js.arcgis.com/3.12"></script>
+<!--<script type="text/javascript" src="http://js.arcgis.com/3.12"></script>-->
+<script type="text/javascript" src="http://js.arcgis.com/3.14"></script>
+<!--<script src="https://js.arcgis.com/4.0/"></script>-->
+
 <script type="text/javascript" src="js/run.js"></script>
-<script type="text/javascript" src="js/utils/strings.json"></script>
+<script type="text/json" src="js/utils/strings.json"></script>
 <script type="text/javascript" src="js/utils/language-controller.js"></script>
 <script type="text/javascript" src="js/utils/dygraph-model-creator.js"></script>
 

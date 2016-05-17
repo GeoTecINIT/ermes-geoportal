@@ -1,14 +1,22 @@
 {
   "spain": {
     "regional": "Z3Vlc3RyczpxMXcyZTNyNHQ1eTY=",
-    "local":"Z3Vlc3RsczpxMXcyZTNyNHQ1eTY="
+    "local":    "Z3Vlc3RsczpxMXcyZTNyNHQ1eTY="
   },
   "italy": {
     "regional": "Z3Vlc3RyaTpxMXcyZTNyNHQ1eTY=",
-    "local": "Z3Vlc3RsaTpxMXcyZTNyNHQ1eTY="
+    "local":    "Z3Vlc3RsaTpxMXcyZTNyNHQ1eTY="
   },
   "greece": {
     "regional": "Z3Vlc3RyZzpxMXcyZTNyNHQ1eTY=",
-    "local": "Z3Vlc3RsZzpxMXcyZTNyNHQ1eTY="
+    "local":    "Z3Vlc3RsZzpxMXcyZTNyNHQ1eTY="
+  },
+  "gambia": {
+    "regional": "Z3Vlc3RyZ2FtYjpxMXcyZTNyNHQ1eTY=",
+    "local": "Z3Vlc3RyZ2FtYjpxMXcyZTNyNHQ1eTY="
+  },
+  "senegal": {
+    "regional": "Z3Vlc3RyZ3NydjpxMXcyZTNyNHQ1eTY=",
+    "local": "Z3Vlc3RyZ3NydjpxMXcyZTNyNHQ1eTY="
   }
 }

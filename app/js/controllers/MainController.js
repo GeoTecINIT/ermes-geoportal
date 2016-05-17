@@ -78,11 +78,14 @@ define([
 
         },
 
-        _updateLegend: function(label){
-          if(label) this.setLegendTitle(label);
-          else{
-              this.setLegendTitle(this.activeMosaic);
-          }
+        _updateLegend: function(label) {
+
+            if (label) this.setLegendTitle(label);
+            else {
+                    this.setLegendTitle(this.activeMosaic);
+            }
+
+
         },
 
         setLegendTitle: function(title){
@@ -140,7 +143,7 @@ define([
             var legendDiv = domConstruct.create("div");
             domAttr.set(legendDiv, "id", "legend-tool");
             var container = dom.byId("legend-div");
-            domConstruct.place(legendDiv, container, "first");
+            domConstruct.place(legendDiv, container, "only");
         },
 
         _mosaicLoaded: function(){
@@ -162,11 +165,29 @@ define([
             }
             this._constructLegendDiv();
 
-            this.legendDigit = new Legend({
-                map: this.map,
-                layerInfos: [{layer: evt.layer, title: this.legendTitle }]
-            }, "legend-tool");
-            this.legendDigit.startup();
+
+            if (!this.mosaics[this.activeMosaic].legendURL) {
+
+                this.legendDigit = new Legend({
+                    map: this.map,
+                    layerInfos: [{layer: evt.layer, title: this.legendTitle}]
+                }, "legend-tool");
+                this.legendDigit.startup();
+            }
+            else{
+                // var legendURL ="http://ermes.dlsi.uji.es:6787/images/9e821e6fc0330c8f4ecec01d14632e83.jpg";
+                var legendURL =this.mosaics[this.activeMosaic].legendURL;
+
+
+                var imageLegendDiv = domConstruct.create("img");
+                domAttr.set(imageLegendDiv, "id", "legend-tool");
+                domAttr.set(imageLegendDiv, "src", legendURL);
+                domAttr.set(imageLegendDiv, "width", 150);
+
+                var container = dom.byId("legend-div");
+                domConstruct.place(imageLegendDiv, container, "only");
+
+            }
         },
 
         _requestSuccess: function(response) {
@@ -388,6 +409,14 @@ define([
                 }
                 else if (this.userRegion == "greece" && this.userProfile == "regional") {
                     profileId = "GK-REGIONAL-GUEST";
+                    configFileURL = "./config/config-greece-full.json";
+                }
+                else if (this.userRegion == "gambia" && this.userProfile == "regional") {
+                    profileId = "GAMBIA";
+                    configFileURL = "./config/config-greece-local.json";
+                }
+                else if (this.userRegion == "senegal" && this.userProfile == "regional") {
+                    profileId = "SENEGAL";
                     configFileURL = "./config/config-greece-full.json";
                 }
             }

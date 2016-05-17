@@ -38,7 +38,9 @@ define([
             this.own(on(dom.byId('close-chart-button'), 'click', lang.hitch(this, '_closeChart')));
             this.own(on(dom.byId('export-chart-button'), 'click', lang.hitch(this, '_exportChart')));
             this.own(on(dom.byId('export-csv-button'), 'click', lang.hitch(this, '_exportCSV')));
-            SetLanguage(localStorage.language);
+            if(localStorage.language)
+                SetLanguage(localStorage.language);
+            else SetLanguage("en");
         },
 
         _populateRasterInfo: function(){

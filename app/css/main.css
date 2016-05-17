@@ -55,7 +55,7 @@
 
 #monitoring-div-container {
     position: fixed;
-    z-index: 35;
+    z-index: 350;
     top: 35%;
     width: 22em;
     -webkit-transition: all 1s;

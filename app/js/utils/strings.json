@@ -523,7 +523,7 @@
     },
     "en": {
       "placeholder": "Insert Polygon",
-      "title": "Insert Town",
+      "title": "",
       "html": ""
     },
     "it": {
@@ -544,7 +544,7 @@
     },
     "en": {
       "placeholder": "Insert Parcel",
-      "title": "Insert Town",
+      "title": "",
       "html": ""
     },
     "it": {

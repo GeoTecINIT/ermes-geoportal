@@ -62,6 +62,7 @@
 
 .comparing-rasters-list-ul-visible {
     visibility: visible;
+    z-index: 999;
 }
 
 .comparing-rasters-list-ul-hidden {
