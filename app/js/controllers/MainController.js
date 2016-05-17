@@ -165,28 +165,29 @@ define([
             }
             this._constructLegendDiv();
 
+            if(this.mosaics[this.activeMosaic]) {
+                if (!this.mosaics[this.activeMosaic].legendURL) {
 
-            if (!this.mosaics[this.activeMosaic].legendURL) {
-
-                this.legendDigit = new Legend({
-                    map: this.map,
-                    layerInfos: [{layer: evt.layer, title: this.legendTitle}]
-                }, "legend-tool");
-                this.legendDigit.startup();
-            }
-            else{
-                // var legendURL ="http://ermes.dlsi.uji.es:6787/images/9e821e6fc0330c8f4ecec01d14632e83.jpg";
-                var legendURL =this.mosaics[this.activeMosaic].legendURL;
+                    this.legendDigit = new Legend({
+                        map: this.map,
+                        layerInfos: [{layer: evt.layer, title: this.legendTitle}]
+                    }, "legend-tool");
+                    this.legendDigit.startup();
+                }
+                else {
+                    // var legendURL ="http://ermes.dlsi.uji.es:6787/images/9e821e6fc0330c8f4ecec01d14632e83.jpg";
+                    var legendURL = this.mosaics[this.activeMosaic].legendURL;
 
 
-                var imageLegendDiv = domConstruct.create("img");
-                domAttr.set(imageLegendDiv, "id", "legend-tool");
-                domAttr.set(imageLegendDiv, "src", legendURL);
-                domAttr.set(imageLegendDiv, "width", 150);
+                    var imageLegendDiv = domConstruct.create("img");
+                    domAttr.set(imageLegendDiv, "id", "legend-tool");
+                    domAttr.set(imageLegendDiv, "src", legendURL);
+                    domAttr.set(imageLegendDiv, "width", 150);
 
-                var container = dom.byId("legend-div");
-                domConstruct.place(imageLegendDiv, container, "only");
+                    var container = dom.byId("legend-div");
+                    domConstruct.place(imageLegendDiv, container, "only");
 
+                }
             }
         },
 
