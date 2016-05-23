@@ -78,8 +78,8 @@ define([
         },
 
         _projectExtent: function(response){
+            //console.log(response.name);
             var geometries = [];
-            console.log(response.extent);
             geometries.push(new Point(
                 response.extent.xmin,
                 response.extent.ymin,

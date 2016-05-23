@@ -10,11 +10,11 @@
       "html": null
     },
     "it": {
-      "title": null,
+      "title": "Opzioni Applicazione",
       "html": null
     },
     "gk": {
-      "title": null,
+      "title": "Ρυθμίσεις εφαρμογής",
       "html": null
     }
   },
@@ -29,11 +29,11 @@
       "html": null
     },
     "it": {
-      "title": null,
+      "title": "Visualizzare menu",
       "html": null
     },
     "gk": {
-      "title": null,
+      "title": "Επίδειξη του μενού Play",
       "html": null
     }
   },
@@ -48,11 +48,11 @@
       "html": null
     },
     "it": {
-      "title": null,
+      "title": "Monitoraggio Colture",
       "html": null
     },
     "gk": {
-      "title": null,
+      "title": "Παρακολούθηση καλλιέργειας",
       "html": null
     }
   },
@@ -67,11 +67,11 @@
       "html": null
     },
     "it": {
-      "title": null,
+      "title": "Confronta Prodotti",
       "html": null
     },
     "gk": {
-      "title": null,
+      "title": "Σύγκριση προϊόντων",
       "html": null
     }
   },
@@ -86,11 +86,11 @@
       "html": null
     },
     "it": {
-      "title": null,
+      "title": "Trova Parcella",
       "html": null
     },
     "gk": {
-      "title": null,
+      "title": "Εύρεση  τον ορυζώνα",
       "html": null
     }
   },
@@ -105,11 +105,11 @@
       "html": null
     },
     "it": {
-      "title": null,
+      "title": "Legenda",
       "html": null
     },
     "gk": {
-      "title": null,
+      "title": "Επεξήγηση, Λεζάντα",
       "html": null
     }
   },
@@ -125,11 +125,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "Mappa di Base <span class='glyphicon glyphicon-chevron-down'></span>"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "Βασικός χάρτης <span class='glyphicon glyphicon-chevron-down'></span>"
     }
   },
   {
@@ -144,11 +144,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "Seleziona Lingua <span class='glyphicon glyphicon-chevron-down'></span>"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "Επιλογή γλώσσας <span class='glyphicon glyphicon-chevron-down'></span>"
     }
   },
   {
@@ -163,11 +163,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "Inglese"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "Αγγλικά"
     }
   },
   {
@@ -182,11 +182,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "Spagnolo"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "Ισπανικά"
     }
   },
   {
@@ -201,11 +201,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "Greco"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "Ελληνικά"
     }
   },
   {
@@ -220,11 +220,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "Italiano"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "Ιταλικά"
     }
   },
   {
@@ -239,11 +239,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "<span id='span-general-help' aria-hidden='true' class='glyphicon glyphicon-info-sign'></span>Aiuto Generale"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "<span id='span-general-help' aria-hidden='true' class='glyphicon glyphicon-info-sign'></span>Γενική βοήθεια"
     }
   },
   {
@@ -258,11 +258,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "<span aria-hidden='true' class='glyphicon glyphicon-sound-stereo'></span>Finestre Suddivise"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "<span aria-hidden='true' class='glyphicon glyphicon-sound-stereo'></span>Λειτουργία διαχωρισμού"
     }
   },
   {
@@ -277,11 +277,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "<span aria-hidden='true' class='glyphicon glyphicon-ban-circle'></span>Disconnettersi"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "<span aria-hidden='true' class='glyphicon glyphicon-ban-circle'></span>Αποσύνδεση"
     }
   },
   {
@@ -296,11 +296,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "<span aria-hidden='true' class='glyphicon glyphicon-remove-circle'></span>Chiudere"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "<span aria-hidden='true' class='glyphicon glyphicon-remove-circle'></span>Κλείσιμο"
     }
   },
   {
@@ -315,11 +315,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "Chiudi l’Aiuto"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": " Κλείσιμο βοήθειας"
     }
   },
   {
@@ -334,11 +334,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "<span aria-hidden='true' class='glyphicon glyphicon-remove-circle'></span>Chiudi Grafico"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "<span aria-hidden='true' class='glyphicon glyphicon-remove-circle'></span>Κλείσιμο γραφήματος"
     }
   },
   {
@@ -353,11 +353,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "<span aria-hidden='true' class='glyphicon glyphicon-remove-circle'></span>Esporta come PNG"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "<span aria-hidden='true' class='glyphicon glyphicon-remove-circle'></span>Εξαγωγή ως PNG"
     }
   },
   {
@@ -372,11 +372,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "<span aria-hidden='true' class='glyphicon glyphicon-save'></span>Esporta come CSV"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "<span aria-hidden='true' class='glyphicon glyphicon-save'></span>Εξαγωγή ως CSV"
     }
   },
   {
@@ -391,11 +391,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "Il valore per …"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "Η τιμή για.."
     }
   },
   {
@@ -410,11 +410,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": " il punto selezionato è: "
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": " Το επιλεγμένο σημείο είναι: "
     }
   },
   {
@@ -429,11 +429,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "Seleziona Prodotto ERMES::<span class='glyphicon glyphicon-chevron-down'></span>"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "Επιλογή του προϊόντος του ERMES:<span class='glyphicon glyphicon-chevron-down'></span>"
     }
   },
   {
@@ -448,11 +448,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "Data<span class='glyphicon glyphicon-chevron-down'></span>"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "Ημερομηνία<span class='glyphicon glyphicon-chevron-down'></span>"
     }
   },
   {
@@ -467,11 +467,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "<span aria-hidden='true' class='glyphicon glyphicon-erase'></span>Chiudi la Mappa"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "<span aria-hidden='true' class='glyphicon glyphicon-erase'></span>Καθαρισμός<br>χάρτη"
     }
   },
   {
@@ -486,11 +486,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "<span aria-hidden='true' class='glyphicon glyphicon-remove-circle'></span>Chiudere"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "<span aria-hidden='true' class='glyphicon glyphicon-remove-circle'></span>Κλείσιμο"
     }
   },
   {
@@ -506,10 +506,12 @@
       "html": ""
     },
     "it": {
+      "placeholder": "Inserisci Città",
       "title": null,
       "html": null
     },
     "gk": {
+      "placeholder": "Εισαγωγή πόλης",
       "title": null,
       "html": null
     }
@@ -527,10 +529,12 @@
       "html": ""
     },
     "it": {
+      "placeholder": "Inserisci Poligono",
       "title": null,
       "html": null
     },
     "gk": {
+      "placeholder": "Εισαγωγή πολύγωνου",
       "title": null,
       "html": null
     }
@@ -548,10 +552,12 @@
       "html": ""
     },
     "it": {
+      "placeholder": "Inserisci Parcella",
       "title": null,
       "html": null
     },
     "gk": {
+      "placeholder": "Εισαγωγή ορυζώνα",
       "title": null,
       "html": null
     }
@@ -568,11 +574,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "<span aria-hidden='true' class='glyphicon glyphicon-search'></span>Trova"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "<span aria-hidden='true' class='glyphicon glyphicon-search'></span>Εύρεση"
     }
   },
   {
@@ -587,11 +593,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "<span aria-hidden='true' class='glyphicon glyphicon-remove-circle'></span>Chiudi"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "<span aria-hidden='true' class='glyphicon glyphicon-remove-circle'></span>Κλείσιμο"
     }
   },
   {
@@ -607,12 +613,12 @@
       "html": ""
     },
     "it": {
-      "placeholder": "",
+      "placeholder": "Longitudine",
       "title": null,
       "html": null
     },
     "gk": {
-      "placeholder": "",
+      "placeholder": "Γεωγραφικό μήκος ",
       "title": null,
       "html": null
     }
@@ -630,12 +636,12 @@
       "html": ""
     },
     "it": {
-      "placeholder": "",
+      "placeholder": "Latitudine",
       "title": null,
       "html": null
     },
     "gk": {
-      "placeholder": "",
+      "placeholder": "Γεωγραφικό πλάτος",
       "title": null,
       "html": null
     }
@@ -652,11 +658,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "Vai e Mostra il Grafico"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "Δημιουργία γραφικού"
     }
   },
   {
@@ -671,11 +677,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "Seleziona Prodotto ERMES:<span class='glyphicon glyphicon-chevron-down'></span>"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "Επιλογή του προϊόντος του ERMES:<span class='glyphicon glyphicon-chevron-down'></span>"
     }
   },
   {
@@ -690,11 +696,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "Data<span class='glyphicon glyphicon-chevron-down'></span>"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "Ημερομηνία<span class='glyphicon glyphicon-chevron-down'></span>"
     }
   },
   {
@@ -709,11 +715,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "<span aria-hidden='true' class='glyphicon glyphicon-remove-circle'></span>Chiudi"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "<span aria-hidden='true' class='glyphicon glyphicon-remove-circle'></span>Kλείσιμο"
     }
   },
   {
@@ -728,11 +734,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "Dati<br>Locali"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "Τοπικά<br>δεδομένα"
     }
   },
   {
@@ -747,11 +753,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "Risultati<br>del Modello"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "Δεδομένα<br>του μοντέλου"
     }
   },
   {
@@ -766,11 +772,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "Mostra<br>grafico<br>dati da<br>satellite"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "Γραφικό<br>δορυφορικής<br>χρονοσειράς"
     }
   },
   {
@@ -785,11 +791,11 @@
   },
   "it": {
     "title": null,
-    "html": null
+    "html": "Mostra grafico"
   },
   "gk": {
     "title": null,
-    "html": null
+    "html": "Επίδειξη γραφικού"
   }
 },
   {
@@ -804,11 +810,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "<p>Seleziona un prodotto per mostrare il grafico</p>"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "<p>Αρχική επιλογή προϊόντος</p>"
     }
   },
   {
@@ -823,11 +829,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "Conferma Modifiche"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "Επιβεβαίωση αλλαγών"
     }
   },
   {
@@ -842,11 +848,11 @@
   },
   "it": {
     "title": null,
-    "html": null
+    "html": "Cancella Modifiche"
   },
   "gk": {
     "title": null,
-    "html": null
+    "html": "Ακύρωση επεξεργασίας"
   }
 },
   {
@@ -861,11 +867,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "Questa parcella non ti appartiene"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "Αυτός ο ορυζώνας δε σας ανήκει"
     }
   },
   {
@@ -880,11 +886,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "Elimina Allerta"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "Αφαίρεση συναγερμού"
     }
   },
   {
@@ -899,11 +905,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "Questa parcella non ha allerte"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "Αυτός ο ορυζώνας δεν έχει συναγερμούς"
     }
   },
   {
@@ -918,11 +924,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "ID della parcella: "
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "ΙD (κωδικός) ορυζώνα: "
     }
   },
   {
@@ -937,11 +943,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "Parcella non valida"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "Μη έγκυρος ορυζώνας"
     }
   },
   {
@@ -956,11 +962,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "Ricerca…."
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "Αναζήτηση…."
     }
   },
   {
@@ -975,11 +981,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "Nascondi"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "Απόκρυψη"
     }
   },
   {
@@ -994,11 +1000,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "Informazioni sulla coltura"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "Πληροφορίες καλλιέργειας"
     }
   },
   {
@@ -1013,11 +1019,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "Tipo di Suolo"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "Τύπος εδάφους"
     }
   },
   {
@@ -1032,11 +1038,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "Condizioni del suolo"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "Κατάσταση εδάφους"
     }
   },
   {
@@ -1051,11 +1057,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "Fenologia"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "Φαινολογία καλλιέργειας"
     }
   },
   {
@@ -1070,11 +1076,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "Insetti"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "Έντομα"
     }
   },
   {
@@ -1089,11 +1095,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "Malattie"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "Ασθένειες"
     }
   },
   {
@@ -1108,11 +1114,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "Infestanti"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "Ζιζάνια"
     }
   },
   {
@@ -1127,11 +1133,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "Ferilizzanti"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "Λιπάσματα"
     }
   },
   {
@@ -1146,11 +1152,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "Trattamenti"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "Αγροχημικά"
     }
   },
   {
@@ -1165,11 +1171,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "Irrigazione"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "Άρδευση"
     }
   },
   {
@@ -1184,11 +1190,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "Resa"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "Αποδόσεις"
     }
   },
   {
@@ -1203,11 +1209,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "Osservazioni"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "Παρατηρήσεις"
     }
   },
   {
@@ -1222,11 +1228,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "Fase di crescita del riso"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "Στάδιο ανάπτυξης του ρυζιού"
     }
   },
   {
@@ -1241,11 +1247,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "Rischio di infezione potenziale"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "Ενδεχόμενος κίνδυνος μόλυνσης από Πυρικουλάρια"
     }
   },
   {
@@ -1260,11 +1266,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "Rischio di sterilità da freddo"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "Ενδεχόμενος κίνδυνος στειρότητας λόγω κρύου"
     }
   },
   {
@@ -1279,11 +1285,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "Biomassa Totale"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": " Υπέργεια βιομάζα"
     }
   },
   {
@@ -1298,11 +1304,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "Biomassa della pannocchia"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "Βιομάζα φόβης"
     }
   },
   {
@@ -1317,11 +1323,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "Radiazione"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "Ηλιακή ακτινοβολία"
     }
   },
   {
@@ -1336,11 +1342,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "Pioggia"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "Βροχόπτωση"
     }
   },
   {
@@ -1355,11 +1361,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "Umidità Massima"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "Μέγιστη υγρασία"
     }
   },
   {
@@ -1374,11 +1380,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "Umidità Minima"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "Ελάχιστη υγρασία"
     }
   },
   {
@@ -1393,11 +1399,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "Temperatura Massima"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "Μέγιστη θερμοκρασία"
     }
   },
   {
@@ -1412,11 +1418,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "Temperatura Minima"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "Ελάχιστη θερμοκρασία"
     }
   },
   {
@@ -1431,11 +1437,11 @@
     },
     "it": {
       "title": null,
-      "html": null
+      "html": "Velocità del Vento"
     },
     "gk": {
       "title": null,
-      "html": null
+      "html": "Ταχύτητα ανέμου"
     }
   },
   {

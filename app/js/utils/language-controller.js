@@ -1,6 +1,8 @@
 /**
  * Created by NachoGeotec on 14/04/2016.
  */
+
+var operationalLayerIds = {};
 function SetLanguage(lang){
     localStorage.language = lang;
 
@@ -18,6 +20,15 @@ function SetLanguage(lang){
             }
         });
     });
+
+    function updateOperational(element, index, list){
+        var nodeName = index.replace(" ", "") + "-button";
+        $('#' + nodeName).html(element[lang]);
+    }
+
+    _.each(operationalLayerIds, updateOperational);
+    
+    
 }
 
 function SetDropdownLabels(){
@@ -161,3 +172,9 @@ function SetInfoWindowLanguage(){
         });
     });
 }
+
+function SetOperationalLayerIds(name, langObject){
+    operationalLayerIds[name] = langObject;
+    //operationalLayerIds.length++;
+}
+

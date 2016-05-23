@@ -1010,14 +1010,12 @@ define([
             this.statsLayerShowed = true;
             this.handler.resume();
             this.statsLayer = operationalLayer;
-            console.log("Layer selected");
         },
 
         _statsLayerRemoved: function(operationalLayer){
             this.statsLayerShowed = false;
-            console.log("Layer UNselected");
-
         },
+        
 
         _showCoordinatesPoint: function(point){
             if(this._isPointInLimits(point)) {
@@ -1151,13 +1149,7 @@ define([
                 }, function(error){
                     domAttr.remove(catalogInfo, "href");
                     domClass.add(catalogInfo, "simple-bold-text");
-                if(localStorage.language == "sp"){
-                    catalogInfo.innerHTML="Catálogo sin datos."
-                }
-                else{
-                    catalogInfo.innerHTML="No data in Catalog."
-                }
-
+                    catalogInfo.innerHTML=" "
                 });
 
 

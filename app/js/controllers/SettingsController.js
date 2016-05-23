@@ -147,13 +147,14 @@ define([
         	for(var layer in this.layers){
         		
         		var button = domConstruct.create("button");
-        		domAttr.set(button, "id", layer + "-button");
+        		domAttr.set(button, "id", layer.replace(" ", "") + "-button");
         		domAttr.set(button, "type", "button");
         		domAttr.set(button, "class", "btn btn-default btn-block");
         		button.innerHTML = layer;
         		var clickHandler = lang.hitch(this, "_showLayer", layer);
         		this.own(on(button, "click", clickHandler));
         		domConstruct.place(button, container, "after");
+				
         		//var br = domConstruct.create("br");
         		//domConstruct.place(br, container, "after");
         	}

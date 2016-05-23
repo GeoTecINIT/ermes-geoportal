@@ -275,7 +275,8 @@ define([
             for (var i=0; i < response.layers.length; i++) {
                 var lurl = response.layers[i].url;
                 var lid = response.layers[i].id;
-                var lname = response.layers[i].name;
+                var lnames = response.layers[i].names;
+                SetOperationalLayerIds(lid, lnames);
                 var ldescritpion = response.layers[i].description;
                 var myInfoTemplate = new InfoTemplate();
                 if(localStorage.profile == "regional") {
@@ -295,6 +296,7 @@ define([
                 }
                 var tempLayer = new FeatureLayer(lurl, {
                     id: lid,
+                    names: lnames,
                     outFields: ['*'],
                     infoTemplate: myInfoTemplate
                 });
@@ -327,8 +329,8 @@ define([
             }
             var symbol = new SimpleFillSymbol(
                 SimpleFillSymbol.STYLE_SOLID,
-                new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([0, 255, 0]), 5),
-                new Color([255, 255, 0, 0])
+                new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([0, 255, 0]), 6),
+                new Color([0, 0, 0, 0])
             );
 
             var symbolAlert = new SimpleFillSymbol(
