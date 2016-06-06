@@ -418,7 +418,7 @@ define([
                     profileId = "GAMBIA";
                     configFileURL = "./config/config-greece-local.json";
                 }
-                else if (this.userRegion == "senegal" && this.userProfile == "regional") {
+                else if (this.userRegion == "gambia-srv" && this.userProfile == "regional") {
                     profileId = "SENEGAL";
                     configFileURL = "./config/config-greece-full.json";
                 }

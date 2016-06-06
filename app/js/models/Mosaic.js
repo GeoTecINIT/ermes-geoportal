@@ -133,12 +133,14 @@ define([
 
 		_onQuerySuccess: function(featureSet){		
 	        for(var i=0; i<featureSet.features.length; i++){
-	        	var key = featureSet.features[i].attributes.SDATE;
-	        	//var key = featureSet.features[i].attributes.OBJECTID;
-	        	var name = featureSet.features[i].attributes.Name;
-				var date = new Date(featureSet.features[i].attributes.DATE).toDateString();
-	        	this.rasters[key] = [name, date];
-                this.rasters.length++;
+                if(featureSet.features[i].attributes.SDATE) {
+                    var key = featureSet.features[i].attributes.SDATE;
+                    //var key = featureSet.features[i].attributes.OBJECTID;
+                    var name = featureSet.features[i].attributes.Name;
+                    var date = new Date(featureSet.features[i].attributes.DATE).toDateString();
+                    this.rasters[key] = [name, date];
+                    this.rasters.length++;
+                }
 	        }
 	        this.numRasters = this.rasters.length;
 	        this.emit("mosaic-loaded",{});
