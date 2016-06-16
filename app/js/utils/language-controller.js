@@ -22,7 +22,7 @@ function SetLanguage(lang){
     });
 
     function updateOperational(element, index, list){
-        var nodeName = index.replace(" ", "") + "-button";
+        var nodeName = index.replace(" ", "").trim() + "-button";
         $('#' + nodeName).html(element[lang]);
     }
 

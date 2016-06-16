@@ -262,7 +262,7 @@
     },
     "gk": {
       "title": null,
-      "html": "<span aria-hidden='true' class='glyphicon glyphicon-sound-stereo'></span>Λειτουργία διαχωρισμού"
+      "html": "<span aria-hidden='true' class='glyphicon glyphicon-sound-stereo'></span>Λειτουργία<br>διαχωρισμού"
     }
   },
   {

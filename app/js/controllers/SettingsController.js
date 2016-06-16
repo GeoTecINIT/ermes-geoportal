@@ -66,23 +66,27 @@ define([
 	    },
 
 	    _populateBaseMaps: function(){
-	    	var container = dom.byId('basemap-list-ul');
-	    	
-	    	for(bm in this.baseMaps){
-	    		var base = this.baseMaps[bm];
-	    		var a = domConstruct.create('a');
-	    		domAttr.set(a, "href", "#");
-	    		domAttr.set(a, "id", base);
+			if(localStorage.profile == 'regional') {
+				var container = dom.byId('basemap-list-ul');
 
-	    		var baseUpper = this._capitalizeFirstLetter(base);
-	    		a.innerHTML = baseUpper;
+				for (bm in this.baseMaps) {
+					var base = this.baseMaps[bm];
+					var a = domConstruct.create('a');
+					domAttr.set(a, "href", "#");
+					domAttr.set(a, "id", base);
 
-	    		var clickHandler = lang.hitch(this, "_changeBaseMap", base);
-	    		this.own(on(a, "click", clickHandler));
-	    		var li = domConstruct.create('li');
-	    		domConstruct.place(a,li,"only");
-	    		domConstruct.place(li,container,"last");
-	    	}
+					var baseUpper = this._capitalizeFirstLetter(base);
+					a.innerHTML = baseUpper;
+
+					var clickHandler = lang.hitch(this, "_changeBaseMap", base);
+					this.own(on(a, "click", clickHandler));
+					var li = domConstruct.create('li');
+					domConstruct.place(a, li, "only");
+					domConstruct.place(li, container, "last");
+				}
+			}
+			else{
+				domClass.add("basemap-selector-node", "display-none");			}
 	    },
 
 	    _changeBaseMap: function(baseMap){

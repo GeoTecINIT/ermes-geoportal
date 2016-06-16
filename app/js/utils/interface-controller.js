@@ -126,5 +126,6 @@ $(document).on('ui-ready', function(evt) {
         SetLanguage("it");
     });
 
-    SetLanguage(localStorage.language);
+    if(localStorage.language == "undefined") SetLanguage('en');
+    else SetLanguage(localStorage.language);
 });

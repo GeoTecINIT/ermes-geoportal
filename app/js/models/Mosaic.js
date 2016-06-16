@@ -51,6 +51,7 @@ define([
             forecastValuesDate: null,
             year: null,
             legendURL: null,
+            mosaicCurrentYear: null,
 
 		constructor: function(options){
 			this.mosaicId = options.id;
@@ -152,11 +153,17 @@ define([
 	        query.outFields = ['OBJECTID', 'Name', 'DATE', 'SDATE'];
             query.orderByFields = ["SDATE ASC"];
 	        var querySuccess = lang.hitch(this, "_onQuerySuccess");
-			var queryError = function(){
-				console.debug("Error in the Query");
-			} 
+
+            var queryError = lang.hitch(this, "_queryToMosaicFails");
+            // var queryError = function(error){
+			// 	console.debug("Error in the Query: " + error);
+			// }
 	       	queryTask.execute(query).then(querySuccess, queryError);	       		       	
-	    },
+        },
+
+        _queryToMosaicFails: function(error){
+            console.log("URL: " + this.URL);
+        },
 
 	    getRasterValues: function(pointClicked){
             //PlotType
@@ -214,14 +221,15 @@ define([
 
         _setCurrentValues: function(response){
             this.currentValues = response.properties.Values.map(parseFloat);
-
+            this.mosaicCurrentYear = response.catalogItems.features[1].attributes.SDATE.split('/')[0];
             var getArray = lang.hitch(this, "_createArrayFromResponse");
             this.currentValuesDate = getArray(response, 0);
 
             if(this.plotType==1){
                 this.historicDates = [];
                 response.catalogItems.features.forEach(lang.hitch(this,function(feature){
-                    var newYear = parseInt(feature.attributes.SDATE.split('/')[0]);
+
+                    var newYear = this.mosaicCurrentYear;
                     var newDate = newYear + '/' + feature.attributes.SDATE.split('/')[1]+ '/' + feature.attributes.SDATE.split('/')[2];
                     this.historicDates.push(newDate);
                 }));
@@ -244,14 +252,15 @@ define([
 
         _setAVGValues: function(response){
             this.avgValues = response.properties.Values.map(parseFloat);
-
             var getArray = lang.hitch(this, "_createArrayFromResponse");
             this.avgValuesDate = getArray(response, 1);
 
             if(this.plotType!=1){
                 this.historicDates = [];
                 response.catalogItems.features.forEach(lang.hitch(this,function(feature){
-                    var newYear = parseInt(feature.attributes.SDATE.split('/')[0])+1;
+
+                    var newYear = this.mosaicCurrentYear;
+                    // var newYear = parseInt(feature.attributes.SDATE.split('/')[0])+1;
                     var newDate = newYear + '/' + feature.attributes.SDATE.split('/')[1]+ '/' + feature.attributes.SDATE.split('/')[2];
                     this.historicDates.push(newDate);
                 }));
@@ -329,9 +338,9 @@ define([
             else if(this.plotType==1) {
                     this._rasterValuesObtained();
             }
-        },
-
-	     _rasterValuesObtained: function(){
+        }, 
+            
+        _rasterValuesObtained: function(){
              var parameter = [];
              parameter.push(this.currentValues);
              parameter.push(this.historicDates);

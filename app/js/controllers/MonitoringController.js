@@ -127,29 +127,29 @@ define([
             this.own(on(dom.byId('fertilizer-next-button'), 'click', lang.hitch(this, '_changeObservationData', 'fertilizer', 'next')));
             this.own(on(dom.byId('fertilizer-edit-button'), 'click', lang.hitch(this, '_editObservationData', 'fertilizer')));
 
-            this.own(on(dom.byId('irrigationInfos-previous-button'), 'click', lang.hitch(this, '_changeObservationData', 'irrigationInfo', 'previous')));
-            this.own(on(dom.byId('irrigationInfos-next-button'), 'click', lang.hitch(this, '_changeObservationData', 'irrigationInfo', 'next')));
-            this.own(on(dom.byId('irrigationInfos-edit-button'), 'click', lang.hitch(this, '_editObservationData', 'irrigationInfo')));
+            this.own(on(dom.byId('irrigationInfos-previous-button'), 'click', lang.hitch(this, '_changeObservationData', 'irrigation', 'previous')));
+            this.own(on(dom.byId('irrigationInfos-next-button'), 'click', lang.hitch(this, '_changeObservationData', 'irrigation', 'next')));
+            this.own(on(dom.byId('irrigationInfos-edit-button'), 'click', lang.hitch(this, '_editObservationData', 'irrigation')));
 
             this.own(on(dom.byId('observation-previous-button'), 'click', lang.hitch(this, '_changeObservationData', 'observation', 'previous')));
             this.own(on(dom.byId('observation-next-button'), 'click', lang.hitch(this, '_changeObservationData', 'observation', 'next')));
             this.own(on(dom.byId('observation-edit-button'), 'click', lang.hitch(this, '_editObservationData', 'observation')));
 
-            this.own(on(dom.byId('parcelStatus-previous-button'), 'click', lang.hitch(this, '_changeObservationData', 'parcelStatus', 'previous')));
-            this.own(on(dom.byId('parcelStatus-next-button'), 'click', lang.hitch(this, '_changeObservationData', 'parcelStatus', 'next')));
-            this.own(on(dom.byId('parcelStatus-edit-button'), 'click', lang.hitch(this, '_editObservationData', 'parcelStatus')));
+            this.own(on(dom.byId('parcelStatus-previous-button'), 'click', lang.hitch(this, '_changeObservationData', 'soilCondition', 'previous')));
+            this.own(on(dom.byId('parcelStatus-next-button'), 'click', lang.hitch(this, '_changeObservationData', 'soilCondition', 'next')));
+            this.own(on(dom.byId('parcelStatus-edit-button'), 'click', lang.hitch(this, '_editObservationData', 'soilCondition')));
 
-            this.own(on(dom.byId('pathogen-previous-button'), 'click', lang.hitch(this, '_changeObservationData', 'pathogen', 'previous')));
-            this.own(on(dom.byId('pathogen-next-button'), 'click', lang.hitch(this, '_changeObservationData', 'pathogen', 'next')));
-            this.own(on(dom.byId('pathogen-edit-button'), 'click', lang.hitch(this, '_editObservationData', 'pathogen')));
+            this.own(on(dom.byId('pathogen-previous-button'), 'click', lang.hitch(this, '_changeObservationData', 'insect', 'previous')));
+            this.own(on(dom.byId('pathogen-next-button'), 'click', lang.hitch(this, '_changeObservationData', 'insect', 'next')));
+            this.own(on(dom.byId('pathogen-edit-button'), 'click', lang.hitch(this, '_editObservationData', 'insect')));
 
-            this.own(on(dom.byId('phenology-previous-button'), 'click', lang.hitch(this, '_changeObservationData', 'phenology', 'previous')));
-            this.own(on(dom.byId('phenology-next-button'), 'click', lang.hitch(this, '_changeObservationData', 'phenology', 'next')));
-            this.own(on(dom.byId('phenology-edit-button'), 'click', lang.hitch(this, '_editObservationData', 'phenology')));
+            this.own(on(dom.byId('phenology-previous-button'), 'click', lang.hitch(this, '_changeObservationData', 'cropPhenology', 'previous')));
+            this.own(on(dom.byId('phenology-next-button'), 'click', lang.hitch(this, '_changeObservationData', 'cropPhenology', 'next')));
+            this.own(on(dom.byId('phenology-edit-button'), 'click', lang.hitch(this, '_editObservationData', 'cropPhenology')));
 
-            this.own(on(dom.byId('soil-previous-button'), 'click', lang.hitch(this, '_changeObservationData', 'soil', 'previous')));
-            this.own(on(dom.byId('soil-next-button'), 'click', lang.hitch(this, '_changeObservationData', 'soil', 'next')));
-            this.own(on(dom.byId('soil-edit-button'), 'click', lang.hitch(this, '_editObservationData', 'soil')));
+            this.own(on(dom.byId('soil-previous-button'), 'click', lang.hitch(this, '_changeObservationData', 'soilType', 'previous')));
+            this.own(on(dom.byId('soil-next-button'), 'click', lang.hitch(this, '_changeObservationData', 'soilType', 'next')));
+            this.own(on(dom.byId('soil-edit-button'), 'click', lang.hitch(this, '_editObservationData', 'soilType')));
 
             this.own(on(dom.byId('weed-previous-button'), 'click', lang.hitch(this, '_changeObservationData', 'weed', 'previous')));
             this.own(on(dom.byId('weed-next-button'), 'click', lang.hitch(this, '_changeObservationData', 'weed', 'next')));
@@ -196,7 +196,32 @@ define([
 
 
             var formDataJson = domForm.toJson(formNode);
+            // var numbersList = [];
+            // for(var i = 0; i<formNode.length; i++){
+            //     if(formNode[i].type == "number"){
+            //         numbersList.push(formNode[i].name);
+            //     }
+            // }
             var updatedData = lang.mixin(lang.clone(productData), JSON.parse(formDataJson));
+            _.each(updatedData, function(value, fieldName){
+                // if( _.includes(numbersList, fieldName)){
+                //     updatedData[fieldName] = parseInt(value);
+                // }
+
+
+                if(fieldName.toLowerCase().match('date')){
+                    if(fieldName!="uploadDate"){
+                        var newDate = moment(value);
+                        newDate = new Date(newDate);
+                        updatedData[fieldName] = newDate;
+                    }
+                }
+            })
+
+
+            //Recorrer productData
+                //Si tiene date y no es uploadDate ->
+                    //Modificar Date y meter en el mismo valor
 
             var bodyObject = '{ "' + product + '": ' + JSON.stringify(updatedData) + '}';
             bodyObject = JSON.parse(bodyObject);
@@ -278,12 +303,12 @@ define([
                 domConstruct.place(span, h1, "only");
                 domConstruct.place(h1, div, "only");
                 this.map.infoWindow.setContent(div);
-                this.parcelsLayer.queryFeatures(query, lang.hitch(this, "_queryMongoServer"));
+                this.parcelsLayer.queryFeatures(query, lang.hitch(this, "_queryMongoServer", evt));
                 SetInfoWindowLanguage();
             }
         },
 
-        _queryMongoServer: function(response){
+        _queryMongoServer: function(evt, response){
             //var serviceURL = "http://localhost:6686/api/parcelsinfo/";
             //var username = this.username;
             //var password = localStorage.password;
@@ -307,7 +332,13 @@ define([
             }
             else {
                 this.map.infoWindow.setTitle("ERROR!");
-                this.map.infoWindow.setContent("There is no parcel Here!");
+
+                if(localStorage.language=="en") this.map.infoWindow.setContent("This parcel isn't yours or there is not parcel here.");
+                if(localStorage.language=="gk") this.map.infoWindow.setContent("Το οικόπεδο αυτό δεν είναι δικό σας ή αν δεν υπάρχει οικόπεδο εδώ.");
+                if(localStorage.language=="it") this.map.infoWindow.setContent("Questa terra non è tuo o non vi è nessun complotto qui.");
+                if(localStorage.language=="es") this.map.infoWindow.setContent("Esta parcela no es suya o no hay parcela en este lugar.");
+                lang.hitch(this, "_showClickedPoint", evt)();
+
             }
 
             //var serviceURL = this.urlServer + this.apiVersion + "/warm/developmentStages";
@@ -507,7 +538,7 @@ define([
                     $('#irrigationInfos-nav').toggleClass("display-none display-block");
                     var quantity = data.irrigations.length;
                     var specificData = data.irrigations;
-                    this._askForInfoTemplate('irrigationInfo', quantity, specificData);
+                    this._askForInfoTemplate('irrigation', quantity, specificData);
                 }
                 if(data.observations.length>0){
                     $('#observations-nav').toggleClass("display-none display-block");
@@ -519,25 +550,25 @@ define([
                     $('#parcelStatus-nav').toggleClass("display-none display-block");
                     var quantity = data.soilConditions.length;
                     var specificData = data.soilConditions;
-                    this._askForInfoTemplate('parcelStatus', quantity, specificData);
+                    this._askForInfoTemplate('soilCondition', quantity, specificData);
                 }
                 if(data.insects.length>0){
                     $('#phatogens-nav').toggleClass("display-none display-block");
                     var quantity = data.insects.length;
                     var specificData = data.insects;
-                    this._askForInfoTemplate('pathogen', quantity, specificData);
+                    this._askForInfoTemplate('insect', quantity, specificData);
                 }
                 if(data.cropPhenologies.length>0){
                     $('#phenologies-nav').toggleClass("display-none display-block");
                     var quantity = data.cropPhenologies.length;
                     var specificData = data.cropPhenologies;
-                    this._askForInfoTemplate('phenology', quantity, specificData);
+                    this._askForInfoTemplate('cropPhenology', quantity, specificData);
                 }
                 if(data.soilTypes.length>0){
                     $('#soils-nav').toggleClass("display-none display-block");
                     var quantity = data.soilTypes.length;
                     var specificData = data.soilTypes;
-                    this._askForInfoTemplate('soil', quantity, specificData);
+                    this._askForInfoTemplate('soilType', quantity, specificData);
                 }
                 if(data.weeds.length>0){
                     $('#weeds-nav').toggleClass("display-none display-block");
@@ -757,12 +788,12 @@ define([
             showInfoFunctions['cropInfo'] = lang.hitch(this, "_showCropInfoInfo");
             showInfoFunctions['disease'] = lang.hitch(this, "_showDiseasesInfo");
             showInfoFunctions['fertilizer'] = lang.hitch(this, "_showFertilizersInfo");
-            showInfoFunctions['irrigationInfo'] = lang.hitch(this, "_showIrrigationInfoInfo");
+            showInfoFunctions['irrigation'] = lang.hitch(this, "_showIrrigationInfoInfo");
             showInfoFunctions['observation'] = lang.hitch(this, "_showObservationsInfo");
-            showInfoFunctions['parcelStatus'] = lang.hitch(this, "_showParcelStatusInfo");
-            showInfoFunctions['pathogen'] = lang.hitch(this, "_showPathogensInfo");
-            showInfoFunctions['phenology'] = lang.hitch(this, "_showPhenologiesInfo");
-            showInfoFunctions['soil'] = lang.hitch(this, "_showSoilsInfo");
+            showInfoFunctions['soilCondition'] = lang.hitch(this, "_showParcelStatusInfo");
+            showInfoFunctions['insect'] = lang.hitch(this, "_showPathogensInfo");
+            showInfoFunctions['cropPhenology'] = lang.hitch(this, "_showPhenologiesInfo");
+            showInfoFunctions['soilType'] = lang.hitch(this, "_showSoilsInfo");
             showInfoFunctions['weed'] = lang.hitch(this, "_showWeedsInfo");
             showInfoFunctions['yield'] = lang.hitch(this, "_showYieldsInfo");
 
@@ -837,17 +868,17 @@ define([
         _showIrrigationInfoInfo: function(template, quantity, data){
             var label = dom.byId("irrigationInfos-number");
             label.innerHTML = "(" + quantity + "):";
-            this.productsList['irrigationInfo'] = [];
+            this.productsList['irrigation'] = [];
             for(var i =0; i<quantity; i++) {
                 var compiled = _.template(template);
                 var finalHTML = compiled(data[i]);
-                this.productsList['irrigationInfo'][i] = data[i];
+                this.productsList['irrigation'][i] = data[i];
                 var product = dom.byId("irrigationInfos-data");
                 domConstruct.place(finalHTML, product, "last");
-                domAttr.set(dom.byId("irrigationInfo"), "id", "irrigationInfo" + i);
+                domAttr.set(dom.byId("irrigationInfo"), "id", "irrigation" + i);
             }
-            this.currentPosition['irrigationInfo'] = quantity - 2;
-            this._changeObservationData("irrigationInfo", 'next');
+            this.currentPosition['irrigation'] = quantity - 2;
+            this._changeObservationData("irrigation", 'next');
         },
 
         _showObservationsInfo: function(template, quantity, data){
@@ -867,67 +898,67 @@ define([
         },
 
         _showParcelStatusInfo: function(template, quantity, data){
-            var label = dom.byId("parcelStatus-number");
+            var label = dom.byId("parcelStatuses-number");
             label.innerHTML = "(" + quantity + "):";
-            this.productsList['parcelStatus'] = [];
+            this.productsList['soilCondition'] = [];
             for(var i =0; i<quantity; i++) {
                 var compiled = _.template(template);
                 var finalHTML = compiled(data[i]);
-                this.productsList['parcelStatus'][i] = data[i];
-                var product = dom.byId("parcelStatus-data");
+                this.productsList['soilCondition'][i] = data[i];
+                var product = dom.byId("parcelStatuses-data");
                 domConstruct.place(finalHTML, product, "last");
-                domAttr.set(dom.byId("parcelStatus"), "id", "parcelStatus" + i);
+                domAttr.set(dom.byId("parcelStatus"), "id", "soilCondition" + i);
             }
-            this.currentPosition['parcelStatus'] = quantity - 2;
-            this._changeObservationData("parcelStatus", 'next');
+            this.currentPosition['soilCondition'] = quantity - 2;
+            this._changeObservationData("soilCondition", 'next');
         },
 
         _showPathogensInfo: function(template, quantity, data){
             var label = dom.byId("phatogens-number");
             label.innerHTML = "(" + quantity + "):";
-            this.productsList['pathogen'] = [];
+            this.productsList['insect'] = [];
             for(var i =0; i<quantity; i++) {
                 var compiled = _.template(template);
                 var finalHTML = compiled(data[i]);
-                this.productsList['pathogen'][i] = data[i];
+                this.productsList['insect'][i] = data[i];
                 var product = dom.byId("phatogens-data");
                 domConstruct.place(finalHTML, product, "last");
-                domAttr.set(dom.byId("pathogen"), "id", "pathogen" + i);
+                domAttr.set(dom.byId("pathogen"), "id", "insect" + i);
             }
-            this.currentPosition['pathogen'] = quantity - 2;
-            this._changeObservationData("pathogen", 'next');
+            this.currentPosition['insect'] = quantity - 2;
+            this._changeObservationData("insect", 'next');
         },
 
         _showPhenologiesInfo: function(template, quantity, data){
             var label = dom.byId("phenologies-number");
             label.innerHTML = "(" + quantity + "):";
-            this.productsList['phenology'] = [];
+            this.productsList['cropPhenology'] = [];
             for(var i =0; i<quantity; i++) {
                 var compiled = _.template(template);
                 var finalHTML = compiled(data[i]);
-                this.productsList['phenology'][i] = data[i];
+                this.productsList['cropPhenology'][i] = data[i];
                 var product = dom.byId("phenologies-data");
                 domConstruct.place(finalHTML, product, "last");
-                domAttr.set(dom.byId("phenology"), "id", "phenology" + i);
+                domAttr.set(dom.byId("phenology"), "id", "cropPhenology" + i);
             }
-            this.currentPosition['phenology'] = quantity - 2;
-            this._changeObservationData("phenology", 'next');
+            this.currentPosition['cropPhenology'] = quantity - 2;
+            this._changeObservationData("cropPhenology", 'next');
         },
 
         _showSoilsInfo: function(template, quantity, data){
             var label = dom.byId("soils-number");
             label.innerHTML = "(" + quantity + "):";
-            this.productsList['soil'] = [];
+            this.productsList['soilType'] = [];
             for(var i =0; i<quantity; i++) {
                 var compiled = _.template(template);
                 var finalHTML = compiled(data[i]);
-                this.productsList['soil'][i] = data[i];
+                this.productsList['soilType'][i] = data[i];
                 var product = dom.byId("soils-data");
                 domConstruct.place(finalHTML, product, "last");
-                domAttr.set(dom.byId("soil"), "id", "soil" + i);
+                domAttr.set(dom.byId("soil"), "id", "soilType" + i);
             }
-            this.currentPosition['soil'] = quantity - 2;
-            this._changeObservationData("soil", 'next');
+            this.currentPosition['soilType'] = quantity - 2;
+            this._changeObservationData("soilType", 'next');
         },
 
         _showWeedsInfo: function(template, quantity, data){

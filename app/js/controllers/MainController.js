@@ -14,6 +14,7 @@ define([
     "esri/dijit/Legend",
     "models/Mosaic",
     "dojo/topic",
+    "esri/layers/ArcGISTiledMapServiceLayer",
     'esri/layers/FeatureLayer',
     "esri/InfoTemplate",
     "esri/layers/ArcGISDynamicMapServiceLayer",
@@ -31,7 +32,7 @@ define([
     "esri/dijit/TimeSlider",
     'dojo/domReady!'
 ], function (declare, Evented, lang, arrayUtils, on, dom, domConstruct, domAttr, esriRequest, Map,
-             Scalebar, InfoWindow, Legend, Mosaic, Topic, FeatureLayer, InfoTemplate, ArcGISDynamicMapServiceLayer,
+             Scalebar, InfoWindow, Legend, Mosaic, Topic, ArcGISTiledMapServiceLayer, FeatureLayer, InfoTemplate, ArcGISDynamicMapServiceLayer,
              _WidgetBase, _TemplatedMixin, MenusController, Extent,
              SimpleRenderer, SimpleLineSymbol, SimpleFillSymbol, Color, Graphic,
             xhr, Query, TimeSlider) {
@@ -54,10 +55,11 @@ define([
         legendListener: null,
         limits: null,
         finder: null,
-        urlServer: "http://ermes.dlsi.uji.es:6787",
-        //urlServer: "http://localhost:6787",
+        // urlServer: "http://ermes.dlsi.uji.es:6787",
+        urlServer: "http://localhost:6787",
         apiVersion: "/api-v1",
         legendTitle: null,
+        ownedParcels: [],
 
         constructor: function(){
             //var requestJSONSuccess = lang.hitch(this, '_requestSuccess')
@@ -194,7 +196,16 @@ define([
         _requestSuccess: function(response) {
 
             //INITIATES MAP
-            this.map = new Map("map-index-div", response.mapOptions);
+            if(this.userProfile=="local"){
+                this.map = new Map("map-index-div", _.omit(response.mapOptions, "basemap"));
+                var baseLayer = new ArcGISTiledMapServiceLayer(response.mapOptions.basemap);
+                this.map.addLayer(baseLayer);
+            }
+            else{
+                this.map = new Map("map-index-div", response.mapOptions);
+            }
+
+
 
             //GET LIMITS OF MAP LAYERS
             this.limits = new Extent(response.limits);
@@ -229,21 +240,137 @@ define([
                 attachTo: "bottom-left"
             });
 
-            //INITIATE PARCELS LAYER FOR LOCAL USER
+            // INITIATE PARCELS LAYER FOR LOCAL USER
             if(this.userProfile=="local") {
-                this.parcelsLayer = new FeatureLayer(response.parcelsLayer.url,
-                    {
-                        outFields: ["*"]
-                    });
-                this.map.addLayer(this.parcelsLayer);
-                this.parcelsLayer.on('update-end', lang.hitch(this, "_getOwnedParcels"));
+                lang.hitch(this, "_getArrayOfOwnedParcels", response.parcelsLayer.url, response)();
+
+
+
+                // this.parcelsLayer = new FeatureLayer(response.parcelsLayer.url,
+                //     {
+                //         outFields: ["*"]
+                //     });
+                // this.map.addLayer(this.parcelsLayer);
+                // this.parcelsLayer.on('update-end', lang.hitch(this, "_getOwnedParcels"));
                 //this.map.on('update-end', this._getOwnedParcels());
 
             }
 
+
+
+            else{
+                lang.hitch(this, "_startMenusMosaicsAndLayers", response)();
+            }
             //START THE LISTENER FOR THE LEGEND
             this.map.on('load', lang.hitch(this, "_startListener"));
+            // //CREATE MENUS CONTROLLER
+            // this.menusController = new MenusController({
+            //     mosaics: this.mosaics,
+            //     map: this.map,
+            //     layers: this.layers,
+            //     userProfile: this.userProfile,
+            //     userRegion: this.userRegion,
+            //     username: this.username,
+            //     parcelsLayer: this.parcelsLayer,
+            //     limits: this.limits,
+            //     finder: this.finder,
+            //     urlServer: this.urlServer,
+            //     apiVersion: this.apiVersion
+            // }, 'basic-container-div');
+            // this.menusController.on("update-raster", lang.hitch(this,"_changeRaster"));
+            // this.menusController.on("remove-raster", lang.hitch(this,"_cleanMap"));
+            // this.menusController.startup();
+            //
+            // //INITIATES MOSAICS
+            // for (var i=0; i < response.mosaics.length; i++) {
+            //     var mosaicoPrueba = new Mosaic(response.mosaics[i]);
+            //     mosaicoPrueba.on("mosaic-loaded", lang.hitch(this,"_mosaicLoaded"));
+            //     mosaicoPrueba.startup();
+            //     this.mosaics[mosaicoPrueba.mosaicId] = mosaicoPrueba;
+            //     this.mosaics.length++;
+            // }
 
+            // //INITIATES FEATURE LAYERS
+            // for (var i=0; i < response.layers.length; i++) {
+            //     var lurl = response.layers[i].url;
+            //     var lid = response.layers[i].id;
+            //     var lnames = response.layers[i].names;
+            //     SetOperationalLayerIds(lid, lnames);
+            //     var ldescritpion = response.layers[i].description;
+            //     var myInfoTemplate = new InfoTemplate();
+            //     if(localStorage.profile == "regional") {
+            //         myInfoTemplate.setTitle("Statistics in ${label}");
+            //
+            //         myInfoTemplate.setContent("<b>Municipality: </b>${label}<br/>" +
+            //             "<b>Area covered by rice [%]: </b>${RiceFc:compare}%<br/>" +
+            //             "<b>Area covered by rice [hectares]: </b>${RiceAreaha}<br/>" +
+            //             "<b>Average Sowing Date: </b>${avg_sow:NumberFormat}<br/>" +
+            //             "<b>Average Flowering Date: </b>${avg_flw:NumberFormat}<br/>" +
+            //             "<b>Yield: </b>${yield:NumberFormat}<br/>" +
+            //             "<b>Average n° of days with high potential blast infection risk: </b>${n_risk:NumberFormat}");
+            //
+            //         compare = function (value, key, data) {
+            //             return (value * 100).toFixed(2);
+            //         }
+            //     }
+            //     var tempLayer = new FeatureLayer(lurl, {
+            //         id: lid,
+            //         names: lnames,
+            //         outFields: ['*'],
+            //         infoTemplate: myInfoTemplate
+            //     });
+            //     //tempLayer.attr("legendTitle", lid);
+            //     //var tempLayer = new FeatureLayer(lurl, {
+            //     //    id: lid,
+            //     //    outFields: ['*'],
+            //     //    infoTemplate: new InfoTemplate("Stats", "${*}")
+            //     //});
+            //     this.layers[lid] = tempLayer;
+            //     this.layers.length++;
+            // }
+            // this.menusController.loadLayers();
+            //
+            // $(document).trigger("ui-ready");
+        },
+
+        _startListener: function(){
+            this.legendListener = this.map.on("layer-add", lang.hitch(this, "_drawLegend"));
+        },
+
+        _getArrayOfOwnedParcels: function(parcelsLayerURL, response){
+            var parcelsURL = this.urlServer + this.apiVersion +"/users/" + this.username;
+            xhr(parcelsURL, {
+                handleAs: "json",
+                method: "GET",
+                query: {
+                    withParcels: true
+                },
+                headers: {
+                    "X-Requested-With": null,
+                    "X-Authorization": "Bearer " + localStorage.token
+                }
+            }).then(lang.hitch(this, function (data) {
+                //var myParcels = data.parcels.split(',');
+                this.ownedParcels = data.user.parcels;
+
+                var querySentence = lang.hitch(this, "_updateQuerySentence")();
+
+                this.parcelsLayer = new FeatureLayer(parcelsLayerURL,{
+                        mode: FeatureLayer.MODE_SNAPSHOT,
+                        outFields: ["*"],
+                        definitionExpression: querySentence
+                    }
+                );
+
+                lang.hitch(this, "_startMenusMosaicsAndLayers", response)();
+                this.map.addLayer(this.parcelsLayer);
+                this.parcelsLayer.on('update-end', lang.hitch(this, "_getOwnedParcels"));
+
+
+            }));
+        },
+
+        _startMenusMosaicsAndLayers: function(response){
             //CREATE MENUS CONTROLLER
             this.menusController = new MenusController({
                 mosaics: this.mosaics,
@@ -270,6 +397,8 @@ define([
                 this.mosaics[mosaicoPrueba.mosaicId] = mosaicoPrueba;
                 this.mosaics.length++;
             }
+
+
 
             //INITIATES FEATURE LAYERS
             for (var i=0; i < response.layers.length; i++) {
@@ -314,8 +443,18 @@ define([
             $(document).trigger("ui-ready");
         },
 
-        _startListener: function(){
-            this.legendListener = this.map.on("layer-add", lang.hitch(this, "_drawLegend"));
+        _updateQuerySentence: function() {
+            var qSentence = "PARCEL_ID = '0'";
+            // var qSentence = "";
+            if(this.ownedParcels.length) qSentence+= " or ";
+            for (var i = 0; i < this.ownedParcels.length; i++) {
+                var parcelNumSearched = this.ownedParcels[i];
+                if (i + 1 < this.ownedParcels.length)
+                    qSentence += "PARCEL_ID = '" + parcelNumSearched + "' or ";
+                else qSentence += "PARCEL_ID = '" + parcelNumSearched + "'";
+
+            }
+            return qSentence;
         },
 
         _getOwnedParcels: function(){
@@ -339,10 +478,12 @@ define([
                 new Color([255, 0, 0, 0])
             );
 
+            for(var i = 0; i< this.ownedParcels.length;i++){
+
+            }
+
             var parcelsURL = this.urlServer + this.apiVersion +"/users/" + this.username;
-            //var username = this.username;
-            //var password = localStorage.password;
-            //var password = getCookie("password");
+
             xhr(parcelsURL, {
                 handleAs: "json",
                 method: "GET",
