@@ -875,7 +875,7 @@ define([
                 this.productsList['irrigation'][i] = data[i];
                 var product = dom.byId("irrigationInfos-data");
                 domConstruct.place(finalHTML, product, "last");
-                domAttr.set(dom.byId("irrigationInfo"), "id", "irrigation" + i);
+                domAttr.set(dom.byId("irrigation"), "id", "irrigation" + i);
             }
             this.currentPosition['irrigation'] = quantity - 2;
             this._changeObservationData("irrigation", 'next');

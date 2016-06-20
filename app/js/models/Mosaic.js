@@ -52,6 +52,7 @@ define([
             year: null,
             legendURL: null,
             mosaicCurrentYear: null,
+            rasterFunctionPrefix: null,
 
 		constructor: function(options){
 			this.mosaicId = options.id;
@@ -65,6 +66,7 @@ define([
             this.yAxis = options.yAxis;
             this.year = options.year;
             this.legendURL = options.legendURL;
+            this.rasterFunctionPrefix = options.rasterFunctionPrefix;
             this._getMosaicExtent();
 			this._loadRasters();
 		},
@@ -123,10 +125,32 @@ define([
 			rule.where = "SDATE='" + rasterId + "'";
             layer.setMosaicRule(rule);
 
-            //TESTING RENDERING RULE
-            //var rasterFunction = new RasterFunction();
-            //rasterFunction.functionName = "SpirituKalkat";
-            //layer.setRenderingRule(rasterFunction);
+
+            if(this.rasterFunctionPrefix){
+                var month = parseInt(rasterId.split('/')[1]);
+                var sufix = "0";
+                if(month<=3) sufix = "1";
+                else if(month<=6) sufix = "2";
+                else if(month<=9) sufix = "3";
+                else if(month<=12) sufix = "4";
+                else console.log("MONTH WRONG");
+                var rasterFunctionName = this.rasterFunctionPrefix + sufix;
+
+                // var rasterFunction = new RasterFunction();
+                // rasterFunction.functionName = rasterFunctionName;
+                // layer.setRenderingRule(rasterFunction);
+
+                console.log(rasterFunctionName);
+            }
+
+
+            // var month = rasterId.split('/')[1];
+            // if(parseInt(month)<4) var rasterFunctionName = "REGIONAL_TMaxQ1";
+            // if(parseInt(month)>=4) var rasterFunctionName = "REGIONAL_TMaxQ2";
+            // // TESTING RENDERING RULE
+            // var rasterFunction = new RasterFunction();
+            // rasterFunction.functionName = rasterFunctionName;
+            // layer.setRenderingRule(rasterFunction);
 
 
 			return layer;
