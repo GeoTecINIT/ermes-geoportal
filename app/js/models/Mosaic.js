@@ -136,11 +136,11 @@ define([
                 else console.log("MONTH WRONG");
                 var rasterFunctionName = this.rasterFunctionPrefix + sufix;
 
-                // var rasterFunction = new RasterFunction();
-                // rasterFunction.functionName = rasterFunctionName;
-                // layer.setRenderingRule(rasterFunction);
+                var rasterFunction = new RasterFunction();
+                rasterFunction.functionName = rasterFunctionName;
+                layer.setRenderingRule(rasterFunction);
 
-                console.log(rasterFunctionName);
+                //console.log(rasterFunctionName);
             }
 
 
@@ -234,7 +234,8 @@ define([
             var i = 0;
             var array = []
             r.catalogItems.features.forEach(lang.hitch(this,function(feature){
-                var newYear = parseInt(feature.attributes.SDATE.split('/')[0]) + historic;
+                // var newYear = parseInt(feature.attributes.SDATE.split('/')[0]) + historic;
+                var newYear = this.mosaicCurrentYear;
                 var newDate = newYear + '/' + feature.attributes.SDATE.split('/')[1]+ '/' + feature.attributes.SDATE.split('/')[2];
                 array[newDate] =  r.properties.Values[i];
                 array.length++;

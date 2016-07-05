@@ -1269,7 +1269,7 @@ define([
                 if($(this).hasClass('event-disabled')){
                     return;
                 }
-                console.log(rasterkeys[ui.value]);
+                // console.log(rasterkeys[ui.value]);
                 var _mosaicId = mosaicId;
                 var _raster = rasterkeys[ui.value];
                 var _rasterDate = rastersList[_raster][1];

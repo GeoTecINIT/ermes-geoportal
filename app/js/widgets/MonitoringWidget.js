@@ -51,196 +51,207 @@ define([
             var seriesValues = this.rasterValues;
 
             ////TODO Other way of doing this, refactor when forectast column will be added.
-            //
-            //var dataToArray = function(collection){
-            //    array = [];
-            //    i=0;
-            //    for(var index in collection){
-            //        array.push([new Date(index), collection[index]]);
-            //        i++;
-            //    }
-            //
-            //    return array;
-            //}
-            //
-            //var currentArray = dataToArray(this.dataObject.currentValues);
-            //var avgArray = dataToArray(this.dataObject.avgValues);
-            //var stdArray = dataToArray(this.dataObject.stdValues);
-            //var forecastArray = dataToArray(this.dataObject.forecastValues);
-            //
-            //
-            //var valores = _.zipObject(_.unzip(currentArray)[0], _.unzip(currentArray)[1]);
-            //var medias = _.zipObject(_.unzip(avgArray)[0], _.unzip(avgArray)[1]);
-            //var desviaciones = _.zipObject(_.unzip(stdArray)[0], _.unzip(stdArray)[1]);
-            //var predicciones = _.zipObject(_.unzip(forecastArray)[0], _.unzip(forecastArray)[1]);
-            //
-            //var todasLasFechas = _.chain([])
-            //    .concat(_.keys(valores))
-            //    .concat(_.keys(medias))
-            //    .concat(_.keys(desviaciones))
-            //    .concat(_.keys(predicciones))
-            //    .uniq()
-            //    .value();
-            //
-            //_.map(todasLasFechas, function(fecha) {
-            //    if( ! _.has(valores, fecha) ) valores[fecha] = "";
-            //    if( ! _.has(medias, fecha) ) medias[fecha] = "";
-            //    if( ! _.has(desviaciones, fecha) ) desviaciones[fecha] = "";
-            //    if( ! _.has(predicciones, fecha) ) predicciones[fecha] = "";
-            //});
-            //
-            //
-            //var resultado = _.map(todasLasFechas, function(fecha, i) {
-            //    return [new Date(fecha), valores[fecha], medias[fecha], desviaciones[fecha], predicciones[fecha]];
-            //});
-            //
-            //
-            //
-            //
-            //var arrayData="";
-            //var error = false;
-            //
-            //if(this.mosaic.plotType==3 || this.mosaic.plotType==4){
-            //    error=true;
-            //    arrayData += "x,2015,std,AVG,std,Forecast,std\n";
-            //    for(var i = 0; i<resultado.length; i++){
-            //        arrayData += new Date(resultado[i][0]) + "," + resultado[i][1] + ",," + resultado[i][2] + "," + resultado[i][3] + "," + resultado[i][4] + ",\n";
-            //    }
-            //}
-            //else if(this.mosaic.plotType==1 || this.mosaic.plotType==2 || this.mosaic.plotType==5) {
-            //    arrayData += "x,2015,AVG,Forecast\n";
-            //
-            //    for (var i = 0; i < resultado.length; i++) {
-            //        arrayData+= new Date(resultado[i][0]) + "," + resultado[i][1] + "," + resultado[i][2] + ","  + resultado[i][4] + "\n";
-            //    }
-            //}
-            //
-            //this.graphic = new Dygraph("raster-chart",
-            //    arrayData,
-            //    {
-            //        legend: 'always',
-            //        ylabel: this.mosaic.yAxis,
-            //        errorBars: error,
-            //        showRangeSelector: true
-            //    }
-            //);
+
+            var dataToArray = function(collection){
+               array = [];
+               i=0;
+               for(var index in collection){
+                   array.push([new Date(index), collection[index]]);
+                   i++;
+               }
+
+               return array;
+            }
+
+            var currentArray = dataToArray(this.dataObject.currentValues);
+            var avgArray = dataToArray(this.dataObject.avgValues);
+            var stdArray = dataToArray(this.dataObject.stdValues);
+            var forecastArray = dataToArray(this.dataObject.forecastValues);
+
+
+            var valores = _.zipObject(_.unzip(currentArray)[0], _.unzip(currentArray)[1]);
+            var medias = _.zipObject(_.unzip(avgArray)[0], _.unzip(avgArray)[1]);
+            var desviaciones = _.zipObject(_.unzip(stdArray)[0], _.unzip(stdArray)[1]);
+            var predicciones = _.zipObject(_.unzip(forecastArray)[0], _.unzip(forecastArray)[1]);
+
+            var todasLasFechas = _.chain([])
+               .concat(_.keys(valores))
+               .concat(_.keys(medias))
+               .concat(_.keys(desviaciones))
+               .concat(_.keys(predicciones))
+               .uniq()
+               .value();
+
+            _.map(todasLasFechas, function(fecha) {
+               if( ! _.has(valores, fecha) ) valores[fecha] = "";
+               if( ! _.has(medias, fecha) ) medias[fecha] = "";
+               if( ! _.has(desviaciones, fecha) ) desviaciones[fecha] = "";
+               if( ! _.has(predicciones, fecha) ) predicciones[fecha] = "";
+            });
+
+
+            var resultado = _.map(todasLasFechas, function(fecha, i) {
+               return [new Date(fecha), valores[fecha], medias[fecha], desviaciones[fecha], predicciones[fecha]];
+            });
+
+            var arrayData="";
+            var error = false;
+
+            function formatDate(date){
+                var month = (parseInt(date.getMonth()) + 1).toString();
+                if (month.length<2) month = "0" + month;
+
+                var day = date.getDate().toString();
+                if (day.length<2) day = "0" + day;
+
+                var year = date.getFullYear();
+                return  year +  "/" + month + "/" + day;
+            }
+
+            if(this.mosaic.plotType==3 || this.mosaic.plotType==4){
+               error=true;
+               // arrayData += "x,2015,std,AVG,std,Forecast,std\n";
+               arrayData += "x," + this.mosaic.year + ",AVG,Forecast\n";
+               var csvHeader = ["date", "currValue", "currValStdDev", "avg", "avgStdDev", "forecast", "forecastStdDev"];
+               for(var i = 0; i<resultado.length; i++){
+                   arrayData += formatDate(new Date(resultado[i][0])) + "," + resultado[i][1] + ",," + resultado[i][2] + "," + resultado[i][3] + "," + resultado[i][4] + ",\n";
+               }
+            }
+            else if(this.mosaic.plotType==1 || this.mosaic.plotType==2 || this.mosaic.plotType==5) {
+               arrayData += "x,2015,AVG,Forecast\n";
+               var csvHeader = ["date", "currValue", "avg", "forecast"];
+               for (var i = 0; i < resultado.length; i++) {
+                   arrayData+= new Date(resultado[i][0]) + "," + resultado[i][1] + "," + resultado[i][2] + ","  + resultado[i][4] + "\n";
+               }
+            }
+
+
+            this.graphic = new Dygraph("raster-chart",
+               arrayData,
+               {
+                   legend: 'always',
+                   ylabel: this.mosaic.yAxis,
+                   errorBars: error,
+                   showRangeSelector: true
+               }
+            );
 
             //Create Charts:
 
-            if(this.mosaic.plotType==5) {
-                var arrayData = "";
-                arrayData += "x," + this.mosaic.year + ",AVG,Forecast\n";
-                var csvHeader = ["date", "currValue", "avg", "forecast"];
-                for (var i = 0; i < seriesValues[1].length; i++) {
-                    if (i < seriesValues[0].length) {
-                        arrayData += seriesValues[1][i] + "," + seriesValues[0][i] + "," + seriesValues[2][i] + ",\n";
-                    }
-                    else if(i < seriesValues[0].length + seriesValues[3].length){
-                        arrayData += seriesValues[1][i] + ",," + seriesValues[2][i] + "," + seriesValues[3][i-seriesValues[0].length] + "\n";
-                    }
-                    else {
-                        arrayData += seriesValues[1][i] + ",," + seriesValues[2][i] + ",\n";
-                    }
-                }
-                this.graphic = new Dygraph("raster-chart",
-                    arrayData,
-                    {
-                        legend: 'always',
-                        ylabel: this.mosaic.yAxis,
-                        errorBars: false,
-                        showRangeSelector: true
-                    }
-                );
-            }
-            else if(this.mosaic.plotType==4) {
-                var arrayData = "";
-                arrayData += "x," + this.mosaic.year + ",AVG,Forecast\n";
-                var csvHeader = ["date", "currValue", "currValStdDev", "avg", "avgStdDev", "forecast", "forecastStdDev"];
-                for (var i = 0; i < seriesValues[1].length; i++) {
-                    if (i < seriesValues[0].length) {
-                        arrayData += seriesValues[1][i] + "," + seriesValues[0][i] + ","+ "" + "," + seriesValues[2][i] + "," + seriesValues[3][i] / 2 + ","+ "" + ",\n";
-                    }
-                    else if(i < seriesValues[0].length + seriesValues[4].length){
-                        arrayData += seriesValues[1][i] + ","+ "" + ","+ "" + "," + seriesValues[2][i] + "," + seriesValues[3][i] / 2 + "," + seriesValues[4][i-seriesValues[0].length] + ",\n";
-                    }
-                    else {
-                        arrayData += seriesValues[1][i] + ","+ "" + ","+ "" + "," + seriesValues[2][i] + "," + seriesValues[3][i] / 2 + ","+ "" + ",\n";
-                    }
-                }
-                this.graphic = new Dygraph("raster-chart",
-                    arrayData,
-                    {
-                        legend: 'always',
-                        ylabel: this.mosaic.yAxis,
-                        errorBars: true,
-                        showRangeSelector: true
-                    }
-                );
-            }
-            else if(this.mosaic.plotType==3) {
-                var arrayData = "";
-                arrayData += "x," + this.mosaic.year + ",AVG\n";
-                var csvHeader = ["date", "currValue", "currStdDev", "avg", "avgStdDev"];
-                for (var i = 0; i < seriesValues[1].length; i++) {
-                    if (i < seriesValues[0].length) {
-                        arrayData += seriesValues[1][i] + "," + seriesValues[0][i] + ",," + seriesValues[2][i] + "," + seriesValues[3][i] / 2 + "\n";
-                    }
-                    else {
-                        arrayData += seriesValues[1][i] + ",,," + seriesValues[2][i] + "," + seriesValues[3][i] / 2 + "\n";
-                    }
-                }
-                this.graphic = new Dygraph("raster-chart",
-                    arrayData,
-                    {
-                        legend: 'always',
-                        ylabel: this.mosaic.yAxis,
-                        errorBars: true,
-                        showRangeSelector: true
-                    }
-                );
-            }
-            else if(this.mosaic.plotType==2) {
-                var arrayData = "";
-                arrayData += "x," + this.mosaic.year + ",AVG\n";
-                var csvHeader = ["date", "currValue", "avg"];
-                for (var i = 0; i < seriesValues[1].length; i++) {
-                    if (i < seriesValues[0].length) {
-                        arrayData += seriesValues[1][i] + "," + seriesValues[0][i] + "," + seriesValues[2][i] + "\n";
-                    }
-                    else {
-                        arrayData += seriesValues[1][i] + ",," + seriesValues[2][i] + "\n";
-                    }
-                }
-                this.graphic = new Dygraph("raster-chart",
-                    arrayData,
-                    {
-                        legend: 'always',
-                        ylabel: this.mosaic.yAxis,
-                        errorBars: false,
-                        showRangeSelector: true
-                    }
-                );
-            }
-            else{
-                var arrayData = "";
-                arrayData += "x," + this.mosaic.year + "\n";
-                var csvHeader = ["date", "currValue"];
-                for (var i = 0; i < seriesValues[1].length; i++) {
-                    if (i < seriesValues[0].length) {
-                        arrayData += seriesValues[1][i] + "," + seriesValues[0][i]  + "\n";
-                    }
-                }
-                this.graphic = new Dygraph("raster-chart",
-                    arrayData,
-                    {
-                        legend: 'always',
-                        ylabel: this.mosaic.yAxis,
-                        errorBars: false,
-                        showRangeSelector: true
-                    }
-                );
-
-            }
+            // if(this.mosaic.plotType==5) {
+            //     var arrayData = "";
+            //     arrayData += "x," + this.mosaic.year + ",AVG,Forecast\n";
+            //     var csvHeader = ["date", "currValue", "avg", "forecast"];
+            //     for (var i = 0; i < seriesValues[1].length; i++) {
+            //         if (i < seriesValues[0].length) {
+            //             arrayData += seriesValues[1][i] + "," + seriesValues[0][i] + "," + seriesValues[2][i] + ",\n";
+            //         }
+            //         else if(i < seriesValues[0].length + seriesValues[3].length){
+            //             arrayData += seriesValues[1][i] + ",," + seriesValues[2][i] + "," + seriesValues[3][i-seriesValues[0].length] + "\n";
+            //         }
+            //         else {
+            //             arrayData += seriesValues[1][i] + ",," + seriesValues[2][i] + ",\n";
+            //         }
+            //     }
+            //     this.graphic = new Dygraph("raster-chart",
+            //         arrayData,
+            //         {
+            //             legend: 'always',
+            //             ylabel: this.mosaic.yAxis,
+            //             errorBars: false,
+            //             showRangeSelector: true
+            //         }
+            //     );
+            // }
+            // else if(this.mosaic.plotType==4) {
+            //     var arrayData = "";
+            //     arrayData += "x," + this.mosaic.year + ",AVG,Forecast\n";
+            //     var csvHeader = ["date", "currValue", "currValStdDev", "avg", "avgStdDev", "forecast", "forecastStdDev"];
+            //     for (var i = 0; i < seriesValues[1].length; i++) {
+            //         if (i < seriesValues[0].length) {
+            //             arrayData += seriesValues[1][i] + "," + seriesValues[0][i] + ","+ "" + "," + seriesValues[2][i] + "," + seriesValues[3][i] / 2 + ","+ "" + ",\n";
+            //         }
+            //         else if(i < seriesValues[0].length + seriesValues[4].length){
+            //             arrayData += seriesValues[1][i] + ","+ "" + ","+ "" + "," + seriesValues[2][i] + "," + seriesValues[3][i] / 2 + "," + seriesValues[4][i-seriesValues[0].length] + ",\n";
+            //         }
+            //         else {
+            //             arrayData += seriesValues[1][i] + ","+ "" + ","+ "" + "," + seriesValues[2][i] + "," + seriesValues[3][i] / 2 + ","+ "" + ",\n";
+            //         }
+            //     }
+            //     this.graphic = new Dygraph("raster-chart",
+            //         arrayData,
+            //         {
+            //             legend: 'always',
+            //             ylabel: this.mosaic.yAxis,
+            //             errorBars: true,
+            //             showRangeSelector: true
+            //         }
+            //     );
+            // }
+            // else if(this.mosaic.plotType==3) {
+            //     var arrayData = "";
+            //     arrayData += "x," + this.mosaic.year + ",AVG\n";
+            //     var csvHeader = ["date", "currValue", "currStdDev", "avg", "avgStdDev"];
+            //     for (var i = 0; i < seriesValues[1].length; i++) {
+            //         if (i < seriesValues[0].length) {
+            //             arrayData += seriesValues[1][i] + "," + seriesValues[0][i] + ",," + seriesValues[2][i] + "," + seriesValues[3][i] / 2 + "\n";
+            //         }
+            //         else {
+            //             arrayData += seriesValues[1][i] + ",,," + seriesValues[2][i] + "," + seriesValues[3][i] / 2 + "\n";
+            //         }
+            //     }
+            //     this.graphic = new Dygraph("raster-chart",
+            //         arrayData,
+            //         {
+            //             legend: 'always',
+            //             ylabel: this.mosaic.yAxis,
+            //             errorBars: true,
+            //             showRangeSelector: true
+            //         }
+            //     );
+            // }
+            // else if(this.mosaic.plotType==2) {
+            //     var arrayData = "";
+            //     arrayData += "x," + this.mosaic.year + ",AVG\n";
+            //     var csvHeader = ["date", "currValue", "avg"];
+            //     for (var i = 0; i < seriesValues[1].length; i++) {
+            //         if (i < seriesValues[0].length) {
+            //             arrayData += seriesValues[1][i] + "," + seriesValues[0][i] + "," + seriesValues[2][i] + "\n";
+            //         }
+            //         else {
+            //             arrayData += seriesValues[1][i] + ",," + seriesValues[2][i] + "\n";
+            //         }
+            //     }
+            //     this.graphic = new Dygraph("raster-chart",
+            //         arrayData,
+            //         {
+            //             legend: 'always',
+            //             ylabel: this.mosaic.yAxis,
+            //             errorBars: false,
+            //             showRangeSelector: true
+            //         }
+            //     );
+            // }
+            // else{
+            //     var arrayData = "";
+            //     arrayData += "x," + this.mosaic.year + "\n";
+            //     var csvHeader = ["date", "currValue"];
+            //     for (var i = 0; i < seriesValues[1].length; i++) {
+            //         if (i < seriesValues[0].length) {
+            //             arrayData += seriesValues[1][i] + "," + seriesValues[0][i]  + "\n";
+            //         }
+            //     }
+            //     this.graphic = new Dygraph("raster-chart",
+            //         arrayData,
+            //         {
+            //             legend: 'always',
+            //             ylabel: this.mosaic.yAxis,
+            //             errorBars: false,
+            //             showRangeSelector: true
+            //         }
+            //     );
+            //
+            // }
 
 
             //Download Data:
