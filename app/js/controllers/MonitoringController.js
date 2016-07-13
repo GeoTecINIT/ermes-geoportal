@@ -57,6 +57,8 @@ define([
         statsLayerShowed: false,
         statsLayer: null,
         currentActiveYear: 2016,
+        currentParcelIdEdited: null,
+        alertsData: null,
 
         constructor: function(args){
             lang.mixin(this, args);
@@ -188,6 +190,27 @@ define([
 
             var sendButton = dom.byId("confirm-edit-product-button");
             on(sendButton, 'click', lang.hitch(this, "_updateProduct", url, product, formNode, productData));
+
+            var deleteButton = dom.byId("delete-product-button");
+            on(deleteButton, 'click', lang.hitch(this, "_deleteProduct", url));
+        },
+
+        _deleteProduct: function(url){
+            var responseText = dom.byId("form-put-response-label");
+            responseText.innerHTML = "Deleting Product...";
+
+            xhr(url, {
+                handleAs: "json",
+                method: "DELETE",
+                data: {
+                    "parcelId": this.mongoData.parcel.parcelId
+                },
+                headers: {
+                    "X-Requested-With": null,
+                    "X-Authorization": "Bearer " + localStorage.token,
+                    "Content-Type": "application/json"
+                }
+            }).then(lang.hitch(this, "_productUpdated"));
         },
 
         _updateProduct: function(url, product, formNode, productData){
@@ -196,17 +219,9 @@ define([
 
 
             var formDataJson = domForm.toJson(formNode);
-            // var numbersList = [];
-            // for(var i = 0; i<formNode.length; i++){
-            //     if(formNode[i].type == "number"){
-            //         numbersList.push(formNode[i].name);
-            //     }
-            // }
+
             var updatedData = lang.mixin(lang.clone(productData), JSON.parse(formDataJson));
             _.each(updatedData, function(value, fieldName){
-                // if( _.includes(numbersList, fieldName)){
-                //     updatedData[fieldName] = parseInt(value);
-                // }
 
 
                 if(fieldName.toLowerCase().match('date')){
@@ -216,12 +231,7 @@ define([
                         updatedData[fieldName] = newDate;
                     }
                 }
-            })
-
-
-            //Recorrer productData
-                //Si tiene date y no es uploadDate ->
-                    //Modificar Date y meter en el mismo valor
+            });
 
             var bodyObject = '{ "' + product + '": ' + JSON.stringify(updatedData) + '}';
             bodyObject = JSON.parse(bodyObject);
@@ -415,7 +425,8 @@ define([
                         //username: username,
                         parcelId: parcelid,
                         //Change for 2016.
-                        year: now.getFullYear()
+                        year: now.getFullYear(),
+                        doy: doy
                         //year: 2015
                     },
                     headers: {
@@ -451,6 +462,23 @@ define([
                     }
                 }).then(lang.hitch(this, "_receivedData", "meteo"), lang.hitch(this, "_receivedData", "meteo", {}));
             }
+
+            //ALERTS QUERY
+            // var serviceURL = this.urlServer + this.apiVersion + "/warm/meteo";
+            // if (response.features.length>0) {
+            //     var parcelid = response.features[0].attributes.PARCEL_ID;
+            //
+            //     xhr(serviceURL, {
+            //         handleAs: "json",
+            //         query: {
+            //             parcelId: parcelid,
+            //         },
+            //         headers: {
+            //             "X-Requested-With": null,
+            //             "X-Authorization": "Bearer " + localStorage.token
+            //         }
+            //     }).then(lang.hitch(this, "_receivedData", "alert"), lang.hitch(this, "_receivedData", "alert", {}));
+            // }
         },
 
         _receivedData: function(profile, data, evt){
@@ -463,16 +491,16 @@ define([
             else if(profile=="meteo") {
                 this.meteoData = data;
             }
-            //else if(profile=="warmInfection"){
-            //    this.warmInfectionData = data;
-            //}
+            else if(profile=="alert"){
+               this.alertsData = data;
+            }
             this.localDataReceived++;
             if(this.localDataReceived==3){
                 this.localDataReceived=0;
                 this.map.infoWindow.resize(400, 400);
 
                 this._showInfoWindow()
-            }
+            } //IF ALERTS ADDED, CHANGE TO 4
         },
 
         _showInfoWindow: function(){

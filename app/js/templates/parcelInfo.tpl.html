@@ -3,6 +3,7 @@
 
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active"><a id="info-window-menu-title-local" href="#local-tab" aria-controls="home" role="tab" data-toggle="tab">Local <br>Data</a></li>
+        <li role="presentation"><a id="info-window-menu-title-alert" href="#alert-tab" aria-controls="home" role="tab" data-toggle="tab">Alerts</a></li>
         <li role="presentation"><a id="info-window-menu-title-model" href="#model-tab" aria-controls="profile" role="tab" data-toggle="tab">Model <br>Data</a></li>
         <li role="presentation"><a id="info-window-menu-title-meteo" href="#meteo-tab" aria-controls="profile" role="tab" data-toggle="tab">Meteo</a></li>
         <li role="presentation"><a id="info-window-menu-title-chart" href="#chart-tab" aria-controls="messages" role="tab" data-toggle="tab">Chart <br>Satellite<br>Time <br>Series</a></li>
@@ -10,14 +11,7 @@
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="local-tab">
 
-            <div class="panel-heading" role="tab">
-                <h4 id="remove-alert-button-h4" class="panel-title display-none">
-                    <button class="btn btn-danger" id="remove-alert-button" data-parcelid="">Remove Alert</button>
-                </h4>
-                <h4 id="remove-alert-text-h4" class="panel-title display-none">
-                    <p>This parcel has no alerts.</p>
-                </h4>
-            </div>
+
 
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="cropInfoHeading">
@@ -276,6 +270,41 @@
 
         </div>
 
+
+        <div role="tabpanel" class="tab-pane active" id="alert-tab">
+
+            <div class="panel-heading" role="tab">
+                <h4 id="remove-alert-button-h4" class="panel-title display-none">
+                    <button class="btn btn-danger" id="remove-alert-button" data-parcelid="">Remove Alert</button>
+                </h4>
+                <h4 id="remove-alert-text-h4" class="panel-title display-none">
+                    <p>This parcel has no alerts.</p>
+                </h4>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="alertHeading">
+                    <h4 class="panel-title">
+                        <a id="alerts" class="alertCollapse" role="button" data-toggle="collapse" data-parent="#accordion" href="#alertCollapse" aria-expanded="false" aria-controls="alertCollapse">
+                            <ins id="info-window-alert-label">Alerts</ins> <ins id="alert-number">(0)</ins>
+                        </a>
+                    </h4>
+                </div>
+                <div id="alertCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="alertHeading" >
+                    <div class="panel-body" id="alert-data" >
+                        <nav>
+                            <ul id="alert-nav" class="pager display-none">
+                                <li><a id="alert-previous-button" href="#">Prev</a></li>
+                                <li><a id="alert-edit-button" href="#" data-toggle="modal" data-target="#edit-product-form">Edit</a></li>
+                                <li><a id="alert-next-button" href="#">Next</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
         <div role="tabpanel" class="tab-pane" id="model-tab">
             <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="developmentStageHeading">
@@ -470,6 +499,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" id="confirm-edit-product-button" class="btn btn-primary">Confirm Changes</button>
+                    <button type="button" id="delete-product-button" class="btn btn-danger">Delete Observation</button>
                     <button type="button" id="cancel-editing-modal-window" class="btn btn-default" data-dismiss="modal">Cancel Editing</button>
                 </div>
             </div>

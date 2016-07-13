@@ -298,7 +298,7 @@ define([
             mosaicRule.ascending = true;
             mosaicRule.method = MosaicRule.METHOD_ATTRIBUTE;
             mosaicRule.sortField = "DATE";
-            mosaicRule.where = "PARAMNAME='STD'"
+            mosaicRule.where = "PARAMNAME='STD'";
             var parameters = new ImageServiceIdentifyParameters();
             parameters.mosaicRule = mosaicRule;
             parameters.geometry = pointClicked;
@@ -321,6 +321,7 @@ define([
             mosaicRule.ascending = true;
             mosaicRule.method = MosaicRule.METHOD_ATTRIBUTE;
             mosaicRule.sortField = "DATE";
+            mosaicRule.where = "FORE=1";
             var parameters = new ImageServiceIdentifyParameters();
             parameters.mosaicRule = mosaicRule;
             parameters.geometry = pointClicked;
