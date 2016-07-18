@@ -59,6 +59,8 @@ define([
         currentActiveYear: 2016,
         currentParcelIdEdited: null,
         alertsData: null,
+        deleteProductHandler: null,
+        editProductHandler: null,
 
         constructor: function(args){
             lang.mixin(this, args);
@@ -160,6 +162,10 @@ define([
             this.own(on(dom.byId('yield-previous-button'), 'click', lang.hitch(this, '_changeObservationData', 'yield', 'previous')));
             this.own(on(dom.byId('yield-next-button'), 'click', lang.hitch(this, '_changeObservationData', 'yield', 'next')));
             this.own(on(dom.byId('yield-edit-button'), 'click', lang.hitch(this, '_editObservationData', 'yield')));
+
+            this.own(on(dom.byId('alert-previous-button'), 'click', lang.hitch(this, '_changeObservationData', 'alert', 'previous')));
+            this.own(on(dom.byId('alert-next-button'), 'click', lang.hitch(this, '_changeObservationData', 'alert', 'next')));
+            // this.own(on(dom.byId('alert-remove-button'), 'click', lang.hitch(this, '_removeActiveAlert')));
         },
 
         _editObservationData: function(product){
@@ -170,6 +176,8 @@ define([
 
             //body.innerHTML = "Product: " + product + " ID: " + productId;
         },
+
+
 
         _askForFormTemplate: function(product, productData){
             //var url = "http://localhost:6686/form-template/" + product;
@@ -189,28 +197,36 @@ define([
             var url = this.urlServer + this.apiVersion + "/products" + domAttr.get(formNode, "date-url") + "/" + productData.productId;
 
             var sendButton = dom.byId("confirm-edit-product-button");
-            on(sendButton, 'click', lang.hitch(this, "_updateProduct", url, product, formNode, productData));
+            this.editProductHandler = on(sendButton, 'click', lang.hitch(this, "_updateProduct", url, product, formNode, productData));
 
             var deleteButton = dom.byId("delete-product-button");
-            on(deleteButton, 'click', lang.hitch(this, "_deleteProduct", url));
+            this.deleteProductHandler = on(deleteButton, 'click', lang.hitch(this, "_deleteProduct", url));
+        },
+
+        _removeActiveAlert: function(){
+           
+
         },
 
         _deleteProduct: function(url){
             var responseText = dom.byId("form-put-response-label");
             responseText.innerHTML = "Deleting Product...";
 
+            // var bodyObject = '{ "' + product + '": ' + JSON.stringify(updatedData) + '}';
+            var bodyObject = '{ "parcelId": "' + this.mongoData.parcel.parcelId + '"}';
+            bodyObject = JSON.parse(bodyObject);
+            bodyObject = JSON.stringify(bodyObject);
+
             xhr(url, {
                 handleAs: "json",
                 method: "DELETE",
-                data: {
-                    "parcelId": this.mongoData.parcel.parcelId
-                },
+                data: bodyObject,
                 headers: {
                     "X-Requested-With": null,
-                    "X-Authorization": "Bearer " + localStorage.token,
-                    "Content-Type": "application/json"
+                    "X-Authorization": "Bearer " + localStorage.token
                 }
-            }).then(lang.hitch(this, "_productUpdated"));
+            }).then(lang.hitch(this, "_productUpdated"), lang.hitch(this, "_productUpdated"));
+            this.deleteProductHandler.remove();
         },
 
         _updateProduct: function(url, product, formNode, productData){
@@ -249,6 +265,7 @@ define([
                     "Content-Type": "application/json"
                 }
             }).then(lang.hitch(this, "_productUpdated"));
+            this.editProductHandler.remove();
         },
 
         _productUpdated: function(response){
@@ -464,21 +481,18 @@ define([
             }
 
             //ALERTS QUERY
-            // var serviceURL = this.urlServer + this.apiVersion + "/warm/meteo";
-            // if (response.features.length>0) {
-            //     var parcelid = response.features[0].attributes.PARCEL_ID;
-            //
-            //     xhr(serviceURL, {
-            //         handleAs: "json",
-            //         query: {
-            //             parcelId: parcelid,
-            //         },
-            //         headers: {
-            //             "X-Requested-With": null,
-            //             "X-Authorization": "Bearer " + localStorage.token
-            //         }
-            //     }).then(lang.hitch(this, "_receivedData", "alert"), lang.hitch(this, "_receivedData", "alert", {}));
-            // }
+            var serviceURL = this.urlServer + this.apiVersion + "/parcels/"  + response.features[0].attributes.PARCEL_ID + "/alerts";
+            if (response.features.length>0) {
+                var parcelid = response.features[0].attributes.PARCEL_ID;
+
+                xhr(serviceURL, {
+                    handleAs: "json",
+                    headers: {
+                        "X-Requested-With": null,
+                        "X-Authorization": "Bearer " + localStorage.token
+                    }
+                }).then(lang.hitch(this, "_receivedData", "alert"), lang.hitch(this, "_receivedData", "alert", {}));
+            }
         },
 
         _receivedData: function(profile, data, evt){
@@ -495,8 +509,16 @@ define([
                this.alertsData = data;
             }
             this.localDataReceived++;
-            if(this.localDataReceived==3){
+            if(this.localDataReceived==4){
                 this.localDataReceived=0;
+
+                //Fill mongo Data with alertsData
+                if(this.alertsData.alerts.length>0)
+                    this.mongoData.parcel.inDanger = true;
+                else
+                    this.mongoData.parcel.inDanger = false;
+
+
                 this.map.infoWindow.resize(400, 400);
 
                 this._showInfoWindow()
@@ -609,6 +631,14 @@ define([
                     var quantity = data.yields.length;
                     var specificData = data.yields;
                     this._askForInfoTemplate('yield', quantity, specificData);
+                }
+
+                //ALERTS SHOWED
+                if(this.alertsData.alerts.length>0){
+                    $('#alert-nav').toggleClass("display-none display-block");
+                    var quantity = this.alertsData.alerts.length;
+                    var specificData = this.alertsData.alerts;
+                    this._askForInfoTemplate('alert', quantity, specificData);
                 }
 
                  //UNCOMMENT FOR ENABLE CONNECTION WITH WARM DATABASE.
@@ -795,6 +825,7 @@ define([
 
             $('#remove-alert-text-h4').removeClass('display-none').addClass('display-block');
             $('#remove-alert-button-h4').removeClass('display-block').addClass('display-none');
+            lang.hitch(this, "_showParcelInfo", this.clickEvent)();
         },
 
         _alertRemoved: function(response){
@@ -824,6 +855,7 @@ define([
             showInfoFunctions['soilType'] = lang.hitch(this, "_showSoilsInfo");
             showInfoFunctions['weed'] = lang.hitch(this, "_showWeedsInfo");
             showInfoFunctions['yield'] = lang.hitch(this, "_showYieldsInfo");
+            showInfoFunctions['alert'] = lang.hitch(this, "_showAlertInfo");
 
             showInfoFunctions[product](template, quantity, data);
 
@@ -1023,6 +1055,23 @@ define([
             this._changeObservationData("yield", 'next');
         },
 
+        _showAlertInfo: function(template, quantity, data){
+            var label = dom.byId("alert-number");
+            label.innerHTML = "(" + quantity + "):";
+            this.productsList['alert'] = [];
+            for(var i =0; i<quantity; i++) {
+                var compiled = _.template(template);
+                var finalHTML = compiled(data[i]);
+                this.productsList['alert'][i] = data[i];
+                var product = dom.byId("alert-data");
+                domConstruct.place(finalHTML, product, "last");
+                domAttr.set(dom.byId("alert"), "id", "alert" + i);
+
+            }
+            this.currentPosition['alert'] = quantity - 2;
+            this._changeObservationData("alert", 'next');
+        },
+
         _updateGraph: function(point){
             this.clickedGraph.setGeometry(point);
             this.clickedGraph.setSymbol(this.customSymbol);
@@ -1074,7 +1123,6 @@ define([
         _statsLayerRemoved: function(operationalLayer){
             this.statsLayerShowed = false;
         },
-        
 
         _showCoordinatesPoint: function(point){
             if(this._isPointInLimits(point)) {

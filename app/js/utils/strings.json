@@ -878,15 +878,15 @@
     "idNode": "remove-alert-button",
     "sp": {
       "title": "",
-      "html": "Eliminar Alerta"
+      "html": "Eliminar todas las Alertas"
     },
     "en": {
       "title": "",
-      "html": "Remove Alert"
+      "html": "Remove All Alerts"
     },
     "it": {
       "title": null,
-      "html": "Elimina Allerta"
+      "html": "Elimina tutti Allerta"
     },
     "gk": {
       "title": null,
