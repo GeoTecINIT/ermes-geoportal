@@ -14,6 +14,3 @@ The protoype application as it is now is only intended for regional users. It ai
 The entry point to the application prototype is the web page `app/index.html`. A [demo of the geoportal prototype](http://ermes.dlsi.uji.es/prototype/geoportal/) is avaiable online, and the [server's home page](http://ermes.dlsi.uji.es/) gives proxy to other on-going project developments. 
 
 Minimun system requeriments in a client machine are a correct installation of a browser application (e.g. Chrome, Firefox) and Internet access.
-
-## Licencing information 
-tbd...
