@@ -326,7 +326,7 @@ define([
 
         _exportChart: function(){
             var img = dom.byId("raster-chart");
-
+            domClass.add(img, "div-white-background");
             html2canvas(img,{
                 onrendered: function(canvas){
                     canvas.toBlob(function(blob) {
@@ -334,6 +334,7 @@ define([
                     });
                 }
             });
+            domClass.remove(img, "div-white-background");
         }
 	});
 

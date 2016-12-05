@@ -443,6 +443,7 @@ define([
                         parcelId: parcelid,
                         //Change for 2016.
                         year: now.getFullYear(),
+                        // doy: 1
                         doy: doy
                         //year: 2015
                     },
